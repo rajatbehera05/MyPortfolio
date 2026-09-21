@@ -1,135 +1,170 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 /**
- * Navbar component adhering to Connected Systems Constitution:
- * Minimal header:
- * Left: RAJAT BEHERA + Live UTC Telemetry Clock
- * Right: WORK   ABOUT   CONTACT   CV.SPEC   THEME_TOGGLE
+ * Minimal Professional Navigation Bar
+ * 
+ * Specifications:
+ * - Left: "RB" simple personal monogram
+ * - Center: Home (with subtle blue active indicator), Work, About, Tech, Blog
+ * - Right: "Let's Connect →"
+ * - Thin, clean, spacious
+ * - Extremely subtle scroll elevation with blur
+ * - Collapsible mobile menu
+ * - Entrance timing: fades in at 0.2s
  */
-export default function Navbar({ onOpenCV, theme = 'light', onToggleTheme }) {
+export default function Navbar({ onConnectClick }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [timeString, setTimeString] = useState('');
+  const [activeItem, setActiveItem] = useState('Home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 15);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Live system telemetry clock in UTC
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = String(now.getUTCHours()).padStart(2, '0');
-      const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-      const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-      setTimeString(`${hours}:${minutes}:${seconds} UTC`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const navLinks = [
+    { name: 'Home', href: '#home' },
+    { name: 'Work', href: '#work' },
+    { name: 'About', href: '#about' },
+    { name: 'Tech', href: '#tech' },
+    { name: 'Blog', href: '#blog' },
+  ];
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavClick = (e, name) => {
+    setActiveItem(name);
+    setMobileMenuOpen(false);
   };
 
   return (
-    <header
-      className={`sticky top-0 z-40 w-full transition-all duration-200 backdrop-blur-md ${
+    <motion.header
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[var(--bg-surface)]/85 border-b border-[var(--border-subtle)] shadow-[0_2px_12px_rgba(15,23,42,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)]'
+          ? 'bg-[#F7F9FC]/85 backdrop-blur-md border-b border-[#DCE5F0]/80 shadow-[0_2px_14px_rgba(17,24,39,0.03)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 h-18 flex items-center justify-between">
         
-        {/* Left: RAJAT BEHERA & Live Telemetry Clock */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <a
-            href="#hero"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('hero');
-            }}
-            className="group inline-flex items-center gap-2 text-inherit no-underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)] rounded py-1"
-          >
-            {/* Minimal system node dot */}
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-cyan)] inline-block animate-node-pulse" />
-            <span className="font-mono-tech text-[13px] sm:text-[14px] font-bold tracking-wider text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
-              RAJAT BEHERA
+        {/* Left: Personal Monogram "RB" */}
+        <a
+          href="#home"
+          onClick={(e) => handleNavClick(e, 'Home')}
+          className="group inline-flex items-center gap-2.5 text-inherit no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF] rounded-lg p-1"
+          aria-label="Rajat Behera Home"
+        >
+          <div className="w-8 h-8 rounded-lg bg-[#EEF5FF] border border-[#DCE5F0] flex items-center justify-center transition-all duration-200 group-hover:border-[#146BFF]/40 group-hover:bg-[#EEF5FF]/90">
+            <span className="font-mono-tech text-[12px] font-bold tracking-tight text-[#146BFF]">
+              RB
             </span>
-          </a>
+          </div>
+          <span className="text-[14px] font-semibold text-[#111827] tracking-tight group-hover:text-[#146BFF] transition-colors hidden sm:inline">
+            Rajat Behera
+          </span>
+        </a>
 
-          {/* Real-time system telemetry clock */}
-          {timeString && (
-            <div className="hidden md:flex items-center gap-2 pl-3 border-l border-[var(--border-subtle)] font-mono-tech text-[11px] text-[var(--text-muted)]">
-              <span className="text-[var(--accent-cyan)] font-medium">SYS_CLK:</span>
-              <span className="text-[var(--text-secondary)]">{timeString}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Right: WORK   ABOUT   CONTACT   CV.SPEC   THEME */}
-        <nav aria-label="Main Navigation" className="flex items-center gap-5 sm:gap-7">
-          <button
-            type="button"
-            onClick={() => scrollToSection('systems')}
-            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
-          >
-            WORK
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollToSection('about')}
-            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
-          >
-            ABOUT
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollToSection('contact')}
-            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
-          >
-            CONTACT
-          </button>
-
-          {/* Quick CV Spec Trigger */}
-          {onOpenCV && (
-            <button
-              type="button"
-              onClick={onOpenCV}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-mono-tech font-medium tracking-wider uppercase border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:border-[var(--accent-cyan-border)] hover:text-[var(--accent-cyan)] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)] cursor-pointer shadow-2xs"
-            >
-              CV.SPEC
-            </button>
-          )}
-
-          {/* Theme Switcher Toggle */}
-          {onToggleTheme && (
-            <button
-              type="button"
-              onClick={onToggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to Light theme' : 'Switch to Dark theme'}
-              title={theme === 'dark' ? 'Switch to Light theme' : 'Switch to Dark theme'}
-              className="p-1.5 rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-all cursor-pointer shadow-2xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)]"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-slate-700" />
-              )}
-            </button>
-          )}
+        {/* Center Navigation Links (Desktop) */}
+        <nav
+          aria-label="Main Navigation"
+          className="hidden md:flex items-center gap-8 text-[14px] font-medium"
+        >
+          {navLinks.map((link) => {
+            const isActive = activeItem === link.name;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.name)}
+                className={`relative py-1 transition-colors duration-200 ${
+                  isActive
+                    ? 'text-[#146BFF] font-semibold'
+                    : 'text-[#667085] hover:text-[#111827]'
+                }`}
+              >
+                <span>{link.name}</span>
+                {isActive && (
+                  <motion.span
+                    layoutId="activeNavIndicator"
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#146BFF]"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </a>
+            );
+          })}
         </nav>
 
+        {/* Right: CTA & Mobile Hamburger */}
+        <div className="flex items-center gap-4">
+          <a
+            href="mailto:rajat.behera@example.com"
+            onClick={onConnectClick}
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-semibold tracking-tight text-[#111827] bg-white border border-[#DCE5F0] hover:border-[#146BFF]/50 hover:text-[#146BFF] hover:shadow-[0_2px_8px_rgba(20,107,255,0.08)] active:scale-[0.98] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF]"
+          >
+            <span>Let's Connect</span>
+            <ArrowUpRight className="w-4 h-4 text-[#146BFF] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-[#667085] hover:text-[#111827] hover:bg-[#EEF5FF] border border-[#DCE5F0] transition-colors focus-visible:outline-none cursor-pointer"
+            aria-label="Toggle Menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
       </div>
-    </header>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden bg-[#F7F9FC]/98 backdrop-blur-lg border-b border-[#DCE5F0] px-6 py-5 shadow-lg space-y-4"
+          >
+            <nav className="flex flex-col space-y-3">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.name)}
+                  className={`text-[15px] font-medium py-1 transition-colors ${
+                    activeItem === link.name
+                      ? 'text-[#146BFF] font-semibold'
+                      : 'text-[#667085] hover:text-[#111827]'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+            <div className="pt-2 border-t border-[#DCE5F0]">
+              <a
+                href="mailto:rajat.behera@example.com"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[14px] font-semibold text-white bg-[#146BFF] hover:bg-[#146BFF]/90 transition-all shadow-sm"
+              >
+                <span>Let's Connect</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }
