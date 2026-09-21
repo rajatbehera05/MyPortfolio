@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-system: #0E1217;
+    --bg-surface: #141A21;
+    --bg-surface-elevated: #181F27;
+    --border-subtle: #29323C;
+    --border-strong: rgba(41, 50, 60, 0.85);
+    --accent-cyan: #16D9E8;
+    --accent-cyan-subtle: rgba(22, 217, 232, 0.09);
+    --accent-cyan-border: rgba(22, 217, 232, 0.35);
+    --text-primary: #F1F4F7;
+    --text-secondary: #9AA5B1;
+    --text-muted: #627080;
+    --radius-system: 8px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-system);
+    color: var(--text-primary);
+  }
+
+  body {
+    background-color: var(--bg-system);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+}
+
+/* Subtle Technical Grid Overlay on Graphite */
+.technical-grid {
+  background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* Typography tokens */
+.font-sans-system {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Restrained graphite surfaces */
+.system-panel {
+  background-color: rgba(20, 26, 33, 0.78);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-system);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.system-panel:hover {
+  border-color: var(--accent-cyan-border);
+}
+
+/* Restrained, slow status node pulse */
+@keyframes restrainedPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.92);
+  }
+}
+
+.animate-node-pulse {
+  animation: restrainedPulse 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Slow radar sweep rotation */
+@keyframes radarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-radar-sweep {
+  transform-origin: center;
+  animation: radarSweep 18s linear infinite;
+}
+
+/* Signal travel along project topology */
+@keyframes signalTravel {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-signal-flow {
+  animation: signalTravel 2.4s ease-in-out infinite;
+}
+
+/* Fast data ping pulse for interactive click */
+@keyframes fastPing {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-fast-ping {
+  animation: fastPing 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
