@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 /**
  * Navbar component adhering to Connected Systems Constitution:
  * Minimal header:
  * Left: RAJAT BEHERA + Live UTC Telemetry Clock
- * Right: WORK   ABOUT   CONTACT   CV.SPEC
+ * Right: WORK   ABOUT   CONTACT   CV.SPEC   THEME_TOGGLE
  */
-export default function Navbar({ onOpenCV }) {
+export default function Navbar({ onOpenCV, theme = 'light', onToggleTheme }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [timeString, setTimeString] = useState('');
 
@@ -43,7 +44,7 @@ export default function Navbar({ onOpenCV }) {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-200 backdrop-blur-md ${
         isScrolled
-          ? 'bg-[#0E1217]/90 border-b border-[var(--border-subtle)] shadow-[0_2px_12px_rgba(0,0,0,0.2)]'
+          ? 'bg-[var(--bg-surface)]/85 border-b border-[var(--border-subtle)] shadow-[0_2px_12px_rgba(15,23,42,0.05)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
@@ -61,7 +62,7 @@ export default function Navbar({ onOpenCV }) {
           >
             {/* Minimal system node dot */}
             <span className="w-2 h-2 rounded-full bg-[var(--accent-cyan)] inline-block animate-node-pulse" />
-            <span className="font-mono-tech text-[13px] sm:text-[14px] font-semibold tracking-wider text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+            <span className="font-mono-tech text-[13px] sm:text-[14px] font-bold tracking-wider text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
               RAJAT BEHERA
             </span>
           </a>
@@ -69,32 +70,32 @@ export default function Navbar({ onOpenCV }) {
           {/* Real-time system telemetry clock */}
           {timeString && (
             <div className="hidden md:flex items-center gap-2 pl-3 border-l border-[var(--border-subtle)] font-mono-tech text-[11px] text-[var(--text-muted)]">
-              <span className="text-[var(--accent-cyan)]/70">SYS_CLK:</span>
+              <span className="text-[var(--accent-cyan)] font-medium">SYS_CLK:</span>
               <span className="text-[var(--text-secondary)]">{timeString}</span>
             </div>
           )}
         </div>
 
-        {/* Right: WORK   ABOUT   CONTACT */}
-        <nav aria-label="Main Navigation" className="flex items-center gap-6 sm:gap-8">
+        {/* Right: WORK   ABOUT   CONTACT   CV.SPEC   THEME */}
+        <nav aria-label="Main Navigation" className="flex items-center gap-5 sm:gap-7">
           <button
             type="button"
             onClick={() => scrollToSection('systems')}
-            className="font-mono-tech text-[12px] sm:text-[13px] tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
+            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
           >
             WORK
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('about')}
-            className="font-mono-tech text-[12px] sm:text-[13px] tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
+            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
           >
             ABOUT
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('contact')}
-            className="font-mono-tech text-[12px] sm:text-[13px] tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
+            className="font-mono-tech text-[12px] sm:text-[13px] font-medium tracking-wider uppercase text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:text-[var(--accent-cyan)] focus-visible:outline-none transition-colors cursor-pointer"
           >
             CONTACT
           </button>
@@ -104,9 +105,26 @@ export default function Navbar({ onOpenCV }) {
             <button
               type="button"
               onClick={onOpenCV}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-mono-tech tracking-wider uppercase border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:border-[var(--accent-cyan-border)] hover:text-[var(--accent-cyan)] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)] cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-mono-tech font-medium tracking-wider uppercase border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:border-[var(--accent-cyan-border)] hover:text-[var(--accent-cyan)] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)] cursor-pointer shadow-2xs"
             >
               CV.SPEC
+            </button>
+          )}
+
+          {/* Theme Switcher Toggle */}
+          {onToggleTheme && (
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to Light theme' : 'Switch to Dark theme'}
+              title={theme === 'dark' ? 'Switch to Light theme' : 'Switch to Dark theme'}
+              className="p-1.5 rounded-md border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-all cursor-pointer shadow-2xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent-cyan)]"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-700" />
+              )}
             </button>
           )}
         </nav>

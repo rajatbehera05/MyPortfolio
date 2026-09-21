@@ -41,9 +41,9 @@ export default function About() {
 
           {/* Three Core Engineering Tenets */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[#141A21]/70 hover:border-[var(--accent-cyan-border)] transition-colors space-y-2">
+            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] transition-colors space-y-2 shadow-2xs">
               <Cpu className="w-4 h-4 text-[var(--accent-cyan)]" />
-              <h3 className="font-mono-tech text-[12px] font-semibold text-[var(--text-primary)]">
+              <h3 className="font-mono-tech text-[12px] font-bold text-[var(--text-primary)]">
                 HARDWARE AWARENESS
               </h3>
               <p className="text-[12px] text-[var(--text-secondary)] leading-normal">
@@ -51,9 +51,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[#141A21]/70 hover:border-[var(--accent-cyan-border)] transition-colors space-y-2">
+            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] transition-colors space-y-2 shadow-2xs">
               <GitBranch className="w-4 h-4 text-[var(--accent-cyan)]" />
-              <h3 className="font-mono-tech text-[12px] font-semibold text-[var(--text-primary)]">
+              <h3 className="font-mono-tech text-[12px] font-bold text-[var(--text-primary)]">
                 DETERMINISTIC RTOS
               </h3>
               <p className="text-[12px] text-[var(--text-secondary)] leading-normal">
@@ -61,9 +61,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[#141A21]/70 hover:border-[var(--accent-cyan-border)] transition-colors space-y-2">
+            <div className="p-4 rounded border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] transition-colors space-y-2 shadow-2xs">
               <ShieldCheck className="w-4 h-4 text-[var(--accent-cyan)]" />
-              <h3 className="font-mono-tech text-[12px] font-semibold text-[var(--text-primary)]">
+              <h3 className="font-mono-tech text-[12px] font-bold text-[var(--text-primary)]">
                 FAULT TOLERANCE
               </h3>
               <p className="text-[12px] text-[var(--text-secondary)] leading-normal">
@@ -73,47 +73,47 @@ export default function About() {
           </div>
         </div>
 
-        {/* Right Column: Technical Telemetry Card */}
-        <div className="lg:col-span-5 system-panel p-6 space-y-5 bg-[#141A21]/80">
-          <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
-            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[var(--text-primary)] font-semibold">
-              <Terminal className="w-4 h-4 text-[var(--accent-cyan)]" />
+        {/* Right Column: Technical Telemetry Card — High-contrast dark obsidian hardware card */}
+        <div className="lg:col-span-5 rounded-lg p-6 space-y-5 bg-[#0F172A] border border-slate-800 shadow-xl text-slate-200">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-white font-bold">
+              <Terminal className="w-4 h-4 text-cyan-400" />
               <span>NODE_METADATA.JSON</span>
             </div>
-            <span className="font-mono-tech text-[10px] text-[var(--accent-cyan)] uppercase">
+            <span className="font-mono-tech text-[10px] text-cyan-400 uppercase font-semibold">
               READ_ONLY
             </span>
           </div>
 
           <div className="space-y-3 font-mono-tech text-[12px]">
-            <div className="flex justify-between border-b border-white/[0.04] pb-2">
-              <span className="text-[var(--text-muted)]">OPERATOR:</span>
-              <span className="text-[var(--text-primary)] font-medium">Rajat Behera</span>
+            <div className="flex justify-between border-b border-slate-800/80 pb-2">
+              <span className="text-slate-400">OPERATOR:</span>
+              <span className="text-white font-semibold">Rajat Behera</span>
             </div>
-            <div className="flex justify-between border-b border-white/[0.04] pb-2">
-              <span className="text-[var(--text-muted)]">DEGREE:</span>
-              <span className="text-[var(--text-primary)]">B.Tech Computer Science &amp; Eng.</span>
+            <div className="flex justify-between border-b border-slate-800/80 pb-2">
+              <span className="text-slate-400">DEGREE:</span>
+              <span className="text-slate-200">B.Tech Computer Science &amp; Eng.</span>
             </div>
-            <div className="flex justify-between border-b border-white/[0.04] pb-2">
-              <span className="text-[var(--text-muted)]">CUMULATIVE_GPA:</span>
-              <span className="text-[var(--accent-cyan)] font-semibold">8.9 / 10.0</span>
+            <div className="flex justify-between border-b border-slate-800/80 pb-2">
+              <span className="text-slate-400">CUMULATIVE_GPA:</span>
+              <span className="text-cyan-400 font-bold">8.9 / 10.0</span>
             </div>
-            <div className="flex justify-between border-b border-white/[0.04] pb-2">
-              <span className="text-[var(--text-muted)]">SPECIALIZATION:</span>
-              <span className="text-[var(--text-primary)]">IoT, Embedded Systems &amp; TinyML</span>
+            <div className="flex justify-between border-b border-slate-800/80 pb-2">
+              <span className="text-slate-400">SPECIALIZATION:</span>
+              <span className="text-slate-200">IoT, Embedded Systems &amp; TinyML</span>
             </div>
-            <div className="flex justify-between border-b border-white/[0.04] pb-2">
-              <span className="text-[var(--text-muted)]">PROTOTYPES_DEPLOYED:</span>
-              <span className="text-[var(--text-primary)]">6 Physical Systems</span>
+            <div className="flex justify-between border-b border-slate-800/80 pb-2">
+              <span className="text-slate-400">PROTOTYPES_DEPLOYED:</span>
+              <span className="text-white font-medium">6 Physical Systems</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[var(--text-muted)]">HACKATHONS:</span>
-              <span className="text-[var(--accent-cyan)] font-semibold">3x First Place Winner</span>
+              <span className="text-slate-400">HACKATHONS:</span>
+              <span className="text-cyan-400 font-bold">3x First Place Winner</span>
             </div>
           </div>
 
-          <div className="p-3 rounded border border-[var(--border-subtle)] bg-[#0E1217] text-[11px] font-mono-tech text-[var(--text-secondary)]">
-            <span className="text-[var(--accent-cyan)]">// SEEKING:</span> Summer 2026 Systems / IoT Engineering Internship. Ready for hardware-software co-design.
+          <div className="p-3 rounded border border-slate-800 bg-[#0B0F17] text-[11px] font-mono-tech text-slate-300 leading-relaxed">
+            <span className="text-cyan-400 font-semibold">// SEEKING:</span> Summer 2026 Systems / IoT Engineering Internship. Ready for hardware-software co-design.
           </div>
         </div>
 

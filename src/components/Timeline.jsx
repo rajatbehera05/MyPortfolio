@@ -72,7 +72,7 @@ export default function Timeline() {
         {/* The single continuous line */}
         <div
           aria-hidden="true"
-          className="absolute left-2.5 sm:left-4 top-3 bottom-4 w-[1.5px] bg-gradient-to-b from-[var(--accent-cyan)] via-[var(--accent-cyan)]/30 to-[#29323C]"
+          className="absolute left-2.5 sm:left-4 top-3 bottom-4 w-[1.5px] bg-gradient-to-b from-[var(--accent-cyan)] via-[var(--accent-cyan)]/30 to-[var(--border-subtle)]"
         />
 
         <div className="space-y-10">
@@ -84,24 +84,25 @@ export default function Timeline() {
                 {/* Timeline node circle: matches global network node style */}
                 <div
                   aria-hidden="true"
-                  className="absolute -left-[27px] sm:-left-[35px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#0E1217] border-2 border-[var(--accent-cyan)] group-hover:scale-125 transition-transform duration-200 flex items-center justify-center"
+                  className="absolute -left-[27px] sm:-left-[35px] top-1.5 w-3.5 h-3.5 rounded-full bg-[var(--bg-system)] border-2 border-[var(--accent-cyan)] group-hover:scale-125 transition-transform duration-200 flex items-center justify-center shadow-xs"
                 >
                   <span className="w-1 h-1 rounded-full bg-[var(--accent-cyan)] inline-block animate-node-pulse" />
                 </div>
 
                 {/* Milestone Content Card */}
-                <div className="system-panel p-5 sm:p-6 bg-[#141A21]/75 transition-all duration-200 hover:border-[var(--accent-cyan-border)] hover:bg-[#181F27]/85">
+                <div className="system-panel p-5 sm:p-6 bg-[var(--bg-surface)] transition-all duration-200 hover:border-[var(--accent-cyan-border)] shadow-2xs">
                   <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border-subtle)] pb-3 mb-3">
                     <div className="flex items-center gap-3">
-                      <span className="font-mono-tech text-[13px] font-semibold text-[var(--accent-cyan)]">
+                      {/* High-contrast dark obsidian year tag */}
+                      <span className="font-mono-tech text-[12px] font-bold px-2.5 py-0.5 rounded bg-[#0F172A] text-cyan-400 border border-slate-800 shadow-2xs">
                         {item.year}
                       </span>
-                      <div className="flex items-center gap-1.5 font-mono-tech text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
+                      <div className="flex items-center gap-1.5 font-mono-tech text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-medium">
                         <Icon className="w-3.5 h-3.5 text-[var(--accent-cyan)] shrink-0" />
                         <span>{item.category}</span>
                       </div>
                     </div>
-                    <span className="font-mono-tech text-[11px] px-2 py-0.5 rounded border border-[var(--border-subtle)] bg-[#0E1217] text-[var(--text-secondary)]">
+                    <span className="font-mono-tech text-[11px] px-2 py-0.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] text-[var(--text-secondary)] font-medium">
                       {item.tag}
                     </span>
                   </div>

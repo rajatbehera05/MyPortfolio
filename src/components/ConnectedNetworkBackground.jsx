@@ -9,8 +9,13 @@ import React, { useEffect, useRef } from 'react';
  * - Sporadic cyan data pulses traveling along active links (destination node brightens upon arrival)
  * - Optimized for performance, mobile density throttling, and prefers-reduced-motion
  */
-export default function ConnectedNetworkBackground() {
+export default function ConnectedNetworkBackground({ theme = 'light' }) {
   const canvasRef = useRef(null);
+  const themeRef = useRef(theme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -107,6 +112,7 @@ export default function ConnectedNetworkBackground() {
         mouse.y += (-1000 - mouse.y) * 0.05;
       }
 
+      const isDark = themeRef.current === 'dark';
       const maxDist = nodes.maxDistance || 150;
       const activeConnections = [];
 
@@ -122,7 +128,7 @@ export default function ConnectedNetworkBackground() {
 
           if (distSq < maxDist * maxDist) {
             const dist = Math.sqrt(distSq);
-            let alpha = (1 - dist / maxDist) * 0.09;
+            let alpha = (1 - dist / maxDist) * (isDark ? 0.09 : 0.14);
 
             // Mouse proximity line illumination
             if (mouse.active) {
@@ -130,14 +136,16 @@ export default function ConnectedNetworkBackground() {
               const midY = (a.y + b.y) / 2;
               const mouseDist = Math.hypot(midX - mouse.x, midY - mouse.y);
               if (mouseDist < 140) {
-                const mouseBoost = (1 - mouseDist / 140) * 0.22;
+                const mouseBoost = (1 - mouseDist / 140) * 0.25;
                 alpha += mouseBoost;
               }
             }
 
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(22, 217, 232, ${Math.min(alpha, 0.45).toFixed(3)})`;
-            ctx.lineWidth = 0.85;
+            ctx.strokeStyle = isDark
+              ? `rgba(22, 217, 232, ${Math.min(alpha, 0.45).toFixed(3)})`
+              : `rgba(2, 132, 199, ${Math.min(alpha * 1.5, 0.5).toFixed(3)})`;
+            ctx.lineWidth = isDark ? 0.85 : 0.95;
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
             ctx.stroke();
@@ -181,13 +189,13 @@ export default function ConnectedNetworkBackground() {
         // Small data packet packet dot
         ctx.beginPath();
         ctx.arc(px, py, 1.8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(22, 217, 232, 0.85)';
+        ctx.fillStyle = isDark ? 'rgba(22, 217, 232, 0.85)' : 'rgba(2, 132, 199, 0.95)';
         ctx.fill();
 
         // Subtle packet aura
         ctx.beginPath();
         ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(22, 217, 232, 0.25)';
+        ctx.fillStyle = isDark ? 'rgba(22, 217, 232, 0.25)' : 'rgba(2, 132, 199, 0.28)';
         ctx.fill();
       }
 
@@ -235,14 +243,18 @@ export default function ConnectedNetworkBackground() {
         // Core node dot
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius + (node.pulseGlow > 0 ? 0.6 : 0), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(22, 217, 232, ${Math.max(0.12, currentAlpha).toFixed(3)})`;
+        ctx.fillStyle = isDark
+          ? `rgba(22, 217, 232, ${Math.max(0.12, currentAlpha).toFixed(3)})`
+          : `rgba(2, 132, 199, ${Math.max(0.2, currentAlpha).toFixed(3)})`;
         ctx.fill();
 
         // Node halo (subtle on arrival glow or key nodes)
         if (node.pulseGlow > 0.05 || i % 5 === 0) {
           ctx.beginPath();
           ctx.arc(node.x, node.y, node.radius * 2.4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(22, 217, 232, ${(currentAlpha * 0.28).toFixed(3)})`;
+          ctx.fillStyle = isDark
+            ? `rgba(22, 217, 232, ${(currentAlpha * 0.28).toFixed(3)})`
+            : `rgba(2, 132, 199, ${(currentAlpha * 0.25).toFixed(3)})`;
           ctx.fill();
         }
       }

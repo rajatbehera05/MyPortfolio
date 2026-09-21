@@ -14,13 +14,13 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0E1217]/85 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-[#0E1217]/85 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
     >
       {/* CV Modal */}
       {activeModal === 'cv' && (
         <div
-          className="w-full max-w-lg rounded system-panel p-6 sm:p-7 shadow-2xl space-y-5 border border-[var(--accent-cyan-border)] bg-[#141A21]"
+          className="w-full max-w-lg rounded-xl system-panel p-6 sm:p-7 shadow-2xl space-y-5 border border-[var(--border-subtle)] bg-[var(--bg-surface)]"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
@@ -42,13 +42,14 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
 
           <div className="space-y-3 text-[14px] text-[var(--text-secondary)] leading-relaxed">
             <p>
-              <strong className="text-[var(--text-primary)] font-mono-tech">RAJAT BEHERA</strong><br />
+              <strong className="text-[var(--text-primary)] font-mono-tech font-bold">RAJAT BEHERA</strong><br />
               B.Tech in Computer Science &amp; Engineering<br />
-              Cumulative GPA: <span className="text-[var(--accent-cyan)] font-mono-tech font-semibold">8.9 / 10.0</span> · 3x Hackathon Winner
+              Cumulative GPA: <span className="text-[var(--accent-cyan)] font-mono-tech font-bold">8.9 / 10.0</span> · 3x Hackathon Winner
             </p>
 
-            <div className="p-3.5 rounded border border-[var(--border-subtle)] bg-[#0E1217] font-mono-tech text-[12px] space-y-1.5 text-[var(--text-secondary)]">
-              <div className="text-[var(--accent-cyan)] font-semibold uppercase">// CORE COMPETENCIES:</div>
+            {/* High-contrast dark obsidian code block */}
+            <div className="p-4 rounded-lg border border-slate-800 bg-[#0F172A] font-mono-tech text-[12px] space-y-1.5 text-slate-300 shadow-md">
+              <div className="text-cyan-400 font-bold uppercase">// CORE COMPETENCIES:</div>
               <div>• 6 Physical Embedded Prototypes (ESP32, STM32, Micro-LiDAR)</div>
               <div>• FreeRTOS Task Scheduling, C/C++, Python, KiCAD PCB Layout</div>
               <div>• TinyML Quantization (INT8), Edge AI, Low-Power MQTT Telemetry</div>
@@ -60,7 +61,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded text-[12px] font-mono-tech uppercase border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+              className="px-4 py-2 rounded text-[12px] font-mono-tech font-medium uppercase border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
             >
               DISMISS
             </button>
@@ -70,9 +71,9 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 alert('Curriculum Vitae Download Initiated: Rajat_Behera_Systems_IoT_Resume.pdf');
                 onClose();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded text-[12px] font-mono-tech uppercase font-semibold text-[#0E1217] bg-[var(--accent-cyan)] hover:brightness-110 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded text-[12px] font-mono-tech uppercase font-bold text-white bg-[#0F172A] hover:bg-[#1E293B] dark:bg-[var(--accent-cyan)] dark:text-[#0E1217] transition-all cursor-pointer shadow-sm"
             >
-              <FileDown className="w-3.5 h-3.5" />
+              <FileDown className="w-3.5 h-3.5 text-cyan-400 dark:text-[#0E1217]" />
               <span>DOWNLOAD PDF</span>
             </button>
           </div>
@@ -82,7 +83,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
       {/* System Spec Sheet Modal */}
       {activeModal === 'spec' && systemSpec && (
         <div
-          className="w-full max-w-xl rounded system-panel p-6 sm:p-7 shadow-2xl space-y-5 border border-[var(--accent-cyan-border)] bg-[#141A21] max-h-[90vh] overflow-y-auto"
+          className="w-full max-w-xl rounded-xl system-panel p-6 sm:p-7 shadow-2xl space-y-5 border border-[var(--border-subtle)] bg-[var(--bg-surface)] max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
@@ -102,11 +103,11 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
             </button>
           </div>
 
-          <div className="aspect-[16/9] w-full rounded overflow-hidden border border-[var(--border-subtle)] bg-[#0E1217]">
+          <div className="aspect-[16/9] w-full rounded-lg overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-system-alt)]">
             <img
               src={systemSpec.image}
               alt={systemSpec.title}
-              className="w-full h-full object-cover grayscale-[15%]"
+              className="w-full h-full object-cover grayscale-[10%]"
             />
           </div>
 
@@ -118,14 +119,15 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               {systemSpec.summary}
             </p>
 
-            <div className="p-3.5 rounded border border-[var(--border-subtle)] bg-[#0E1217] font-mono-tech text-[12px] space-y-1.5">
-              <div className="text-[var(--accent-cyan)] uppercase font-semibold">
+            {/* High-contrast dark telemetry specs */}
+            <div className="p-4 rounded-lg border border-slate-800 bg-[#0F172A] font-mono-tech text-[12px] space-y-1.5 text-slate-300 shadow-md">
+              <div className="text-cyan-400 uppercase font-bold">
                 SYSTEM TELEMETRY BENCHMARKS
               </div>
               {systemSpec.metrics?.map((m) => (
-                <div key={m.key} className="flex justify-between border-b border-white/[0.04] pb-1">
-                  <span className="text-[var(--text-muted)]">{m.key}:</span>
-                  <span className="text-[var(--text-primary)] font-semibold">{m.val}</span>
+                <div key={m.key} className="flex justify-between border-b border-slate-800/80 pb-1">
+                  <span className="text-slate-400">{m.key}:</span>
+                  <span className="text-white font-bold">{m.val}</span>
                 </div>
               ))}
             </div>
@@ -135,7 +137,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded text-[12px] font-mono-tech uppercase font-semibold text-[#0E1217] bg-[var(--accent-cyan)] hover:brightness-110 transition-all cursor-pointer"
+              className="px-4 py-2 rounded text-[12px] font-mono-tech uppercase font-bold text-white bg-[#0F172A] hover:bg-[#1E293B] dark:bg-[var(--accent-cyan)] dark:text-[#0E1217] transition-all cursor-pointer shadow-sm"
             >
               CLOSE SPEC SHEET
             </button>

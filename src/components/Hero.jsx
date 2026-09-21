@@ -18,7 +18,7 @@ import HeroSystemVisual from './HeroSystemVisual';
  * - Module hover highlights corresponding network relationship
  * - Graphite / Midnight palette with electric cyan #16D9E8
  */
-export default function Hero({ onExplore }) {
+export default function Hero({ onExplore, theme = 'light' }) {
   const [activeModule, setActiveModule] = useState(null);
 
   const techModules = [
@@ -59,20 +59,20 @@ export default function Hero({ onExplore }) {
         {/* Left Column: Typography, Status, Copy, Modules, and CTA */}
         <div className="lg:col-span-7 space-y-7 z-10">
           
-          {/* 0.2s: SYS_ID Status Panel */}
+          {/* 0.2s: SYS_ID Status Panel — High-contrast dark obsidian hardware badge */}
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2.5 px-3 py-1 rounded border border-[var(--border-subtle)] bg-[#141A21]/80 text-[12px] font-mono-tech tracking-wider text-[var(--text-secondary)] shadow-sm"
+            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-slate-800 bg-[#0F172A] text-[12px] font-mono-tech tracking-wider text-slate-300 shadow-md"
           >
-            {/* Restrained, slow cyan pulse */}
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)] inline-block animate-node-pulse" />
-            <span className="uppercase text-[var(--text-primary)] font-medium">
+            {/* Pulsing cyan hardware status LED */}
+            <span className="w-2 h-2 rounded-full bg-cyan-400 inline-block animate-node-pulse shadow-[0_0_8px_#22d3ee]" />
+            <span className="uppercase text-white font-semibold">
               SYS_ID: RB_NODE_01
             </span>
-            <span className="text-[var(--border-subtle)]">|</span>
-            <span className="text-[var(--accent-cyan)]">
+            <span className="text-slate-600">|</span>
+            <span className="text-cyan-400 font-medium">
               STATE: SYNCHRONIZED
             </span>
           </motion.div>
@@ -82,7 +82,7 @@ export default function Hero({ onExplore }) {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-[var(--text-primary)] leading-[0.98]"
+            className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[var(--text-primary)] leading-[0.98]"
           >
             RAJAT BEHERA
           </motion.h1>
@@ -92,7 +92,7 @@ export default function Hero({ onExplore }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-3 text-lg sm:text-2xl font-mono-tech text-[var(--accent-cyan)] tracking-wider"
+            className="flex items-center gap-3 text-lg sm:text-2xl font-mono-tech text-[var(--accent-cyan)] font-semibold tracking-wider"
           >
             <span>CSE</span>
             <span className="text-[var(--text-muted)]">•</span>
@@ -133,19 +133,19 @@ export default function Hero({ onExplore }) {
                   tabIndex={0}
                   className={`p-2.5 rounded border transition-all duration-200 cursor-pointer focus:outline-none ${
                     isHovered
-                      ? 'border-[var(--accent-cyan)] bg-[#181F27] shadow-[0_0_12px_rgba(22,217,232,0.12)]'
-                      : 'border-[var(--border-subtle)] bg-[#141A21]/70 hover:border-[var(--accent-cyan-border)]'
+                      ? 'border-[var(--accent-cyan)] bg-[var(--bg-system-alt)] shadow-[0_0_12px_rgba(2,132,199,0.12)] dark:bg-[#181F27]'
+                      : 'border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[var(--text-muted)] uppercase text-[10px]">
+                    <span className="text-[var(--text-muted)] uppercase text-[10px] font-medium">
                       {mod.label}
                     </span>
                     {isHovered && (
                       <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)] animate-ping" />
                     )}
                   </div>
-                  <div className="text-[var(--text-primary)] font-medium mt-0.5 truncate">
+                  <div className="text-[var(--text-primary)] font-semibold mt-0.5 truncate">
                     {mod.val}
                   </div>
                 </motion.div>
@@ -153,7 +153,7 @@ export default function Hero({ onExplore }) {
             })}
           </div>
 
-          {/* 1.2s: EXPLORE SYSTEM Primary CTA */}
+          {/* 1.2s: EXPLORE SYSTEM Primary CTA — High contrast obsidian button */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -163,10 +163,10 @@ export default function Hero({ onExplore }) {
             <button
               type="button"
               onClick={onExplore}
-              className="group inline-flex items-center gap-3 px-6 py-3 rounded text-[13px] font-mono-tech font-semibold tracking-wider uppercase text-[#0E1217] bg-[var(--accent-cyan)] hover:brightness-110 active:scale-[0.99] transition-all duration-200 shadow-[0_2px_10px_rgba(22,217,232,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="group inline-flex items-center gap-3 px-6 py-3 rounded text-[13px] font-mono-tech font-bold tracking-wider uppercase text-white bg-[#0F172A] hover:bg-[#1E293B] dark:bg-[var(--accent-cyan)] dark:text-[#0E1217] active:scale-[0.99] transition-all duration-200 shadow-[0_4px_16px_rgba(15,23,42,0.18)] dark:shadow-[0_2px_10px_rgba(22,217,232,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] cursor-pointer"
             >
               <span>EXPLORE SYSTEM</span>
-              <ArrowDown className="w-4 h-4 transition-transform duration-200 group-hover:translate-y-1" />
+              <ArrowDown className="w-4 h-4 text-cyan-400 dark:text-[#0E1217] transition-transform duration-200 group-hover:translate-y-1" />
             </button>
           </motion.div>
 
@@ -179,7 +179,7 @@ export default function Hero({ onExplore }) {
           transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 w-full flex items-center justify-center relative"
         >
-          <HeroSystemVisual activeModule={activeModule} />
+          <HeroSystemVisual activeModule={activeModule} theme={theme} />
         </motion.div>
 
       </div>

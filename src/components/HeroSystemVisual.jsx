@@ -13,8 +13,9 @@ import React, { useState } from 'react';
  * - Telemetry micro-HUD in corners
  * - Interactive node illumination & data pulses
  */
-export default function HeroSystemVisual({ activeModule }) {
+export default function HeroSystemVisual({ activeModule, theme = 'light' }) {
   const [hoveredNode, setHoveredNode] = useState(null);
+  const isDark = theme === 'dark';
 
   // Geometry coordinates relative to 500 x 400 SVG viewBox
   const center = { id: 'core', label: 'RB / CORE', x: 250, y: 200, isCenter: true };
@@ -110,8 +111,8 @@ export default function HeroSystemVisual({ activeModule }) {
 
           {/* Radial radar sweep gradient */}
           <linearGradient id="radarArmGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#16D9E8" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#16D9E8" stopOpacity="0" />
+            <stop offset="0%" stopColor={isDark ? "#16D9E8" : "#0284C7"} stopOpacity="0.35" />
+            <stop offset="100%" stopColor={isDark ? "#16D9E8" : "#0284C7"} stopOpacity="0" />
           </linearGradient>
         </defs>
 
@@ -121,20 +122,20 @@ export default function HeroSystemVisual({ activeModule }) {
           cy={center.y}
           r="110"
           fill="none"
-          stroke="#29323C"
+          stroke={isDark ? "#29323C" : "#CBD5E1"}
           strokeWidth="0.8"
           strokeDasharray="3 6"
-          className="opacity-40"
+          className={isDark ? "opacity-40" : "opacity-70"}
         />
         <circle
           cx={center.x}
           cy={center.y}
           r="180"
           fill="none"
-          stroke="#29323C"
+          stroke={isDark ? "#29323C" : "#CBD5E1"}
           strokeWidth="0.8"
           strokeDasharray="4 8"
-          className="opacity-25"
+          className={isDark ? "opacity-25" : "opacity-60"}
         />
 
         {/* Graduation tick marks */}
@@ -145,9 +146,9 @@ export default function HeroSystemVisual({ activeModule }) {
             y1={t.y1}
             x2={t.x2}
             y2={t.y2}
-            stroke="#29323C"
+            stroke={isDark ? "#29323C" : "#94A3B8"}
             strokeWidth="1"
-            className="opacity-60"
+            className={isDark ? "opacity-60" : "opacity-80"}
           />
         ))}
 
@@ -170,6 +171,8 @@ export default function HeroSystemVisual({ activeModule }) {
           if (!fromNode || !toNode) return null;
 
           const active = isLinkActive(link);
+          const activeColor = isDark ? '#16D9E8' : '#0284C7';
+          const inactiveColor = isDark ? '#29323C' : '#CBD5E1';
 
           return (
             <g key={link.key}>
@@ -178,16 +181,16 @@ export default function HeroSystemVisual({ activeModule }) {
                 y1={fromNode.y}
                 x2={toNode.x}
                 y2={toNode.y}
-                stroke={active ? '#16D9E8' : '#29323C'}
-                strokeWidth={active ? '1.5' : '1'}
-                strokeOpacity={active ? 0.95 : 0.45}
+                stroke={active ? activeColor : inactiveColor}
+                strokeWidth={active ? '1.75' : '1'}
+                strokeOpacity={active ? 0.95 : (isDark ? 0.45 : 0.75)}
                 className="transition-all duration-300"
                 filter={active ? 'url(#cyanGlow)' : undefined}
               />
 
               {/* Data pulse marker when active */}
               {active && (
-                <circle r="2.5" fill="#16D9E8">
+                <circle r="2.5" fill={activeColor}>
                   <animateMotion
                     path={`M ${fromNode.x} ${fromNode.y} L ${toNode.x} ${toNode.y}`}
                     dur="1.8s"
@@ -203,6 +206,9 @@ export default function HeroSystemVisual({ activeModule }) {
         {peripheralNodes.map((node) => {
           const active = isNodeActive(node.id);
           const isSmall = node.isSmall;
+          const activeColor = isDark ? '#16D9E8' : '#0284C7';
+          const nodeBg = isDark ? '#141A21' : '#FFFFFF';
+          const nodeBorder = active ? activeColor : (isDark ? '#29323C' : '#CBD5E1');
 
           return (
             <g
@@ -216,9 +222,9 @@ export default function HeroSystemVisual({ activeModule }) {
                 cx={node.x}
                 cy={node.y}
                 r={isSmall ? 4 : active ? 16 : 12}
-                fill="#141A21"
-                stroke={active ? '#16D9E8' : '#29323C'}
-                strokeWidth={active ? '1.5' : '1'}
+                fill={nodeBg}
+                stroke={nodeBorder}
+                strokeWidth={active ? '1.75' : '1.2'}
                 className="transition-all duration-300"
               />
 
@@ -227,7 +233,7 @@ export default function HeroSystemVisual({ activeModule }) {
                 cx={node.x}
                 cy={node.y}
                 r={isSmall ? 2 : 3}
-                fill={active ? '#16D9E8' : '#9AA5B1'}
+                fill={active ? activeColor : (isDark ? '#9AA5B1' : '#475569')}
                 className="transition-all duration-300"
               />
 
@@ -238,8 +244,10 @@ export default function HeroSystemVisual({ activeModule }) {
                     x={node.x}
                     y={node.y + (node.y > 200 ? 24 : -18)}
                     textAnchor="middle"
-                    className={`font-mono-tech text-[11px] font-semibold tracking-wider transition-colors duration-200 ${
-                      active ? 'fill-[#16D9E8]' : 'fill-[#9AA5B1]'
+                    className={`font-mono-tech text-[11px] font-bold tracking-wider transition-colors duration-200 ${
+                      active 
+                        ? (isDark ? 'fill-[#16D9E8]' : 'fill-[#0284C7]') 
+                        : (isDark ? 'fill-[#9AA5B1]' : 'fill-[#0F172A]')
                     }`}
                   >
                     {node.label}
@@ -250,7 +258,9 @@ export default function HeroSystemVisual({ activeModule }) {
                       x={node.x}
                       y={node.y + (node.y > 200 ? 36 : -30)}
                       textAnchor="middle"
-                      className="font-mono-tech text-[9px] fill-[#627080] tracking-tight uppercase"
+                      className={`font-mono-tech text-[9px] tracking-tight uppercase font-medium ${
+                        isDark ? 'fill-[#627080]' : 'fill-[#64748B]'
+                      }`}
                     >
                       {node.spec}
                     </text>
@@ -261,7 +271,7 @@ export default function HeroSystemVisual({ activeModule }) {
           );
         })}
 
-        {/* Central Node: RB / CORE */}
+        {/* Central Node: RB / CORE — High-contrast dark obsidian node with cyan pulse */}
         <g
           className="cursor-pointer"
           onMouseEnter={() => setHoveredNode('core')}
@@ -273,20 +283,20 @@ export default function HeroSystemVisual({ activeModule }) {
             cy={center.y}
             r="32"
             fill="none"
-            stroke="#16D9E8"
+            stroke={isDark ? "#16D9E8" : "#0284C7"}
             strokeWidth="0.8"
-            strokeOpacity="0.4"
+            strokeOpacity="0.5"
             className="animate-pulse"
           />
 
-          {/* Solid core container */}
+          {/* Solid core container — High-contrast obsidian slate circle */}
           <circle
             cx={center.x}
             cy={center.y}
             r="24"
-            fill="#141A21"
-            stroke={isNodeActive('core') ? '#16D9E8' : '#29323C'}
-            strokeWidth="1.5"
+            fill={isDark ? "#141A21" : "#0F172A"}
+            stroke={isNodeActive('core') ? (isDark ? '#16D9E8' : '#0284C7') : (isDark ? '#29323C' : '#334155')}
+            strokeWidth="1.75"
             className="transition-all duration-300"
           />
 
@@ -294,8 +304,8 @@ export default function HeroSystemVisual({ activeModule }) {
           <circle
             cx={center.x}
             cy={center.y}
-            r="4"
-            fill="#16D9E8"
+            r="4.5"
+            fill={isDark ? "#16D9E8" : "#38BDF8"}
             className="animate-node-pulse"
           />
 
@@ -304,7 +314,9 @@ export default function HeroSystemVisual({ activeModule }) {
             x={center.x}
             y={center.y + 40}
             textAnchor="middle"
-            className="font-mono-tech text-[12px] font-bold fill-[#F1F4F7] tracking-widest uppercase"
+            className={`font-mono-tech text-[12px] font-extrabold tracking-widest uppercase ${
+              isDark ? 'fill-[#F1F4F7]' : 'fill-[#0F172A]'
+            }`}
           >
             RB / CORE
           </text>

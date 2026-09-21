@@ -68,15 +68,17 @@ export default function Contact({ onOpenCV }) {
           {/* Channel: Email */}
           <a
             href="mailto:rajat.behera@example.com"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[#141A21]/75 hover:bg-[#181F27]"
+            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
           >
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 text-[var(--accent-cyan)] shrink-0" />
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+                <Mail className="w-5 h-5" />
+              </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase">
+                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
                   DIRECT TRANSMISSION
                 </div>
-                <div className="text-[14px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
                   rajat.behera@example.com
                 </div>
               </div>
@@ -89,15 +91,17 @@ export default function Contact({ onOpenCV }) {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[#141A21]/75 hover:bg-[#181F27]"
+            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
           >
-            <div className="flex items-center gap-3">
-              <GithubIcon className="w-5 h-5 text-[var(--accent-cyan)] shrink-0" />
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+                <GithubIcon className="w-5 h-5" />
+              </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase">
+                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
                   REPOSITORIES &amp; FIRMWARE
                 </div>
-                <div className="text-[14px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
                   github.com/rajat-behera
                 </div>
               </div>
@@ -110,15 +114,17 @@ export default function Contact({ onOpenCV }) {
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[#141A21]/75 hover:bg-[#181F27]"
+            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
           >
-            <div className="flex items-center gap-3">
-              <LinkedinIcon className="w-5 h-5 text-[var(--accent-cyan)] shrink-0" />
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+                <LinkedinIcon className="w-5 h-5" />
+              </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase">
+                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
                   PROFESSIONAL NETWORK
                 </div>
-                <div className="text-[14px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
                   linkedin.com/in/rajat-behera
                 </div>
               </div>
@@ -130,15 +136,17 @@ export default function Contact({ onOpenCV }) {
           <button
             type="button"
             onClick={onOpenCV}
-            className="w-full system-panel p-5 flex items-center justify-between group transition-all duration-200 text-left cursor-pointer bg-[#141A21]/75 hover:bg-[#181F27]"
+            className="w-full system-panel p-5 flex items-center justify-between group transition-all duration-200 text-left cursor-pointer bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
           >
-            <div className="flex items-center gap-3">
-              <FileText className="w-5 h-5 text-[var(--accent-cyan)] shrink-0" />
+            <div className="flex items-center gap-3.5">
+              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+                <FileText className="w-5 h-5" />
+              </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase">
+                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
                   COMPLETE DOSSIER
                 </div>
-                <div className="text-[14px] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
                   Download Curriculum Vitae (PDF)
                 </div>
               </div>
@@ -149,13 +157,13 @@ export default function Contact({ onOpenCV }) {
         </div>
 
         {/* Right Column: Transmission Form */}
-        <div className="lg:col-span-7 system-panel p-6 sm:p-8 space-y-6 bg-[#141A21]/80">
+        <div className="lg:col-span-7 system-panel p-6 sm:p-8 space-y-6 bg-[var(--bg-surface)] shadow-sm">
           <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
-            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[var(--text-primary)] font-medium">
+            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[var(--text-primary)] font-bold">
               <Terminal className="w-4 h-4 text-[var(--accent-cyan)]" />
               <span>TERMINAL_MSG_DISPATCH</span>
             </div>
-            <span className="font-mono-tech text-[10px] text-[var(--accent-cyan)] uppercase">
+            <span className="font-mono-tech text-[10px] text-[var(--accent-cyan)] uppercase font-semibold">
               PORT // 443 SECURE
             </span>
           </div>
@@ -174,7 +182,7 @@ export default function Contact({ onOpenCV }) {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="form-name" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase">
+                  <label htmlFor="form-name" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
                     Sender Name / Organization
                   </label>
                   <input
@@ -184,12 +192,12 @@ export default function Contact({ onOpenCV }) {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Dr. Alex Vance"
-                    className="w-full px-3.5 py-2.5 rounded bg-[#0E1217] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="form-email" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase">
+                  <label htmlFor="form-email" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
                     Return Transmission Address
                   </label>
                   <input
@@ -199,13 +207,13 @@ export default function Contact({ onOpenCV }) {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. name@domain.com"
-                    className="w-full px-3.5 py-2.5 rounded bg-[#0E1217] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="form-msg" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase">
+                <label htmlFor="form-msg" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
                   Message Payload / Scope
                 </label>
                 <textarea
@@ -215,13 +223,13 @@ export default function Contact({ onOpenCV }) {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Details regarding hardware/software engineering opportunity, timeline, and stack requirements..."
-                  className="w-full px-3.5 py-2.5 rounded bg-[#0E1217] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 rounded text-[13px] font-mono-tech font-semibold uppercase tracking-wider text-[#0E1217] bg-[var(--accent-cyan)] hover:brightness-110 transition-all duration-200 cursor-pointer focus-visible:outline-none"
+                className="w-full py-3 rounded text-[13px] font-mono-tech font-bold uppercase tracking-wider text-white bg-[#0F172A] hover:bg-[#1E293B] dark:bg-[var(--accent-cyan)] dark:text-[#0E1217] transition-all duration-200 cursor-pointer shadow-md focus-visible:outline-none"
               >
                 DISPATCH MESSAGE
               </button>

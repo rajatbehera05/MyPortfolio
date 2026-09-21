@@ -206,17 +206,18 @@ export default function Projects({ onOpenSpec }) {
               }}
               className={`system-panel p-6 sm:p-8 transition-all duration-300 ${
                 isCardHovered
-                  ? 'border-[var(--accent-cyan-border)] bg-[#181F27]/90 shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
-                  : 'bg-[#141A21]/75 border-[var(--border-subtle)]'
+                  ? 'border-[var(--accent-cyan-border)] bg-[var(--bg-surface)] shadow-md'
+                  : 'bg-[var(--bg-surface)] border-[var(--border-subtle)]'
               }`}
             >
               {/* Header row of system node */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-subtle)] pb-4 mb-6">
                 <div className="flex items-center gap-3">
-                  <span className="font-mono-tech text-[11px] px-2 py-0.5 rounded border border-[var(--border-subtle)] bg-[#0E1217] text-[var(--accent-cyan)]">
+                  {/* High-contrast dark obsidian hardware tag */}
+                  <span className="font-mono-tech text-[11px] px-2.5 py-0.5 rounded font-bold border border-slate-800 bg-[#0F172A] text-cyan-400 shadow-2xs">
                     {system.code}
                   </span>
-                  <span className="font-mono-tech text-[11px] tracking-wider text-[var(--text-muted)] uppercase">
+                  <span className="font-mono-tech text-[11px] tracking-wider text-[var(--text-muted)] uppercase font-semibold">
                     {system.category}
                   </span>
                 </div>
@@ -227,14 +228,14 @@ export default function Projects({ onOpenSpec }) {
                     <button
                       type="button"
                       onClick={handleSimulatePing}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-mono-tech uppercase tracking-wider border border-[var(--accent-cyan-border)] bg-[#0E1217] text-[var(--accent-cyan)] hover:bg-[var(--accent-cyan)] hover:text-[#0E1217] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[10px] font-mono-tech font-semibold uppercase tracking-wider border border-[var(--accent-cyan-border)] bg-[var(--bg-system-alt)] text-[var(--accent-cyan)] hover:bg-[var(--accent-cyan)] hover:text-white transition-all cursor-pointer shadow-2xs"
                     >
                       <Activity className="w-3 h-3 animate-pulse" />
                       <span>SIMULATE DATA PING</span>
                     </button>
                   )}
 
-                  <div className="flex items-center gap-2 font-mono-tech text-[11px] text-[var(--text-secondary)]">
+                  <div className="flex items-center gap-2 font-mono-tech text-[11px] text-[var(--text-secondary)] font-medium">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)] animate-node-pulse" />
                     <span>{system.status}</span>
                   </div>
@@ -257,15 +258,15 @@ export default function Projects({ onOpenSpec }) {
 
                   {/* Connected System Topology Flow */}
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between font-mono-tech text-[11px] text-[var(--accent-cyan)] uppercase tracking-wider">
+                    <div className="flex items-center justify-between font-mono-tech text-[11px] text-[var(--accent-cyan)] uppercase tracking-wider font-semibold">
                       <span>CONNECTED SYSTEM TOPOLOGY</span>
-                      <span className="text-[10px] text-[var(--text-muted)] tracking-normal">
+                      <span className="text-[10px] text-[var(--text-muted)] tracking-normal font-normal">
                         HOVER STAGES TO INSPECT
                       </span>
                     </div>
                     
                     {/* Horizontal connected pipeline */}
-                    <div className="relative p-3.5 rounded border border-[var(--border-subtle)] bg-[#0E1217]/90 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 overflow-hidden">
+                    <div className="relative p-3.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 overflow-hidden shadow-2xs">
                       
                       {/* Active traveling pulse wave on card hover or ping trigger */}
                       {(isCardHovered || pingTriggered) && (
@@ -286,20 +287,24 @@ export default function Projects({ onOpenSpec }) {
                           <React.Fragment key={stage.label}>
                             <div
                               onMouseEnter={() => setActiveStage(stage)}
-                              className={`relative z-10 flex items-center gap-2 py-1 px-2 rounded cursor-pointer transition-all duration-200 ${
+                              className={`relative z-10 flex items-center gap-2 py-1.5 px-2.5 rounded cursor-pointer transition-all duration-200 ${
                                 isStageSelected
-                                  ? 'bg-[#181F27] border border-[var(--accent-cyan)] shadow-[0_0_8px_rgba(22,217,232,0.2)]'
-                                  : 'bg-[#141A21]/70 border border-white/[0.03] hover:border-[var(--accent-cyan-border)]'
+                                  ? 'bg-[#0F172A] border border-[var(--accent-cyan)] text-white shadow-md'
+                                  : 'bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[var(--accent-cyan-border)] shadow-2xs'
                               }`}
                             >
                               <Icon className={`w-3.5 h-3.5 shrink-0 transition-colors duration-200 ${
-                                isStageSelected || isCardHovered ? 'text-[var(--accent-cyan)]' : 'text-[var(--text-secondary)]'
+                                isStageSelected ? 'text-cyan-400' : (isCardHovered ? 'text-[var(--accent-cyan)]' : 'text-[var(--text-secondary)]')
                               }`} />
                               <div>
-                                <div className="text-[10px] font-mono-tech text-[var(--text-muted)] uppercase leading-none">
+                                <div className={`text-[10px] font-mono-tech uppercase leading-none font-medium ${
+                                  isStageSelected ? 'text-slate-400' : 'text-[var(--text-muted)]'
+                                }`}>
                                   {stage.label}
                                 </div>
-                                <div className="text-[12px] font-medium text-[var(--text-primary)] leading-tight mt-0.5 whitespace-nowrap">
+                                <div className={`text-[12px] font-semibold leading-tight mt-0.5 whitespace-nowrap ${
+                                  isStageSelected ? 'text-white' : 'text-[var(--text-primary)]'
+                                }`}>
                                   {stage.role}
                                 </div>
                               </div>
@@ -316,14 +321,14 @@ export default function Projects({ onOpenSpec }) {
                       })}
                     </div>
 
-                    {/* Stage Telemetry Inspector Details */}
+                    {/* Stage Telemetry Inspector Details — Dark Obsidian Telemetry Terminal */}
                     {activeStage && (
-                      <div className="p-2.5 rounded border border-[var(--accent-cyan-border)] bg-[#141A21] text-[11px] font-mono-tech text-[var(--text-secondary)] animate-fadeIn flex items-center justify-between">
+                      <div className="p-3 rounded-lg border border-slate-800 bg-[#0F172A] text-[11px] font-mono-tech text-slate-200 shadow-md animate-fadeIn flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-[var(--accent-cyan)] font-semibold uppercase">[{activeStage.label}]:</span>
-                          <span className="text-[var(--text-primary)]">{activeStage.spec}</span>
+                          <span className="text-cyan-400 font-bold uppercase">[{activeStage.label}]:</span>
+                          <span className="text-slate-100 font-medium">{activeStage.spec}</span>
                         </div>
-                        <span className="text-[10px] text-[var(--text-muted)] uppercase">ACTIVE TELEMETRY</span>
+                        <span className="text-[10px] text-slate-400 uppercase font-semibold">ACTIVE TELEMETRY</span>
                       </div>
                     )}
                   </div>
@@ -331,9 +336,9 @@ export default function Projects({ onOpenSpec }) {
                   {/* System Metrics */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono-tech">
                     {system.metrics.map((m) => (
-                      <div key={m.key} className="p-2 rounded border border-[var(--border-subtle)] bg-[#0E1217]/60">
-                        <div className="text-[10px] text-[var(--text-muted)] uppercase">{m.key}</div>
-                        <div className="text-[13px] text-[var(--accent-cyan)] font-semibold mt-0.5">{m.val}</div>
+                      <div key={m.key} className="p-2.5 rounded border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] shadow-2xs">
+                        <div className="text-[10px] text-[var(--text-muted)] uppercase font-semibold">{m.key}</div>
+                        <div className="text-[13px] text-[var(--accent-cyan)] font-bold mt-0.5">{m.val}</div>
                       </div>
                     ))}
                   </div>
@@ -344,7 +349,7 @@ export default function Projects({ onOpenSpec }) {
                       {system.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="font-mono-tech text-[11px] px-2 py-0.5 rounded border border-[var(--border-subtle)] text-[var(--text-secondary)] bg-[#0E1217]/40"
+                          className="font-mono-tech text-[11px] px-2 py-0.5 rounded border border-[var(--border-subtle)] text-[var(--text-secondary)] bg-[var(--bg-system-alt)]"
                         >
                           {tag}
                         </span>
@@ -354,23 +359,23 @@ export default function Projects({ onOpenSpec }) {
                     <button
                       type="button"
                       onClick={() => onOpenSpec(system)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded text-[12px] font-mono-tech tracking-wider uppercase border border-[var(--accent-cyan-border)] text-[var(--accent-cyan)] hover:bg-[var(--accent-cyan)] hover:text-[#0E1217] transition-all duration-200 cursor-pointer focus-visible:outline-none"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded text-[12px] font-mono-tech font-bold tracking-wider uppercase border border-slate-800 bg-[#0F172A] text-white hover:bg-[#1E293B] dark:border-[var(--accent-cyan-border)] dark:bg-transparent dark:text-[var(--accent-cyan)] dark:hover:bg-[var(--accent-cyan)] dark:hover:text-[#0E1217] transition-all duration-200 cursor-pointer shadow-sm"
                     >
                       <span>VIEW SYSTEM SPEC</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" />
                     </button>
                   </div>
                 </div>
 
                 {/* Right: Technical Photograph / Bench Preview */}
-                <div className="lg:col-span-5 relative w-full aspect-[16/10] rounded overflow-hidden border border-[var(--border-subtle)] bg-[#0E1217]">
+                <div className="lg:col-span-5 relative w-full aspect-[16/10] rounded overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] shadow-xs">
                   <img
                     src={system.image}
                     alt={system.title}
-                    className="w-full h-full object-cover grayscale-[20%] contrast-[1.05] hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover grayscale-[15%] contrast-[1.05] hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-[#0E1217]/85 backdrop-blur-sm border border-[var(--border-subtle)] font-mono-tech text-[10px] text-[var(--accent-cyan)] uppercase">
+                  <div className="absolute top-2 left-2 px-2.5 py-1 rounded bg-[#0F172A]/90 backdrop-blur-sm border border-slate-700 font-mono-tech text-[10px] text-cyan-400 uppercase font-semibold">
                     SYS_NODE // {system.code}
                   </div>
                 </div>

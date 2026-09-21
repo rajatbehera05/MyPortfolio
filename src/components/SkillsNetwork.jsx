@@ -100,7 +100,7 @@ export default function SkillsNetwork() {
           return (
             <div
               key={net.group}
-              className="system-panel p-5 sm:p-6 transition-all duration-200 hover:border-[var(--accent-cyan-border)] hover:bg-[#181F27]/85"
+              className="system-panel p-5 sm:p-6 transition-all duration-200 hover:border-[var(--accent-cyan-border)]"
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 
@@ -108,7 +108,7 @@ export default function SkillsNetwork() {
                 <div className="lg:w-1/3 space-y-1">
                   <div className="flex items-center gap-2">
                     <Icon className="w-4 h-4 text-[var(--accent-cyan)] shrink-0" />
-                    <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-semibold text-[var(--text-primary)] tracking-wide">
+                    <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-bold text-[var(--text-primary)] tracking-wide">
                       {net.group}
                     </h3>
                   </div>
@@ -119,7 +119,7 @@ export default function SkillsNetwork() {
 
                 {/* Right: Connected Pipeline Graph */}
                 <div className="lg:w-2/3">
-                  <div className="p-3 rounded border border-[var(--border-subtle)] bg-[#0E1217]/90 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 overflow-x-auto">
+                  <div className="p-3 rounded border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 overflow-x-auto shadow-2xs">
                     {net.pipeline.map((item, nIdx) => {
                       const isLast = nIdx === net.pipeline.length - 1;
                       const isSelected = selectedTech?.name === item.name;
@@ -131,19 +131,19 @@ export default function SkillsNetwork() {
                             onClick={() => setSelectedTech(isSelected ? null : item)}
                             className={`flex items-center gap-2 py-1.5 px-3 rounded transition-all duration-200 cursor-pointer text-left ${
                               isSelected
-                                ? 'bg-[#181F27] border border-[var(--accent-cyan)] text-[var(--accent-cyan)] shadow-[0_0_8px_rgba(22,217,232,0.2)]'
-                                : 'bg-[#141A21] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-cyan-border)]'
+                                ? 'bg-[#0F172A] border border-[var(--accent-cyan)] text-white shadow-sm'
+                                : 'bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-cyan-border)] shadow-2xs'
                             }`}
                           >
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              isSelected ? 'bg-[var(--accent-cyan)] animate-ping' : 'bg-[var(--accent-cyan)]'
+                              isSelected ? 'bg-cyan-400 animate-ping' : 'bg-[var(--accent-cyan)]'
                             }`} />
-                            <span className="font-mono-tech text-[12px] font-medium whitespace-nowrap">
+                            <span className="font-mono-tech text-[12px] font-semibold whitespace-nowrap">
                               {item.name}
                             </span>
                           </button>
                           {!isLast && (
-                            <div className="hidden sm:flex items-center text-[var(--accent-cyan)]/60 font-mono-tech text-sm select-none">
+                            <div className="hidden sm:flex items-center text-[var(--accent-cyan)]/70 font-mono-tech text-sm select-none">
                               →
                             </div>
                           )}
@@ -159,22 +159,22 @@ export default function SkillsNetwork() {
         })}
       </div>
 
-      {/* Selected Tech Inspector Callout */}
+      {/* Selected Tech Inspector Callout — High-contrast dark engineering drawer */}
       {selectedTech && (
-        <div className="mt-4 p-4 rounded border border-[var(--accent-cyan-border)] bg-[#141A21] flex items-center justify-between gap-4 animate-fadeIn">
+        <div className="mt-4 p-4 rounded-lg border border-slate-800 bg-[#0F172A] text-slate-200 shadow-md flex items-center justify-between gap-4 animate-fadeIn">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 font-mono-tech text-[11px] text-[var(--accent-cyan)] uppercase font-semibold">
+            <div className="flex items-center gap-2 font-mono-tech text-[11px] text-cyan-400 uppercase font-bold">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>FIELD VERIFICATION // {selectedTech.name}</span>
             </div>
-            <p className="text-[13.5px] text-[var(--text-secondary)]">
+            <p className="text-[13.5px] text-slate-300">
               {selectedTech.note}
             </p>
           </div>
           <button
             type="button"
             onClick={() => setSelectedTech(null)}
-            className="text-[11px] font-mono-tech text-[var(--text-muted)] hover:text-[var(--text-primary)] uppercase shrink-0 cursor-pointer"
+            className="text-[11px] font-mono-tech text-slate-400 hover:text-white uppercase shrink-0 cursor-pointer"
           >
             [CLOSE]
           </button>

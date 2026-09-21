@@ -23,6 +23,24 @@ import Modals from './components/Modals';
 export default function PortfolioLanding() {
   const [activeModal, setActiveModal] = useState(null); // 'cv' | 'spec' | null
   const [selectedSpec, setSelectedSpec] = useState(null);
+  
+  // Theme state: default to 'light' (clean light background with dark accents)
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('portfolio-theme') || 'light';
+  });
+
+  React.useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const handleExplore = () => {
     const el = document.getElementById('systems');
@@ -42,19 +60,23 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0E1217] text-[#F1F4F7] font-sans-system antialiased selection:bg-[#16D9E8]/20 selection:text-[#16D9E8]">
+    <div className="relative min-h-screen bg-[var(--bg-system)] text-[var(--text-primary)] font-sans-system antialiased selection:bg-[var(--accent-cyan)]/20 selection:text-[var(--accent-cyan)] transition-colors duration-250">
       {/* 1. Living Connected Network Background (Canvas) */}
-      <ConnectedNetworkBackground />
+      <ConnectedNetworkBackground theme={theme} />
 
       {/* 2. Main Site Landmarks (Z-Index 10 above background) */}
       <div className="relative z-10 flex flex-col min-h-screen">
         
-        {/* Navigation: RAJAT BEHERA | WORK ABOUT CONTACT */}
-        <Navbar onOpenCV={() => setActiveModal('cv')} />
+        {/* Navigation: RAJAT BEHERA | WORK ABOUT CONTACT + Theme Switcher */}
+        <Navbar 
+          onOpenCV={() => setActiveModal('cv')} 
+          theme={theme}
+          onToggleTheme={toggleTheme}
+        />
 
         <main className="flex-1 w-full">
           {/* Hero: Sequential entrance + HeroSystemVisual */}
-          <Hero onExplore={handleExplore} />
+          <Hero onExplore={handleExplore} theme={theme} />
 
           {/* Projects: SYSTEMS I HAVE BUILT + Signal flow on hover */}
           <Projects onOpenSpec={handleOpenSpec} />

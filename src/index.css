@@ -2,18 +2,48 @@
 
 @layer base {
   :root {
+    /* Default: Clean Light Engineering Canvas with High-Contrast Dark Accents */
+    --bg-system: #F8FAFC;
+    --bg-system-alt: #F1F5F9;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #FFFFFF;
+    --bg-dark-accent: #0F172A;
+    --bg-dark-accent-hover: #1E293B;
+    --border-subtle: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --border-dark: #0F172A;
+    --accent-cyan: #0284C7;
+    --accent-cyan-light: #0EA5E9;
+    --accent-cyan-subtle: rgba(2, 132, 199, 0.08);
+    --accent-cyan-border: rgba(2, 132, 199, 0.35);
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --radius-system: 8px;
+    --panel-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 14px -2px rgba(15, 23, 42, 0.05);
+    --panel-shadow-hover: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 0 12px rgba(2, 132, 199, 0.12);
+  }
+
+  .dark {
+    /* Dark Theme Override */
     --bg-system: #0E1217;
+    --bg-system-alt: #141A21;
     --bg-surface: #141A21;
     --bg-surface-elevated: #181F27;
+    --bg-dark-accent: #141A21;
+    --bg-dark-accent-hover: #181F27;
     --border-subtle: #29323C;
     --border-strong: rgba(41, 50, 60, 0.85);
+    --border-dark: #29323C;
     --accent-cyan: #16D9E8;
+    --accent-cyan-light: #38BDF8;
     --accent-cyan-subtle: rgba(22, 217, 232, 0.09);
     --accent-cyan-border: rgba(22, 217, 232, 0.35);
     --text-primary: #F1F4F7;
     --text-secondary: #9AA5B1;
     --text-muted: #627080;
-    --radius-system: 8px;
+    --panel-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    --panel-shadow-hover: 0 8px 28px -2px rgba(0, 0, 0, 0.5), 0 0 16px rgba(22, 217, 232, 0.15);
   }
 
   html {
@@ -29,12 +59,19 @@
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
-/* Subtle Technical Grid Overlay on Graphite */
+/* Subtle Technical Grid Overlay adapted for light and dark */
 .technical-grid {
   background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.dark .technical-grid {
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
@@ -49,18 +86,27 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Restrained graphite surfaces */
+/* Engineered surfaces */
 .system-panel {
-  background-color: rgba(20, 26, 33, 0.78);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-system);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+  box-shadow: var(--panel-shadow);
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .system-panel:hover {
   border-color: var(--accent-cyan-border);
+  box-shadow: var(--panel-shadow-hover);
+}
+
+/* High-contrast dark engineering console / terminal block */
+.dark-tech-panel {
+  background-color: #0F172A;
+  border: 1px solid #1E293B;
+  color: #F8FAFC;
+  border-radius: var(--radius-system);
+  box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.22);
 }
 
 /* Restrained, slow status node pulse */
