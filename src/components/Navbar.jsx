@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 /**
  * Minimal Professional Navigation Bar
@@ -106,10 +106,9 @@ export default function Navbar({ onConnectClick }) {
           <a
             href="mailto:rajat.behera@example.com"
             onClick={onConnectClick}
-            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-semibold tracking-tight text-[#111827] bg-white border border-[#DCE5F0] hover:border-[#146BFF]/50 hover:text-[#146BFF] hover:shadow-[0_2px_8px_rgba(20,107,255,0.08)] active:scale-[0.98] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF]"
+            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13.5px] font-semibold tracking-tight text-[#111827] bg-white border border-[#DCE5F0] hover:border-[#146BFF]/50 hover:text-[#146BFF] hover:shadow-[0_2px_8px_rgba(20,107,255,0.08)] active:scale-[0.98] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF]"
           >
-            <span>Let's Connect</span>
-            <ArrowUpRight className="w-4 h-4 text-[#146BFF] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <span>Let's Connect ↗</span>
           </a>
 
           {/* Mobile menu toggle */}
@@ -156,10 +155,9 @@ export default function Navbar({ onConnectClick }) {
               <a
                 href="mailto:rajat.behera@example.com"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[14px] font-semibold text-white bg-[#146BFF] hover:bg-[#146BFF]/90 transition-all shadow-sm"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-[14px] font-semibold text-white bg-[#146BFF] hover:bg-[#146BFF]/90 transition-all shadow-sm"
               >
-                <span>Let's Connect</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <span>Let's Connect ↗</span>
               </a>
             </div>
           </motion.div>
