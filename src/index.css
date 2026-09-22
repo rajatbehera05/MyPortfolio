@@ -2,111 +2,73 @@
 
 @layer base {
   :root {
-    /* Exact Approved Color System */
-    --bg-system: #F7F9FC;
-    --text-primary: #111827;
-    --text-secondary: #667085;
-    --primary-blue: #146BFF;
-    --secondary-blue: #4DA3FF;
-    --bg-surface: #FFFFFF;
-    --bg-surface-subtle: #EEF5FF;
-    --border-subtle: #DCE5F0;
+    /* Sophisticated Dark Engineering & AI Lab Palette */
+    --bg-base: #0A0D10;
+    --bg-surface: #0F1419;
+    --bg-surface-elevated: #141A21;
+    --bg-surface-hover: #1A222B;
+    --border-subtle: #1A222B;
+    --border-strong: #232D36;
+
+    --text-primary: #F4F7FA;
+    --text-secondary: #AAB5C0;
+    --text-muted: #71808D;
+
+    --accent-cyan: #16D9E8;
+    --accent-blue: #3B82F6;
+
     --radius-system: 10px;
-    --card-shadow: 0 1px 2px rgba(17, 24, 39, 0.03), 0 10px 28px -6px rgba(20, 107, 255, 0.04);
-    --card-shadow-hover: 0 4px 14px rgba(17, 24, 39, 0.06), 0 16px 36px -8px rgba(20, 107, 255, 0.08);
   }
 
   html {
     scroll-behavior: smooth;
-    font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-system);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-base);
     color: var(--text-primary);
   }
 
   body {
-    background-color: var(--bg-system);
+    background-color: var(--bg-base);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
-    font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
-/* Subtle Technical Atmosphere: Extremely faint grid and soft blue haze */
-.faint-technical-grid {
-  background-size: 56px 56px;
-  background-image: 
-    linear-gradient(to right, rgba(20, 107, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(20, 107, 255, 0.03) 1px, transparent 1px);
-}
-
-/* Typography tokens */
-.font-sans-main {
-  font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+/* Typographic utilities */
+.font-sans-editorial {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .font-mono-tech {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Premium Product Card Surfaces */
-.product-card {
-  background-color: var(--bg-surface);
+/* Atmospheric Hairline Grid (Quiet & low-contrast) */
+.quiet-structural-grid {
+  background-size: 64px 64px;
+  background-image: 
+    linear-gradient(to right, rgba(35, 45, 54, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(35, 45, 54, 0.25) 1px, transparent 1px);
+}
+
+/* High-precision engineered surfaces */
+.surface-monolith {
+  background: linear-gradient(180deg, #141A21 0%, #0F1419 100%);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-system);
-  box-shadow: var(--card-shadow);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.product-card:hover {
-  border-color: rgba(20, 107, 255, 0.35);
-  box-shadow: var(--card-shadow-hover);
+.surface-monolith:hover {
+  border-color: var(--border-strong);
 }
 
-/* Understated Status Pulse */
-@keyframes subtlePulse {
+/* Calm Pulse Keyframes */
+@keyframes calmSignalPulse {
   0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.92);
-  }
-}
-
-.animate-subtle-pulse {
-  animation: subtlePulse 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Engineered surfaces */
-.system-panel {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-system);
-  box-shadow: var(--panel-shadow);
-  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.system-panel:hover {
-  border-color: var(--accent-cyan-border);
-  box-shadow: var(--panel-shadow-hover);
-}
-
-/* High-contrast dark engineering console / terminal block */
-.dark-tech-panel {
-  background-color: #0F172A;
-  border: 1px solid #1E293B;
-  color: #F8FAFC;
-  border-radius: var(--radius-system);
-  box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.22);
-}
-
-/* Restrained, slow status node pulse */
-@keyframes restrainedPulse {
-  0%, 100% {
-    opacity: 1;
+    opacity: 0.9;
     transform: scale(1);
   }
   50% {
@@ -115,67 +77,8 @@
   }
 }
 
-.animate-node-pulse {
-  animation: restrainedPulse 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Slow radar sweep rotation */
-@keyframes radarSweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-radar-sweep {
-  transform-origin: center;
-  animation: radarSweep 18s linear infinite;
-}
-
-/* Signal travel along project topology */
-@keyframes signalTravel {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.animate-signal-flow {
-  animation: signalTravel 2.4s ease-in-out infinite;
-}
-
-/* Fast data ping pulse for interactive click */
-@keyframes fastPing {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.animate-fast-ping {
-  animation: fastPing 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+.animate-calm-pulse {
+  animation: calmSignalPulse 3.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Respect Reduced Motion */

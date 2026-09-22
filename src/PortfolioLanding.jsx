@@ -1,51 +1,46 @@
 import React from 'react';
+import ConnectedNetworkBackground from './components/ConnectedNetworkBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 
 /**
- * Portfolio Landing Page — PHASE 1: FIRST VIEWPORT ONLY
+ * Portfolio Landing Page — FIRST VIEWPORT
  * 
- * Core Identity:
+ * Identity:
  * - Rajat Behera
- * - Computer Science Engineer · IoT · AI
- * - "I build intelligent systems that connect software, data and the physical world."
- * - "Software engineering, connected systems, embedded technology and emerging AI."
+ * - Computer Science Engineer · CSE • IoT • AI
+ * - "I build intelligent systems where software, models, and physical hardware converge."
  * 
- * Visual Direction:
- * - LIGHT + FUTURISTIC + PREMIUM + ENGINEERING
- * - Background: #F7F9FC
- * - Primary text: #111827
- * - Secondary text: #667085
- * - Primary blue: #146BFF
- * - Secondary blue: #4DA3FF
- * - Borders: #DCE5F0
- * - Refined Apple/Microsoft-grade engineering product presentation
+ * Creative Direction:
+ * - Apple Product Launch × High-End Engineering Laboratory
+ * - Visual Centerpiece: The Convergence Engine
  */
 export default function PortfolioLanding() {
   const handleExplore = () => {
-    // Phase 1: placeholder action for CTA exploration
     const el = document.getElementById('home');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const handleAbout = () => {
-    // Phase 1: placeholder action for About CTA
-    window.location.href = 'mailto:rajat.behera@example.com?subject=Inquiry%20from%20Portfolio';
+  const handleConnect = () => {
+    window.location.href = 'mailto:rajat.behera@example.com?subject=Engineering%20Inquiry%20via%20Portfolio';
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F7F9FC] text-[#111827] font-sans-main antialiased selection:bg-[#146BFF]/15 selection:text-[#146BFF]">
+    <div className="relative min-h-screen bg-[#0A0D10] text-[#F4F7FA] font-sans-editorial antialiased selection:bg-[#16D9E8]/20 selection:text-[#16D9E8]">
       
-      {/* 1. Minimal Professional Navigation Bar */}
-      <Navbar onConnectClick={handleAbout} />
+      {/* 1. Atmospheric Deep Background with Calm Volumetric Illumination */}
+      <ConnectedNetworkBackground />
 
-      {/* 2. Hero Section (First Viewport Only) */}
-      <main className="w-full">
+      {/* 2. Minimal Editorial Navigation Bar */}
+      <Navbar onConnectClick={handleConnect} />
+
+      {/* 3. Hero Section (First Viewport Only) */}
+      <main className="relative z-10 w-full">
         <Hero
           onExplore={handleExplore}
-          onAbout={handleAbout}
+          onAbout={handleConnect}
         />
       </main>
 

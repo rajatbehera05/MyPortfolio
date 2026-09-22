@@ -3,36 +3,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 /**
- * Minimal Professional Navigation Bar
+ * Minimal Editorial Navigation
  * 
- * Specifications:
- * - Left: "RB" simple personal monogram
- * - Center: Home (with subtle blue active indicator), Work, About, Tech, Blog
- * - Right: "Let's Connect →"
- * - Thin, clean, spacious
- * - Extremely subtle scroll elevation with blur
- * - Collapsible mobile menu
- * - Entrance timing: fades in at 0.2s
+ * Requirements:
+ * - Logo: RB
+ * - Links: WORK, ABOUT, TECH, EXPLORING
+ * - CTA: LET'S CONNECT
+ * - Generous spacing, subtle scroll blur & hairline border
  */
 export default function Navbar({ onConnectClick }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeItem, setActiveItem] = useState('Home');
+  const [activeItem, setActiveItem] = useState('WORK');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Work', href: '#work' },
-    { name: 'About', href: '#about' },
-    { name: 'Tech', href: '#tech' },
-    { name: 'Blog', href: '#blog' },
+    { name: 'WORK', href: '#work' },
+    { name: 'ABOUT', href: '#about' },
+    { name: 'TECH', href: '#tech' },
+    { name: 'EXPLORING', href: '#exploring' },
   ];
 
   const handleNavClick = (e, name) => {
@@ -42,98 +38,96 @@ export default function Navbar({ onConnectClick }) {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#F7F9FC]/85 backdrop-blur-md border-b border-[#DCE5F0]/80 shadow-[0_2px_14px_rgba(17,24,39,0.03)]'
+          ? 'bg-[#0A0D10]/85 backdrop-blur-md border-b border-[#1A222B] shadow-[0_4px_24px_rgba(0,0,0,0.5)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-10 h-18 flex items-center justify-between">
+      <div className="max-w-[1380px] mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
         
-        {/* Left: Personal Monogram "RB" */}
+        {/* Left: Clean Architectural Monogram "RB" */}
         <a
           href="#home"
-          onClick={(e) => handleNavClick(e, 'Home')}
-          className="group inline-flex items-center gap-2.5 text-inherit no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF] rounded-lg p-1"
+          onClick={(e) => handleNavClick(e, 'WORK')}
+          className="group inline-flex items-center gap-3.5 no-underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8] rounded-md p-1"
           aria-label="Rajat Behera Home"
         >
-          <div className="w-8 h-8 rounded-lg bg-[#EEF5FF] border border-[#DCE5F0] flex items-center justify-center transition-all duration-200 group-hover:border-[#146BFF]/40 group-hover:bg-[#EEF5FF]/90">
-            <span className="font-mono-tech text-[12px] font-bold tracking-tight text-[#146BFF]">
+          <div className="w-8 h-8 rounded bg-[#141A21] border border-[#1A222B] flex items-center justify-center transition-colors group-hover:border-[#16D9E8]/40">
+            <span className="font-mono-tech text-[12px] font-semibold tracking-wider text-[#F4F7FA]">
               RB
             </span>
           </div>
-          <span className="text-[14px] font-semibold text-[#111827] tracking-tight group-hover:text-[#146BFF] transition-colors hidden sm:inline">
+          <span className="text-[13.5px] font-medium text-[#AAB5C0] tracking-tight group-hover:text-[#F4F7FA] transition-colors hidden sm:inline font-sans-editorial">
             Rajat Behera
           </span>
         </a>
 
-        {/* Center Navigation Links (Desktop) */}
-        <nav
-          aria-label="Main Navigation"
-          className="hidden md:flex items-center gap-8 text-[14px] font-medium"
-        >
-          {navLinks.map((link) => {
-            const isActive = activeItem === link.name;
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.name)}
-                className={`relative py-1 transition-colors duration-200 ${
-                  isActive
-                    ? 'text-[#146BFF] font-semibold'
-                    : 'text-[#667085] hover:text-[#111827]'
-                }`}
-              >
-                <span>{link.name}</span>
-                {isActive && (
-                  <motion.span
-                    layoutId="activeNavIndicator"
-                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#146BFF]"
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </a>
-            );
-          })}
-        </nav>
+        {/* Center / Right: Editorial Navigation Links */}
+        <div className="hidden md:flex items-center gap-10">
+          <nav
+            aria-label="Main Navigation"
+            className="flex items-center gap-8 text-[12.5px] font-mono-tech tracking-widest"
+          >
+            {navLinks.map((link) => {
+              const isActive = activeItem === link.name;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.name)}
+                  className={`relative py-1 transition-colors duration-200 uppercase ${
+                    isActive
+                      ? 'text-[#F4F7FA] font-medium'
+                      : 'text-[#71808D] hover:text-[#AAB5C0]'
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  {isActive && (
+                    <span className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#16D9E8] opacity-80" />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
 
-        {/* Right: CTA & Mobile Hamburger */}
-        <div className="flex items-center gap-4">
+          {/* Minimalist Action: LET'S CONNECT */}
           <a
             href="mailto:rajat.behera@example.com"
             onClick={onConnectClick}
-            className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13.5px] font-semibold tracking-tight text-[#111827] bg-white border border-[#DCE5F0] hover:border-[#146BFF]/50 hover:text-[#146BFF] hover:shadow-[0_2px_8px_rgba(20,107,255,0.08)] active:scale-[0.98] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#146BFF]"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded text-[12.5px] font-mono-tech tracking-wider text-[#F4F7FA] bg-[#141A21] border border-[#1A222B] hover:border-[#16D9E8]/50 hover:text-[#16D9E8] hover:bg-[#1A222B] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
           >
-            <span>Let's Connect ↗</span>
+            <span>LET'S CONNECT</span>
+            <span className="text-[#16D9E8] text-[11px]">→</span>
           </a>
+        </div>
 
-          {/* Mobile menu toggle */}
+        {/* Mobile Toggle */}
+        <div className="md:hidden flex items-center">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-[#667085] hover:text-[#111827] hover:bg-[#EEF5FF] border border-[#DCE5F0] transition-colors focus-visible:outline-none cursor-pointer"
+            className="p-2 rounded text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#141A21] border border-[#1A222B] transition-colors focus-visible:outline-none cursor-pointer"
             aria-label="Toggle Menu"
-            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 text-[#16D9E8]" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden bg-[#F7F9FC]/98 backdrop-blur-lg border-b border-[#DCE5F0] px-6 py-5 shadow-lg space-y-4"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#0F1419]/95 backdrop-blur-xl border-b border-[#1A222B] px-6 py-6 space-y-4"
           >
             <nav className="flex flex-col space-y-3">
               {navLinks.map((link) => (
@@ -141,23 +135,20 @@ export default function Navbar({ onConnectClick }) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.name)}
-                  className={`text-[15px] font-medium py-1 transition-colors ${
-                    activeItem === link.name
-                      ? 'text-[#146BFF] font-semibold'
-                      : 'text-[#667085] hover:text-[#111827]'
-                  }`}
+                  className="text-[13px] font-mono-tech tracking-wider py-1.5 text-[#AAB5C0] hover:text-[#F4F7FA] transition-colors uppercase"
                 >
                   {link.name}
                 </a>
               ))}
             </nav>
-            <div className="pt-2 border-t border-[#DCE5F0]">
+            <div className="pt-3 border-t border-[#1A222B]">
               <a
                 href="mailto:rajat.behera@example.com"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-[14px] font-semibold text-white bg-[#146BFF] hover:bg-[#146BFF]/90 transition-all shadow-sm"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded text-[13px] font-mono-tech tracking-wider text-[#0A0D10] bg-[#F4F7FA] hover:bg-[#16D9E8] transition-colors"
               >
-                <span>Let's Connect ↗</span>
+                <span>LET'S CONNECT</span>
+                <span>→</span>
               </a>
             </div>
           </motion.div>
