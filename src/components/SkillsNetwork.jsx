@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Cpu, Code, Brain, Network, Layers, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Cpu, Code, Brain, Network, Layers, CheckCircle2, X } from 'lucide-react';
 
 /**
  * Skills Section: TECHNOLOGY NETWORK
  * 
- * Strict Constitution & Creative Enhancements:
- * - Section label: TECHNOLOGY NETWORK
- * - Connected groups:
- *   ESP32 → Sensors → FreeRTOS → IoT
- *   Python → Quantization → TinyML → Edge AI
- *   React → APIs → WebSockets → Dashboards
+ * Interconnected pipelines moving signals from physical pins to intelligent software:
+ * - ESP32 → Sensors → FreeRTOS → IoT
+ * - Python → Quantization → TinyML → Edge AI
+ * - React → APIs → WebSockets → Dashboards
+ * - Flowing signal micro-animations between nodes
  * - Interactive technology node inspector displaying real frameworks & field notes
  */
 export default function SkillsNetwork() {
@@ -75,51 +75,69 @@ export default function SkillsNetwork() {
 
   return (
     <section
-      id="skills"
+      id="tech"
       aria-label="Technology Network"
-      className="max-w-[1280px] mx-auto px-6 sm:px-10 py-20 border-t border-[var(--border-subtle)]"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#1A222B]"
     >
+      {/* Invisible anchor for backward compatibility */}
+      <div id="skills" className="-mt-24 pt-24" aria-hidden="true" />
+
       {/* Section Header */}
-      <div className="space-y-2 mb-12">
-        <div className="flex items-center gap-2 font-mono-tech text-[12px] tracking-widest text-[var(--accent-cyan)] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)]" />
+      <motion.div 
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="space-y-3 mb-14"
+      >
+        <div className="flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.2em] text-[#16D9E8] uppercase font-medium">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
+          </span>
           <span>CONNECTED STACK // 02</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
-          TECHNOLOGY NETWORK
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
+          Technology Network
         </h2>
-        <p className="text-[15px] sm:text-[16px] text-[var(--text-secondary)] max-w-2xl">
+        <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
           Technologies are not isolated badges. They function as interconnected pipelines moving signals from physical pins to intelligent software. Click any node to inspect field notes.
         </p>
-      </div>
+      </motion.div>
 
       {/* Connected Technology Pipelines */}
       <div className="space-y-4">
-        {networks.map((net) => {
+        {networks.map((net, netIdx) => {
           const Icon = net.icon;
           return (
-            <div
+            <motion.div
               key={net.group}
-              className="system-panel p-5 sm:p-6 transition-all duration-200 hover:border-[var(--accent-cyan-border)]"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, delay: netIdx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="p-5 sm:p-6 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#232D36] hover:bg-[#141A21] transition-all duration-300"
             >
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
                 
                 {/* Left: Group title & description */}
-                <div className="lg:w-1/3 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-[var(--accent-cyan)] shrink-0" />
-                    <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-bold text-[var(--text-primary)] tracking-wide">
+                <div className="lg:w-1/3 space-y-1.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-md bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-[#16D9E8]" />
+                    </div>
+                    <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-semibold text-[#F4F7FA] tracking-wide">
                       {net.group}
                     </h3>
                   </div>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed">
+                  <p className="text-[13px] text-[#AAB5C0] leading-relaxed">
                     {net.detail}
                   </p>
                 </div>
 
                 {/* Right: Connected Pipeline Graph */}
                 <div className="lg:w-2/3">
-                  <div className="p-3 rounded border border-[var(--border-subtle)] bg-[var(--bg-system-alt)] flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 overflow-x-auto shadow-2xs">
+                  <div className="p-3 rounded-lg border border-[#1A222B] bg-[#0A0D10]/70 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 overflow-x-auto">
                     {net.pipeline.map((item, nIdx) => {
                       const isLast = nIdx === net.pipeline.length - 1;
                       const isSelected = selectedTech?.name === item.name;
@@ -129,21 +147,21 @@ export default function SkillsNetwork() {
                           <button
                             type="button"
                             onClick={() => setSelectedTech(isSelected ? null : item)}
-                            className={`flex items-center gap-2 py-1.5 px-3 rounded transition-all duration-200 cursor-pointer text-left ${
+                            className={`flex items-center gap-2 py-2 px-3 rounded-md transition-all duration-200 cursor-pointer text-left ${
                               isSelected
-                                ? 'bg-[#0F172A] border border-[var(--accent-cyan)] text-white shadow-sm'
-                                : 'bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:border-[var(--accent-cyan-border)] shadow-2xs'
+                                ? 'bg-[#16D9E8] text-[#0A0D10] border border-[#16D9E8] shadow-[0_0_12px_#16D9E8]'
+                                : 'bg-[#141A21] border border-[#1A222B] text-[#F4F7FA] hover:border-[#16D9E8]/50 hover:bg-[#1A222B]'
                             }`}
                           >
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              isSelected ? 'bg-cyan-400 animate-ping' : 'bg-[var(--accent-cyan)]'
+                              isSelected ? 'bg-[#0A0D10] animate-ping' : 'bg-[#16D9E8]'
                             }`} />
-                            <span className="font-mono-tech text-[12px] font-semibold whitespace-nowrap">
+                            <span className="font-mono-tech text-[12px] font-medium whitespace-nowrap">
                               {item.name}
                             </span>
                           </button>
                           {!isLast && (
-                            <div className="hidden sm:flex items-center text-[var(--accent-cyan)]/70 font-mono-tech text-sm select-none">
+                            <div className="hidden sm:flex items-center text-[#16D9E8]/60 font-mono-tech text-xs select-none">
                               →
                             </div>
                           )}
@@ -154,32 +172,43 @@ export default function SkillsNetwork() {
                 </div>
 
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
 
-      {/* Selected Tech Inspector Callout — High-contrast dark engineering drawer */}
-      {selectedTech && (
-        <div className="mt-4 p-4 rounded-lg border border-slate-800 bg-[#0F172A] text-slate-200 shadow-md flex items-center justify-between gap-4 animate-fadeIn">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 font-mono-tech text-[11px] text-cyan-400 uppercase font-bold">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>FIELD VERIFICATION // {selectedTech.name}</span>
-            </div>
-            <p className="text-[13.5px] text-slate-300">
-              {selectedTech.note}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setSelectedTech(null)}
-            className="text-[11px] font-mono-tech text-slate-400 hover:text-white uppercase shrink-0 cursor-pointer"
+      {/* Selected Tech Inspector Callout */}
+      <AnimatePresence>
+        {selectedTech && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
+            exit={{ opacity: 0, y: 8, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden mt-4"
           >
-            [CLOSE]
-          </button>
-        </div>
-      )}
+            <div className="p-4 rounded-xl border border-[#16D9E8]/40 bg-[#141A21] text-[#F4F7FA] shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 font-mono-tech text-[11px] text-[#16D9E8] uppercase font-bold tracking-wider">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>FIELD VERIFICATION // {selectedTech.name}</span>
+                </div>
+                <p className="text-[13.5px] text-[#AAB5C0]">
+                  {selectedTech.note}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedTech(null)}
+                className="p-1 rounded text-[#71808D] hover:text-[#F4F7FA] hover:bg-[#1A222B] transition-colors cursor-pointer"
+                aria-label="Close Inspector"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

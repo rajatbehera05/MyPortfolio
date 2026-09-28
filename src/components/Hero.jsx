@@ -87,19 +87,23 @@ export default function Hero({ onExplore, onAbout }) {
               <button
                 type="button"
                 onClick={onExplore}
-                className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#F4F7FA] bg-[#141A21] border border-[#232D36] hover:border-[#16D9E8]/60 hover:bg-[#1A222B] transition-all duration-200 cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
+                className="group relative overflow-hidden inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#F4F7FA] bg-[#141A21] border border-[#232D36] hover:border-[#16D9E8]/70 hover:shadow-[0_0_24px_rgba(22,217,232,0.18)] transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
               >
-                <span>EXPLORE WORK</span>
-                <ArrowRight className="w-4 h-4 text-[#16D9E8] transition-transform duration-200 group-hover:translate-x-1" />
+                {/* Shimmer light sweep */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div className="w-full h-full animate-shimmer" />
+                </div>
+                <span className="relative z-10 font-semibold">EXPLORE WORK</span>
+                <ArrowRight className="relative z-10 w-4 h-4 text-[#16D9E8] transition-transform duration-200 group-hover:translate-x-1.5" />
               </button>
 
               {/* Secondary Action */}
               <button
                 type="button"
                 onClick={onAbout}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#AAB5C0] hover:text-[#F4F7FA] bg-transparent border border-[#1A222B] hover:border-[#232D36] hover:bg-[#0F1419] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#0F1419]/80 hover:bg-[#141A21] border border-[#1A222B] hover:border-[#232D36] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
               >
-                <Layers className="w-3.5 h-3.5 text-[#71808D]" />
+                <Layers className="w-3.5 h-3.5 text-[#16D9E8]" />
                 <span>SYSTEM SPECIFICATIONS</span>
               </button>
             </motion.div>

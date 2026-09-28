@@ -77,8 +77,88 @@
   }
 }
 
+@keyframes scanlineSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shimmerBeam {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes conduitStream {
+  0% {
+    stroke-dashoffset: 60;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 .animate-calm-pulse {
   animation: calmSignalPulse 3.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-scanline {
+  animation: scanlineSweep 2.2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(22, 217, 232, 0.15), transparent);
+  background-size: 200% 100%;
+  animation: shimmerBeam 2.5s infinite;
+}
+
+.animate-cursor {
+  animation: cursorBlink 1s step-end infinite;
+}
+
+/* System Panel Card Utilities */
+.system-panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-system);
+}
+
+.system-panel:hover {
+  border-color: var(--border-strong);
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1A222B;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #232D36;
 }
 
 /* Respect Reduced Motion */
@@ -92,3 +172,4 @@
     scroll-behavior: auto !important;
   }
 }
+

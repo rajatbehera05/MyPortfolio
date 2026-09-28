@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, ArrowUpRight, Terminal, CheckCircle2, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Mail, ArrowUpRight, Terminal, CheckCircle2, FileText, Send } from 'lucide-react';
 
 function GithubIcon({ className = "w-5 h-5" }) {
   return (
@@ -22,10 +23,7 @@ function LinkedinIcon({ className = "w-5 h-5" }) {
 /**
  * Contact & System Interface Component
  * 
- * Strict Constitution & Enhancement Guidelines:
- * - Minimal, technical, graphite surfaces with #29323C borders
- * - Direct contact triggers (Email, GitHub, LinkedIn, CV Spec)
- * - Clean terminal transmission status
+ * Direct contact triggers (Email, GitHub, LinkedIn, CV Spec) and terminal transmission form.
  */
 export default function Contact({ onOpenCV }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -44,46 +42,61 @@ export default function Contact({ onOpenCV }) {
     <section
       id="contact"
       aria-label="Direct System Interface"
-      className="max-w-[1280px] mx-auto px-6 sm:px-10 py-20 border-t border-[var(--border-subtle)]"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#1A222B]"
     >
       {/* Section Header */}
-      <div className="space-y-2 mb-12">
-        <div className="flex items-center gap-2 font-mono-tech text-[12px] tracking-widest text-[var(--accent-cyan)] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)]" />
-          <span>DIRECT TRANSMISSION</span>
+      <motion.div 
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="space-y-3 mb-14"
+      >
+        <div className="flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.2em] text-[#16D9E8] uppercase font-medium">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
+          </span>
+          <span>DIRECT TRANSMISSION // 04</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
-          INITIATE CONNECTION
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
+          Initiate Connection
         </h2>
-        <p className="text-[15px] sm:text-[16px] text-[var(--text-secondary)] max-w-2xl">
+        <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
           Available for Summer 2026 Systems &amp; IoT Engineering Internships, embedded systems collaborations, and technical research conversations.
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Direct Channels */}
-        <div className="lg:col-span-5 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="lg:col-span-5 space-y-3.5"
+        >
           
           {/* Channel: Email */}
           <a
             href="mailto:rajat.behera@example.com"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
+            className="p-5 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center text-[#16D9E8] group-hover:scale-105 transition-transform shrink-0">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
+                <div className="text-[11px] font-mono-tech text-[#71808D] uppercase font-medium">
                   DIRECT TRANSMISSION
                 </div>
-                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-semibold text-[#F4F7FA] group-hover:text-[#16D9E8] transition-colors">
                   rajat.behera@example.com
                 </div>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-[#71808D] group-hover:text-[#16D9E8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Channel: GitHub */}
@@ -91,22 +104,22 @@ export default function Contact({ onOpenCV }) {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
+            className="p-5 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center text-[#16D9E8] group-hover:scale-105 transition-transform shrink-0">
                 <GithubIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
+                <div className="text-[11px] font-mono-tech text-[#71808D] uppercase font-medium">
                   REPOSITORIES &amp; FIRMWARE
                 </div>
-                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-semibold text-[#F4F7FA] group-hover:text-[#16D9E8] transition-colors">
                   github.com/rajat-behera
                 </div>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-[#71808D] group-hover:text-[#16D9E8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Channel: LinkedIn */}
@@ -114,75 +127,86 @@ export default function Contact({ onOpenCV }) {
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="system-panel p-5 flex items-center justify-between group transition-all duration-200 block text-inherit no-underline bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
+            className="p-5 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center text-[#16D9E8] group-hover:scale-105 transition-transform shrink-0">
                 <LinkedinIcon className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
+                <div className="text-[11px] font-mono-tech text-[#71808D] uppercase font-medium">
                   PROFESSIONAL NETWORK
                 </div>
-                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-semibold text-[#F4F7FA] group-hover:text-[#16D9E8] transition-colors">
                   linkedin.com/in/rajat-behera
                 </div>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-[#71808D] group-hover:text-[#16D9E8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </a>
 
           {/* Channel: CV Spec */}
           <button
             type="button"
             onClick={onOpenCV}
-            className="w-full system-panel p-5 flex items-center justify-between group transition-all duration-200 text-left cursor-pointer bg-[var(--bg-surface)] hover:border-[var(--accent-cyan-border)] shadow-2xs"
+            className="w-full p-5 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] flex items-center justify-between group transition-all duration-300 text-left cursor-pointer"
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-md bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--accent-cyan)] group-hover:bg-[#0F172A] group-hover:text-cyan-400 group-hover:border-slate-800 transition-all shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center text-[#16D9E8] group-hover:scale-105 transition-transform shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-[11px] font-mono-tech text-[var(--text-muted)] uppercase font-medium">
+                <div className="text-[11px] font-mono-tech text-[#71808D] uppercase font-medium">
                   COMPLETE DOSSIER
                 </div>
-                <div className="text-[14px] font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                <div className="text-[14px] font-semibold text-[#F4F7FA] group-hover:text-[#16D9E8] transition-colors">
                   Download Curriculum Vitae (PDF)
                 </div>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+            <ArrowUpRight className="w-4 h-4 text-[#71808D] group-hover:text-[#16D9E8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
           </button>
 
-        </div>
+        </motion.div>
 
         {/* Right Column: Transmission Form */}
-        <div className="lg:col-span-7 system-panel p-6 sm:p-8 space-y-6 bg-[var(--bg-surface)] shadow-sm">
-          <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-3">
-            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[var(--text-primary)] font-bold">
-              <Terminal className="w-4 h-4 text-[var(--accent-cyan)]" />
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="lg:col-span-7 p-6 sm:p-8 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 space-y-6 shadow-xl"
+        >
+          <div className="flex items-center justify-between border-b border-[#1A222B] pb-3">
+            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[#F4F7FA] font-bold">
+              <Terminal className="w-4 h-4 text-[#16D9E8]" />
               <span>TERMINAL_MSG_DISPATCH</span>
+              <span className="animate-cursor text-[#16D9E8]">_</span>
             </div>
-            <span className="font-mono-tech text-[10px] text-[var(--accent-cyan)] uppercase font-semibold">
+            <span className="font-mono-tech text-[10px] text-[#16D9E8] uppercase font-semibold">
               PORT // 443 SECURE
             </span>
           </div>
 
           {transmitted ? (
-            <div className="p-8 text-center space-y-3">
-              <CheckCircle2 className="w-10 h-10 text-[var(--accent-cyan)] mx-auto animate-node-pulse" />
-              <h3 className="text-xl font-bold text-[var(--text-primary)] font-mono-tech">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-8 text-center space-y-3"
+            >
+              <CheckCircle2 className="w-12 h-12 text-[#16D9E8] mx-auto animate-bounce" />
+              <h3 className="text-xl font-bold text-[#F4F7FA] font-mono-tech">
                 PACKET TRANSMITTED
               </h3>
-              <p className="text-[14px] text-[var(--text-secondary)] font-mono-tech">
+              <p className="text-[14px] text-[#AAB5C0] font-mono-tech">
                 Opening default mail client with encoded telemetry payload...
               </p>
-            </div>
+            </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="form-name" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
+                  <label htmlFor="form-name" className="block font-mono-tech text-[11px] text-[#71808D] uppercase font-medium">
                     Sender Name / Organization
                   </label>
                   <input
@@ -192,12 +216,12 @@ export default function Contact({ onOpenCV }) {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Dr. Alex Vance"
-                    className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#0A0D10] border border-[#1A222B] text-[14px] text-[#F4F7FA] placeholder-[#71808D] focus:border-[#16D9E8] focus:shadow-[0_0_12px_rgba(22,217,232,0.2)] focus:outline-none transition-all"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="form-email" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
+                  <label htmlFor="form-email" className="block font-mono-tech text-[11px] text-[#71808D] uppercase font-medium">
                     Return Transmission Address
                   </label>
                   <input
@@ -207,13 +231,13 @@ export default function Contact({ onOpenCV }) {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. name@domain.com"
-                    className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#0A0D10] border border-[#1A222B] text-[14px] text-[#F4F7FA] placeholder-[#71808D] focus:border-[#16D9E8] focus:shadow-[0_0_12px_rgba(22,217,232,0.2)] focus:outline-none transition-all"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="form-msg" className="block font-mono-tech text-[11px] text-[var(--text-muted)] uppercase font-medium">
+                <label htmlFor="form-msg" className="block font-mono-tech text-[11px] text-[#71808D] uppercase font-medium">
                   Message Payload / Scope
                 </label>
                 <textarea
@@ -223,27 +247,28 @@ export default function Contact({ onOpenCV }) {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Details regarding hardware/software engineering opportunity, timeline, and stack requirements..."
-                  className="w-full px-3.5 py-2.5 rounded bg-[var(--bg-system-alt)] border border-[var(--border-subtle)] text-[14px] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:bg-[var(--bg-surface)] focus:border-[var(--accent-cyan)] focus:outline-none transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0A0D10] border border-[#1A222B] text-[14px] text-[#F4F7FA] placeholder-[#71808D] focus:border-[#16D9E8] focus:shadow-[0_0_12px_rgba(22,217,232,0.2)] focus:outline-none transition-all resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 rounded text-[13px] font-mono-tech font-bold uppercase tracking-wider text-white bg-[#0F172A] hover:bg-[#1E293B] dark:bg-[var(--accent-cyan)] dark:text-[#0E1217] transition-all duration-200 cursor-pointer shadow-md focus-visible:outline-none"
+                className="w-full py-3.5 rounded-lg text-[13px] font-mono-tech font-bold uppercase tracking-wider text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] hover:shadow-[0_0_20px_rgba(22,217,232,0.4)] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
               >
-                DISPATCH MESSAGE
+                <span>DISPATCH MESSAGE</span>
+                <Send className="w-4 h-4" />
               </button>
             </form>
           )}
 
-        </div>
+        </motion.div>
 
       </div>
 
       {/* Footer info */}
-      <div className="mt-20 pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono-tech text-[12px] text-[var(--text-muted)]">
+      <div className="mt-20 pt-8 border-t border-[#1A222B] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono-tech text-[11px] text-[#71808D]">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-cyan)] inline-block" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#16D9E8] inline-block animate-ping" />
           <span>SYS_ID: RAJAT BEHERA // PORTFOLIO_NODE_2026</span>
         </div>
         <div>
