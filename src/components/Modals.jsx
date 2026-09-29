@@ -68,17 +68,18 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               <div className="space-y-3.5 text-[14px] text-[#AAB5C0] leading-relaxed">
                 <div>
                   <strong className="text-[#F4F7FA] font-mono-tech font-bold text-base">RAJAT BEHERA</strong><br />
-                  <span>B.Tech in Computer Science &amp; Engineering</span><br />
-                  <span>Cumulative GPA: <span className="text-[#16D9E8] font-mono-tech font-bold">8.9 / 10.0</span> · 3x Hackathon Winner</span>
+                  <span className="text-[#16D9E8] font-mono-tech text-[12px] font-semibold">Full-Stack Software Engineer &amp; Systems Developer (70% SW · 30% IoT)</span><br />
+                  <span>B.Tech in Computer Science &amp; Engineering · Cumulative GPA: <span className="text-[#16D9E8] font-mono-tech font-bold">8.9 / 10.0</span> · 3x Hackathon Winner</span>
                 </div>
 
                 {/* Dark obsidian code block */}
                 <div className="p-4 rounded-lg border border-[#1A222B] bg-[#0A0D10] font-mono-tech text-[12px] space-y-1.5 text-[#F4F7FA]">
-                  <div className="text-[#16D9E8] font-bold uppercase tracking-wider">// CORE COMPETENCIES:</div>
-                  <div className="text-[#AAB5C0]">• 6 Physical Embedded Prototypes (ESP32, STM32, Micro-LiDAR)</div>
-                  <div className="text-[#AAB5C0]">• FreeRTOS Task Scheduling, C/C++, Python, KiCAD PCB Layout</div>
-                  <div className="text-[#AAB5C0]">• TinyML Quantization (INT8), Edge AI, Low-Power MQTT Telemetry</div>
-                  <div className="text-[#AAB5C0]">• Distributed RF Meshes (ESP-NOW, LoRaWAN) &amp; WebSockets</div>
+                  <div className="text-[#16D9E8] font-bold uppercase tracking-wider">// CORE COMPETENCIES (70/30 SPLIT):</div>
+                  <div className="text-[#AAB5C0]">• Frontend: React 19, TypeScript, Next.js, Zustand, Optimistic UI, WebSockets</div>
+                  <div className="text-[#AAB5C0]">• Backend &amp; Cloud: Node.js, Python FastAPI, REST/gRPC, Docker, Microservices</div>
+                  <div className="text-[#AAB5C0]">• Data &amp; Caching: PostgreSQL, Redis In-Memory Cluster, TimescaleDB Hypertables</div>
+                  <div className="text-[#AAB5C0]">• Distributed Systems: CRDTs, Redis Pub/Sub, Event-Driven Messaging, OpenTelemetry</div>
+                  <div className="text-[#3B82F6]">• Edge Superpower (30%): ESP32-S3, C/C++, FreeRTOS, TLS MQTT, Sensor Bridges</div>
                 </div>
               </div>
 
@@ -93,7 +94,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 <button
                   type="button"
                   onClick={() => {
-                    alert('Curriculum Vitae Download Initiated: Rajat_Behera_Systems_IoT_Resume.pdf');
+                    alert('Curriculum Vitae Download Initiated: Rajat_Behera_Software_Systems_Resume.pdf');
                     onClose();
                   }}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-mono-tech uppercase font-bold text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] hover:shadow-[0_0_16px_rgba(22,217,232,0.4)] transition-all cursor-pointer"
@@ -121,6 +122,11 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                   <h3 className="font-mono-tech font-bold text-[14px] text-[#F4F7FA] uppercase tracking-wider">
                     {systemSpec.code} // ENGINEERING SPEC
                   </h3>
+                  {systemSpec.track && (
+                    <span className="font-mono-tech text-[10px] px-2 py-0.5 rounded border border-[#16D9E8]/30 bg-[#16D9E8]/10 text-[#16D9E8] ml-2">
+                      {systemSpec.track}
+                    </span>
+                  )}
                 </div>
                 <button
                   type="button"

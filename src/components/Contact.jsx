@@ -63,7 +63,7 @@ export default function Contact({ onOpenCV }) {
           Initiate Connection
         </h2>
         <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
-          Available for Summer 2026 Systems &amp; IoT Engineering Internships, embedded systems collaborations, and technical research conversations.
+          Available for Summer 2026 Full-Stack Software Engineering Internships, Backend &amp; Cloud Systems Roles, and Connected IoT Engineering Collaborations.
         </p>
       </motion.div>
 
@@ -112,7 +112,7 @@ export default function Contact({ onOpenCV }) {
               </div>
               <div>
                 <div className="text-[11px] font-mono-tech text-[#71808D] uppercase font-medium">
-                  REPOSITORIES &amp; FIRMWARE
+                  REPOSITORIES &amp; CODEBASE
                 </div>
                 <div className="text-[14px] font-semibold text-[#F4F7FA] group-hover:text-[#16D9E8] transition-colors">
                   github.com/rajat-behera

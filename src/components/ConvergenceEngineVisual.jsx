@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Cpu, Network, Radio, Zap, Activity } from 'lucide-react';
+import { Server, Database, Cpu, Zap, Activity, Code2 } from 'lucide-react';
 
 /**
  * ConvergenceEngineVisual
  * 
  * The Hero Centerpiece: "The Convergence Engine"
+ * Calibrated 70% Software Engineering · 30% Connected Edge & Hardware
  * 
- * An original architectural system monolith representing the complete vertical engineering stack:
- * Software → Intelligence → Hardware → Physical World
- * 
- * Enhanced with:
- * - Live simulated telemetry stream (packets, latency, clock sync)
- * - Multi-packet continuous bidirectional energy spine
- * - Tier waveform / bit-stream micro-visualizer
- * - Dynamic scanline beam on hover
- * - Interactive burst telemetry trigger
- * - Accessible with prefers-reduced-motion support
+ * Tiers:
+ * 01: Web & Client Architecture (React 19 / TypeScript / Optimistic UI) [Software]
+ * 02: Distributed Backend & APIs (Node.js / FastAPI / WebSockets / Microservices) [Software]
+ * 03: Cloud Infrastructure & Data Fabric (PostgreSQL / Redis / Docker / TimescaleDB) [Software]
+ * 04: Connected Edge & IoT Hardware Bridge (ESP32 / FreeRTOS / MQTT / Sensor Bus) [30% Edge]
  */
 export default function ConvergenceEngineVisual() {
   const [activeTier, setActiveTier] = useState(null);
@@ -55,52 +51,56 @@ export default function ConvergenceEngineVisual() {
 
   const tiers = [
     {
-      id: 'software',
+      id: 'frontend',
       index: '01',
-      title: 'SOFTWARE & CLOUD FABRIC',
-      role: 'Application Architecture & Real-Time APIs',
-      tech: 'React · Modern JavaScript · WebSockets · Distributed Node',
-      spec: 'LATENCY < 1.8ms',
-      icon: Terminal,
+      title: 'REACT & CLIENT PLATFORMS',
+      role: 'Full-Stack UI Architecture & Real-Time State',
+      tech: 'React 19 · TypeScript · Next.js · Optimistic UI · WebSockets',
+      spec: 'SUB-16MS FRAME SYNC',
+      track: 'SOFTWARE (70%)',
+      icon: Code2,
       color: '#F4F7FA',
       accent: '#16D9E8',
-      activity: [40, 70, 90, 60, 80, 50, 95, 75, 45, 85],
+      activity: [40, 75, 95, 60, 85, 50, 95, 80, 65, 90],
     },
     {
-      id: 'intelligence',
+      id: 'backend',
       index: '02',
-      title: 'NEURAL INFERENCE RUNTIME',
-      role: 'Edge Models & Machine Learning',
-      tech: 'Applied ML · Tensor Pipelines · Embedded Quantization',
-      spec: 'EDGE INT8 OPTIMIZED',
-      icon: Network,
+      title: 'DISTRIBUTED BACKEND & APIS',
+      role: 'High-Concurrency Services & Microservices',
+      tech: 'Node.js · Python FastAPI · REST & GraphQL · Event Queues',
+      spec: '100K+ REQ/MIN ENGINE',
+      track: 'SOFTWARE (70%)',
+      icon: Server,
       color: '#F4F7FA',
       accent: '#3B82F6',
-      activity: [30, 85, 40, 90, 65, 95, 55, 80, 70, 60],
+      activity: [55, 85, 45, 95, 70, 90, 60, 85, 75, 65],
     },
     {
-      id: 'hardware',
+      id: 'data',
       index: '03',
-      title: 'SILICON CONTROLLER CORE',
-      role: 'Microcontroller & Embedded Systems',
-      tech: 'ESP32 · Arduino · Real-Time Interrupts · SPI / I2C Bus',
-      spec: 'DUAL CORE 240MHz',
+      title: 'DATA FABRIC & CLOUD INFRA',
+      role: 'Distributed Caching & Time-Series Hypertables',
+      tech: 'PostgreSQL · Redis Cache · Docker · TimescaleDB · CI/CD',
+      spec: 'SUB-2MS IN-MEMORY CACHE',
+      track: 'SOFTWARE (70%)',
+      icon: Database,
+      color: '#F4F7FA',
+      accent: '#16D9E8',
+      activity: [70, 60, 85, 80, 55, 90, 45, 95, 70, 85],
+    },
+    {
+      id: 'edge',
+      index: '04',
+      title: 'CONNECTED EDGE & SENSOR BRIDGE',
+      role: 'Real-Time Hardware Bridge & Embedded Telemetry',
+      tech: 'ESP32-S3 · FreeRTOS · TLS MQTT · C/C++ · Sensor Bus',
+      spec: '30% EDGE BRIDGE',
+      track: 'IOT & HARDWARE (30%)',
       icon: Cpu,
       color: '#F4F7FA',
-      accent: '#16D9E8',
-      activity: [80, 60, 90, 75, 50, 85, 40, 95, 60, 90],
-    },
-    {
-      id: 'physical',
-      index: '04',
-      title: 'PHYSICAL TRANSDUCTION',
-      role: 'Environmental Telemetry & Actuation',
-      tech: 'Sensor Arrays · Analog Transducers · Physical Actuators',
-      spec: 'TELEMETRY SYNC',
-      icon: Radio,
-      color: '#F4F7FA',
       accent: '#3B82F6',
-      activity: [50, 45, 60, 70, 90, 80, 60, 75, 85, 95],
+      activity: [40, 50, 65, 75, 85, 70, 55, 80, 90, 95],
     },
   ];
 
@@ -271,14 +271,23 @@ export default function ConvergenceEngineVisual() {
                   </div>
                 </div>
 
-                {/* Role Description */}
+                {/* Role Description & Track Badge */}
                 <div className="relative z-10 text-[13px] font-medium text-[#F4F7FA] tracking-tight mb-1 flex items-center justify-between">
                   <span>{tier.role}</span>
-                  {isHovered && (
-                    <span className="text-[#16D9E8] font-mono-tech text-[9.5px] tracking-widest uppercase animate-pulse hidden sm:inline">
-                      ● LIVE MONITORED
+                  <div className="flex items-center gap-2">
+                    <span className={`font-mono-tech text-[9px] font-semibold px-1.5 py-0.5 rounded border ${
+                      tier.id === 'edge' 
+                        ? 'text-[#3B82F6] border-[#3B82F6]/30 bg-[#3B82F6]/10' 
+                        : 'text-[#16D9E8] border-[#16D9E8]/30 bg-[#16D9E8]/10'
+                    }`}>
+                      {tier.track}
                     </span>
-                  )}
+                    {isHovered && (
+                      <span className="text-[#16D9E8] font-mono-tech text-[9.5px] tracking-widest uppercase animate-pulse hidden sm:inline">
+                        ● ACTIVE
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Tech Stack Details */}
@@ -292,15 +301,32 @@ export default function ConvergenceEngineVisual() {
 
       </div>
 
-      {/* 4. Bottom System Status Bar */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 border-t border-[#1A222B] mt-4 font-mono-tech text-[10px] text-[#71808D] bg-[#0F1419]/70 backdrop-blur-xs rounded-b-lg">
-        <div className="flex items-center gap-2">
-          <span>VERTICAL STACK:</span>
-          <span className="text-[#AAB5C0] font-semibold">FULL CONVERGENCE</span>
+      {/* 4. Bottom System Status Bar: 70/30 Engineering Ratio */}
+      <div className="relative z-10 px-4 py-3 border-t border-[#1A222B] mt-4 font-mono-tech text-[10px] text-[#71808D] bg-[#0F1419]/70 backdrop-blur-xs rounded-b-lg space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span>ENGINEERING RATIO:</span>
+            <span className="text-[#16D9E8] font-bold">70% SOFTWARE DEV</span>
+            <span className="text-[#232D36]">/</span>
+            <span className="text-[#3B82F6] font-bold">30% CONNECTED EDGE</span>
+          </div>
+          <div className="text-[#AAB5C0] text-[10px]">
+            ARCH: <span className="text-[#F4F7FA] font-medium">FULL-STACK · CLOUD · SENSORS</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span>ARCHITECTURE:</span>
-          <span className="text-[#16D9E8] font-medium">EDGE · CLOUD · REAL-TIME</span>
+
+        {/* Dual Accent Ratio Bar */}
+        <div className="w-full h-1.5 rounded-full bg-[#141A21] border border-[#1A222B] flex overflow-hidden">
+          <div 
+            style={{ width: '70%' }} 
+            className="h-full bg-gradient-to-r from-[#16D9E8] to-[#14C1CE] shadow-[0_0_8px_rgba(22,217,232,0.4)]"
+            title="70% Software Development & Distributed Cloud"
+          />
+          <div 
+            style={{ width: '30%' }} 
+            className="h-full bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] opacity-80"
+            title="30% Connected IoT & Edge Silicon"
+          />
         </div>
       </div>
 

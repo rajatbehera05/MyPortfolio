@@ -1,75 +1,86 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Code, Brain, Network, Layers, CheckCircle2, X } from 'lucide-react';
+import { Cpu, Server, Code2, Database, Network, CheckCircle2, X } from 'lucide-react';
 
 /**
  * Skills Section: TECHNOLOGY NETWORK
  * 
- * Interconnected pipelines moving signals from physical pins to intelligent software:
- * - ESP32 → Sensors → FreeRTOS → IoT
- * - Python → Quantization → TinyML → Edge AI
- * - React → APIs → WebSockets → Dashboards
- * - Flowing signal micro-animations between nodes
- * - Interactive technology node inspector displaying real frameworks & field notes
+ * Calibrated: 70% Full-Stack Software Engineering · 30% Connected Edge & Hardware
+ * Interconnected pipelines moving from modern web clients to cloud databases and edge silicon:
+ * - React 19 / TypeScript → Zustand → Optimistic UI
+ * - Node.js / FastAPI → REST & gRPC → Microservices
+ * - PostgreSQL → Redis → TimescaleDB → Docker
+ * - WebSockets → Redis Pub/Sub → Distributed Events
+ * - ESP32 / FreeRTOS → C++ → MQTT → Physical Bridge (30%)
  */
 export default function SkillsNetwork() {
   const [selectedTech, setSelectedTech] = useState(null);
 
   const networks = [
     {
-      group: 'EMBEDDED HARDWARE & REAL-TIME FIRMWARE',
-      icon: Cpu,
+      group: 'MODERN FRONTEND & CLIENT ARCHITECTURE',
+      track: 'SOFTWARE (70%)',
+      isSoftware: true,
+      icon: Code2,
       pipeline: [
-        { name: 'ESP32 / STM32', note: 'Dual-core Xtensa & ARM Cortex-M4 architectures, bare-metal HAL' },
-        { name: 'I2C / SPI / UART Sensors', note: 'LiDAR, IMUs, environmental sensors, logic analyzer debugging' },
-        { name: 'FreeRTOS Kernel', note: 'Deterministic task preemption, binary semaphores, queue streams' },
-        { name: 'Industrial IoT Nodes', note: 'Ultra-low quiescent current LDOs, battery telemetry, field enclosures' }
+        { name: 'React 19 / Next.js', note: 'Server & client components, suspense boundaries, memory profiling, and high-FPS UI rendering.' },
+        { name: 'TypeScript', note: 'Strict typing, generic utility types, type-safe API contracts, and Zod runtime schema validation.' },
+        { name: 'Zustand & State Engines', note: 'Predictable event-driven state, optimistic UI mutation rollbacks, and CRDT sync state.' },
+        { name: 'Modern CSS & Design Systems', note: 'Tailwind CSS, CSS-in-JS, token-based design systems, responsive layouts, and dark mode.' }
       ],
-      detail: 'Developing bare-metal firmware, deterministic task scheduling, and ultra-low-power sleep cycles for edge controllers.'
+      detail: 'Architecting fast, responsive client applications with modern React, optimistic UI mutations, and strictly-typed contracts.'
     },
     {
-      group: 'MACHINE LEARNING & EDGE INTELLIGENCE',
-      icon: Brain,
+      group: 'BACKEND SERVICES & DISTRIBUTED APIS',
+      track: 'SOFTWARE (70%)',
+      isSoftware: true,
+      icon: Server,
       pipeline: [
-        { name: 'Python (PyTorch / Scikit)', note: 'Training compact 1D/2D CNNs on raw vibration and audio data' },
-        { name: 'Model Quantization (INT8)', note: 'Post-training weight quantization reducing weights by ~75%' },
-        { name: 'TinyML / TFLite Micro', note: 'Inference runtime fitting entirely into <100KB microcontroller SRAM' },
-        { name: 'Embedded On-Device AI', note: 'Sub-15ms real-time acoustic classification without cloud round-trips' }
+        { name: 'Node.js / Express', note: 'Non-blocking event loop, JWT session security, middleware pipelines, and microservice routers.' },
+        { name: 'Python (FastAPI / AsyncIO)', note: 'High-throughput async endpoints, background tasks, Pydantic V2 JIT validation, and clean architecture.' },
+        { name: 'RESTful & gRPC APIs', note: 'Protocol buffer schemas, idempotent endpoints, versioned API contracts, and OpenAPI specifications.' },
+        { name: 'Auth & API Security', note: 'OAuth2 / JWT stateless authentication, token-bucket rate limiting, and CORS security guards.' }
       ],
-      detail: 'Compressing complex neural network topologies for microcontrollers to run real-time anomaly detection without server dependence.'
+      detail: 'Engineering high-throughput asynchronous backend services, microservices, and robust REST/gRPC endpoints.'
     },
     {
-      group: 'INTERFACES & CLIENT INFRASTRUCTURE',
-      icon: Code,
+      group: 'DATA ARCHITECTURE & CLOUD PERSISTENCE',
+      track: 'SOFTWARE (70%)',
+      isSoftware: true,
+      icon: Database,
       pipeline: [
-        { name: 'React / TypeScript', note: 'Strictly-typed responsive state management and hardware twins' },
-        { name: 'RESTful & GraphQL APIs', note: 'FastAPI and Node.js endpoints with schema-first contracts' },
-        { name: 'Real-time WebSockets', note: 'Sub-30ms bidirectional sensor streams with heartbeat recovery' },
-        { name: 'Telemetry Dashboards', note: 'Interactive real-time charting, slot occupancy status, and alerts' }
+        { name: 'PostgreSQL', note: 'Normalized relational schemas, index optimization, query execution plan tuning, and ACID transactions.' },
+        { name: 'Redis In-Memory Cache', note: 'Sub-millisecond key-value caching, distributed locking, TTL eviction policies, and session stores.' },
+        { name: 'TimescaleDB', note: 'Time-series hypertables partitioned by microsecond device telemetry timestamps with data compression.' },
+        { name: 'Docker & CI/CD Pipelines', note: 'Multi-stage Docker containers, Docker Compose, and automated GitHub Actions test/build pipelines.' }
       ],
-      detail: 'Architecting fast, responsive digital twins and interactive consoles that consume live high-frequency hardware data.'
+      detail: 'Structuring durable database architectures, sub-millisecond in-memory caching tiers, and containerized deployments.'
     },
     {
-      group: 'NETWORK PROTOCOLS & DISTRIBUTED SYSTEMS',
+      group: 'REAL-TIME FABRIC & DISTRIBUTED MESSAGING',
+      track: 'SOFTWARE (70%)',
+      isSoftware: true,
       icon: Network,
       pipeline: [
-        { name: 'MQTT Brokers', note: 'TLS-secured EMQX & Mosquitto with QoS 1 acknowledgment' },
-        { name: 'LoRaWAN & ESP-NOW Mesh', note: 'Long-range sub-GHz and peer-to-peer RF mesh topologies' },
-        { name: 'Cloud Ingestion', note: 'Dockerized microservice pipelines with zero-drop packet queues' },
-        { name: 'TimescaleDB / InfluxDB', note: 'Hypertables partitioned by microsecond device telemetry timestamps' }
+        { name: 'WebSockets & SSE', note: 'Sub-20ms bi-directional event streaming, heartbeat ping-pong health checks, and auto-reconnection.' },
+        { name: 'Redis Pub/Sub & Queues', note: 'Cross-pod message broadcasting and asynchronous worker task queues handling high-burst traffic.' },
+        { name: 'Event-Driven Architectures', note: 'Decoupled microservice architectures communicating via asynchronous pub/sub event channels.' },
+        { name: 'OpenTelemetry & Tracing', note: 'Distributed correlation IDs, latency histogram tracking, and performance metric export.' }
       ],
-      detail: 'Structuring fault-tolerant data pipelines capable of handling noisy RF channels, packet loss, and zero-downtime streaming.'
+      detail: 'Connecting distributed services with event-driven message buses, bi-directional WebSocket streams, and zero-drop queuing.'
     },
     {
-      group: 'CIRCUIT DESIGN & BENCH VALIDATION',
-      icon: Layers,
+      group: 'CONNECTED IOT & EMBEDDED EDGE',
+      track: 'CONNECTED EDGE (30%)',
+      isSoftware: false,
+      icon: Cpu,
       pipeline: [
-        { name: 'KiCAD Schematic & Layout', note: '2-layer FR4 PCB routing with ground planes and controlled impedance' },
-        { name: 'SMD Soldering & Stencils', note: '0805 passives, QFN microcontrollers, hot air rework bench' },
-        { name: 'Oscilloscope / Analyzer', note: 'Decoding I2C timing glitches, bus ringing, and power transients' },
-        { name: 'Field Deployment', note: 'Weather-sealed enclosures, thermal dissipation testing, real runs' }
+        { name: 'ESP32-S3 / C++ Firmware', note: 'Dual-core Xtensa, bare-metal hardware abstraction layer, interrupts, and low-power sleep modes.' },
+        { name: 'FreeRTOS Kernel', note: 'Deterministic task preemption, binary semaphores, inter-task queues, and watchdog timers.' },
+        { name: 'TLS MQTT & RF Meshes', note: 'Port 8883 encrypted MQTT telemetry, QoS 1 delivery, and ESP-NOW peer-to-peer wireless networks.' },
+        { name: 'Sensor Bus & Validation', note: 'I2C/SPI micro-LiDAR and IMU data acquisition with logic analyzer timing validation.' }
       ],
-      detail: 'Turning breadboard proof-of-concepts into dual-layer PCBs with optimized power distribution networks and noise immunity.'
+      detail: 'The physical edge bridge: low-power microcontrollers, bare-metal C++, deterministic task scheduling, and telemetry feeds.'
     }
   ];
 
@@ -88,21 +99,56 @@ export default function SkillsNetwork() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-3 mb-14"
+        className="space-y-3 mb-10"
       >
         <div className="flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.2em] text-[#16D9E8] uppercase font-medium">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
           </span>
-          <span>CONNECTED STACK // 02</span>
+          <span>TECHNOLOGY NETWORK // 02</span>
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
           Technology Network
         </h2>
         <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
-          Technologies are not isolated badges. They function as interconnected pipelines moving signals from physical pins to intelligent software. Click any node to inspect field notes.
+          Technologies function as interconnected pipelines: from modern React frontends and high-concurrency microservices, to cloud persistence tiers and embedded edge sensors. Click any node to inspect field notes.
         </p>
+      </motion.div>
+
+      {/* 70/30 Ratio Capability Meter Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        className="mb-8 p-4 rounded-xl border border-[#1A222B] bg-[#0F1419] font-mono-tech text-[11px] space-y-2.5"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-[#71808D] uppercase font-medium">SKILL CALIBRATION:</span>
+            <span className="text-[#16D9E8] font-bold">70% FULL-STACK SOFTWARE &amp; CLOUD</span>
+            <span className="text-[#232D36]">/</span>
+            <span className="text-[#3B82F6] font-bold">30% CONNECTED IOT &amp; EDGE</span>
+          </div>
+          <div className="text-[10px] text-[#AAB5C0]">
+            TOTAL PIPELINES: <span className="text-[#F4F7FA] font-bold">5 TIERS (20 VERIFIED NODES)</span>
+          </div>
+        </div>
+
+        {/* Dual Meter Bar */}
+        <div className="w-full h-2 rounded-full bg-[#141A21] border border-[#1A222B] flex overflow-hidden">
+          <div 
+            style={{ width: '70%' }} 
+            className="h-full bg-gradient-to-r from-[#16D9E8] to-[#14C1CE] shadow-[0_0_10px_rgba(22,217,232,0.4)]"
+            title="70% Software Development (Frontend, Backend, Databases, Real-Time Fabric)"
+          />
+          <div 
+            style={{ width: '30%' }} 
+            className="h-full bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] opacity-80"
+            title="30% Connected Edge & IoT (ESP32, FreeRTOS, MQTT, Hardware Bridge)"
+          />
+        </div>
       </motion.div>
 
       {/* Connected Technology Pipelines */}
@@ -123,12 +169,18 @@ export default function SkillsNetwork() {
                 {/* Left: Group title & description */}
                 <div className="lg:w-1/3 space-y-1.5">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 rounded-md bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4 text-[#16D9E8]" />
+                    <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 border ${
+                      net.isSoftware
+                        ? 'bg-[#16D9E8]/10 border-[#16D9E8]/20 text-[#16D9E8]'
+                        : 'bg-[#3B82F6]/10 border-[#3B82F6]/20 text-[#3B82F6]'
+                    }`}>
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-semibold text-[#F4F7FA] tracking-wide">
-                      {net.group}
-                    </h3>
+                    <div>
+                      <h3 className="font-mono-tech text-[12px] sm:text-[13px] font-semibold text-[#F4F7FA] tracking-wide">
+                        {net.group}
+                      </h3>
+                    </div>
                   </div>
                   <p className="text-[13px] text-[#AAB5C0] leading-relaxed">
                     {net.detail}
@@ -154,7 +206,7 @@ export default function SkillsNetwork() {
                             }`}
                           >
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                              isSelected ? 'bg-[#0A0D10] animate-ping' : 'bg-[#16D9E8]'
+                              isSelected ? 'bg-[#0A0D10] animate-ping' : net.isSoftware ? 'bg-[#16D9E8]' : 'bg-[#3B82F6]'
                             }`} />
                             <span className="font-mono-tech text-[12px] font-medium whitespace-nowrap">
                               {item.name}

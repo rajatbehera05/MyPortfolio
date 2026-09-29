@@ -1,49 +1,49 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, Cpu, BookOpen, Briefcase } from 'lucide-react';
+import { Award, Code2, Server, BookOpen } from 'lucide-react';
 
 /**
  * Timeline Section: EXPERIENCE / ACHIEVEMENTS
  * 
- * A single connected line with animated traveling data pulses connects milestones:
- * - Flagship Autonomous IoT & Micro-LiDAR Node
- * - Hackathon Winner — Multi-node RF Mesh
- * - Quantized Edge AI Anomaly Detection Pipeline
- * - Academic Excellence — B.Tech Computer Science & Engineering
+ * Calibrated: 70% Software Engineering · 30% Connected Edge & IoT
+ * - Distributed Real-Time Cloud Platform & Collaborative State Engine (Software)
+ * - Hackathon Winner — End-to-End Real-Time Telemetry Platform (Full-Stack & IoT)
+ * - Scalable Microservices API & Observability Pipeline (Software Backend)
+ * - Academic Foundation — B.Tech Computer Science & Engineering (Core CS)
  */
 export default function Timeline() {
   const milestones = [
     {
       year: '2026',
-      tag: 'CURRENT MILESTONE',
-      title: 'Flagship Autonomous IoT & Micro-LiDAR Node',
-      category: 'ENGINEERING LAB & PROTOTYPING',
-      description: 'Engineered ParkSense v1.2 with custom dual-layer KiCAD PCB, ESP32-S3 microcontroller, and low-power FreeRTOS tasks streaming sub-second telemetry over TLS MQTT.',
-      icon: Cpu
+      tag: 'CURRENT FLAGSHIP',
+      title: 'Distributed Real-Time Cloud Platform & State Engine',
+      category: 'FULL-STACK SOFTWARE & DISTRIBUTED SYSTEMS',
+      description: 'Architected OmniSync and high-throughput microservices using React 19, TypeScript, WebSockets, and Redis Pub/Sub, achieving sub-15ms multi-tenant CRDT state convergence under high concurrency.',
+      icon: Code2
     },
     {
       year: '2025',
       tag: 'HACKATHON WINNER',
-      title: 'Smart Campus Edge Telemetry Hackathon — 1st Place',
-      category: 'COMPETITION & DEPLOYMENT',
-      description: 'Built and deployed a multi-node RF mesh network in 36 hours. Demonstrated zero-packet-drop telemetry under high-interference campus RF conditions.',
+      title: 'Smart Campus Real-Time Telemetry Platform — 1st Place',
+      category: 'FULL-STACK & IOT INTEGRATION',
+      description: 'Engineered an end-to-end platform connecting multi-node RF sensors to a live React digital twin and FastAPI backend in 36 hours. Awarded 1st place for zero-packet-drop reliability.',
       icon: Award
     },
     {
       year: '2025',
-      tag: 'RESEARCH & FIRMWARE',
-      title: 'Quantized Edge AI Anomaly Detection Pipeline',
-      category: 'APPLIED AI RESEARCH',
-      description: 'Implemented an INT8 TinyML convolutional neural network running on ARM Cortex-M4 microcontroller for real-time acoustic motor fault classification with <15ms latency.',
-      icon: BookOpen
+      tag: 'BACKEND ARCHITECTURE',
+      title: 'Scalable Microservice API & Observability Pipeline',
+      category: 'BACKEND & CLOUD SYSTEMS',
+      description: 'Designed asynchronous Python FastAPI services with Redis in-memory caching, OpenTelemetry distributed tracing, and Docker containerization, serving 150k+ req/min with sub-10ms P99 latency.',
+      icon: Server
     },
     {
       year: '2024',
       tag: 'ACADEMIC EXCELLENCE',
       title: 'B.Tech in Computer Science & Engineering (Ongoing)',
       category: 'CORE COMPUTATION & SYSTEMS',
-      description: 'Current CGPA: 8.9 / 10.0. Focused coursework in Computer Architecture, Operating Systems, Distributed Systems, Microcontrollers, and Network Security.',
-      icon: Briefcase
+      description: 'Current CGPA: 8.9 / 10.0. Focused coursework in Distributed Systems, Data Structures & Algorithms, Operating Systems, Database Management Systems, and Computer Networks.',
+      icon: BookOpen
     }
   ];
 
@@ -75,11 +75,11 @@ export default function Timeline() {
           Experience &amp; Achievements
         </h2>
         <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
-          A continuous engineering trace of deployed prototypes, hackathon solutions, and research initiatives.
+          A continuous trace of deployed web architectures, high-concurrency cloud services, hackathon championships, and foundational computer science research.
         </p>
       </motion.div>
 
-      {/* Vertical Connected Timeline (Single continuous connecting line) */}
+      {/* Vertical Connected Timeline */}
       <div className="relative pl-8 sm:pl-12">
         
         {/* The single continuous line */}
@@ -112,7 +112,7 @@ export default function Timeline() {
                 className="relative group"
               >
                 
-                {/* Timeline node circle: matches global network node style */}
+                {/* Timeline node circle */}
                 <div
                   aria-hidden="true"
                   className="absolute -left-[31px] sm:-left-[39px] top-2 w-4 h-4 rounded-full bg-[#0A0D10] border-2 border-[#16D9E8] group-hover:scale-125 group-hover:shadow-[0_0_14px_#16D9E8] transition-all duration-300 flex items-center justify-center z-10"

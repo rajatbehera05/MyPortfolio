@@ -33,16 +33,19 @@ export default function Hero({ onExplore, onAbout }) {
               =================================================== */}
           <div className="lg:col-span-6 flex flex-col justify-center space-y-7 z-20">
             
-            {/* 1. Technical Eyebrow */}
+            {/* 1. Technical Eyebrow & Ratio Badge */}
             <motion.div
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 font-mono-tech text-[11px] tracking-[0.2em] text-[#71808D] uppercase font-medium"
+              className="flex flex-wrap items-center gap-2.5 font-mono-tech text-[11px] tracking-[0.16em] uppercase font-medium"
             >
-              <span className="text-[#AAB5C0]">COMPUTER SCIENCE ENGINEER</span>
+              <span className="text-[#F4F7FA] font-bold">FULL-STACK SOFTWARE ENGINEER</span>
               <span className="text-[#232D36]">/</span>
-              <span className="text-[#16D9E8]">CSE • IoT • AI</span>
+              <span className="text-[#16D9E8]">REACT · CLOUD · SYSTEMS</span>
+              <span className="text-[10px] px-2 py-0.5 rounded border border-[#16D9E8]/30 bg-[#16D9E8]/10 text-[#16D9E8] font-bold tracking-wider ml-auto sm:ml-0">
+                70% SW · 30% IOT
+              </span>
             </motion.div>
 
             {/* 2. Personal Brand / Name Signature */}
@@ -63,7 +66,7 @@ export default function Hero({ onExplore, onAbout }) {
                 transition={{ duration: 0.55, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="text-xl sm:text-[23px] text-[#F4F7FA] font-medium leading-[1.38] tracking-[-0.015em] font-sans-editorial"
               >
-                I build intelligent systems where software, models, and physical hardware converge.
+                I engineer scalable software platforms, distributed cloud backends, and intelligent connected systems.
               </motion.p>
 
               <motion.p
@@ -72,7 +75,7 @@ export default function Hero({ onExplore, onAbout }) {
                 transition={{ duration: 0.55, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="text-[14.5px] sm:text-[15.5px] text-[#AAB5C0] leading-relaxed font-normal"
               >
-                Specializing in software engineering, connected IoT architectures, embedded computing, and applied intelligence.
+                Full-stack developer focused on high-performance React &amp; TypeScript client platforms, high-concurrency Node.js and Python microservices, cloud databases, and real-time edge telemetry bridges.
               </motion.p>
             </div>
 
@@ -118,11 +121,11 @@ export default function Hero({ onExplore, onAbout }) {
 
                 <div className="flex items-center gap-2.5 font-mono-tech text-[11px] leading-none">
                   <span className="font-semibold text-[#F4F7FA] tracking-wider uppercase">
-                    OPERATIONAL // REAL-TIME
+                    OPERATIONAL // FULL-STACK &amp; SYSTEMS
                   </span>
                   <span className="text-[#232D36]">•</span>
                   <span className="text-[#71808D] font-normal tracking-normal font-sans-editorial text-[12px]">
-                    Focus: Autonomous &amp; Connected Architectures
+                    Focus: Scalable Web Platforms &amp; Connected Telemetry
                   </span>
                 </div>
               </div>
@@ -147,11 +150,11 @@ export default function Hero({ onExplore, onAbout }) {
 
                   <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 leading-tight">
                     <span className="font-mono-tech text-[10.5px] font-semibold text-[#F4F7FA] tracking-wider uppercase">
-                      OPERATIONAL // REAL-TIME
+                      OPERATIONAL // FULL-STACK &amp; SYSTEMS
                     </span>
                     <span className="hidden sm:inline text-[#232D36]">•</span>
                     <span className="text-[11.5px] text-[#71808D] font-normal">
-                      Focus: Autonomous &amp; Connected Architectures
+                      Focus: Scalable Web Platforms &amp; Connected Telemetry
                     </span>
                   </div>
                 </div>
