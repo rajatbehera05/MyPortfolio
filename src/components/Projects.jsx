@@ -1,698 +1,491 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowUpRight, Cpu, Radio, Network, Database, Layout, Sparkles, 
-  Activity, Server, Code2, Globe 
-} from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Server, Play, ExternalLink } from 'lucide-react';
+
+function GithubIcon({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+    </svg>
+  );
+}
 
 /**
- * Projects Section: SYSTEMS & SOFTWARE I HAVE BUILT
+ * Projects Section: FEATURED PROJECTS
  * 
- * Calibrated: 70% Full-Stack Software Engineering & Cloud Platforms · 30% Connected Edge & IoT
- * Features:
- * - Interactive filter tabs: ALL (4) | SOFTWARE & CLOUD (70%) | CONNECTED IOT (30%)
- * - Interactive signal/state propagation simulations
- * - Multi-stage pipeline inspection
- * - Visual live software consoles & bench photography
+ * Clean, human, product-oriented software engineer portfolio:
+ * - Clear project value propositions and real engineering challenges
+ * - Interactive live preview cards (Collaborative canvas, API gateway metrics, hardware photography)
+ * - 70% Full-Stack & Systems / 30% Connected IoT
  */
 export default function Projects({ onOpenSpec }) {
   const [filter, setFilter] = useState('ALL'); // 'ALL' | 'SOFTWARE' | 'IOT'
-  const [hoveredProjectId, setHoveredProjectId] = useState(null);
-  const [activeStage, setActiveStage] = useState(null);
-  const [activeSimulationId, setActiveSimulationId] = useState(null); // 'omnisync' | 'parksense' | null
-  const [activePingStage, setActivePingStage] = useState(null); // 0, 1, 2, 3, 4
-  const [pingStatusText, setPingStatusText] = useState(null);
+  const [interactiveSyncActive, setInteractiveSyncActive] = useState(false);
 
-  const systems = [
+  const projects = [
     {
-      id: 'omnisync',
-      code: 'SYS_01',
-      title: 'OmniSync — Real-Time Collaborative Cloud Workspace',
-      category: 'FULL-STACK • DISTRIBUTED SYSTEMS • REAL-TIME',
-      track: 'SOFTWARE (70%)',
-      isSoftware: true,
-      status: 'PRODUCTION READY',
-      summary: 'High-concurrency distributed collaborative canvas with conflict-free replicated data types (CRDTs), sub-15ms multi-tenant state replication over WebSockets, and Redis Pub/Sub cluster.',
-      pipeline: [
-        { 
-          label: 'Client State', 
-          role: 'React 19 + Zustand', 
-          icon: Code2,
-          spec: 'Optimistic State Mutation · Vector Clock Timestamp · Local Undo/Redo' 
-        },
-        { 
-          label: 'API Gateway', 
-          role: 'Node.js + WebSockets', 
-          icon: Server,
-          spec: 'Multiplexed WSS Session Pools · JWT Claims Auth · Sub-5ms Handshake' 
-        },
-        { 
-          label: 'Message Broker', 
-          role: 'Redis Pub/Sub Cluster', 
-          icon: Network,
-          spec: 'Distributed Cross-Pod Broadcast · 10,000+ Active Channel Multiplex' 
-        },
-        { 
-          label: 'Persistence', 
-          role: 'PostgreSQL Hypertables', 
-          icon: Database,
-          spec: 'Async WAL Commit Log · JSONB Document Delta Compression · ACID Safe' 
-        },
-        { 
-          label: 'Client Twin', 
-          role: 'Collaborative UI Twin', 
-          icon: Layout,
-          spec: 'Zero-Lag Canvas Synchronization · Sub-15ms Multi-Peer Convergence' 
-        }
+      id: 'smart-parking',
+      title: 'Smart Parking Management System',
+      tagline: 'IoT Vehicle Detection, Automated Gate Barrier & Real-Time Dashboard',
+      category: 'Connected IoT · Embedded Systems',
+      track: 'Hardware & IoT (30%)',
+      featured: true,
+      isSoftware: false,
+      description: 'An IoT-enabled smart parking solution that combines ESP32-based vehicle detection with a real-time web dashboard to monitor parking occupancy, manage slot availability, and automate entry-gate control.',
+      highlights: [
+        'Real-time parking occupancy detection',
+        'Automated entry-gate control',
+        'ESP32-to-backend REST communication',
+        'Live parking availability dashboard'
       ],
       metrics: [
-        { key: 'SYNC LATENCY', val: '< 14ms' },
-        { key: 'CONCURRENCY', val: '10k+ Sockets' },
-        { key: 'CRDT CONVERGE', val: '100% Deterministic' },
-        { key: 'CLIENT CPU', val: '< 3.2% Load' }
+        { label: 'Occupancy Sync', value: 'Real-Time' },
+        { label: 'Gate Actuation', value: 'Automated Servo' },
+        { label: 'Architecture', value: 'ESP32 + REST' }
       ],
-      previewType: 'software-console',
+      techs: ['ESP32', 'IR Sensors', 'Servo Motor', 'React', 'Node.js', 'Express', 'REST API'],
+      previewType: 'smart-parking-image',
+      image: '/assets/smart_parking_system.jpg',
+      github: 'https://github.com/rajatbehera05/smart-parking-system',
+      liveDemo: 'https://frontend-seven-ashen-34.vercel.app/'
+    },
+    {
+      id: 'omnisync',
+      title: 'OmniSync',
+      tagline: 'Real-Time Collaborative Workspace & State Sync Engine',
+      category: 'Full-Stack · Real-Time Web',
+      track: 'Web & Full-Stack (70%)',
+      featured: false,
+      isSoftware: true,
+      description: 'A multiplayer collaborative workspace engineered with conflict-free replicated data types (CRDTs) and WebSockets, enabling instant multi-user state synchronization with zero lag or merge conflicts.',
+      highlights: [
+        'Sub-15ms sync latency between distributed clients using persistent WebSockets',
+        'Optimistic client mutations with local undo/redo and deterministic CRDT vector clocks',
+        'Redis Pub/Sub message broker distributing events across multi-pod Node.js services'
+      ],
+      metrics: [
+        { label: 'Latency', value: '< 14ms' },
+        { label: 'Concurrency', value: '10,000+ Sockets' },
+        { label: 'Conflict Merging', value: '100% Deterministic' }
+      ],
+      techs: ['React 19', 'TypeScript', 'Node.js', 'WebSockets', 'Redis', 'PostgreSQL', 'Docker'],
+      previewType: 'collab-canvas',
       image: '/assets/workbench.jpg',
-      tags: ['React 19', 'TypeScript', 'Node.js', 'WebSockets', 'Redis', 'PostgreSQL', 'Docker', 'CRDTs']
+      github: 'https://github.com/rajatbehera05/omnisync',
+      liveDemo: 'https://omnisync-preview.vercel.app'
     },
     {
       id: 'nexusflow',
-      code: 'SYS_02',
-      title: 'NexusFlow — High-Throughput Microservice API Gateway',
-      category: 'BACKEND • CLOUD ARCHITECTURE • DEVOPS',
-      track: 'SOFTWARE (70%)',
+      title: 'NexusFlow',
+      tagline: 'High-Throughput Microservice API Gateway & Observability',
+      category: 'Backend · Distributed Systems',
+      track: 'Cloud & Backend (70%)',
+      featured: false,
       isSoftware: true,
-      status: 'BENCH TESTED 150K REQ/MIN',
-      summary: 'Asynchronous microservices API orchestrator and observability platform featuring dynamic token-bucket rate limiting, distributed caching with Redis, and automated OpenTelemetry tracing.',
-      pipeline: [
-        { 
-          label: 'Ingress Edge', 
-          role: 'Envoy / Reverse Proxy', 
-          icon: Globe,
-          spec: 'TLS 1.3 Termination · IP Bucket Sharding · Distributed DDoS Shield' 
-        },
-        { 
-          label: 'Async Core', 
-          role: 'Python FastAPI / AsyncIO', 
-          icon: Server,
-          spec: 'Non-Blocking Event Loop · Pydantic V2 JIT Validation · Worker Pools' 
-        },
-        { 
-          label: 'Fast Cache', 
-          role: 'Redis In-Memory Tier', 
-          icon: Database,
-          spec: 'Sub-1.2ms Read Caching · 94.6% Cache Hit Rate · Sliding Window Expiry' 
-        },
-        { 
-          label: 'Observability', 
-          role: 'OpenTelemetry + Grafana', 
-          icon: Activity,
-          spec: 'Distributed Trace Spans · Correlation IDs · P99 Latency Alarms' 
-        },
-        { 
-          label: 'Admin Portal', 
-          role: 'React Cloud Dashboard', 
-          icon: Layout,
-          spec: 'Live Microservice Topology · Error Budget Visualizer · Route Analytics' 
-        }
+      description: 'An asynchronous API gateway and service orchestrator built to handle high request volumes with dynamic token-bucket rate limiting, Redis caching, and automated OpenTelemetry distributed tracing.',
+      highlights: [
+        'Bench-tested throughput exceeding 150k requests/minute with sub-10ms P99 latency',
+        'Multi-tier caching layer in Redis achieving a 94.6% cache hit rate',
+        'End-to-end distributed trace propagation using OpenTelemetry and correlation IDs'
       ],
       metrics: [
-        { key: 'THROUGHPUT', val: '150K+ req/min' },
-        { key: 'P99 LATENCY', val: '8.2ms' },
-        { key: 'CACHE HIT RATE', val: '94.6%' },
-        { key: 'UPTIME SLA', val: '99.99%' }
+        { label: 'Throughput', value: '150k+ req/min' },
+        { label: 'P99 Latency', value: '8.2ms' },
+        { label: 'Cache Hit Rate', value: '94.6%' }
       ],
-      previewType: 'gateway-console',
+      techs: ['Python FastAPI', 'AsyncIO', 'Redis Cluster', 'Docker', 'OpenTelemetry', 'PostgreSQL'],
+      previewType: 'api-dashboard',
       image: '/assets/workbench.jpg',
-      tags: ['Python FastAPI', 'AsyncIO', 'Redis Cluster', 'Docker', 'PostgreSQL', 'OpenTelemetry', 'gRPC']
-    },
-    {
-      id: 'parksense',
-      code: 'SYS_03',
-      title: 'ParkSense — Autonomous IoT Edge Node & Telemetry Twin',
-      category: 'CONNECTED IOT • EMBEDDED • REAL-TIME TWIN',
-      track: 'CONNECTED EDGE (30%)',
-      isSoftware: false,
-      status: 'DEPLOYED & FIELD TESTED',
-      summary: 'Low-power autonomous parking occupancy detector fusing micro-LiDAR rangefinding with edge state filtering and telemetry over MQTT into a live React digital twin.',
-      pipeline: [
-        { 
-          label: 'Sensor Layer', 
-          role: 'Micro-LiDAR Rangefinder', 
-          icon: Cpu,
-          spec: 'VL53L1X · I2C Bus 0x29 · 940nm VCSEL · 5Hz Sampling' 
-        },
-        { 
-          label: 'Edge Silicon', 
-          role: 'ESP32-S3 + FreeRTOS', 
-          icon: Radio,
-          spec: 'Dual-Core 240MHz · FreeRTOS Task Scheduler · 18μA Deep Sleep' 
-        },
-        { 
-          label: 'Transport Bus', 
-          role: 'TLS MQTT Broker', 
-          icon: Network,
-          spec: 'Port 8883 Encrypted · QoS 1 Telemetry · 42-Byte Payload' 
-        },
-        { 
-          label: 'Backend Core', 
-          role: 'FastAPI Streamer DB', 
-          icon: Database,
-          spec: 'TimescaleDB Hypertable · 99.4% State Detection Accuracy' 
-        },
-        { 
-          label: 'Client UI', 
-          role: 'Live Occupancy Twin', 
-          icon: Layout,
-          spec: 'WebSocket Telemetry Feed · Sub-25ms Digital Twin Update' 
-        }
-      ],
-      metrics: [
-        { key: 'ACCURACY', val: '99.4%' },
-        { key: 'LATENCY', val: '< 25ms' },
-        { key: 'CURRENT DRAIN', val: '18μA Sleep' },
-        { key: 'SAMPLING', val: '5Hz Vector' }
-      ],
-      previewType: 'image',
-      image: '/assets/parking_node.jpg',
-      tags: ['ESP32-S3', 'Micro-LiDAR', 'FreeRTOS', 'MQTT', 'KiCAD', 'C++', 'React Twin']
+      github: 'https://github.com/rajatbehera05/nexusflow'
     },
     {
       id: 'edgevision',
-      code: 'SYS_04',
-      title: 'EdgeVision — Microcontroller TinyML Defect Classifier',
-      category: 'AI SOFTWARE • EMBEDDED RUNTIME • WEB UI',
-      track: 'HYBRID (70% SW / 30% EDGE)',
+      title: 'EdgeVision',
+      tagline: 'On-Device TinyML Classifier & Cloud Diagnostics Portal',
+      category: 'Applied AI · Edge Computing',
+      track: 'Edge AI & Web (70/30 Hybrid)',
+      featured: false,
       isSoftware: false,
-      status: 'BENCHMARK VERIFIED',
-      summary: 'Quantized INT8 convolutional neural network on ARM Cortex-M paired with a cloud diagnostics portal and automated model telemetry ingestion for real-time acoustic defect classification.',
-      pipeline: [
-        { 
-          label: 'Sensor Input', 
-          role: 'I2S Mic & OV2640', 
-          icon: Cpu,
-          spec: 'I2S Audio DMA Stream · 16-Bit 16kHz · Fast Frame Buffer' 
-        },
-        { 
-          label: 'Preprocessing', 
-          role: 'Spectrogram / Fast-FFT', 
-          icon: Radio,
-          spec: 'CMSIS-DSP FFT Engine · Log-Mel Filterbank Acceleration' 
-        },
-        { 
-          label: 'AI Inference', 
-          role: 'TinyML INT8 Quantized', 
-          icon: Sparkles,
-          spec: '84 KB SRAM Footprint · 14.2ms Latency · 97.2% Precision' 
-        },
-        { 
-          label: 'Cloud Stream', 
-          role: 'WebSocket Alert Bus', 
-          icon: Network,
-          spec: 'Real-Time Anomaly Dispatch · Sub-Second Cloud Push' 
-        },
-        { 
-          label: 'Operator UI', 
-          role: 'Spectral Waterfall UI', 
-          icon: Layout,
-          spec: 'Live Spectral Anomaly Waterfall · Sub-second Alerts' 
-        }
+      description: 'An on-device INT8 quantized neural network running on ARM Cortex microcontrollers for vibration and anomaly classification, paired with a web diagnostics portal for live spectral waterfalls.',
+      highlights: [
+        'Deep neural network compressed to fit into an 84 KB microcontroller SRAM budget',
+        'Real-time acoustic fault detection with sub-15ms inference without server dependence',
+        'Interactive web portal streaming live anomaly waterfall charts via WebSockets'
       ],
       metrics: [
-        { key: 'INFERENCE', val: '14.2ms' },
-        { key: 'MODEL SIZE', val: '84 KB INT8' },
-        { key: 'PRECISION', val: '97.2%' },
-        { key: 'CORE', val: 'ARM Cortex-M' }
+        { label: 'Inference', value: '14.2ms' },
+        { label: 'Model Size', value: '84 KB INT8' },
+        { label: 'Precision', value: '97.2%' }
       ],
-      previewType: 'image',
+      techs: ['ARM Cortex', 'TinyML', 'Python', 'PyTorch', 'WebSockets', 'React'],
+      previewType: 'photo',
       image: '/assets/workbench.jpg',
-      tags: ['ARM Cortex', 'TinyML', 'TensorFlow / PyTorch', 'Python', 'WebSockets', 'React']
+      github: 'https://github.com/rajatbehera05/edgevision'
     }
   ];
 
-  // Filtered systems list
-  const filteredSystems = systems.filter((sys) => {
-    if (filter === 'SOFTWARE') return sys.isSoftware;
-    if (filter === 'IOT') return !sys.isSoftware;
+  const filteredProjects = projects.filter(p => {
+    if (filter === 'SOFTWARE') return p.isSoftware;
+    if (filter === 'IOT') return !p.isSoftware;
     return true;
   });
 
-  // Signal propagation simulation
-  const handleSimulate = (systemId) => {
-    if (activeSimulationId !== null) return;
-    setActiveSimulationId(systemId);
-    setActivePingStage(0);
-
-    const isOmni = systemId === 'omnisync';
-    const stages = isOmni
-      ? [
-          { stage: 0, text: 'STAGE 1/5: React state mutated locally via Zustand & CRDT clock (0.8ms)', delay: 0 },
-          { stage: 1, text: 'STAGE 2/5: WebSocket payload serialized & encrypted over TLS (3.2ms)', delay: 280 },
-          { stage: 2, text: 'STAGE 3/5: Redis Pub/Sub cluster broadcasting to multi-tenant pods (6.9ms)', delay: 560 },
-          { stage: 3, text: 'STAGE 4/5: PostgreSQL WAL append-only log written & compressed (11.4ms)', delay: 840 },
-          { stage: 4, text: 'STAGE 5/5: Distributed peer canvases converged with zero conflict (13.8ms)', delay: 1120 },
-        ]
-      : [
-          { stage: 0, text: 'STAGE 1/5: 940nm LiDAR photon burst acquired on I2C bus (1.4ms)', delay: 0 },
-          { stage: 1, text: 'STAGE 2/5: ESP32-S3 RTOS queue filtering noise & state (4.1ms)', delay: 280 },
-          { stage: 2, text: 'STAGE 3/5: TLS MQTT packet dispatched over port 8883 (9.8ms)', delay: 560 },
-          { stage: 3, text: 'STAGE 4/5: TimescaleDB hypertable ingested (16.2ms)', delay: 840 },
-          { stage: 4, text: 'STAGE 5/5: React digital twin UI updated in real-time (23.4ms)', delay: 1120 },
-        ];
-
-    stages.forEach(({ stage, text, delay }) => {
-      setTimeout(() => {
-        setActivePingStage(stage);
-        setPingStatusText(text);
-      }, delay);
-    });
-
-    setTimeout(() => {
-      setActivePingStage(null);
-      setPingStatusText(isOmni ? 'COLLABORATIVE STATE CONVERGENCE VERIFIED // 13.8MS' : 'SIGNAL PROPAGATION COMPLETE // VERIFIED <24MS');
-      setTimeout(() => {
-        setPingStatusText(null);
-        setActiveSimulationId(null);
-      }, 2400);
-    }, 1600);
+  const handleSimulateCollab = () => {
+    setInteractiveSyncActive(true);
+    setTimeout(() => setInteractiveSyncActive(false), 2000);
   };
 
   return (
     <section
       id="work"
-      aria-label="Systems & Software I Have Built"
+      aria-label="Featured Projects"
       className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#1A222B]"
     >
       <div id="systems" className="-mt-24 pt-24" aria-hidden="true" />
 
-      {/* Section Header & Ratio Filter Tabs */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+      {/* Header and Filter Controls */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <motion.div 
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="space-y-3"
+          transition={{ duration: 0.5 }}
+          className="space-y-2.5"
         >
-          <div className="flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.2em] text-[#16D9E8] uppercase font-medium">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
-            </span>
-            <span>PORTFOLIO ARCHITECTURE // 01</span>
+          <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#16D9E8] uppercase">
+            <span>Portfolio</span>
+            <span className="text-[#232D36]">•</span>
+            <span className="text-[#AAB5C0]">Selected Work</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
-            Systems &amp; Software I Have Built
+            Featured Projects
           </h2>
           <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
-            Full-stack web architectures, high-concurrency cloud distributed engines, and real-time edge telemetry systems built for resilience and speed.
+            A selection of web applications, distributed cloud backends, and connected IoT systems I've built.
           </p>
         </motion.div>
 
-        {/* 70/30 Perspective Filter Pills */}
+        {/* Filter Pills */}
         <motion.div 
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-1.5 p-1 rounded-lg bg-[#0F1419] border border-[#1A222B] self-start md:self-auto font-mono-tech text-[11px]"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0F1419] border border-[#1A222B] self-start md:self-auto text-[12px]"
         >
           <button
             type="button"
             onClick={() => setFilter('ALL')}
-            className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer font-medium ${
               filter === 'ALL'
-                ? 'bg-[#141A21] text-[#F4F7FA] border border-[#232D36] shadow-sm font-semibold'
+                ? 'bg-[#1A222B] text-[#F4F7FA] shadow-xs'
                 : 'text-[#71808D] hover:text-[#AAB5C0]'
             }`}
           >
-            ALL ARCHITECTURES (4)
+            All Work ({projects.length})
           </button>
 
           <button
             type="button"
             onClick={() => setFilter('SOFTWARE')}
-            className={`px-3 py-1.5 rounded-md transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer font-medium ${
               filter === 'SOFTWARE'
-                ? 'bg-[#16D9E8]/15 text-[#16D9E8] border border-[#16D9E8]/40 shadow-sm font-bold'
+                ? 'bg-[#16D9E8]/15 text-[#16D9E8] border border-[#16D9E8]/30 shadow-xs'
                 : 'text-[#71808D] hover:text-[#16D9E8]'
             }`}
           >
-            <span>SOFTWARE &amp; CLOUD (70%)</span>
+            Web &amp; Full-Stack (70%)
           </button>
 
           <button
             type="button"
             onClick={() => setFilter('IOT')}
-            className={`px-3 py-1.5 rounded-md transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer font-medium ${
               filter === 'IOT'
-                ? 'bg-[#3B82F6]/15 text-[#3B82F6] border border-[#3B82F6]/40 shadow-sm font-bold'
+                ? 'bg-[#3B82F6]/15 text-[#3B82F6] border border-[#3B82F6]/30 shadow-xs'
                 : 'text-[#71808D] hover:text-[#3B82F6]'
             }`}
           >
-            <span>CONNECTED IOT (30%)</span>
+            Connected IoT (30%)
           </button>
         </motion.div>
       </div>
 
-      {/* Systems Grid */}
-      <div className="space-y-12">
+      {/* Projects List */}
+      <div className="space-y-10">
         <AnimatePresence mode="popLayout">
-          {filteredSystems.map((system, systemIdx) => {
-            const isCardHovered = hoveredProjectId === system.id;
-            const isSimulatingThis = activeSimulationId === system.id;
-            const hasSimulation = system.id === 'omnisync' || system.id === 'parksense';
-
-            return (
-              <motion.div
-                key={system.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.5, delay: systemIdx * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                onMouseEnter={() => setHoveredProjectId(system.id)}
-                onMouseLeave={() => {
-                  setHoveredProjectId(null);
-                  setActiveStage(null);
-                }}
-                className={`relative overflow-hidden p-6 sm:p-8 rounded-xl border transition-all duration-300 ${
-                  isCardHovered
-                    ? 'bg-[#141A21] border-[#16D9E8]/50 shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
-                    : 'bg-[#0F1419]/90 border-[#1A222B] hover:border-[#232D36]'
-                }`}
-              >
-                {/* Header row of system node */}
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1A222B] pb-4 mb-6">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono-tech text-[11px] px-2.5 py-0.5 rounded font-bold border border-[#16D9E8]/30 bg-[#16D9E8]/10 text-[#16D9E8]">
-                      {system.code}
-                    </span>
-                    <span className="font-mono-tech text-[11px] tracking-wider text-[#71808D] uppercase font-semibold">
-                      {system.category}
-                    </span>
-                    <span className={`hidden sm:inline font-mono-tech text-[9.5px] px-2 py-0.5 rounded border ${
-                      system.isSoftware 
-                        ? 'border-[#16D9E8]/30 bg-[#16D9E8]/10 text-[#16D9E8]' 
-                        : 'border-[#3B82F6]/30 bg-[#3B82F6]/10 text-[#3B82F6]'
-                    }`}>
-                      {system.track}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    {/* Interactive Simulation Trigger */}
-                    {hasSimulation && (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSimulate(system.id);
-                        }}
-                        className={`group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-mono-tech font-semibold uppercase tracking-wider border transition-all duration-200 cursor-pointer ${
-                          isSimulatingThis
-                            ? 'bg-[#16D9E8] text-[#0A0D10] border-[#16D9E8] shadow-[0_0_16px_#16D9E8]'
-                            : 'border-[#16D9E8]/40 bg-[#16D9E8]/10 text-[#16D9E8] hover:bg-[#16D9E8] hover:text-[#0A0D10]'
-                        }`}
-                      >
-                        <Activity className={`w-3.5 h-3.5 ${isSimulatingThis ? 'animate-spin' : 'animate-pulse'}`} />
-                        <span>
-                          {isSimulatingThis
-                            ? 'PROPAGATING SIGNAL...'
-                            : system.id === 'omnisync'
-                            ? 'SIMULATE REAL-TIME SYNC'
-                            : 'SIMULATE SENSOR PING'}
-                        </span>
-                      </button>
-                    )}
-
-                    <div className="flex items-center gap-2 font-mono-tech text-[11px] text-[#AAB5C0] font-medium bg-[#0A0D10]/50 px-2.5 py-1 rounded border border-[#1A222B]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#16D9E8] animate-ping" />
-                      <span>{system.status}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* System Main Content: Split layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {filteredProjects.map((project, pIdx) => (
+            <motion.div
+              key={project.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.45, delay: pIdx * 0.08 }}
+              className="relative overflow-hidden p-6 sm:p-8 rounded-2xl border border-[#1A222B] bg-[#0E1319]/85 hover:border-[#2A3744] hover:bg-[#121820] transition-all duration-300 shadow-xl"
+            >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   
-                  {/* Left: Summary, Tech stack, and Pipeline */}
-                  <div className="lg:col-span-7 space-y-6">
+                  {/* Left Details Column */}
+                  <div className="lg:col-span-7 space-y-5">
+                    
+                    {/* Tags & Track */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      {project.featured && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#16D9E8]/15 text-[#16D9E8] border border-[#16D9E8]/30 uppercase tracking-wider">
+                          Featured Project
+                        </span>
+                      )}
+                      <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-[#16D9E8]/10 text-[#16D9E8] border border-[#16D9E8]/20">
+                        {project.category}
+                      </span>
+                      <span className="text-[11px] font-medium text-[#71808D]">
+                        {project.track}
+                      </span>
+                    </div>
+
+                    {/* Title & Tagline */}
                     <div>
-                      <h3 className="text-2xl font-bold text-[#F4F7FA] tracking-tight font-sans-editorial">
-                        {system.title}
+                      <h3 className="text-2xl sm:text-3xl font-bold text-[#F4F7FA] tracking-tight font-sans-editorial">
+                        {project.title}
                       </h3>
-                      <p className="text-[14.5px] text-[#AAB5C0] leading-relaxed mt-2.5 font-normal">
-                        {system.summary}
+                      <p className="text-[14px] text-[#16D9E8] font-medium mt-1">
+                        {project.tagline}
+                      </p>
+                      <p className="text-[15px] text-[#AAB5C0] leading-relaxed mt-3 font-normal">
+                        {project.description}
                       </p>
                     </div>
 
-                    {/* Connected System Topology Flow */}
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between font-mono-tech text-[10.5px] text-[#16D9E8] uppercase tracking-wider font-semibold">
-                        <span>ARCHITECTURE PIPELINE</span>
-                        <span className="text-[10px] text-[#71808D] tracking-normal font-normal">
-                          HOVER STAGES TO INSPECT
-                        </span>
+                    {/* Key Engineering Highlights */}
+                    <div className="space-y-2 pt-1">
+                      <div className="text-[11.5px] uppercase tracking-wider text-[#71808D] font-semibold">
+                        Key Engineering Highlights
                       </div>
-                      
-                      {/* Horizontal connected pipeline */}
-                      <div className="relative p-3.5 rounded-lg border border-[#1A222B] bg-[#0A0D10]/60 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 overflow-hidden">
-                        
-                        {/* Active traveling pulse wave on card hover */}
-                        {isCardHovered && (
-                          <div
-                            aria-hidden="true"
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-[#16D9E8]/10 to-transparent pointer-events-none animate-scanline"
-                          />
-                        )}
-
-                        {system.pipeline.map((stage, idx) => {
-                          const Icon = stage.icon;
-                          const isLast = idx === system.pipeline.length - 1;
-                          const isStageSelected = activeStage?.label === stage.label;
-                          const isStagePinging = isSimulatingThis && activePingStage === idx;
-
-                          return (
-                            <React.Fragment key={stage.label}>
-                              <div
-                                onMouseEnter={() => setActiveStage(stage)}
-                                className={`relative z-10 flex items-center gap-2 py-2 px-2.5 rounded-md cursor-pointer transition-all duration-300 ${
-                                  isStagePinging
-                                    ? 'bg-[#16D9E8] text-[#0A0D10] border border-[#16D9E8] shadow-[0_0_16px_rgba(22,217,232,0.8)] scale-105'
-                                    : isStageSelected
-                                    ? 'bg-[#1A222B] border border-[#16D9E8] text-[#F4F7FA] shadow-[0_0_12px_rgba(22,217,232,0.25)]'
-                                    : 'bg-[#0F1419] border border-[#1A222B] hover:border-[#16D9E8]/40 text-[#AAB5C0]'
-                                }`}
-                              >
-                                <Icon className={`w-3.5 h-3.5 shrink-0 transition-colors duration-200 ${
-                                  isStagePinging
-                                    ? 'text-[#0A0D10]'
-                                    : isStageSelected
-                                    ? 'text-[#16D9E8]'
-                                    : 'text-[#71808D]'
-                                }`} />
-                                <div>
-                                  <div className={`text-[9.5px] font-mono-tech uppercase leading-none font-medium ${
-                                    isStagePinging ? 'text-[#0A0D10] font-bold' : isStageSelected ? 'text-[#16D9E8]' : 'text-[#71808D]'
-                                  }`}>
-                                    {stage.label}
-                                  </div>
-                                  <div className={`text-[11.5px] font-semibold leading-tight mt-0.5 whitespace-nowrap ${
-                                    isStagePinging ? 'text-[#0A0D10]' : 'text-[#F4F7FA]'
-                                  }`}>
-                                    {stage.role}
-                                  </div>
-                                </div>
-                              </div>
-                              {!isLast && (
-                                <div className={`hidden sm:flex items-center font-mono-tech text-xs transition-colors duration-200 ${
-                                  isStagePinging || (isSimulatingThis && activePingStage !== null && activePingStage > idx)
-                                    ? 'text-[#16D9E8] font-bold'
-                                    : 'text-[#232D36]'
-                                }`}>
-                                  →
-                                </div>
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
+                      <div className="space-y-1.5">
+                        {project.highlights.map((h, i) => (
+                          <div key={i} className="flex items-start gap-2 text-[13.5px] text-[#AAB5C0]">
+                            <CheckCircle2 className="w-4 h-4 text-[#16D9E8] shrink-0 mt-0.5" />
+                            <span>{h}</span>
+                          </div>
+                        ))}
                       </div>
-
-                      {/* Live Ping Status Broadcast Bar */}
-                      {isSimulatingThis && pingStatusText && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="p-2.5 rounded-lg border border-[#16D9E8]/40 bg-[#16D9E8]/10 text-[11px] font-mono-tech text-[#16D9E8] flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Activity className="w-3.5 h-3.5 animate-pulse" />
-                            <span>{pingStatusText}</span>
-                          </div>
-                          <span className="text-[10px] text-[#AAB5C0] uppercase">LIVE STREAM</span>
-                        </motion.div>
-                      )}
-
-                      {/* Stage Telemetry Inspector Details */}
-                      {activeStage && (
-                        <div className="p-3 rounded-lg border border-[#232D36] bg-[#0A0D10] text-[11px] font-mono-tech text-[#F4F7FA] shadow-md flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[#16D9E8] font-bold uppercase">[{activeStage.label}]:</span>
-                            <span className="text-[#AAB5C0] font-normal">{activeStage.spec}</span>
-                          </div>
-                          <span className="text-[10px] text-[#16D9E8] uppercase font-semibold">STAGE SPEC</span>
-                        </div>
-                      )}
                     </div>
 
-                    {/* System Metrics */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono-tech">
-                      {system.metrics.map((m) => (
-                        <div key={m.key} className="p-2.5 rounded-lg border border-[#1A222B] bg-[#0A0D10]/50 hover:border-[#232D36] transition-colors">
-                          <div className="text-[9.5px] text-[#71808D] uppercase font-semibold">{m.key}</div>
-                          <div className="text-[13px] text-[#16D9E8] font-bold mt-0.5">{m.val}</div>
+                    {/* Metrics Bar */}
+                    <div className="grid grid-cols-3 gap-2.5 pt-2">
+                      {project.metrics.map(m => (
+                        <div key={m.label} className="p-2.5 rounded-xl bg-[#0A0D10]/80 border border-[#1A222B]">
+                          <div className="text-[11px] text-[#71808D] font-medium">{m.label}</div>
+                          <div className="text-[13.5px] font-bold text-[#F4F7FA] mt-0.5">{m.value}</div>
                         </div>
                       ))}
                     </div>
 
-                    {/* Tech Tags & Spec Button */}
-                    <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
+                    {/* Tech Badges & Action */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-[#1A222B]">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        {system.tags.map((tag) => (
+                        {project.techs.map(t => (
                           <span
-                            key={tag}
-                            className="font-mono-tech text-[10.5px] px-2.5 py-0.5 rounded border border-[#1A222B] text-[#AAB5C0] bg-[#0A0D10]"
+                            key={t}
+                            className="text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-[#141A21] text-[#AAB5C0] border border-[#232D36]"
                           >
-                            {tag}
+                            {t}
                           </span>
                         ))}
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => onOpenSpec && onOpenSpec(system)}
-                        className="group inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-mono-tech font-semibold tracking-wider uppercase border border-[#232D36] hover:border-[#16D9E8]/60 bg-[#141A21] hover:bg-[#1A222B] text-[#F4F7FA] transition-all duration-200 cursor-pointer shadow-sm"
-                      >
-                        <span>VIEW SYSTEM SPEC</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#16D9E8] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#141A21] hover:bg-[#1A222B] border border-[#232D36] transition-colors"
+                            title="View Source on GitHub"
+                          >
+                            <GithubIcon className="w-3.5 h-3.5" />
+                            <span>GitHub</span>
+                          </a>
+                        )}
+
+                        {project.liveDemo && (
+                          <a
+                            href={project.liveDemo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-[#16D9E8] hover:text-[#0A0D10] bg-[#16D9E8]/10 hover:bg-[#16D9E8] border border-[#16D9E8]/30 transition-all"
+                            title="Open Live Demo"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Live Demo</span>
+                          </a>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => onOpenSpec && onOpenSpec(project)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-[#AAB5C0] hover:text-[#16D9E8] hover:bg-[#141A21] border border-transparent hover:border-[#232D36] cursor-pointer transition-colors"
+                        >
+                          <span>Details</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#16D9E8]" />
+                        </button>
+                      </div>
                     </div>
+
                   </div>
 
-                  {/* Right Preview: Live Software Console or Bench Photo */}
-                  <div className="lg:col-span-5 relative w-full aspect-[16/10] rounded-lg overflow-hidden border border-[#1A222B] bg-[#0A0D10] group/img">
-                    {system.previewType === 'software-console' ? (
-                      /* Live Interactive Real-Time Software Console */
-                      <div className="w-full h-full p-4 flex flex-col justify-between font-mono-tech text-[11px] bg-gradient-to-br from-[#0A0D10] via-[#0F1419] to-[#0A0D10] select-none">
-                        <div className="flex items-center justify-between border-b border-[#1A222B] pb-2 text-[10.5px] text-[#71808D]">
+                  {/* Right Preview Column: Clean Product Mockup / Photo */}
+                  <div className="lg:col-span-5 relative w-full aspect-[16/11] rounded-2xl overflow-hidden border border-[#232D36] bg-[#0A0D10] group/img">
+                    
+                    {project.previewType === 'collab-canvas' ? (
+                      /* OmniSync Interactive Collaborative Canvas UI */
+                      <div className="w-full h-full p-5 flex flex-col justify-between bg-gradient-to-br from-[#0F141A] to-[#0A0D10] select-none">
+                        
+                        {/* Mock App Header */}
+                        <div className="flex items-center justify-between border-b border-[#1A222B] pb-3 text-[12px]">
                           <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#16D9E8] animate-ping" />
-                            <span className="text-[#F4F7FA] font-bold">omnisync.cluster.local</span>
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
+                            <span className="font-semibold text-[#F4F7FA]">OmniSync Board</span>
                           </div>
-                          <span className="text-[#16D9E8]">WS: 10,240 ACTIVE</span>
-                        </div>
-
-                        <div className="space-y-1.5 py-2 text-[10px] text-[#AAB5C0]">
-                          <div className="flex justify-between text-[#71808D]">
-                            <span>[CRDT_CLOCK_SYNC]</span>
-                            <span className="text-[#16D9E8]">VECTOR V: [Node_A: 489, Node_B: 490]</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>REPLICA_STATE:</span>
-                            <span className="text-emerald-400">DETERMINISTIC CONVERGED</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>PUB/SUB EVENT BUS:</span>
-                            <span>REDIS CLUSTER / SHARD 03</span>
-                          </div>
-                          <div className="flex justify-between text-[#71808D]">
-                            <span>LAST DIFF APPLY:</span>
-                            <span className="text-[#F4F7FA]">Δ 142 BYTES (12.4ms)</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex -space-x-1.5 overflow-hidden">
+                              <span className="inline-block h-5 w-5 rounded-full ring-2 ring-[#0A0D10] bg-[#16D9E8] text-[9px] font-bold text-[#0A0D10] flex items-center justify-center">RB</span>
+                              <span className="inline-block h-5 w-5 rounded-full ring-2 ring-[#0A0D10] bg-[#3B82F6] text-[9px] font-bold text-white flex items-center justify-center">AK</span>
+                              <span className="inline-block h-5 w-5 rounded-full ring-2 ring-[#0A0D10] bg-purple-500 text-[9px] font-bold text-white flex items-center justify-center">+3</span>
+                            </div>
+                            <span className="text-[11px] text-emerald-400 font-medium">5 Online</span>
                           </div>
                         </div>
 
-                        {/* Interactive mini wave / bar chart */}
-                        <div className="pt-2 border-t border-[#1A222B] flex items-end justify-between gap-1 h-12">
-                          {[35, 60, 45, 80, 95, 65, 40, 85, 75, 50, 90, 70, 85, 95, 60].map((h, i) => (
-                            <div 
-                              key={i} 
-                              style={{ height: `${h}%` }}
-                              className={`w-full rounded-t transition-all duration-300 ${
-                                isCardHovered ? 'bg-[#16D9E8]' : 'bg-[#16D9E8]/30'
-                              }`}
-                            />
-                          ))}
+                        {/* Interactive Canvas Workspace Elements */}
+                        <div className="relative h-28 my-auto rounded-xl border border-dashed border-[#232D36] bg-[#141A21]/40 flex items-center justify-center p-3">
+                          
+                          {/* Simulated Live Cursor 1 */}
+                          <div className="absolute top-3 left-6 flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-[#16D9E8]" />
+                            <span className="text-[9.5px] px-1.5 py-0.5 rounded bg-[#16D9E8] text-[#0A0D10] font-bold">Rajat (Editing)</span>
+                          </div>
+
+                          {/* Simulated Live Cursor 2 */}
+                          <div className="absolute bottom-4 right-8 flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-[#3B82F6]" />
+                            <span className="text-[9.5px] px-1.5 py-0.5 rounded bg-[#3B82F6] text-white font-bold">Alex (Viewing)</span>
+                          </div>
+
+                          {/* Document State Block */}
+                          <div className="p-2.5 rounded-lg bg-[#0E1319] border border-[#1A222B] text-center space-y-1">
+                            <div className="text-[11px] text-[#AAB5C0]">CRDT Replicated Document</div>
+                            <div className="text-[10px] text-emerald-400 font-medium">
+                              {interactiveSyncActive ? '● Syncing Changes across 5 peers...' : '● State Synchronized (12ms)'}
+                            </div>
+                          </div>
+
                         </div>
 
-                        <div className="flex items-center justify-between pt-1 text-[9.5px] text-[#71808D]">
-                          <span>THROUGHPUT: 4.8 MB/s</span>
-                          <span className="text-[#16D9E8]">LATENCY P99: 13.8ms</span>
+                        {/* Interactive Click Trigger */}
+                        <div className="flex items-center justify-between pt-3 border-t border-[#1A222B] text-[11px]">
+                          <span className="text-[#71808D]">WebSockets + Redis Pub/Sub</span>
+                          <button
+                            type="button"
+                            onClick={handleSimulateCollab}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#16D9E8]/10 text-[#16D9E8] hover:bg-[#16D9E8] hover:text-[#0A0D10] border border-[#16D9E8]/30 transition-all font-medium cursor-pointer"
+                          >
+                            <Play className="w-2.5 h-2.5" />
+                            <span>Simulate Peer Edit</span>
+                          </button>
                         </div>
+
                       </div>
-                    ) : system.previewType === 'gateway-console' ? (
-                      /* Live Microservice Gateway Console */
-                      <div className="w-full h-full p-4 flex flex-col justify-between font-mono-tech text-[11px] bg-gradient-to-br from-[#0A0D10] via-[#0F1419] to-[#0A0D10] select-none">
-                        <div className="flex items-center justify-between border-b border-[#1A222B] pb-2 text-[10.5px] text-[#71808D]">
+                    ) : project.previewType === 'api-dashboard' ? (
+                      /* NexusFlow Clean Route Dashboard */
+                      <div className="w-full h-full p-5 flex flex-col justify-between bg-gradient-to-br from-[#0F141A] to-[#0A0D10] select-none">
+                        
+                        <div className="flex items-center justify-between border-b border-[#1A222B] pb-3 text-[12px]">
                           <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse" />
-                            <span className="text-[#F4F7FA] font-bold">gateway.ingress.io</span>
+                            <Server className="w-3.5 h-3.5 text-[#3B82F6]" />
+                            <span className="font-semibold text-[#F4F7FA]">NexusFlow Gateway</span>
                           </div>
-                          <span className="text-emerald-400">STATUS 200 OK</span>
+                          <span className="text-[11px] text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                            99.99% Uptime
+                          </span>
                         </div>
 
-                        <div className="space-y-1.5 py-2 text-[10px] text-[#AAB5C0]">
-                          <div className="flex justify-between">
-                            <span className="text-[#71808D]">POST /api/v2/stream/ingest</span>
-                            <span className="text-[#16D9E8]">200 OK · 4.8ms</span>
+                        {/* Clean Route Logs */}
+                        <div className="space-y-1.5 text-[11px]">
+                          <div className="flex items-center justify-between p-2 rounded-lg bg-[#141A21]/70 border border-[#1A222B]">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400">POST</span>
+                              <span className="text-[#F4F7FA]">/api/v1/auth/session</span>
+                            </div>
+                            <span className="text-emerald-400 font-medium">200 OK · 3.2ms</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-[#71808D]">GET /api/v2/metrics/summary</span>
-                            <span className="text-[#16D9E8]">200 OK · 2.1ms (Cache)</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-[#71808D]">POST /api/v2/auth/verify</span>
-                            <span className="text-[#16D9E8]">200 OK · 3.4ms</span>
-                          </div>
-                          <div className="flex justify-between text-[#71808D]">
-                            <span>RATE LIMIT TICKET:</span>
-                            <span className="text-[#F4F7FA]">TOKEN BUCKET [OK: 9800/10000]</span>
+
+                          <div className="flex items-center justify-between p-2 rounded-lg bg-[#141A21]/70 border border-[#1A222B]">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">GET</span>
+                              <span className="text-[#F4F7FA]">/api/v1/telemetry/stream</span>
+                            </div>
+                            <span className="text-emerald-400 font-medium">200 OK · 1.8ms (Cache)</span>
                           </div>
                         </div>
 
-                        <div className="pt-2 border-t border-[#1A222B] flex items-center justify-between text-[10px]">
-                          <span className="text-[#71808D]">CACHE HIT RATIO:</span>
-                          <span className="text-[#16D9E8] font-bold">94.6% IN-MEMORY</span>
+                        <div className="flex items-center justify-between pt-3 border-t border-[#1A222B] text-[11px] text-[#71808D]">
+                          <span>Active Workers: 16 Async</span>
+                          <span className="text-[#3B82F6] font-medium">OpenTelemetry Traced</span>
                         </div>
 
-                        <div className="flex items-center justify-between pt-1 text-[9.5px] text-[#71808D]">
-                          <span>WORKERS: 16 ASYNC</span>
-                          <span className="text-[#3B82F6]">TRACING: OTEL_ENABLED</span>
+                      </div>
+                    ) : project.previewType === 'smart-parking-image' ? (
+                      /* Smart Parking Architecture & System Diagram */
+                      <div
+                        className="relative w-full h-full bg-[#0A0D10] overflow-hidden group/img cursor-pointer"
+                        onClick={() => onOpenSpec && onOpenSpec(project)}
+                        title="Click to view full architecture diagram"
+                      >
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover object-top sm:object-center group-hover/img:scale-105 transition-all duration-500"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D10]/85 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#0A0D10]/85 backdrop-blur-md border border-[#232D36] text-[10.5px] text-emerald-400 font-medium flex items-center gap-1.5 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span>ESP32 · Real-Time Telemetry</span>
+                        </div>
+                        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] text-[#AAB5C0] pointer-events-none">
+                          <div className="px-2.5 py-1 rounded-lg bg-[#0A0D10]/85 backdrop-blur-md border border-[#1A222B] text-[#16D9E8] font-medium">
+                            System Architecture
+                          </div>
+                          <div className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#0A0D10]/80 border border-[#232D36] text-[10px] font-mono text-[#71808D]">
+                            IR Sensors · Servo · REST
+                          </div>
                         </div>
                       </div>
                     ) : (
-                      /* Technical Photography for IoT / Hardware */
-                      <>
+                      /* Technical Photography for Hardware Projects */
+                      <div className="relative w-full h-full">
                         <img
-                          src={system.image}
-                          alt={system.title}
-                          className="w-full h-full object-cover grayscale-[20%] group-hover/img:grayscale-0 group-hover/img:scale-105 transition-all duration-500"
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover grayscale-[15%] group-hover/img:grayscale-0 group-hover/img:scale-105 transition-all duration-500"
                           loading="lazy"
                         />
-                        <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded bg-[#0A0D10]/85 backdrop-blur-sm border border-[#1A222B] font-mono-tech text-[10px] text-[#16D9E8] uppercase font-semibold">
-                          SYS_NODE // {system.code}
+                        <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-[#0A0D10]/85 backdrop-blur-md border border-[#1A222B] text-[11px] text-[#16D9E8] font-medium">
+                          Physical Prototype
                         </div>
-                      </>
+                      </div>
                     )}
+
                   </div>
 
                 </div>
-
               </motion.div>
-            );
-          })}
+          ))}
         </AnimatePresence>
       </div>
+
     </section>
   );
 }

@@ -1,175 +1,151 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers } from 'lucide-react';
+import { ArrowRight, FileText, Mail } from 'lucide-react';
 import ConvergenceEngineVisual from './ConvergenceEngineVisual';
 
+function GithubIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+    </svg>
+  );
+}
+
+function LinkedinIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  );
+}
+
 /**
- * Hero Section — First Viewport Redesign
- * 
- * Aesthetic: Apple Product Presentation × High-End Engineering Laboratory
- * Layout: Strong Asymmetrical Editorial Composition
- * 
- * Hierarchy:
- * 1. Technical Eyebrow: COMPUTER SCIENCE ENGINEER — SOFTWARE · EMBEDDED · AI
- * 2. Name Branding: Rajat Behera
- * 3. Main Statement: "I build intelligent systems where software, models, and physical hardware converge."
- * 4. Supporting Text: "Specializing in software engineering, connected IoT architectures, embedded computing, and applied intelligence."
- * 5. Actions: EXPLORE WORK → | SYSTEM SPECIFICATIONS
- * 6. Central Visual: The Convergence Engine (Software → Intelligence → Hardware → Physical World)
- * 7. Operational Status: OPERATIONAL // REAL-TIME
+ * Hero Section — Warm, Human, High-End Software Developer Presentation
  */
 export default function Hero({ onExplore, onAbout }) {
   return (
     <section
       id="home"
-      aria-label="Rajat Behera Engineering Showcase"
+      aria-label="Rajat Behera Software Portfolio"
       className="relative min-h-[calc(100vh-80px)] w-full flex items-center justify-center pt-24 pb-16 sm:pt-28 sm:pb-20 px-6 sm:px-12 overflow-hidden"
     >
       <div className="relative z-10 w-full max-w-[1380px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
           
-          {/* ===================================================
-              LEFT SIDE: EDITORIAL & IDENTITY (~48% Desktop)
-              =================================================== */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-7 z-20">
+          {/* Left Column: Natural, Human Presentation */}
+          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 z-20">
             
-            {/* 1. Technical Eyebrow & Ratio Badge */}
+            {/* Availability Status Badge */}
             <motion.div
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap items-center gap-2.5 font-mono-tech text-[11px] tracking-[0.16em] uppercase font-medium"
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-[12px] font-medium w-fit"
             >
-              <span className="text-[#F4F7FA] font-bold">FULL-STACK SOFTWARE ENGINEER</span>
-              <span className="text-[#232D36]">/</span>
-              <span className="text-[#16D9E8]">REACT · CLOUD · SYSTEMS</span>
-              <span className="text-[10px] px-2 py-0.5 rounded border border-[#16D9E8]/30 bg-[#16D9E8]/10 text-[#16D9E8] font-bold tracking-wider ml-auto sm:ml-0">
-                70% SW · 30% IOT
-              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Available for Software Engineering Internships · Summer 2026</span>
             </motion.div>
 
-            {/* 2. Personal Brand / Name Signature */}
-            <motion.h1
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-[-0.035em] leading-[1.02] text-[#F4F7FA] font-sans-editorial"
-            >
-              Rajat Behera
-            </motion.h1>
-
-            {/* 3. Concise Main Statement & Supporting Narrative */}
-            <div className="space-y-3.5 max-w-xl">
-              <motion.p
+            {/* Name & Headline */}
+            <div className="space-y-3">
+              <motion.h1
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="text-xl sm:text-[23px] text-[#F4F7FA] font-medium leading-[1.38] tracking-[-0.015em] font-sans-editorial"
+                transition={{ duration: 0.6, delay: 0.25 }}
+                className="text-4xl sm:text-5xl lg:text-[58px] font-bold tracking-tight text-[#F4F7FA] font-sans-editorial leading-[1.08]"
               >
-                I engineer scalable software platforms, distributed cloud backends, and intelligent connected systems.
-              </motion.p>
+                Building fast web apps, scalable backends &amp; connected systems.
+              </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[14.5px] sm:text-[15.5px] text-[#AAB5C0] leading-relaxed font-normal"
+                transition={{ duration: 0.55, delay: 0.35 }}
+                className="text-[16px] sm:text-[17px] text-[#AAB5C0] leading-relaxed max-w-xl font-normal"
               >
-                Full-stack developer focused on high-performance React &amp; TypeScript client platforms, high-concurrency Node.js and Python microservices, cloud databases, and real-time edge telemetry bridges.
+                Hi, I'm <strong className="text-[#F4F7FA] font-semibold">Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. 70% of my time is dedicated to modern React/TypeScript frontends and distributed cloud services, and 30% to embedded IoT systems.
               </motion.p>
             </div>
 
-            {/* 4. Actions: Primary & Secondary */}
+            {/* Call to Actions */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.45 }}
               className="flex flex-wrap items-center gap-4 pt-1"
             >
-              {/* Primary Action */}
               <button
                 type="button"
                 onClick={onExplore}
-                className="group relative overflow-hidden inline-flex items-center gap-2.5 px-6 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#F4F7FA] bg-[#141A21] border border-[#232D36] hover:border-[#16D9E8]/70 hover:shadow-[0_0_24px_rgba(22,217,232,0.18)] transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-[13.5px] font-semibold text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] hover:shadow-[0_0_24px_rgba(22,217,232,0.3)] transition-all duration-200 cursor-pointer"
               >
-                {/* Shimmer light sweep */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div className="w-full h-full animate-shimmer" />
-                </div>
-                <span className="relative z-10 font-semibold">EXPLORE WORK</span>
-                <ArrowRight className="relative z-10 w-4 h-4 text-[#16D9E8] transition-transform duration-200 group-hover:translate-x-1.5" />
+                <span>View Featured Projects</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
 
-              {/* Secondary Action */}
               <button
                 type="button"
                 onClick={onAbout}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-lg text-[13px] font-mono-tech tracking-wider text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#0F1419]/80 hover:bg-[#141A21] border border-[#1A222B] hover:border-[#232D36] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium text-[#F4F7FA] bg-[#141A21] hover:bg-[#1A222B] border border-[#232D36] transition-all duration-200 cursor-pointer"
               >
-                <Layers className="w-3.5 h-3.5 text-[#16D9E8]" />
-                <span>SYSTEM SPECIFICATIONS</span>
+                <FileText className="w-4 h-4 text-[#16D9E8]" />
+                <span>View Resume</span>
               </button>
             </motion.div>
 
-            {/* 5. Desktop Live Operational Status Badge */}
-            <div className="hidden lg:block pt-3">
-              <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-lg bg-[#0F1419] border border-[#1A222B]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
-                </span>
-
-                <div className="flex items-center gap-2.5 font-mono-tech text-[11px] leading-none">
-                  <span className="font-semibold text-[#F4F7FA] tracking-wider uppercase">
-                    OPERATIONAL // FULL-STACK &amp; SYSTEMS
-                  </span>
-                  <span className="text-[#232D36]">•</span>
-                  <span className="text-[#71808D] font-normal tracking-normal font-sans-editorial text-[12px]">
-                    Focus: Scalable Web Platforms &amp; Connected Telemetry
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Responsive Stacking: Visual followed by Status Badge */}
-            <div className="block lg:hidden pt-4 space-y-6">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            {/* Quick Links / Socials */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+              className="flex items-center gap-5 pt-3 text-[13px] text-[#71808D] border-t border-[#1A222B]"
+            >
+              <a
+                href="https://github.com/rajatbehera05"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 hover:text-[#F4F7FA] transition-colors"
               >
-                <ConvergenceEngineVisual />
-              </motion.div>
+                <GithubIcon className="w-4 h-4" />
+                <span>GitHub</span>
+              </a>
 
-              <div className="pt-2">
-                <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-lg bg-[#0F1419] border border-[#1A222B] w-full sm:w-auto">
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
-                  </span>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 hover:text-[#F4F7FA] transition-colors"
+              >
+                <LinkedinIcon className="w-4 h-4" />
+                <span>LinkedIn</span>
+              </a>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 leading-tight">
-                    <span className="font-mono-tech text-[10.5px] font-semibold text-[#F4F7FA] tracking-wider uppercase">
-                      OPERATIONAL // FULL-STACK &amp; SYSTEMS
-                    </span>
-                    <span className="hidden sm:inline text-[#232D36]">•</span>
-                    <span className="text-[11.5px] text-[#71808D] font-normal">
-                      Focus: Scalable Web Platforms &amp; Connected Telemetry
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <a
+                href="mailto:rajatb220m@gmail.com"
+                className="inline-flex items-center gap-1.5 hover:text-[#F4F7FA] transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                <span>rajatb220m@gmail.com</span>
+              </a>
+
+              <span className="text-[#232D36] hidden sm:inline">•</span>
+              <span className="text-[#AAB5C0] hidden sm:inline">B.Tech CSE (8.9 CGPA)</span>
+            </motion.div>
+
+            {/* Mobile Layout Fallback */}
+            <div className="block lg:hidden pt-4">
+              <ConvergenceEngineVisual />
             </div>
 
           </div>
 
-          {/* ===================================================
-              RIGHT SIDE: THE CONVERGENCE ENGINE (~52% Desktop)
-              =================================================== */}
+          {/* Right Column: Interactive Developer Workspace Showcase */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.65, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.65, delay: 0.35 }}
             className="lg:col-span-6 hidden lg:flex flex-col items-center justify-center relative"
           >
             <ConvergenceEngineVisual />

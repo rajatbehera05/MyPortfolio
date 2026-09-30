@@ -1,18 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Cpu, Code2, Server } from 'lucide-react';
+import { Code2, Server, Cpu, Award, BookOpen, MapPin, Heart, Sparkles } from 'lucide-react';
 
 /**
- * About Section: ABOUT / NODE_01
+ * About Section: ABOUT ME
  * 
- * High-precision engineering specification of background, ethos, and architectural mindset.
- * Calibrated: 70% Full-Stack Software & Distributed Systems · 30% Connected Edge & Hardware
+ * Warm, human, genuine engineering background and personal philosophy:
+ * - 70% Full-Stack Software Developer / 30% Hardware & IoT Bridge
+ * - Clean storytelling free from cold robotic machine jargon
  */
 export default function About() {
   return (
     <section
       id="about"
-      aria-label="About Node 01"
+      aria-label="About Rajat Behera"
       className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#1A222B]"
     >
       {/* Section Header */}
@@ -20,133 +21,142 @@ export default function About() {
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-3 mb-14"
+        transition={{ duration: 0.5 }}
+        className="space-y-2.5 mb-12"
       >
-        <div className="flex items-center gap-2 font-mono-tech text-[11px] tracking-[0.2em] text-[#16D9E8] uppercase font-medium">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#16D9E8] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16D9E8]" />
-          </span>
-          <span>IDENTITY // CORE SPECIFICATION</span>
+        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#16D9E8] uppercase">
+          <span>Background</span>
+          <span className="text-[#232D36]">•</span>
+          <span className="text-[#AAB5C0]">About Me</span>
         </div>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
-          About / Node_01
+          My Story &amp; Approach
         </h2>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         
-        {/* Left Column: Narrative */}
+        {/* Left Column: Human Narrative */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6 }}
           className="lg:col-span-7 space-y-6"
         >
-          <p className="text-[17px] text-[#F4F7FA] leading-relaxed font-medium font-sans-editorial">
-            I am a Computer Science &amp; Engineering student who approaches engineering through a calibrated 70/30 mindset: 70% high-scale software development and cloud architectures, paired with 30% connected IoT and hardware fluency.
+          <p className="text-[18px] sm:text-[19px] text-[#F4F7FA] leading-relaxed font-medium font-sans-editorial">
+            I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
           </p>
 
-          <p className="text-[15px] sm:text-[15.5px] text-[#AAB5C0] leading-relaxed font-normal">
-            My primary craft is building modern, responsive full-stack applications with React, TypeScript, and high-concurrency Node.js / Python backends. But unlike purely web-focused developers, my background in microcontrollers, memory constraints, and IoT protocols gives me a deep intuition for how bytes move through memory caches, networks, and distributed systems.
+          <p className="text-[15.5px] text-[#AAB5C0] leading-relaxed font-normal">
+            Around 70% of my time is spent in the world of full-stack software development. I enjoy building responsive web apps with React and TypeScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
           </p>
 
-          {/* Three Core Engineering Tenets */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-3">
-            <div className="group p-4 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] transition-all duration-300 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center transition-colors group-hover:border-[#16D9E8]/50">
-                <Code2 className="w-4 h-4 text-[#16D9E8]" />
+          <p className="text-[15.5px] text-[#AAB5C0] leading-relaxed font-normal">
+            The remaining 30% of my craft is rooted in physical hardware and IoT. Spending time writing C++ for microcontrollers, scheduling FreeRTOS tasks, and designing sensor circuits gives me a unique advantage: I never view the computer as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
+          </p>
+
+          {/* Three Core Engineering Values */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+            
+            <div className="p-4 rounded-xl border border-[#1A222B] bg-[#0E1319] space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-[#16D9E8]/10 text-[#16D9E8] flex items-center justify-center">
+                <Code2 className="w-4 h-4" />
               </div>
-              <h3 className="font-mono-tech text-[12px] font-bold text-[#F4F7FA] tracking-wide">
-                SOFTWARE ARCHITECTURE
+              <h3 className="text-[13px] font-bold text-[#F4F7FA]">
+                Thoughtful Craft
               </h3>
-              <p className="text-[12px] text-[#71808D] group-hover:text-[#AAB5C0] transition-colors leading-relaxed">
-                Clean modular systems, strict TypeScript contracts, optimistic UI, and test-driven design.
+              <p className="text-[12px] text-[#71808D] leading-relaxed">
+                Clean component hierarchy, strict types, and details that delight users.
               </p>
             </div>
 
-            <div className="group p-4 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] transition-all duration-300 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-[#16D9E8]/10 border border-[#16D9E8]/20 flex items-center justify-center transition-colors group-hover:border-[#16D9E8]/50">
-                <Server className="w-4 h-4 text-[#16D9E8]" />
+            <div className="p-4 rounded-xl border border-[#1A222B] bg-[#0E1319] space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-[#3B82F6]/10 text-[#3B82F6] flex items-center justify-center">
+                <Server className="w-4 h-4" />
               </div>
-              <h3 className="font-mono-tech text-[12px] font-bold text-[#F4F7FA] tracking-wide">
-                HIGH CONCURRENCY
+              <h3 className="text-[13px] font-bold text-[#F4F7FA]">
+                Reliable Systems
               </h3>
-              <p className="text-[12px] text-[#71808D] group-hover:text-[#AAB5C0] transition-colors leading-relaxed">
-                Asynchronous event loops, sub-2ms Redis caching, and resilient WebSocket streams under burst load.
+              <p className="text-[12px] text-[#71808D] leading-relaxed">
+                Designing services that stay fast, resilient, and observable under load.
               </p>
             </div>
 
-            <div className="group p-4 rounded-xl border border-[#1A222B] bg-[#0F1419]/90 hover:border-[#16D9E8]/50 hover:bg-[#141A21] transition-all duration-300 space-y-2">
-              <div className="w-8 h-8 rounded-lg bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center transition-colors group-hover:border-[#3B82F6]/50">
-                <Cpu className="w-4 h-4 text-[#3B82F6]" />
+            <div className="p-4 rounded-xl border border-[#1A222B] bg-[#0E1319] space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-[#16D9E8]/10 text-[#16D9E8] flex items-center justify-center">
+                <Cpu className="w-4 h-4" />
               </div>
-              <h3 className="font-mono-tech text-[12px] font-bold text-[#F4F7FA] tracking-wide">
-                HARDWARE FLUENCY (30%)
+              <h3 className="text-[13px] font-bold text-[#F4F7FA]">
+                Hardware Fluency
               </h3>
-              <p className="text-[12px] text-[#71808D] group-hover:text-[#AAB5C0] transition-colors leading-relaxed">
-                Understanding registers, RTOS queues, and sensor protocols from silicon to the browser.
+              <p className="text-[12px] text-[#71808D] leading-relaxed">
+                Understanding constraints from memory buffers all the way to silicon.
               </p>
             </div>
+
           </div>
         </motion.div>
 
-        {/* Right Column: Technical Telemetry Card */}
+        {/* Right Column: Warm, Human Profile Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-5 rounded-xl p-6 space-y-5 bg-[#0F1419]/95 border border-[#1A222B] shadow-2xl text-[#AAB5C0] relative overflow-hidden"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="lg:col-span-5 rounded-2xl p-6 sm:p-7 space-y-5 bg-[#0E1319]/90 border border-[#1A222B] shadow-xl text-[#AAB5C0]"
         >
-          {/* Subtle card scanline beam */}
-          <div 
-            aria-hidden="true" 
-            className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#16D9E8] to-transparent opacity-60"
-          />
-
           <div className="flex items-center justify-between border-b border-[#1A222B] pb-3">
-            <div className="flex items-center gap-2 font-mono-tech text-[12px] text-[#F4F7FA] font-bold">
-              <Terminal className="w-4 h-4 text-[#16D9E8]" />
-              <span>DEVELOPER_PROFILE.JSON</span>
-            </div>
-            <span className="font-mono-tech text-[10px] text-[#16D9E8] uppercase font-semibold">
-              70% SW · 30% IOT
+            <h3 className="text-[14px] font-bold text-[#F4F7FA] flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#16D9E8]" />
+              <span>Quick Facts</span>
+            </h3>
+            <span className="text-[11px] text-[#16D9E8] font-medium px-2 py-0.5 rounded-full bg-[#16D9E8]/10 border border-[#16D9E8]/20">
+              Student &amp; Builder
             </span>
           </div>
 
-          <div className="space-y-3 font-mono-tech text-[12px]">
-            <div className="flex justify-between border-b border-[#1A222B]/70 pb-2">
-              <span className="text-[#71808D]">ROLE_PRIMARY:</span>
-              <span className="text-[#16D9E8] font-bold">Full-Stack Software Engineer (70%)</span>
+          <div className="space-y-3.5 text-[13.5px]">
+            
+            <div className="flex items-start gap-3">
+              <BookOpen className="w-4 h-4 text-[#16D9E8] shrink-0 mt-0.5" />
+              <div>
+                <div className="text-[#F4F7FA] font-medium">B.Tech in Computer Science &amp; Engineering</div>
+                <div className="text-[12px] text-[#71808D]">Maintaining an 8.9 / 10.0 Cumulative CGPA</div>
+              </div>
             </div>
-            <div className="flex justify-between border-b border-[#1A222B]/70 pb-2">
-              <span className="text-[#71808D]">ROLE_SECONDARY:</span>
-              <span className="text-[#3B82F6] font-semibold">Connected IoT &amp; Edge (30%)</span>
+
+            <div className="flex items-start gap-3">
+              <Award className="w-4 h-4 text-[#3B82F6] shrink-0 mt-0.5" />
+              <div>
+                <div className="text-[#F4F7FA] font-medium">3x Hackathon Winner</div>
+                <div className="text-[12px] text-[#71808D]">Built collaborative web apps and IoT platforms under 36 hours</div>
+              </div>
             </div>
-            <div className="flex justify-between border-b border-[#1A222B]/70 pb-2">
-              <span className="text-[#71808D]">CORE_STACK:</span>
-              <span className="text-[#F4F7FA] font-medium">React, TypeScript, Node, Python</span>
+
+            <div className="flex items-start gap-3">
+              <MapPin className="w-4 h-4 text-[#16D9E8] shrink-0 mt-0.5" />
+              <div>
+                <div className="text-[#F4F7FA] font-medium">Location &amp; Availability</div>
+                <div className="text-[12px] text-[#71808D]">Based in India · Open to remote &amp; on-site internships</div>
+              </div>
             </div>
-            <div className="flex justify-between border-b border-[#1A222B]/70 pb-2">
-              <span className="text-[#71808D]">PERSISTENCE:</span>
-              <span className="text-[#AAB5C0]">PostgreSQL, Redis, TimescaleDB</span>
+
+            <div className="flex items-start gap-3">
+              <Heart className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <div>
+                <div className="text-[#F4F7FA] font-medium">When I'm not coding</div>
+                <div className="text-[12px] text-[#71808D]">Soldering prototype boards, tinkering with open source, and learning Rust</div>
+              </div>
             </div>
-            <div className="flex justify-between border-b border-[#1A222B]/70 pb-2">
-              <span className="text-[#71808D]">ACADEMIC_CGPA:</span>
-              <span className="text-[#16D9E8] font-bold">8.9 / 10.0</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-[#71808D]">HACKATHONS:</span>
-              <span className="text-[#16D9E8] font-bold">3x First Place Winner</span>
-            </div>
+
           </div>
 
-          <div className="p-3.5 rounded-lg border border-[#1A222B] bg-[#0A0D10] text-[11px] font-mono-tech text-[#AAB5C0] leading-relaxed">
-            <span className="text-[#16D9E8] font-semibold">// SEEKING:</span> Summer 2026 Full-Stack Software Engineering or Distributed Systems Internship.
+          {/* Current Goal Banner */}
+          <div className="p-4 rounded-xl border border-[#16D9E8]/20 bg-[#16D9E8]/5 text-[12.5px] text-[#AAB5C0] leading-relaxed">
+            <strong className="text-[#16D9E8] font-semibold">Currently Seeking:</strong> Summer 2026 Software Engineering Internships where I can contribute to high-impact web apps and distributed systems.
           </div>
+
         </motion.div>
 
       </div>

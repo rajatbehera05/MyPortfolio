@@ -3,18 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 /**
- * Minimal Editorial Navigation
- * 
- * Requirements:
- * - Logo: RB
- * - Links: WORK, ABOUT, TECH, EXPLORING
- * - CTA: LET'S CONNECT
- * - Active scroll spy highlighting
- * - Hairline glassmorphic scroll blur
+ * Modern Clean Editorial Navigation Bar
  */
 export default function Navbar({ onConnectClick }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeItem, setActiveItem] = useState('WORK');
+  const [activeItem, setActiveItem] = useState('Projects');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -22,10 +15,10 @@ export default function Navbar({ onConnectClick }) {
       setIsScrolled(window.scrollY > 20);
 
       const sections = [
-        { id: 'work', name: 'WORK' },
-        { id: 'about', name: 'ABOUT' },
-        { id: 'tech', name: 'TECH' },
-        { id: 'exploring', name: 'EXPLORING' },
+        { id: 'work', name: 'Projects' },
+        { id: 'about', name: 'About' },
+        { id: 'tech', name: 'Skills' },
+        { id: 'exploring', name: 'Milestones' },
       ];
 
       const scrollPosition = window.scrollY + 220;
@@ -42,10 +35,10 @@ export default function Navbar({ onConnectClick }) {
   }, []);
 
   const navLinks = [
-    { name: 'WORK', href: '#work' },
-    { name: 'ABOUT', href: '#about' },
-    { name: 'TECH', href: '#tech' },
-    { name: 'EXPLORING', href: '#exploring' },
+    { name: 'Projects', href: '#work' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#tech' },
+    { name: 'Milestones', href: '#exploring' },
   ];
 
   const handleNavClick = (e, name, href) => {
@@ -74,40 +67,40 @@ export default function Navbar({ onConnectClick }) {
     <motion.header
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0A0D10]/85 backdrop-blur-md border-b border-[#1A222B] shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
+          ? 'bg-[#0A0D10]/85 backdrop-blur-md border-b border-[#1A222B] shadow-lg'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-[1380px] mx-auto px-6 sm:px-12 h-20 flex items-center justify-between">
         
-        {/* Left: Clean Architectural Monogram "RB" */}
+        {/* Left: Clean Brand Monogram "RB" */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="group inline-flex items-center gap-3.5 no-underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8] rounded-md p-1"
+          className="group inline-flex items-center gap-3 no-underline focus-visible:outline-none rounded-md"
           aria-label="Rajat Behera Home"
         >
-          <div className="w-8 h-8 rounded-lg bg-[#141A21] border border-[#1A222B] flex items-center justify-center transition-colors group-hover:border-[#16D9E8]/50">
-            <span className="font-mono-tech text-[12px] font-bold tracking-wider text-[#F4F7FA]">
+          <div className="w-8 h-8 rounded-lg bg-[#141A21] border border-[#232D36] flex items-center justify-center transition-colors group-hover:border-[#16D9E8]/50">
+            <span className="text-[12px] font-bold text-[#F4F7FA]">
               RB
             </span>
           </div>
-          <span className="text-[13.5px] font-semibold text-[#AAB5C0] tracking-tight group-hover:text-[#F4F7FA] transition-colors hidden sm:inline font-sans-editorial">
+          <span className="text-[14px] font-semibold text-[#F4F7FA] tracking-tight group-hover:text-[#16D9E8] transition-colors font-sans-editorial">
             Rajat Behera
           </span>
         </a>
 
-        {/* Center / Right: Editorial Navigation Links */}
-        <div className="hidden md:flex items-center gap-10">
+        {/* Center / Right: Navigation Links */}
+        <div className="hidden md:flex items-center gap-8">
           <nav
             aria-label="Main Navigation"
-            className="flex items-center gap-8 text-[12.5px] font-mono-tech tracking-widest"
+            className="flex items-center gap-7 text-[13.5px] font-medium"
           >
             {navLinks.map((link) => {
               const isActive = activeItem === link.name;
@@ -116,9 +109,9 @@ export default function Navbar({ onConnectClick }) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.name, link.href)}
-                  className={`relative py-1 transition-colors duration-200 uppercase ${
+                  className={`relative py-1 transition-colors duration-200 ${
                     isActive
-                      ? 'text-[#F4F7FA] font-medium'
+                      ? 'text-[#F4F7FA]'
                       : 'text-[#71808D] hover:text-[#AAB5C0]'
                   }`}
                 >
@@ -126,7 +119,7 @@ export default function Navbar({ onConnectClick }) {
                   {isActive && (
                     <motion.span 
                       layoutId="activeNavIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#16D9E8] shadow-[0_0_8px_#16D9E8]" 
+                      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#16D9E8] rounded-full" 
                     />
                   )}
                 </a>
@@ -134,65 +127,64 @@ export default function Navbar({ onConnectClick }) {
             })}
           </nav>
 
-          {/* Minimalist Action: LET'S CONNECT */}
+          {/* Action: Get in touch */}
           <button
             type="button"
             onClick={handleConnect}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-mono-tech tracking-wider text-[#F4F7FA] bg-[#141A21] border border-[#1A222B] hover:border-[#16D9E8]/60 hover:text-[#16D9E8] hover:bg-[#1A222B] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#16D9E8]"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-[#F4F7FA] bg-[#141A21] hover:bg-[#1A222B] border border-[#232D36] hover:border-[#16D9E8]/50 transition-all cursor-pointer"
           >
-            <span>LET'S CONNECT</span>
-            <span className="text-[#16D9E8] text-[11px]">→</span>
+            <span>Get in touch</span>
           </button>
         </div>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center">
+        {/* Mobile Hamburger Toggle */}
+        <div className="md:hidden">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#141A21] border border-[#1A222B] transition-colors focus-visible:outline-none cursor-pointer"
-            aria-label="Toggle Menu"
+            className="p-2 rounded-lg bg-[#141A21] border border-[#1A222B] text-[#AAB5C0] hover:text-[#F4F7FA] transition-colors cursor-pointer"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#16D9E8]" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-[#0F1419]/95 backdrop-blur-xl border-b border-[#1A222B] px-6 py-6 space-y-4"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden border-b border-[#1A222B] bg-[#0A0D10]/95 backdrop-blur-xl px-6 py-5 overflow-hidden"
           >
-            <nav className="flex flex-col space-y-3">
+            <nav className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.name, link.href)}
-                  className={`text-[13px] font-mono-tech tracking-wider py-1.5 transition-colors uppercase ${
-                    activeItem === link.name ? 'text-[#16D9E8] font-bold' : 'text-[#AAB5C0] hover:text-[#F4F7FA]'
+                  className={`text-[14px] py-1 transition-colors ${
+                    activeItem === link.name ? 'text-[#16D9E8] font-bold' : 'text-[#AAB5C0]'
                   }`}
                 >
                   {link.name}
                 </a>
               ))}
+              <div className="pt-2 border-t border-[#1A222B]">
+                <button
+                  type="button"
+                  onClick={handleConnect}
+                  className="w-full py-2.5 rounded-lg text-center text-[13px] font-bold text-[#0A0D10] bg-[#16D9E8] cursor-pointer"
+                >
+                  Get in touch
+                </button>
+              </div>
             </nav>
-            <div className="pt-3 border-t border-[#1A222B]">
-              <button
-                type="button"
-                onClick={handleConnect}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-mono-tech tracking-wider font-semibold text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] transition-colors cursor-pointer"
-              >
-                <span>LET'S CONNECT</span>
-                <span>→</span>
-              </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
