@@ -120,7 +120,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
                 transition={{ duration: 0.55, delay: 0.45 }}
                 className="text-[16px] sm:text-[17.5px] text-[#4B5563] leading-relaxed max-w-xl font-normal"
               >
-                Hi, I'm <strong className="text-[#111827] font-semibold">Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. 70% of my time is dedicated to modern React/TypeScript frontends and distributed cloud services, and 30% to embedded IoT systems.
+                Hi, I'm <strong className="text-[#111827] font-semibold">Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. I specialize in building responsive React/TypeScript frontends and distributed cloud architectures, seamlessly bridging them with real-world embedded IoT systems.
               </motion.p>
             </div>
 

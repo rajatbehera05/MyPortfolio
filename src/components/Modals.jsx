@@ -82,13 +82,13 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 <div className="p-4 rounded-2xl border border-[#DCE4EF] bg-[#F8FAFC] space-y-2 text-[13px]">
                   <div className="text-[#111827] font-semibold text-[13.5px] flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
-                    <span>Summary of Skills (70/30 Focus)</span>
+                    <span>Summary of Technical Skills</span>
                   </div>
                   <div className="space-y-1.5 text-[#4B5563]">
                     <div>• <strong>Web &amp; UI:</strong> React, JavaScript, HTML5, CSS, WebSockets</div>
                     <div>• <strong>Backend &amp; APIs:</strong> Node.js, Express.js, RESTful APIs, Docker</div>
                     <div>• <strong>Databases &amp; Tools:</strong> PostgreSQL, MySQL, SQL, Git, GitHub, VS Code</div>
-                    <div>• <strong>Connected IoT (30%):</strong> ESP32, Arduino, Arduino IDE, sensor interfaces</div>
+                    <div>• <strong>Connected IoT &amp; Hardware:</strong> ESP32, Arduino, Arduino IDE, sensor interfaces</div>
                   </div>
                 </div>
               </div>

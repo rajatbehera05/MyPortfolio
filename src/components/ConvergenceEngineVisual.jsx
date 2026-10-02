@@ -36,7 +36,7 @@ export default function ConvergenceEngineVisual() {
 
   const stackItems = [
     {
-      category: 'Frontend & UI (70% Focus)',
+      category: 'Frontend & UI Architecture',
       icon: Code2,
       techs: ['React 19', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Zustand'],
       description: 'Building responsive, accessible web interfaces with optimistic state and fluid animations.'
@@ -54,7 +54,7 @@ export default function ConvergenceEngineVisual() {
       description: 'Architecting relational databases, in-memory caches, and containerized deployments.'
     },
     {
-      category: 'Hardware & IoT Bridge (30% Focus)',
+      category: 'Hardware & IoT Bridge',
       icon: Cpu,
       techs: ['ESP32', 'FreeRTOS', 'C/C++', 'MQTT', 'Sensor Buses'],
       description: 'Streaming real-time telemetry from microcontrollers and physical sensors to web dashboards.'
@@ -140,7 +140,7 @@ export default function ConvergenceEngineVisual() {
                 </p>
               </div>
               <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#16D9E8]/10 text-[#16D9E8] border border-[#16D9E8]/20 whitespace-nowrap">
-                70% SW · 30% IoT
+                Full-Stack · Connected IoT
               </span>
             </div>
 
@@ -214,7 +214,7 @@ export default function ConvergenceEngineVisual() {
                     </div>
                   </div>
                   <span className="text-[11px] text-[#3B82F6] font-medium hidden sm:inline">
-                    30% Edge Bridge
+                    Edge IoT Bridge
                   </span>
                 </div>
               </div>

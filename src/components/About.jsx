@@ -52,11 +52,11 @@ export default function About() {
           </p>
 
           <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
-            Around 70% of my time is spent in the world of full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
+            My primary craft centers on full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
           </p>
 
           <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
-            The remaining 30% of my craft is rooted in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view the computer as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
+            Equally essential is my foundation in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view computing as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
           </p>
 
           {/* Three Core Engineering Values */}

@@ -28,7 +28,7 @@ export default function Projects({ onOpenSpec }) {
       title: 'Smart Parking Management System',
       tagline: 'IoT Vehicle Detection, Automated Gate Barrier & Real-Time Dashboard',
       category: 'Connected IoT · Embedded Systems',
-      track: 'Hardware & IoT (30%)',
+      track: 'Hardware & IoT',
       featured: true,
       isSoftware: false,
       layout: 'image-right',
@@ -55,7 +55,7 @@ export default function Projects({ onOpenSpec }) {
       title: 'OmniSync',
       tagline: 'Real-Time Collaborative Workspace & State Sync Engine',
       category: 'Full-Stack · Real-Time Web',
-      track: 'Web & Full-Stack (70%)',
+      track: 'Web & Full-Stack',
       featured: false,
       isSoftware: true,
       layout: 'image-left',
@@ -81,7 +81,7 @@ export default function Projects({ onOpenSpec }) {
       title: 'NexusFlow',
       tagline: 'High-Throughput Microservice API Gateway & Observability',
       category: 'Backend · Distributed Systems',
-      track: 'Cloud & Backend (70%)',
+      track: 'Cloud & Backend',
       featured: false,
       isSoftware: true,
       layout: 'image-right',
@@ -106,7 +106,7 @@ export default function Projects({ onOpenSpec }) {
       title: 'EdgeVision',
       tagline: 'On-Device TinyML Classifier & Cloud Diagnostics Portal',
       category: 'Applied AI · Edge Computing',
-      track: 'Edge AI & Web (70/30 Hybrid)',
+      track: 'Edge AI & Cloud',
       featured: false,
       isSoftware: false,
       layout: 'image-left',
@@ -194,7 +194,7 @@ export default function Projects({ onOpenSpec }) {
                 : 'text-[#64748B] hover:text-[#2563EB]'
             }`}
           >
-            Web &amp; Full-Stack (70%)
+            Web &amp; Full-Stack
           </button>
 
           <button
@@ -206,7 +206,7 @@ export default function Projects({ onOpenSpec }) {
                 : 'text-[#64748B] hover:text-[#8B5CF6]'
             }`}
           >
-            Connected IoT (30%)
+            Connected IoT
           </button>
         </motion.div>
       </div>

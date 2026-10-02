@@ -11,7 +11,7 @@ export default function SkillsNetwork() {
   const skillGroups = [
     {
       title: 'Frontend & User Interface',
-      focus: '70% Software Focus',
+      focus: 'Client Architecture',
       icon: Code2,
       description: 'Crafting responsive, high-performance web applications with modern state management, strict typing, and polished interactions.',
       skills: [
@@ -23,7 +23,7 @@ export default function SkillsNetwork() {
     },
     {
       title: 'Backend Services & APIs',
-      focus: '70% Software Focus',
+      focus: 'Distributed Services',
       icon: Server,
       description: 'Building asynchronous backend architectures, high-concurrency microservices, and reliable communication protocols.',
       skills: [
@@ -35,7 +35,7 @@ export default function SkillsNetwork() {
     },
     {
       title: 'Databases & Developer Tooling',
-      focus: '70% Software Focus',
+      focus: 'Data & DevOps',
       icon: Database,
       description: 'Designing durable relational data schemas, containerized development workflows, and automated version control.',
       skills: [
@@ -47,7 +47,7 @@ export default function SkillsNetwork() {
     },
     {
       title: 'Connected IoT & Embedded Hardware',
-      focus: '30% Hardware Bridge',
+      focus: 'Edge & Hardware',
       icon: Cpu,
       description: 'Bridging high-level cloud software with physical microcontrollers, low-power telemetry, and sensor protocols.',
       skills: [
