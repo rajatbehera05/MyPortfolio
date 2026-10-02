@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 /**
  * Clean, sharp vector cloud with crisp hairline stroke and soft drop-shadow.
@@ -26,53 +26,221 @@ function CrispMinimalCloud({ className = "", width = 175, height = 54 }) {
 }
 
 /**
- * Articulated soaring bird with independent shoulder-hinged wings,
- * aerodynamic body fuselage, and organic flap-and-glide avian physics.
+ * Small, clean distant bird silhouette with independent wing articulation,
+ * natural flap-and-glide avian physics, and zero windmill or propeller artifacting.
  */
-function RealSoaringBird({
+function DistantAvianSilhouette({
   className = "",
-  width = 38,
-  height = 19,
-  flapDuration = "1.8s",
+  width = 20,
+  height = 10,
+  flapDuration = "2.4s",
   flapDelay = "0s",
+  driftClass = "",
 }) {
   return (
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 44 20"
-      fill="currentColor"
-      className={`pointer-events-none select-none overflow-visible ${className}`}
+    <div
+      className={`relative inline-flex items-center justify-center select-none pointer-events-none ${driftClass}`}
       style={{
-        animation: `birdBodyUndulation ${flapDuration} ease-in-out infinite`,
+        animation: `eveningBirdLift ${flapDuration} ease-in-out infinite`,
         animationDelay: flapDelay,
       }}
     >
-      {/* Left Wing (Hinged at shoulder joint ~21px, 9.5px) */}
-      <g
+      <svg
+        width={width}
+        height={height}
+        viewBox="0 0 24 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={`overflow-visible ${className}`}
+      >
+        {/* Left Wing (Pivoting at center shoulder 12px, 6px) */}
+        <path
+          d="M12 6 C8.5 3.8 4.5 2.2 0.8 2.8 C3.8 4.2 8 5.6 12 6.5 Z"
+          fill="#1E293B"
+          style={{
+            transformOrigin: '12px 6px',
+            animation: `eveningWingLeft ${flapDuration} cubic-bezier(0.4, 0, 0.2, 1) infinite`,
+            animationDelay: flapDelay,
+          }}
+        />
+
+        {/* Right Wing (Pivoting at center shoulder 12px, 6px) */}
+        <path
+          d="M12 6 C15.5 3.8 19.5 2.2 23.2 2.8 C20.2 4.2 16 5.6 12 6.5 Z"
+          fill="#1E293B"
+          style={{
+            transformOrigin: '12px 6px',
+            animation: `eveningWingRight ${flapDuration} cubic-bezier(0.4, 0, 0.2, 1) infinite`,
+            animationDelay: flapDelay,
+          }}
+        />
+
+        {/* Minimal Central Avian Fuselage */}
+        <path
+          d="M12 4.6 C12.6 4.6 13 5.2 13 6 C13 7.2 12.6 9 12 10.2 C11.4 9 11 7.2 11 6 C11 5.2 11.4 4.6 12 4.6 Z"
+          fill="#0F172A"
+        />
+      </svg>
+    </div>
+  );
+}
+
+/**
+ * Natural Evening Flock Formation:
+ *         🐦 (Lead)
+ *     🐦        🐦
+ *          🐦
+ *              🐦
+ * 
+ * - Flies once across the upper sky from Left to Right over ~7.2 seconds.
+ * - Subtle curved flight path with gentle upward updraft and soft descent.
+ * - Far away from navbar, hero title, paragraphs, and buttons.
+ * - Pauses for a long randomized interval (22s–34s) between passes.
+ * - Crisp, dark navy distant silhouettes with realistic depth scaling.
+ */
+const EVENING_FLOCK = [
+  // 1. Lead Bird (apex of formation)
+  {
+    id: 'lead',
+    x: 48,
+    y: 0,
+    width: 21,
+    height: 11,
+    flapDuration: '2.3s',
+    flapDelay: '0s',
+    driftClass: 'animate-flock-drift-1',
+    opacity: 'opacity-90',
+  },
+  // 2. High Wingman (upper left, trailing)
+  {
+    id: 'high-left',
+    x: 0,
+    y: 8,
+    width: 18,
+    height: 9,
+    flapDuration: '2.6s',
+    flapDelay: '0.45s',
+    driftClass: 'animate-flock-drift-2',
+    opacity: 'opacity-80',
+  },
+  // 3. Right Wingman (mid-right, slightly lower)
+  {
+    id: 'mid-right',
+    x: 72,
+    y: 13,
+    width: 19,
+    height: 10,
+    flapDuration: '2.4s',
+    flapDelay: '0.85s',
+    driftClass: 'animate-flock-drift-3',
+    opacity: 'opacity-85',
+  },
+  // 4. Center-Low Trailing Bird
+  {
+    id: 'center-low',
+    x: 26,
+    y: 22,
+    width: 17,
+    height: 9,
+    flapDuration: '2.5s',
+    flapDelay: '0.2s',
+    driftClass: 'animate-flock-drift-4',
+    opacity: 'opacity-75',
+  },
+  // 5. Far Right Trailing Bird (distant rear guard)
+  {
+    id: 'rear-right',
+    x: 105,
+    y: 20,
+    width: 16,
+    height: 8,
+    flapDuration: '2.8s',
+    flapDelay: '1.1s',
+    driftClass: 'animate-flock-drift-5',
+    opacity: 'opacity-70',
+  },
+];
+
+function EveningBirdFlock({ isEvening }) {
+  const [isActive, setIsActive] = useState(false);
+  const [passKey, setPassKey] = useState(0);
+
+  useEffect(() => {
+    if (!isEvening) {
+      setIsActive(false);
+      return;
+    }
+
+    let isSubscribed = true;
+    let flightTimer = null;
+    let nextPassTimer = null;
+
+    const launchPass = () => {
+      if (!isSubscribed) return;
+      setPassKey((k) => k + 1);
+      setIsActive(true);
+
+      // 7.2s flight time across the screen
+      flightTimer = setTimeout(() => {
+        if (!isSubscribed) return;
+        setIsActive(false);
+
+        // Wait a long random interval (22s - 34s) before optionally launching another pass
+        const pauseDuration = 22000 + Math.random() * 12000;
+        nextPassTimer = setTimeout(() => {
+          if (isSubscribed) {
+            launchPass();
+          }
+        }, pauseDuration);
+      }, 7200);
+    };
+
+    // Initial pass starts 1.5s after evening activates
+    const initialDelay = setTimeout(launchPass, 1500);
+
+    return () => {
+      isSubscribed = false;
+      clearTimeout(initialDelay);
+      clearTimeout(flightTimer);
+      clearTimeout(nextPassTimer);
+    };
+  }, [isEvening]);
+
+  if (!isEvening || !isActive) return null;
+
+  return (
+    <div
+      key={passKey}
+      className="absolute top-20 sm:top-24 left-0 w-full overflow-hidden h-28 pointer-events-none hidden sm:block z-1"
+    >
+      <div
+        className="absolute top-2 left-0"
         style={{
-          transformOrigin: '21px 9.5px',
-          animation: `realisticLeftWing ${flapDuration} cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite`,
-          animationDelay: flapDelay,
+          animation: 'eveningFlockPass 7.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
         }}
       >
-        <path d="M21 9.5 C16 6.8 9 5.5 1 7 C4.8 9.8 11.5 11.2 21 10.5 Z" />
-      </g>
-
-      {/* Right Wing (Hinged at shoulder joint ~23px, 9.5px) */}
-      <g
-        style={{
-          transformOrigin: '23px 9.5px',
-          animation: `realisticRightWing ${flapDuration} cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite`,
-          animationDelay: flapDelay,
-        }}
-      >
-        <path d="M23 9.5 C28 6.8 35 5.5 43 7 C39.2 9.8 32.5 11.2 23 10.5 Z" />
-      </g>
-
-      {/* Sleek Central Torso & Tail Feathers */}
-      <path d="M22 6.5 C23.2 6.5 24 7.6 24 9.2 C24 11.2 23.5 14 23 18.5 C22.7 19.2 22.3 19.5 22 19.5 C21.7 19.5 21.3 19.2 21 18.5 C20.5 14 20 11.2 20 9.2 C20 7.6 20.8 6.5 22 6.5 Z" />
-    </svg>
+        <div className="relative w-[140px] h-[45px]">
+          {EVENING_FLOCK.map((bird) => (
+            <div
+              key={bird.id}
+              className={`absolute ${bird.opacity}`}
+              style={{
+                left: `${bird.x}px`,
+                top: `${bird.y}px`,
+              }}
+            >
+              <DistantAvianSilhouette
+                width={bird.width}
+                height={bird.height}
+                flapDuration={bird.flapDuration}
+                flapDelay={bird.flapDelay}
+                driftClass={bird.driftClass}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -242,11 +410,11 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           <CrispMinimalCloud width={150} height={46} />
         </div>
 
-        {/* Natural Morning Soaring Birds */}
-        <div className="absolute top-28 sm:top-32 left-[44%] sm:left-[48%] flex items-center gap-5 animate-bird-drift text-slate-700/75 hidden sm:flex">
-          <RealSoaringBird width={34} height={17} flapDuration="1.75s" flapDelay="0s" />
-          <div className="mt-3">
-            <RealSoaringBird width={26} height={13} flapDuration="1.95s" flapDelay="0.35s" />
+        {/* Distant Morning Soaring Birds */}
+        <div className="absolute top-28 sm:top-32 left-[44%] sm:left-[48%] flex items-center gap-5 animate-bird-drift hidden sm:flex">
+          <DistantAvianSilhouette width={19} height={10} flapDuration="2.3s" flapDelay="0s" />
+          <div className="mt-2.5">
+            <DistantAvianSilhouette width={15} height={8} flapDuration="2.6s" flapDelay="0.45s" />
           </div>
         </div>
       </div>
@@ -308,21 +476,8 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           <CrispMinimalCloud width={150} height={46} />
         </div>
 
-        {/* Realistic Flying Bird Flock with natural staggered flight paths and authentic wing motion */}
-        <div className="absolute top-26 sm:top-30 left-0 w-full overflow-hidden h-28 pointer-events-none hidden sm:block z-1">
-          <div className="animate-flock-fly absolute top-2 flex items-start text-slate-800/85">
-            <RealSoaringBird width={38} height={19} flapDuration="1.7s" flapDelay="0s" />
-            <div className="-ml-2 mt-5">
-              <RealSoaringBird width={32} height={16} flapDuration="1.85s" flapDelay="0.25s" />
-            </div>
-            <div className="-ml-2 -mt-4">
-              <RealSoaringBird width={30} height={15} flapDuration="1.65s" flapDelay="0.45s" />
-            </div>
-            <div className="-ml-3 mt-9">
-              <RealSoaringBird width={26} height={13} flapDuration="1.9s" flapDelay="0.15s" />
-            </div>
-          </div>
-        </div>
+        {/* Rebuilt Evening Flock: Natural 5-bird V-formation flying across once with randomized pauses */}
+        <EveningBirdFlock isEvening={isEvening} />
       </div>
 
 

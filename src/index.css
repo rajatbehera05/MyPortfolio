@@ -252,138 +252,141 @@
   animation: cloudDriftReverseSlow 32s ease-in-out infinite;
 }
 
-/* Real Bird Flight & Wing Articulation (Organic Flap - Flap - Soar / Glide) */
-@keyframes realisticLeftWing {
+/* Subtle Avian Wing Flap & Glide Cycles for Distant Evening Birds */
+@keyframes eveningWingLeft {
   0% {
-    transform: rotate(0deg) skewY(0deg);
+    transform: rotate(0deg);
   }
-  /* Flap 1: Upstroke */
-  10% {
-    transform: rotate(-38deg) skewY(-14deg);
+  /* Flap 1: Crisp Downstroke */
+  14% {
+    transform: rotate(-18deg);
   }
-  /* Flap 1: Powerful Downstroke */
-  22% {
-    transform: rotate(28deg) skewY(10deg);
+  /* Flap 1: Return Upstroke */
+  28% {
+    transform: rotate(14deg);
   }
-  /* Flap 2: Upstroke */
-  34% {
-    transform: rotate(-36deg) skewY(-12deg);
+  /* Flap 2: Subtle Downstroke */
+  40% {
+    transform: rotate(-15deg);
   }
-  /* Flap 2: Powerful Downstroke */
-  46% {
-    transform: rotate(26deg) skewY(8deg);
+  /* Flap 2: Return Upstroke */
+  52% {
+    transform: rotate(10deg);
   }
-  /* Settle into Glide / Thermal Soar */
-  56% {
-    transform: rotate(-4deg) skewY(-2deg);
+  /* Transition to Outstretched Glide */
+  62% {
+    transform: rotate(0deg);
   }
-  /* Long, smooth aerodynamic soar */
-  85% {
-    transform: rotate(-1deg) skewY(0deg);
-  }
+  /* Extended Thermal Glide */
   100% {
-    transform: rotate(0deg) skewY(0deg);
+    transform: rotate(0deg);
   }
 }
 
-@keyframes realisticRightWing {
+@keyframes eveningWingRight {
   0% {
-    transform: rotate(0deg) skewY(0deg);
+    transform: rotate(0deg);
   }
-  /* Flap 1: Upstroke */
-  10% {
-    transform: rotate(38deg) skewY(14deg);
+  /* Flap 1: Crisp Downstroke */
+  14% {
+    transform: rotate(18deg);
   }
-  /* Flap 1: Powerful Downstroke */
-  22% {
-    transform: rotate(-28deg) skewY(-10deg);
+  /* Flap 1: Return Upstroke */
+  28% {
+    transform: rotate(-14deg);
   }
-  /* Flap 2: Upstroke */
-  34% {
-    transform: rotate(36deg) skewY(12deg);
+  /* Flap 2: Subtle Downstroke */
+  40% {
+    transform: rotate(15deg);
   }
-  /* Flap 2: Powerful Downstroke */
-  46% {
-    transform: rotate(-26deg) skewY(-8deg);
+  /* Flap 2: Return Upstroke */
+  52% {
+    transform: rotate(-10deg);
   }
-  /* Settle into Glide / Thermal Soar */
-  56% {
-    transform: rotate(4deg) skewY(2deg);
+  /* Transition to Outstretched Glide */
+  62% {
+    transform: rotate(0deg);
   }
-  /* Long, smooth aerodynamic soar */
-  85% {
-    transform: rotate(1deg) skewY(0deg);
-  }
+  /* Extended Thermal Glide */
   100% {
-    transform: rotate(0deg) skewY(0deg);
+    transform: rotate(0deg);
   }
 }
 
-/* Bird Body Lift & Pitch synced to Wing Strokes */
-@keyframes birdBodyUndulation {
-  0% {
-    transform: translateY(0px) rotate(0deg);
+/* Subtle Bird Body Lift during Wing Downstrokes */
+@keyframes eveningBirdLift {
+  0%, 62%, 100% {
+    transform: translateY(0px);
   }
-  10% {
-    transform: translateY(2px) rotate(3deg);
+  14%, 40% {
+    transform: translateY(-1.5px);
   }
-  22% {
-    transform: translateY(-4px) rotate(-2deg);
-  }
-  34% {
-    transform: translateY(1.5px) rotate(2.5deg);
-  }
-  46% {
-    transform: translateY(-3.5px) rotate(-1.5deg);
-  }
-  56% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  85% {
-    transform: translateY(1px) rotate(0.5deg);
-  }
-  100% {
-    transform: translateY(0px) rotate(0deg);
+  28%, 52% {
+    transform: translateY(0.8px);
   }
 }
 
-/* Organic Undulating Flight Path across Sky */
-@keyframes realisticFlockFlight {
+/* Natural Curved Flock Flight Path Across Evening Sky (Left -> Right over ~7s) */
+@keyframes eveningFlockPass {
   0% {
-    transform: translate3d(-140px, 16px, 0);
+    transform: translate3d(-160px, 0, 0);
     opacity: 0;
   }
   4% {
-    opacity: 0.95;
+    opacity: 1;
   }
   25% {
-    transform: translate3d(24vw, -12px, 0);
+    transform: translate3d(26vw, -8px, 0);
   }
   50% {
-    transform: translate3d(52vw, 14px, 0);
+    transform: translate3d(52vw, 4px, 0);
   }
   75% {
-    transform: translate3d(78vw, -8px, 0);
+    transform: translate3d(78vw, -6px, 0);
   }
-  92% {
-    opacity: 0.95;
+  95% {
+    opacity: 1;
   }
   100% {
-    transform: translate3d(calc(100vw + 140px), 10px, 0);
+    transform: translate3d(calc(100vw + 160px), 2px, 0);
     opacity: 0;
   }
 }
 
-.animate-flock-fly {
-  animation: realisticFlockFlight 24s ease-in-out infinite;
+/* Micro-drift for individual flock birds to break mechanical rigidity */
+@keyframes flockDrift1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-3px) translateX(2px); }
 }
+@keyframes flockDrift2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(2.5px) translateX(-2px); }
+}
+@keyframes flockDrift3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-2px) translateX(1px); }
+}
+@keyframes flockDrift4 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(3px) translateX(-1px); }
+}
+@keyframes flockDrift5 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-1.5px) translateX(2px); }
+}
+
+.animate-flock-drift-1 { animation: flockDrift1 4.2s ease-in-out infinite; }
+.animate-flock-drift-2 { animation: flockDrift2 3.8s ease-in-out infinite; }
+.animate-flock-drift-3 { animation: flockDrift3 4.6s ease-in-out infinite; }
+.animate-flock-drift-4 { animation: flockDrift4 3.5s ease-in-out infinite; }
+.animate-flock-drift-5 { animation: flockDrift5 4.0s ease-in-out infinite; }
 
 @keyframes birdDriftGentle {
   0%, 100% {
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(16px, -10px);
+    transform: translate(14px, -8px);
   }
 }
 
