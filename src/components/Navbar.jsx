@@ -69,14 +69,14 @@ export default function Navbar({ onConnectClick }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex items-center justify-center pointer-events-none ${
-        isScrolled ? 'pt-3 sm:pt-4' : 'pt-5 sm:pt-6'
+        isScrolled ? 'pt-2.5 sm:pt-3' : 'pt-3 sm:pt-4'
       }`}
     >
       <div
-        className={`pointer-events-auto transition-all duration-300 w-full max-w-[1340px] mx-4 sm:mx-8 px-5 sm:px-8 flex items-center justify-between rounded-2xl ${
+        className={`pointer-events-auto transition-all duration-300 w-full max-w-[960px] mx-4 sm:mx-6 px-4 sm:px-6 flex items-center justify-between rounded-2xl ${
           isScrolled
-            ? 'h-16 bg-white/94 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)]'
-            : 'h-18 bg-white/85 backdrop-blur-lg border border-[#D5DFEB]/80 shadow-[0_4px_20px_rgba(15,23,42,0.04)]'
+            ? 'h-13 sm:h-14 bg-white/94 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)]'
+            : 'h-14 sm:h-15 bg-white/85 backdrop-blur-lg border border-[#D5DFEB]/80 shadow-[0_4px_20px_rgba(15,23,42,0.04)]'
         }`}
       >
         

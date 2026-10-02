@@ -26,18 +26,52 @@ function CrispMinimalCloud({ className = "", width = 175, height = 54 }) {
 }
 
 /**
- * Noticeably larger sharp silhouette bird with natural soaring wing geometry
+ * Articulated soaring bird with independent shoulder-hinged wings,
+ * aerodynamic body fuselage, and organic flap-and-glide avian physics.
  */
-function CrispBird({ className = "", width = 30, height = 15 }) {
+function RealSoaringBird({
+  className = "",
+  width = 38,
+  height = 19,
+  flapDuration = "1.8s",
+  flapDelay = "0s",
+}) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 30 15"
+      viewBox="0 0 44 20"
       fill="currentColor"
-      className={`pointer-events-none select-none ${className}`}
+      className={`pointer-events-none select-none overflow-visible ${className}`}
+      style={{
+        animation: `birdBodyUndulation ${flapDuration} ease-in-out infinite`,
+        animationDelay: flapDelay,
+      }}
     >
-      <path d="M0,7.5 Q7.5,1 15,6.5 Q22.5,1 30,7.5 Q22.5,3.5 15,8.5 Q7.5,3.5 0,7.5 Z" />
+      {/* Left Wing (Hinged at shoulder joint ~21px, 9.5px) */}
+      <g
+        style={{
+          transformOrigin: '21px 9.5px',
+          animation: `realisticLeftWing ${flapDuration} cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite`,
+          animationDelay: flapDelay,
+        }}
+      >
+        <path d="M21 9.5 C16 6.8 9 5.5 1 7 C4.8 9.8 11.5 11.2 21 10.5 Z" />
+      </g>
+
+      {/* Right Wing (Hinged at shoulder joint ~23px, 9.5px) */}
+      <g
+        style={{
+          transformOrigin: '23px 9.5px',
+          animation: `realisticRightWing ${flapDuration} cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite`,
+          animationDelay: flapDelay,
+        }}
+      >
+        <path d="M23 9.5 C28 6.8 35 5.5 43 7 C39.2 9.8 32.5 11.2 23 10.5 Z" />
+      </g>
+
+      {/* Sleek Central Torso & Tail Feathers */}
+      <path d="M22 6.5 C23.2 6.5 24 7.6 24 9.2 C24 11.2 23.5 14 23 18.5 C22.7 19.2 22.3 19.5 22 19.5 C21.7 19.5 21.3 19.2 21 18.5 C20.5 14 20 11.2 20 9.2 C20 7.6 20.8 6.5 22 6.5 Z" />
     </svg>
   );
 }
@@ -208,11 +242,11 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           <CrispMinimalCloud width={150} height={46} />
         </div>
 
-        {/* Larger Morning Soaring Birds */}
-        <div className="absolute top-24 left-[44%] sm:left-[48%] flex items-center gap-4 animate-bird-drift text-slate-700/70 hidden sm:flex">
-          <CrispBird width={28} height={14} />
-          <div className="mt-2.5">
-            <CrispBird width={22} height={11} />
+        {/* Natural Morning Soaring Birds */}
+        <div className="absolute top-28 sm:top-32 left-[44%] sm:left-[48%] flex items-center gap-5 animate-bird-drift text-slate-700/75 hidden sm:flex">
+          <RealSoaringBird width={34} height={17} flapDuration="1.75s" flapDelay="0s" />
+          <div className="mt-3">
+            <RealSoaringBird width={26} height={13} flapDuration="1.95s" flapDelay="0.35s" />
           </div>
         </div>
       </div>
@@ -274,18 +308,18 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           <CrispMinimalCloud width={150} height={46} />
         </div>
 
-        {/* Larger Flying Bird Flock (Glide smoothly across open sky from left to right) */}
-        <div className="absolute top-22 sm:top-24 left-0 w-full overflow-hidden h-20 pointer-events-none hidden sm:block z-1">
+        {/* Realistic Flying Bird Flock with natural staggered flight paths and authentic wing motion */}
+        <div className="absolute top-26 sm:top-30 left-0 w-full overflow-hidden h-28 pointer-events-none hidden sm:block z-1">
           <div className="animate-flock-fly absolute top-2 flex items-start text-slate-800/85">
-            <CrispBird width={34} height={17} />
-            <div className="-ml-3 mt-4">
-              <CrispBird width={28} height={14} />
+            <RealSoaringBird width={38} height={19} flapDuration="1.7s" flapDelay="0s" />
+            <div className="-ml-2 mt-5">
+              <RealSoaringBird width={32} height={16} flapDuration="1.85s" flapDelay="0.25s" />
             </div>
-            <div className="-ml-3 -mt-3">
-              <CrispBird width={26} height={13} />
+            <div className="-ml-2 -mt-4">
+              <RealSoaringBird width={30} height={15} flapDuration="1.65s" flapDelay="0.45s" />
             </div>
-            <div className="-ml-4 mt-8">
-              <CrispBird width={22} height={11} />
+            <div className="-ml-3 mt-9">
+              <RealSoaringBird width={26} height={13} flapDuration="1.9s" flapDelay="0.15s" />
             </div>
           </div>
         </div>

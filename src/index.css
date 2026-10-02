@@ -252,31 +252,130 @@
   animation: cloudDriftReverseSlow 32s ease-in-out infinite;
 }
 
-/* Bird Flight & Flapping Animations for Living Scenery */
-@keyframes flockFlyAcross {
+/* Real Bird Flight & Wing Articulation (Organic Flap - Flap - Soar / Glide) */
+@keyframes realisticLeftWing {
   0% {
-    transform: translate3d(-140px, 0, 0);
+    transform: rotate(0deg) skewY(0deg);
+  }
+  /* Flap 1: Upstroke */
+  10% {
+    transform: rotate(-38deg) skewY(-14deg);
+  }
+  /* Flap 1: Powerful Downstroke */
+  22% {
+    transform: rotate(28deg) skewY(10deg);
+  }
+  /* Flap 2: Upstroke */
+  34% {
+    transform: rotate(-36deg) skewY(-12deg);
+  }
+  /* Flap 2: Powerful Downstroke */
+  46% {
+    transform: rotate(26deg) skewY(8deg);
+  }
+  /* Settle into Glide / Thermal Soar */
+  56% {
+    transform: rotate(-4deg) skewY(-2deg);
+  }
+  /* Long, smooth aerodynamic soar */
+  85% {
+    transform: rotate(-1deg) skewY(0deg);
+  }
+  100% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+}
+
+@keyframes realisticRightWing {
+  0% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+  /* Flap 1: Upstroke */
+  10% {
+    transform: rotate(38deg) skewY(14deg);
+  }
+  /* Flap 1: Powerful Downstroke */
+  22% {
+    transform: rotate(-28deg) skewY(-10deg);
+  }
+  /* Flap 2: Upstroke */
+  34% {
+    transform: rotate(36deg) skewY(12deg);
+  }
+  /* Flap 2: Powerful Downstroke */
+  46% {
+    transform: rotate(-26deg) skewY(-8deg);
+  }
+  /* Settle into Glide / Thermal Soar */
+  56% {
+    transform: rotate(4deg) skewY(2deg);
+  }
+  /* Long, smooth aerodynamic soar */
+  85% {
+    transform: rotate(1deg) skewY(0deg);
+  }
+  100% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+}
+
+/* Bird Body Lift & Pitch synced to Wing Strokes */
+@keyframes birdBodyUndulation {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  10% {
+    transform: translateY(2px) rotate(3deg);
+  }
+  22% {
+    transform: translateY(-4px) rotate(-2deg);
+  }
+  34% {
+    transform: translateY(1.5px) rotate(2.5deg);
+  }
+  46% {
+    transform: translateY(-3.5px) rotate(-1.5deg);
+  }
+  56% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  85% {
+    transform: translateY(1px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* Organic Undulating Flight Path across Sky */
+@keyframes realisticFlockFlight {
+  0% {
+    transform: translate3d(-140px, 16px, 0);
     opacity: 0;
   }
-  3% {
-    opacity: 0.85;
+  4% {
+    opacity: 0.95;
   }
-  90% {
-    opacity: 0.85;
+  25% {
+    transform: translate3d(24vw, -12px, 0);
   }
-  98%, 100% {
-    transform: translate3d(calc(100vw + 140px), -28px, 0);
+  50% {
+    transform: translate3d(52vw, 14px, 0);
+  }
+  75% {
+    transform: translate3d(78vw, -8px, 0);
+  }
+  92% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(calc(100vw + 140px), 10px, 0);
     opacity: 0;
   }
 }
 
-@keyframes birdWingFlap {
-  0%, 100% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(0.42);
-  }
+.animate-flock-fly {
+  animation: realisticFlockFlight 24s ease-in-out infinite;
 }
 
 @keyframes birdDriftGentle {
@@ -284,26 +383,12 @@
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(14px, -8px);
+    transform: translate(16px, -10px);
   }
 }
 
-.animate-flock-fly {
-  animation: flockFlyAcross 26s linear infinite;
-}
-
-.animate-bird-flap {
-  transform-origin: center;
-  animation: birdWingFlap 0.72s ease-in-out infinite;
-}
-
-.animate-bird-flap-fast {
-  transform-origin: center;
-  animation: birdWingFlap 0.58s ease-in-out infinite;
-}
-
 .animate-bird-drift {
-  animation: birdDriftGentle 14s ease-in-out infinite;
+  animation: birdDriftGentle 16s ease-in-out infinite;
 }
 
 /* Custom Sleek Scrollbar for Arctic theme */
