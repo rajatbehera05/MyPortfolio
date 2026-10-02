@@ -210,6 +210,102 @@
   }
 }
 
+/* Time-Based Environment Animations (Minimal, Sharp, Subtle) */
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes cloudDriftSlow {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(18px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes cloudDriftReverseSlow {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-16px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.animate-cloud-drift {
+  animation: cloudDriftSlow 36s ease-in-out infinite;
+}
+
+.animate-cloud-drift-reverse {
+  animation: cloudDriftReverseSlow 32s ease-in-out infinite;
+}
+
+/* Bird Flight & Flapping Animations for Living Scenery */
+@keyframes flockFlyAcross {
+  0% {
+    transform: translate3d(-140px, 0, 0);
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  98%, 100% {
+    transform: translate3d(calc(100vw + 140px), -28px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes birdWingFlap {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.42);
+  }
+}
+
+@keyframes birdDriftGentle {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(14px, -8px);
+  }
+}
+
+.animate-flock-fly {
+  animation: flockFlyAcross 26s linear infinite;
+}
+
+.animate-bird-flap {
+  transform-origin: center;
+  animation: birdWingFlap 0.72s ease-in-out infinite;
+}
+
+.animate-bird-flap-fast {
+  transform-origin: center;
+  animation: birdWingFlap 0.58s ease-in-out infinite;
+}
+
+.animate-bird-drift {
+  animation: birdDriftGentle 14s ease-in-out infinite;
+}
+
 /* Custom Sleek Scrollbar for Arctic theme */
 ::-webkit-scrollbar {
   width: 7px;

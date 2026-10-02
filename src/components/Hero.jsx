@@ -1,13 +1,30 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, FileText, Mail, Camera } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, Moon } from 'lucide-react';
 import WireframeCube from './WireframeCube';
+import HeroTimeEnvironment from './HeroTimeEnvironment';
+import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
  * Developer Profile Photo
  * When null, the sophisticated Arctic Aurora identity frame is displayed.
  */
 const PROFILE_IMAGE_URL = null;
+
+function TimeIcon({ timeState, className = "w-4 h-4" }) {
+  switch (timeState) {
+    case 'morning':
+      return <Sunrise className={className} />;
+    case 'afternoon':
+      return <Sun className={className} />;
+    case 'evening':
+      return <Sunset className={className} />;
+    case 'night':
+      return <Moon className={className} />;
+    default:
+      return <Sun className={className} />;
+  }
+}
 
 function GithubIcon({ className = "w-4 h-4" }) {
   return (
@@ -30,8 +47,10 @@ function LinkedinIcon({ className = "w-4 h-4" }) {
 /**
  * Hero Section — Arctic Aurora Interactive Edition
  */
-export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) {
+export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
   const cardRef = useRef(null);
+  const fallbackTimeEnv = useTimeEnvironment();
+  const { timeState, greeting, isOverridden, cycleTimeState } = timeEnv || fallbackTimeEnv;
   
   // 3D Tilt springs for profile card (Subtle: max 2-3 degrees)
   const x = useMotionValue(0);
@@ -63,10 +82,11 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
       aria-label="Rajat Behera Software Portfolio"
       className="relative min-h-[calc(100vh-80px)] w-full flex items-center justify-center pt-28 pb-16 sm:pt-32 sm:pb-20 px-6 sm:px-12 overflow-hidden"
     >
+
       {/* Interactive Faint Technical Lines reacting subtly to mouse */}
       <motion.div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none opacity-40 z-1"
         animate={{ x: bgShiftX, y: bgShiftY }}
         transition={{ type: 'spring', damping: 40, stiffness: 180 }}
       >
@@ -94,6 +114,36 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
             >
               <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
               <span>Available for Software Engineering Internships · Summer 2026</span>
+            </motion.div>
+
+            {/* Subtle Time-Based Environmental Greeting */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.22 }}
+              className="flex items-center gap-2.5 text-[13.5px] sm:text-[14px] text-[#4B5563]"
+            >
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-white/80 border border-[#D5DFEB] text-[#2563EB] shadow-2xs">
+                <TimeIcon timeState={timeState} className="w-3.5 h-3.5 text-[#2563EB]" />
+              </span>
+              <span className="font-semibold text-[#111827] font-sans-editorial">
+                {greeting}
+              </span>
+              <span className="text-[#CBD5E1]">•</span>
+              <span className="text-[#4B5563] font-medium">Rajat Behera</span>
+
+              {/* Discreet Time State Indicator & Interactive Preview Switcher */}
+              <button
+                type="button"
+                onClick={cycleTimeState}
+                title={`Detected local time: ${timeState}. Click to preview different time environments.`}
+                className="ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/80 hover:bg-white border border-[#CBD5E1]/70 hover:border-[#2563EB]/40 text-[11px] font-mono text-[#64748B] hover:text-[#2563EB] transition-colors cursor-pointer shadow-2xs"
+              >
+                <span className="uppercase tracking-wider font-semibold text-[10px]">{timeState}</span>
+                {isOverridden && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" title="Preview mode active" />
+                )}
+              </button>
             </motion.div>
 
             {/* 2. Headline with selected Arctic Blue gradient accents */}

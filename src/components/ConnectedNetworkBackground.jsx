@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 /**
  * ConnectedNetworkBackground — Arctic Aurora Atmosphere
  * 
- * - Soft Arctic Blue (#2563EB) & Soft Lavender (#8B5CF6) gentle atmospheric glows
- * - Extremely subtle engineering grid
+ * - Clean neutral Arctic Blue (#2563EB) & Soft Lavender (#8B5CF6) ambient glows
+ * - Hairline engineering grid
  * - Tiny drifting technical points and delicate connection threads
  * - Strictly respects prefers-reduced-motion and keeps content front-and-center
  */
@@ -130,7 +130,7 @@ export default function ConnectedNetworkBackground() {
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#EDF2F7]"
     >
-      {/* 1. Refined Arctic Aurora volumetric glows — delicate ambient color without washing out */}
+      {/* 1. Refined Arctic Aurora volumetric ambient glows */}
       <div 
         className="absolute inset-0 pointer-events-none animate-aurora-drift"
         style={{

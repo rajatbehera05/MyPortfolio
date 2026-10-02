@@ -11,6 +11,8 @@ import Projects from './components/Projects';
 import SkillsNetwork from './components/SkillsNetwork';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
+import HeroTimeEnvironment from './components/HeroTimeEnvironment';
+import { useTimeEnvironment } from './hooks/useTimeEnvironment';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +26,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function PortfolioLanding() {
   const [activeModal, setActiveModal] = useState(null); // 'cv' | 'spec' | null
   const [selectedSpec, setSelectedSpec] = useState(null);
+  const timeEnv = useTimeEnvironment();
 
   // 1. Lenis Smooth Scrolling Integration synced with GSAP ScrollTrigger
   useEffect(() => {
@@ -86,14 +89,21 @@ export default function PortfolioLanding() {
 
       {/* 5. Complete Main Experience */}
       <main className="relative z-10 w-full">
-        {/* Section 1: Hero */}
-        <Hero
-          onExplore={handleExplore}
-          onAbout={handleOpenCV}
-        />
+        {/* Full-Width Living Time Environment Container (Spans 100vw seamlessly across Hero and About) */}
+        <div className="relative w-full overflow-hidden">
+          {/* Edge-to-edge seamless time atmosphere (100% viewport width, zero card borders) */}
+          <HeroTimeEnvironment timeState={timeEnv.timeState} />
 
-        {/* Section 2: About Me */}
-        <About />
+          {/* Section 1: Hero */}
+          <Hero
+            onExplore={handleExplore}
+            onAbout={handleOpenCV}
+            timeEnv={timeEnv}
+          />
+
+          {/* Section 2: About Me */}
+          <About />
+        </div>
 
         {/* Section 3: Tech I Work With — Technology Constellation */}
         <TechIWorkWith />

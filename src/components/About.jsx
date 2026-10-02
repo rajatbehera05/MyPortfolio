@@ -16,22 +16,17 @@ export default function About() {
     <section
       id="about"
       aria-label="About Rajat Behera"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative z-10 overflow-visible"
+      className="w-full relative z-10 overflow-visible py-16 sm:py-20 border-t border-[#D5DFEB]/50"
     >
-      {/* Background Soft Atmospheric Ambient Glow */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[600px] h-[350px] bg-[#E8F1FF]/60 rounded-full blur-3xl pointer-events-none -z-10"
-      />
-
-      {/* Section Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.55 }}
-        className="space-y-2.5 mb-14"
-      >
+      <div className="max-w-[1380px] mx-auto px-6 sm:px-12">
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55 }}
+          className="space-y-2.5 mb-14"
+        >
         <div>
           <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
@@ -160,13 +155,13 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.6 }}
-        className="pt-16 sm:pt-20 border-t border-[#D5DFEB]/80 mt-16 sm:mt-20 relative z-10 overflow-visible"
+        className="pt-6 sm:pt-8 border-t border-[#D5DFEB]/80 mt-6 sm:mt-8 relative z-10 overflow-visible"
       >
         <Journey isEmbedded={true} />
       </motion.div>
 
       {/* 3. Three Core Engineering Philosophy Values */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-12 sm:pt-14 border-t border-[#D5DFEB]/60 mt-12 sm:mt-14">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-8 sm:pt-10 border-t border-[#D5DFEB]/60 mt-8 sm:mt-10">
         
         {/* Value 1 */}
         <motion.div
@@ -219,6 +214,7 @@ export default function About() {
           </p>
         </motion.div>
 
+      </div>
       </div>
     </section>
   );
