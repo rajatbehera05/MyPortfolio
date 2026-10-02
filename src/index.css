@@ -326,25 +326,25 @@
   }
 }
 
-/* Natural Curved Flock Flight Path Across Evening Sky (Left -> Right over ~7s) */
+/* Natural Curved Flock Flight Path Across Evening Sky at Continuous Constant Speed */
 @keyframes eveningFlockPass {
   0% {
     transform: translate3d(-160px, 0, 0);
     opacity: 0;
   }
-  4% {
+  3% {
     opacity: 1;
   }
   25% {
-    transform: translate3d(26vw, -8px, 0);
+    transform: translate3d(calc(25vw - 80px), -7px, 0);
   }
   50% {
-    transform: translate3d(52vw, 4px, 0);
+    transform: translate3d(50vw, 4px, 0);
   }
   75% {
-    transform: translate3d(78vw, -6px, 0);
+    transform: translate3d(calc(75vw + 80px), -5px, 0);
   }
-  95% {
+  97% {
     opacity: 1;
   }
   100% {

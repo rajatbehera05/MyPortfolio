@@ -216,7 +216,7 @@ function EveningBirdFlock({ isEvening }) {
       <div
         className="absolute top-2 left-0"
         style={{
-          animation: 'eveningFlockPass 7.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
+          animation: 'eveningFlockPass 7.2s linear forwards',
         }}
       >
         <div className="relative w-[140px] h-[45px]">
