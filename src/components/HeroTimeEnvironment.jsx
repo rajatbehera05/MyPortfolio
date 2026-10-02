@@ -318,61 +318,19 @@ function EveningSun() {
 }
 
 /**
- * 4. Night Moon: Clean, luminous vector crescent moon
- * Positioned in upper sky (top-20 sm:top-22 right-10 sm:right-22 lg:right-32)
- */
-function NightMoon() {
-  return (
-    <div className="absolute top-20 sm:top-22 right-10 sm:right-22 lg:right-32 pointer-events-none select-none flex items-center justify-center z-1">
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_0_14px_rgba(56,189,248,0.4)]">
-        {/* Hairline orbit ring */}
-        <circle cx="24" cy="24" r="22" stroke="#38BDF8" strokeWidth="0.85" strokeDasharray="2 3" opacity="0.4" />
-        {/* Sharp vector crescent moon */}
-        <path
-          d="M24 13C17.9 13 13 17.9 13 24C13 30.1 17.9 35 24 35C26.5 35 28.8 32 30.7 30.6C27.5 29.9 25.1 27.2 25.1 23.9C25.1 20.6 27.5 17.9 30.7 17.2C28.8 15.8 26.5 13 24 13Z"
-          fill="#38BDF8"
-          stroke="#0284C7"
-          strokeWidth="1.1"
-        />
-      </svg>
-    </div>
-  );
-}
-
-/**
- * Sharp, brilliant pinprick stars strictly in upper sky
- */
-const CRISP_STARS = [
-  { x: '10%', y: '20%', size: 2.5, delay: '0s' },
-  { x: '18%', y: '26%', size: 2, delay: '1.2s' },
-  { x: '26%', y: '18%', size: 2.5, delay: '2.1s' },
-  { x: '38%', y: '24%', size: 2, delay: '0.8s' },
-  { x: '50%', y: '18%', size: 2, delay: '1.7s' },
-  { x: '62%', y: '22%', size: 2.5, delay: '2.5s' },
-  { x: '72%', y: '18%', size: 2, delay: '0.4s' },
-  { x: '82%', y: '26%', size: 2.5, delay: '1.9s' },
-  { x: '92%', y: '20%', size: 2, delay: '1.1s' },
-  // Desktop accents
-  { x: '14%', y: '36%', size: 2, delay: '2.3s', desktopOnly: true },
-  { x: '30%', y: '32%', size: 1.5, delay: '0.6s', desktopOnly: true },
-  { x: '68%', y: '32%', size: 2, delay: '2.7s', desktopOnly: true },
-  { x: '86%', y: '36%', size: 2, delay: '1.5s', desktopOnly: true },
-];
-
-/**
  * HeroTimeEnvironment — Clean, Distinct, Sharp Time-Based Living Scenery
  * 
- * Includes:
- * - Noticeably larger, clearly visible clouds and majestic soaring birds.
- * - Distinct, visible sky gradients covering the Hero section.
- * - Celestial elements placed in open sky below the navbar and above cards.
- * - Smooth 1.8s cross-fade transitions synced with the whole-page environment.
+ * Supports:
+ * - 1. Morning: Gentle sunrise sky, illustrated sun, soft clouds, distant soaring birds.
+ * - 2. Afternoon: Bright daylight sky, high sun, crisp clouds.
+ * - 3. Evening: Sunset glow, setting sun, clouds, and realistic 5-bird soaring flock.
+ * 
+ * Night mode animations removed per user instruction.
  */
 export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
   const isMorning = timeState === 'morning';
   const isAfternoon = timeState === 'afternoon';
   const isEvening = timeState === 'evening';
-  const isNight = timeState === 'night';
 
   return (
     <div
@@ -480,52 +438,6 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
         <EveningBirdFlock isEvening={isEvening} />
       </div>
 
-
-      {/* ========================================================================= */}
-      {/* 4. NIGHT (20:00 – 04:59) — "Good Night"                                    */}
-      {/* ========================================================================= */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
-          isNight ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        {/* Visible Deep Blue Atmosphere with Moonlit Reading Clearance */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              radial-gradient(ellipse 65% 35% at 35% 20%, rgba(241, 245, 249, 0.88) 0%, rgba(203, 213, 225, 0.45) 45%, transparent 75%),
-              linear-gradient(180deg, #1E293B 0%, #334155 22%, #475569 48%, #64748B 70%, #CBD5E1 88%, #EDF2F7 100%)
-            `,
-          }}
-        />
-
-        {/* Crescent Moon in Open Sky */}
-        <NightMoon />
-
-        {/* Sharp Twinkling Stars across Open Sky */}
-        <div className="absolute inset-0 pointer-events-none">
-          {CRISP_STARS.map((star, i) => (
-            <div
-              key={i}
-              className={`absolute rounded-full bg-white shadow-[0_0_4px_#38BDF8] ${star.desktopOnly ? 'hidden sm:block' : ''}`}
-              style={{
-                left: star.x,
-                top: star.y,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                animation: `starTwinkle 3s ease-in-out infinite`,
-                animationDelay: star.delay,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Larger Nocturnal Cloud in Open Sky */}
-        <div className="absolute top-22 sm:top-24 left-8 sm:left-20 lg:left-32 animate-cloud-drift hidden sm:block">
-          <CrispMinimalCloud width={170} height={52} />
-        </div>
-      </div>
 
     </div>
   );

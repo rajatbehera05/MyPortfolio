@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, Moon } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 import HeroTimeEnvironment from './HeroTimeEnvironment';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
@@ -18,11 +18,8 @@ function TimeIcon({ timeState, className = "w-4 h-4" }) {
     case 'afternoon':
       return <Sun className={className} />;
     case 'evening':
-      return <Sunset className={className} />;
-    case 'night':
-      return <Moon className={className} />;
     default:
-      return <Sun className={className} />;
+      return <Sunset className={className} />;
   }
 }
 

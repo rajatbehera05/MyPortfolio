@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Determine the portfolio time-of-day state according to the visitor's local browser time.
+ * Only Morning, Afternoon (Noon), and Evening environments are animated.
  * 
  * Schedule:
  * 05:00 – 11:59 → morning
  * 12:00 – 16:59 → afternoon
- * 17:00 – 19:59 → evening
- * 20:00 – 04:59 → night
+ * 17:00 – 04:59 → evening
  */
 export function getTimeState(date = new Date()) {
   const hours = date.getHours();
@@ -17,10 +17,7 @@ export function getTimeState(date = new Date()) {
   if (hours >= 12 && hours < 17) {
     return 'afternoon';
   }
-  if (hours >= 17 && hours < 20) {
-    return 'evening';
-  }
-  return 'night';
+  return 'evening';
 }
 
 /**
@@ -33,18 +30,14 @@ export function getTimeGreeting(timeState) {
     case 'afternoon':
       return 'Good Afternoon';
     case 'evening':
-      return 'Good Evening';
-    case 'night':
-      return 'Good Night';
     default:
-      return 'Good Day';
+      return 'Good Evening';
   }
 }
 
 /**
  * Hook to manage the dynamic local time-based environment.
- * Periodically checks for hour boundary changes without requiring page reload.
- * Provides manual preview cycling for development and user exploration.
+ * Cycles strictly between morning, afternoon (noon), and evening.
  */
 export function useTimeEnvironment() {
   const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
@@ -65,7 +58,7 @@ export function useTimeEnvironment() {
   const greeting = getTimeGreeting(activeState);
 
   const cycleTimeState = useCallback(() => {
-    const states = ['morning', 'afternoon', 'evening', 'night'];
+    const states = ['morning', 'afternoon', 'evening'];
     const idx = states.indexOf(activeState);
     const next = states[(idx + 1) % states.length];
     setManualOverride(next);
