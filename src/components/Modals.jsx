@@ -11,7 +11,7 @@ function GithubIcon({ className = "w-3.5 h-3.5" }) {
 }
 
 /**
- * Modals Component: Clean Human Resume & Project Overview Dialogs
+ * Modals Component — Arctic Aurora Edition
  */
 export default function Modals({ activeModal, onClose, systemSpec }) {
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#0A0D10]/80 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-md"
           onClick={onClose}
         >
           {/* Resume Modal */}
@@ -48,56 +48,56 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.25 }}
-              className="w-full max-w-lg rounded-2xl p-6 sm:p-7 space-y-5 border border-[#232D36] bg-[#0E1319] shadow-[0_20px_60px_rgba(0,0,0,0.8)]"
+              className="w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-5 border border-[#DCE4EF] bg-white shadow-[0_24px_70px_rgba(37,99,235,0.15)]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-[#1A222B] pb-3">
+              <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3.5">
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#16D9E8]" />
-                  <h3 className="font-bold text-[15px] text-[#F4F7FA]">
+                  <BookOpen className="w-4 h-4 text-[#2563EB]" />
+                  <h3 className="font-bold text-[15px] text-[#111827]">
                     Curriculum Vitae
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="text-[#71808D] hover:text-[#F4F7FA] p-1 rounded-lg hover:bg-[#141A21] transition-colors cursor-pointer"
+                  className="text-[#64748B] hover:text-[#111827] p-1.5 rounded-lg hover:bg-[#F1F5F9] transition-colors cursor-pointer"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="space-y-4 text-[14px] text-[#AAB5C0] leading-relaxed">
+              <div className="space-y-4 text-[14px] text-[#4B5563] leading-relaxed">
                 <div>
-                  <h4 className="text-[#F4F7FA] font-bold text-lg font-sans-editorial">RAJAT BEHERA</h4>
-                  <div className="text-[#16D9E8] font-medium text-[13px] mt-0.5">
+                  <h4 className="text-[#111827] font-bold text-xl font-sans-editorial">RAJAT BEHERA</h4>
+                  <div className="text-[#2563EB] font-semibold text-[13.5px] mt-0.5">
                     Full-Stack Software Engineer &amp; Systems Developer
                   </div>
-                  <div className="text-[12.5px] text-[#71808D] mt-1">
+                  <div className="text-[12.5px] text-[#64748B] mt-1">
                     B.Tech in Computer Science &amp; Engineering · 8.9 / 10.0 CGPA · 3x Hackathon Winner
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl border border-[#1A222B] bg-[#141A21]/70 space-y-2 text-[13px]">
-                  <div className="text-[#F4F7FA] font-semibold text-[13.5px] flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#16D9E8]" />
+                <div className="p-4 rounded-2xl border border-[#DCE4EF] bg-[#F8FAFC] space-y-2 text-[13px]">
+                  <div className="text-[#111827] font-semibold text-[13.5px] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
                     <span>Summary of Skills (70/30 Focus)</span>
                   </div>
-                  <div className="space-y-1 text-[#AAB5C0]">
-                    <div>• <strong>Web &amp; UI:</strong> React 19, TypeScript, Next.js, Zustand, Tailwind CSS, WebSockets</div>
-                    <div>• <strong>Backend &amp; APIs:</strong> Node.js, Python FastAPI, RESTful APIs, gRPC, Docker</div>
-                    <div>• <strong>Databases &amp; Cache:</strong> PostgreSQL, Redis in-memory caching, TimescaleDB</div>
-                    <div>• <strong>Connected IoT (30%):</strong> ESP32, FreeRTOS, C/C++, TLS MQTT, sensor interfaces</div>
+                  <div className="space-y-1.5 text-[#4B5563]">
+                    <div>• <strong>Web &amp; UI:</strong> React, JavaScript, HTML5, CSS, WebSockets</div>
+                    <div>• <strong>Backend &amp; APIs:</strong> Node.js, Express.js, RESTful APIs, Docker</div>
+                    <div>• <strong>Databases &amp; Tools:</strong> PostgreSQL, MySQL, SQL, Git, GitHub, VS Code</div>
+                    <div>• <strong>Connected IoT (30%):</strong> ESP32, Arduino, Arduino IDE, sensor interfaces</div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1A222B]">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#F1F5F9]">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-[13px] font-medium border border-[#232D36] text-[#AAB5C0] hover:text-[#F4F7FA] hover:bg-[#141A21] cursor-pointer transition-colors"
+                  className="px-4 py-2 rounded-xl text-[13px] font-medium border border-[#DCE4EF] text-[#4B5563] hover:text-[#111827] hover:bg-[#F8FAFC] cursor-pointer transition-colors"
                 >
                   Close
                 </button>
@@ -107,7 +107,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                     alert('Curriculum Vitae Download Initiated: Rajat_Behera_Resume.pdf');
                     onClose();
                   }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] hover:shadow-[0_0_16px_rgba(22,217,232,0.3)] transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_12px_rgba(37,99,235,0.3)] transition-all cursor-pointer"
                 >
                   <FileDown className="w-4 h-4" />
                   <span>Download PDF</span>
@@ -123,38 +123,38 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.25 }}
-              className="w-full max-w-xl rounded-2xl p-6 sm:p-7 space-y-5 border border-[#232D36] bg-[#0E1319] shadow-[0_20px_60px_rgba(0,0,0,0.8)] max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-xl rounded-3xl p-6 sm:p-8 space-y-5 border border-[#DCE4EF] bg-white shadow-[0_24px_70px_rgba(37,99,235,0.15)] max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-[#1A222B] pb-3">
+              <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3.5">
                 <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-[#16D9E8]" />
-                  <h3 className="font-bold text-[15px] text-[#F4F7FA]">
+                  <Layers className="w-4 h-4 text-[#2563EB]" />
+                  <h3 className="font-bold text-[15px] text-[#111827]">
                     {systemSpec.title} Overview
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="text-[#71808D] hover:text-[#F4F7FA] p-1 rounded-lg hover:bg-[#141A21] transition-colors cursor-pointer"
+                  className="text-[#64748B] hover:text-[#111827] p-1.5 rounded-lg hover:bg-[#F1F5F9] transition-colors cursor-pointer"
                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <div className="space-y-3.5 text-[14px] text-[#AAB5C0] leading-relaxed">
+              <div className="space-y-4 text-[14px] text-[#4B5563] leading-relaxed">
                 <div>
-                  <h4 className="text-xl font-bold text-[#F4F7FA] font-sans-editorial">
+                  <h4 className="text-xl font-bold text-[#111827] font-sans-editorial">
                     {systemSpec.title}
                   </h4>
-                  <div className="text-[13px] text-[#16D9E8] font-medium mt-0.5">
+                  <div className="text-[13px] text-[#2563EB] font-semibold mt-0.5">
                     {systemSpec.tagline}
                   </div>
                 </div>
 
                 {systemSpec.image && (
-                  <div className="w-full rounded-xl overflow-hidden border border-[#232D36] bg-[#0A0D10]">
+                  <div className="w-full rounded-2xl overflow-hidden border border-[#DCE4EF] bg-[#F8FAFC]">
                     <img
                       src={systemSpec.image}
                       alt={systemSpec.title}
@@ -169,13 +169,13 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
 
                 {/* Highlights */}
                 {systemSpec.highlights && (
-                  <div className="space-y-2 p-4 rounded-xl border border-[#1A222B] bg-[#141A21]/60">
-                    <div className="text-[12px] uppercase font-semibold tracking-wider text-[#71808D]">
+                  <div className="space-y-2 p-4 rounded-2xl border border-[#DCE4EF] bg-[#F8FAFC]">
+                    <div className="text-[12px] uppercase font-semibold tracking-wider text-[#64748B]">
                       Core Capabilities
                     </div>
                     {systemSpec.highlights.map((h, i) => (
-                      <div key={i} className="flex items-start gap-2 text-[13px] text-[#F4F7FA]">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#16D9E8] shrink-0 mt-0.5" />
+                      <div key={i} className="flex items-start gap-2 text-[13px] text-[#111827]">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#2563EB] shrink-0 mt-0.5" />
                         <span>{h}</span>
                       </div>
                     ))}
@@ -186,7 +186,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 {systemSpec.techs && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {systemSpec.techs.map(t => (
-                      <span key={t} className="text-[11px] px-2.5 py-0.5 rounded-md bg-[#141A21] text-[#AAB5C0] border border-[#232D36]">
+                      <span key={t} className="text-[11px] font-medium px-2.5 py-0.5 rounded-md bg-[#F1F5F9] text-[#4B5563] border border-[#E2E8F0]">
                         {t}
                       </span>
                     ))}
@@ -194,14 +194,14 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 )}
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-[#1A222B]">
+              <div className="flex items-center justify-between pt-3 border-t border-[#F1F5F9]">
                 <div className="flex items-center gap-2">
                   {systemSpec.github && (
                     <a
                       href={systemSpec.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-medium text-[#AAB5C0] hover:text-[#F4F7FA] bg-[#141A21] hover:bg-[#1A222B] border border-[#232D36] transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-medium text-[#111827] hover:text-[#2563EB] bg-white hover:bg-[#F8FAFC] border border-[#DCE4EF] transition-colors"
                     >
                       <GithubIcon className="w-3.5 h-3.5" />
                       <span>GitHub</span>
@@ -212,7 +212,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                       href={systemSpec.liveDemo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#16D9E8] hover:text-[#0A0D10] bg-[#16D9E8]/10 hover:bg-[#16D9E8] border border-[#16D9E8]/30 transition-all"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_10px_rgba(37,99,235,0.25)] transition-all"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Live Demo</span>
@@ -223,7 +223,7 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-[13px] font-semibold text-[#0A0D10] bg-[#16D9E8] hover:bg-[#14C1CE] transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all cursor-pointer"
                 >
                   Close
                 </button>

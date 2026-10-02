@@ -1,33 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import Lenis from 'lenis';
 import ConnectedNetworkBackground from './components/ConnectedNetworkBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import About from './components/About';
+import TechIWorkWith from './components/TechIWorkWith';
 import Projects from './components/Projects';
 import SkillsNetwork from './components/SkillsNetwork';
-import About from './components/About';
 import Timeline from './components/Timeline';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
 
 /**
- * Portfolio Landing Page — Complete System Architecture
+ * Portfolio Landing Page — Arctic Aurora Engineering System
  * 
- * Aesthetic: Apple Product Launch × High-End Engineering Laboratory
- * Theme: Obsidian Dark (#0A0D10) with Cyan (#16D9E8) and Electric Blue (#3B82F6) accents
- * Centerpiece: The Convergence Engine
- * Sections: Hero → Projects (Work) → Skills Network (Tech) → About → Timeline (Exploring) → Contact
+ * Aesthetic: High-End Creative Development Studio × Technical Software + IoT
+ * Theme: Arctic Aurora (Clean light base #F4F7FC, Pure White #FFFFFF surfaces, Deep Navy #111827, Arctic Blue #2563EB, Lavender #8B5CF6 accents)
+ * Signature System: The Aurora Network
  */
 export default function PortfolioLanding() {
   const [activeModal, setActiveModal] = useState(null); // 'cv' | 'spec' | null
   const [selectedSpec, setSelectedSpec] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
 
+  // 1. Lenis Smooth Scrolling Integration
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+    });
+
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
     };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const handleExplore = () => {
@@ -52,55 +69,45 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0A0D10] text-[#F4F7FA] font-sans-editorial antialiased selection:bg-[#16D9E8]/20 selection:text-[#16D9E8]">
+    <div className="relative min-h-screen bg-[#F4F7FC] text-[#111827] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
       
-      {/* 1. Atmospheric Deep Background with Calm Volumetric Illumination */}
+      {/* 1. Global "The Aurora Network" Signature Atmosphere */}
       <ConnectedNetworkBackground />
 
-      {/* 2. Dynamic Interactive Ambient Cursor Spotlight Follower */}
-      <div
-        aria-hidden="true"
-        className="fixed pointer-events-none z-1 transition-opacity duration-300 opacity-70 hidden md:block"
-        style={{
-          width: '640px',
-          height: '640px',
-          left: `${mousePos.x - 320}px`,
-          top: `${mousePos.y - 320}px`,
-          background: 'radial-gradient(circle, rgba(22, 217, 232, 0.035) 0%, rgba(59, 130, 246, 0.02) 45%, transparent 70%)',
-        }}
-      />
-
-      {/* 3. Minimal Editorial Navigation Bar with Active Section Spy */}
+      {/* 2. Floating Premium Navigation Bar */}
       <Navbar onConnectClick={() => {
         const el = document.getElementById('contact');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       }} />
 
-      {/* 4. Complete Main Experience */}
+      {/* 5. Complete Main Experience */}
       <main className="relative z-10 w-full">
-        {/* First Viewport: Hero with Convergence Engine */}
+        {/* Section 1: Hero */}
         <Hero
           onExplore={handleExplore}
           onAbout={handleOpenCV}
         />
 
-        {/* Systems I Have Built: Interactive Multi-stage Topology & Sensor Ping */}
-        <Projects onOpenSpec={handleOpenSpec} />
-
-        {/* Technology Network: Connected Stacks & Field Verification Inspector */}
-        <SkillsNetwork />
-
-        {/* Identity & Core Architecture Specification */}
+        {/* Section 2: About Me */}
         <About />
 
-        {/* Experience & Achievements: Continuous Traveling Light Trace */}
+        {/* Section 3: Tech I Work With — Technology Constellation */}
+        <TechIWorkWith />
+
+        {/* Section 4: Featured Projects */}
+        <Projects onOpenSpec={handleOpenSpec} />
+
+        {/* Section 5: Architecture & Skills Network */}
+        <SkillsNetwork />
+
+        {/* Section 6: Milestones / Journey */}
         <Timeline />
 
-        {/* Contact & Transmission Interface */}
+        {/* Section 7: Contact & Call to Action */}
         <Contact onOpenCV={handleOpenCV} />
       </main>
 
-      {/* 5. System Modals (Curriculum Vitae & Engineering Spec Sheets) */}
+      {/* 6. System Modals (Curriculum Vitae & Engineering Spec Sheets) */}
       <Modals
         activeModal={activeModal}
         onClose={handleCloseModal}

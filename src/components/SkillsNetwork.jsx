@@ -3,11 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Server, Database, Cpu, Sparkles, X } from 'lucide-react';
 
 /**
- * Skills Section: SKILLS & TECHNOLOGIES
- * 
- * Clean, human, organized presentation of engineering toolkit:
- * - 70% Software Development (Frontend, Backend, Databases, Cloud)
- * - 30% Connected Edge & Embedded Systems
+ * Skills Section: ARCHITECTURAL TOOLKIT — Arctic Aurora Edition
  */
 export default function SkillsNetwork() {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -19,11 +15,10 @@ export default function SkillsNetwork() {
       icon: Code2,
       description: 'Crafting responsive, high-performance web applications with modern state management, strict typing, and polished interactions.',
       skills: [
-        { name: 'React 19', detail: 'Server and client components, suspense boundaries, optimistic updates, and performance profiling.' },
-        { name: 'TypeScript', detail: 'Strict type contracts, generic utility types, and runtime schema validation with Zod.' },
-        { name: 'Next.js', detail: 'App router, server-side rendering, API routes, and optimized production deployments.' },
-        { name: 'Tailwind CSS', detail: 'Design system implementation, fluid responsive layouts, and clean dark mode theming.' },
-        { name: 'Zustand & State', detail: 'Predictable lightweight state stores, event-driven mutators, and CRDT sync state.' }
+        { name: 'React 19', detail: 'Components, suspense boundaries, optimistic updates, and performance profiling.' },
+        { name: 'JavaScript (ES6+)', detail: 'Modern async patterns, DOM events, promises, and clean module composition.' },
+        { name: 'CSS & Tailwind', detail: 'Design system implementation, fluid responsive layouts, and clean modern styling.' },
+        { name: 'HTML5 Semantic DOM', detail: 'Accessible structuring, semantic landmarks, and SEO metadata.' }
       ]
     },
     {
@@ -32,22 +27,22 @@ export default function SkillsNetwork() {
       icon: Server,
       description: 'Building asynchronous backend architectures, high-concurrency microservices, and reliable communication protocols.',
       skills: [
-        { name: 'Node.js & Express', detail: 'Non-blocking I/O event loops, JWT session handling, and RESTful microservices.' },
-        { name: 'Python & FastAPI', detail: 'High-throughput async endpoints, background tasks, and clean data modeling.' },
-        { name: 'WebSockets & SSE', detail: 'Sub-20ms bi-directional streaming for real-time collaboration and telemetry feeds.' },
-        { name: 'REST & gRPC', detail: 'Clean API contract versioning, OpenAPI documentation, and protocol buffer schemas.' }
+        { name: 'Node.js', detail: 'Non-blocking I/O event loops, stream processing, and server-side runtimes.' },
+        { name: 'Express.js', detail: 'RESTful API routing, JWT session handling, and middleware pipelines.' },
+        { name: 'REST APIs', detail: 'Clean API contract versioning, JSON data serialization, and status codes.' },
+        { name: 'WebSockets', detail: 'Sub-20ms bi-directional streaming for real-time collaboration and telemetry feeds.' }
       ]
     },
     {
-      title: 'Databases & Cloud Infrastructure',
+      title: 'Databases & Developer Tooling',
       focus: '70% Software Focus',
       icon: Database,
-      description: 'Designing durable relational data schemas, sub-millisecond in-memory caching tiers, and containerized deployments.',
+      description: 'Designing durable relational data schemas, containerized development workflows, and automated version control.',
       skills: [
         { name: 'PostgreSQL', detail: 'Relational data modeling, index optimization, complex queries, and ACID guarantees.' },
-        { name: 'Redis Cache', detail: 'In-memory key-value caching, Pub/Sub event broadcasting, and distributed locking.' },
-        { name: 'Docker', detail: 'Multi-stage container builds, local development orchestration, and reproducible services.' },
-        { name: 'Git & GitHub Actions', detail: 'Automated CI/CD testing, linting workflows, and pull request reviews.' }
+        { name: 'MySQL', detail: 'Relational table design, foreign key constraints, and transactional consistency.' },
+        { name: 'SQL Queries', detail: 'Declarative queries, multi-table joins, subqueries, and aggregations.' },
+        { name: 'Docker & Git', detail: 'Reproducible container environments, branch workflows, and GitHub collaboration.' }
       ]
     },
     {
@@ -56,39 +51,40 @@ export default function SkillsNetwork() {
       icon: Cpu,
       description: 'Bridging high-level cloud software with physical microcontrollers, low-power telemetry, and sensor protocols.',
       skills: [
-        { name: 'ESP32 & C++', detail: 'Dual-core Xtensa microcontrollers, bare-metal hardware registers, and peripheral buses.' },
-        { name: 'FreeRTOS Kernel', detail: 'Preemptive multi-tasking, binary semaphores, queues, and watchdog timers.' },
-        { name: 'MQTT Protocol', detail: 'Lightweight publish/subscribe messaging over TLS for remote telemetry collection.' },
-        { name: 'Sensors (I2C/SPI)', detail: 'Optical LiDAR rangefinding, IMUs, environmental sensors, and hardware debugging.' }
+        { name: 'ESP32 Microcontrollers', detail: 'Dual-core Xtensa microcontrollers, Wi-Fi connectivity, and hardware peripherals.' },
+        { name: 'Arduino Ecosystem', detail: 'Board prototyping, hardware pins, PWM servo control, and analog/digital I/O.' },
+        { name: 'Arduino IDE', detail: 'Firmware compilation, serial baud monitoring, and hardware flashing.' },
+        { name: 'Sensors (IR/Optical)', detail: 'Infrared vehicle detection, distance rangefinding, and circuit interfacing.' }
       ]
     }
   ];
 
   return (
     <section
-      id="tech"
+      id="skills-network"
       aria-label="Skills & Technologies"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#1A222B]"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#DCE4EF] relative"
     >
       <div id="skills" className="-mt-24 pt-24" aria-hidden="true" />
 
       {/* Header */}
       <motion.div 
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-2.5 mb-12"
+        transition={{ duration: 0.55 }}
+        className="space-y-2.5 mb-14"
       >
-        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#16D9E8] uppercase">
+        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
           <span>Toolkit</span>
-          <span className="text-[#232D36]">•</span>
-          <span className="text-[#AAB5C0]">Skills &amp; Technologies</span>
+          <span className="text-[#CBD5E1]">•</span>
+          <span className="text-[#64748B]">Architectural Competencies</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F4F7FA] font-sans-editorial">
-          What I Work With
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+          How I Apply My Toolkit
         </h2>
-        <p className="text-[15px] sm:text-[16px] text-[#AAB5C0] max-w-2xl leading-relaxed">
+        <p className="text-[15px] sm:text-[16px] text-[#4B5563] max-w-2xl leading-relaxed">
           I enjoy working across the whole spectrum: building modern, accessible web apps and backend services, while maintaining a strong grip on hardware and low-level code.
         </p>
       </motion.div>
@@ -105,28 +101,28 @@ export default function SkillsNetwork() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.45, delay: gIdx * 0.08 }}
-              className="p-6 sm:p-7 rounded-2xl border border-[#1A222B] bg-[#0E1319]/80 hover:border-[#2A3744] hover:bg-[#121820] transition-all duration-300 space-y-4 shadow-lg"
+              className="p-6 sm:p-7 rounded-2xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/40 transition-all duration-300 space-y-4 shadow-xs hover:shadow-[0_12px_28px_rgba(37,99,235,0.06)]"
             >
               {/* Group Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#16D9E8]/10 text-[#16D9E8] flex items-center justify-center border border-[#16D9E8]/20">
+                  <div className="w-9 h-9 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center border border-[#2563EB]/20">
                     <Icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#F4F7FA] font-sans-editorial">
+                    <h3 className="text-lg font-bold text-[#111827] font-sans-editorial">
                       {group.title}
                     </h3>
                   </div>
                 </div>
 
-                <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#141A21] text-[#AAB5C0] border border-[#232D36]">
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]">
                   {group.focus}
                 </span>
               </div>
 
               {/* Group Description */}
-              <p className="text-[13.5px] text-[#AAB5C0] leading-relaxed">
+              <p className="text-[13.5px] text-[#4B5563] leading-relaxed">
                 {group.description}
               </p>
 
@@ -142,8 +138,8 @@ export default function SkillsNetwork() {
                       onClick={() => setSelectedTech(isSelected ? null : skill)}
                       className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
                         isSelected
-                          ? 'bg-[#16D9E8] text-[#0A0D10] font-semibold shadow-xs'
-                          : 'bg-[#141A21] text-[#F4F7FA] border border-[#1A222B] hover:border-[#16D9E8]/50 hover:bg-[#1A222B]'
+                          ? 'bg-[#2563EB] text-white font-semibold shadow-xs'
+                          : 'bg-[#F8FAFC] text-[#111827] border border-[#E2E8F0] hover:border-[#2563EB]/50 hover:bg-[#E8F1FF]'
                       }`}
                     >
                       <span>{skill.name}</span>
@@ -166,13 +162,13 @@ export default function SkillsNetwork() {
             transition={{ duration: 0.25 }}
             className="overflow-hidden mt-6"
           >
-            <div className="p-4 sm:p-5 rounded-xl border border-[#16D9E8]/40 bg-[#141A21] text-[#F4F7FA] shadow-xl flex items-center justify-between gap-4">
+            <div className="p-4 sm:p-5 rounded-2xl border border-[#2563EB]/30 bg-[#E8F1FF]/60 text-[#111827] shadow-sm flex items-center justify-between gap-4">
               <div className="space-y-1">
-                <div className="flex items-center gap-2 text-[12px] text-[#16D9E8] font-bold">
+                <div className="flex items-center gap-2 text-[12px] text-[#2563EB] font-bold">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>How I use {selectedTech.name} in my projects:</span>
                 </div>
-                <p className="text-[14px] text-[#AAB5C0] leading-relaxed">
+                <p className="text-[14px] text-[#1E3A8A] leading-relaxed font-medium">
                   {selectedTech.detail}
                 </p>
               </div>
@@ -180,7 +176,7 @@ export default function SkillsNetwork() {
               <button
                 type="button"
                 onClick={() => setSelectedTech(null)}
-                className="p-1.5 rounded-lg text-[#71808D] hover:text-[#F4F7FA] hover:bg-[#1E2732] transition-colors cursor-pointer shrink-0"
+                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#111827] hover:bg-white transition-colors cursor-pointer shrink-0"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />

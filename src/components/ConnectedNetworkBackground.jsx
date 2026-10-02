@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
 /**
- * ConnectedNetworkBackground
+ * ConnectedNetworkBackground — Arctic Aurora Atmosphere
  * 
- * Quiet, Sophisticated Atmospheric Canvas:
- * - Deep graphite base (#0A0D10) with subtle midnight blue volumetric depth
- * - Barely visible architectural datum lines
- * - Extremely sparse, calm data points that drift quietly in the background
- * - Keeps typography immediately legible and high-contrast
- * - Strictly respects prefers-reduced-motion
+ * - Soft Arctic Blue (#2563EB) & Soft Lavender (#8B5CF6) gentle atmospheric glows
+ * - Extremely subtle engineering grid
+ * - Tiny drifting technical points and delicate connection threads
+ * - Strictly respects prefers-reduced-motion and keeps content front-and-center
  */
 export default function ConnectedNetworkBackground() {
   const canvasRef = useRef(null);
@@ -42,18 +40,19 @@ export default function ConnectedNetworkBackground() {
 
     const initPoints = () => {
       const isMobile = width < 768;
-      // Extremely sparse: 12 on mobile, 22 on desktop
-      const count = isMobile ? 10 : 20;
+      // Sparse: 10 on mobile, 22 on desktop
+      const count = isMobile ? 10 : 22;
 
       points = [];
       for (let i = 0; i < count; i++) {
         points.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.08,
-          vy: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.08,
-          radius: Math.random() * 0.8 + 0.8,
-          baseAlpha: Math.random() * 0.14 + 0.08,
+          vx: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.09,
+          vy: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.09,
+          radius: Math.random() * 1.2 + 0.8,
+          baseAlpha: Math.random() * 0.16 + 0.08,
+          isLavender: Math.random() > 0.7, // 30% lavender, 70% arctic blue
           phase: Math.random() * Math.PI * 2,
         });
       }
@@ -67,7 +66,27 @@ export default function ConnectedNetworkBackground() {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Render calm, sparse points
+      // Draw faint connection lines between proximate nodes
+      for (let i = 0; i < points.length; i++) {
+        for (let j = i + 1; j < points.length; j++) {
+          const dx = points[i].x - points[j].x;
+          const dy = points[i].y - points[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const maxDist = width < 768 ? 110 : 160;
+
+          if (dist < maxDist) {
+            const lineAlpha = (1 - dist / maxDist) * 0.07;
+            ctx.beginPath();
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.lineTo(points[j].x, points[j].y);
+            ctx.strokeStyle = `rgba(37, 99, 235, ${lineAlpha.toFixed(3)})`;
+            ctx.lineWidth = 0.75;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw floating technical nodes
       for (let i = 0; i < points.length; i++) {
         const pt = points[i];
 
@@ -82,12 +101,14 @@ export default function ConnectedNetworkBackground() {
           if (pt.y > height + 10) pt.y = -10;
         }
 
-        const breathe = Math.sin(pt.phase) * 0.03;
+        const breathe = Math.sin(pt.phase) * 0.04;
         const currentAlpha = Math.max(0.04, pt.baseAlpha + breathe);
 
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(170, 181, 192, ${currentAlpha.toFixed(3)})`;
+        ctx.fillStyle = pt.isLavender
+          ? `rgba(139, 92, 246, ${currentAlpha.toFixed(3)})`
+          : `rgba(37, 99, 235, ${currentAlpha.toFixed(3)})`;
         ctx.fill();
       }
 
@@ -107,31 +128,34 @@ export default function ConnectedNetworkBackground() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#0A0D10]"
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#F4F7FC]"
     >
-      {/* 1. Volumetric depth illumination (Soft Midnight Blue & Dark Slate) */}
+      {/* 1. Extremely soft Arctic Aurora volumetric glows */}
       <div 
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none animate-aurora-drift"
         style={{
           background: `
-            radial-gradient(ellipse 75% 60% at 75% 38%, rgba(20, 26, 33, 0.95) 0%, rgba(15, 20, 25, 0.7) 45%, transparent 85%),
-            radial-gradient(ellipse 60% 50% at 20% 25%, rgba(15, 20, 25, 0.9) 0%, transparent 70%),
-            radial-gradient(circle at 70% 45%, rgba(22, 217, 232, 0.025) 0%, transparent 60%),
-            linear-gradient(180deg, #0A0D10 0%, #0D1116 100%)
+            radial-gradient(ellipse 70% 50% at 20% 15%, rgba(232, 241, 255, 0.9) 0%, transparent 70%),
+            radial-gradient(ellipse 65% 55% at 85% 35%, rgba(241, 236, 255, 0.6) 0%, transparent 65%),
+            radial-gradient(ellipse 60% 45% at 45% 75%, rgba(232, 241, 255, 0.75) 0%, transparent 65%),
+            linear-gradient(180deg, #F4F7FC 0%, #EFF4FB 100%)
           `
         }}
       />
 
-      {/* 2. Barely visible structural datum lines (Framing the editorial space) */}
+      {/* 2. Delicate hairline grid */}
+      <div className="absolute inset-0 pointer-events-none arctic-grid-subtle opacity-40" />
+
+      {/* 3. Subtle technical datum guidelines */}
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-30"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <line x1="0" y1="88" x2="100%" y2="88" stroke="#1A222B" strokeWidth="0.75" />
-        <line x1="48%" y1="0" x2="48%" y2="100%" stroke="#1A222B" strokeWidth="0.75" strokeDasharray="6 12" />
+        <line x1="0" y1="80" x2="100%" y2="80" stroke="#DCE4EF" strokeWidth="0.75" />
+        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#DCE4EF" strokeWidth="0.75" strokeDasharray="4 16" />
       </svg>
 
-      {/* 3. Sparse data points canvas */}
+      {/* 4. Canvas with calm floating technical points and connection threads */}
       <canvas
         ref={canvasRef}
         className="relative block w-full h-full opacity-80"
