@@ -108,6 +108,108 @@
   animation: auroraDriftSlow 14s ease-in-out infinite alternate;
 }
 
+/* 3D Wireframe Cube Keyframes (Subtle, continuous, slow architectural rotation) */
+@keyframes wireframeSpinCw {
+  from {
+    transform: rotateX(var(--cube-tilt-x, -24deg)) rotateZ(var(--cube-tilt-z, 12deg)) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(var(--cube-tilt-x, -24deg)) rotateZ(var(--cube-tilt-z, 12deg)) rotateY(360deg);
+  }
+}
+
+@keyframes wireframeSpinCcw {
+  from {
+    transform: rotateX(var(--cube-tilt-x, 26deg)) rotateZ(var(--cube-tilt-z, -14deg)) rotateY(360deg);
+  }
+  to {
+    transform: rotateX(var(--cube-tilt-x, 26deg)) rotateZ(var(--cube-tilt-z, -14deg)) rotateY(0deg);
+  }
+}
+
+@keyframes wireframeFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Continuous 3D rotation for Journey 3D Wireframe Cube (matching other cubes, with forward Z translation) */
+@keyframes journeyCubeSpinCw {
+  from {
+    transform: translate3d(0, 0, 50px) rotateX(var(--cube-tilt-x, 18deg)) rotateZ(var(--cube-tilt-z, -8deg)) rotateY(0deg);
+  }
+  to {
+    transform: translate3d(0, 0, 50px) rotateX(var(--cube-tilt-x, 18deg)) rotateZ(var(--cube-tilt-z, -8deg)) rotateY(360deg);
+  }
+}
+
+@keyframes journeyCubeSpinCcw {
+  from {
+    transform: translate3d(0, 0, 50px) rotateX(var(--cube-tilt-x, 18deg)) rotateZ(var(--cube-tilt-z, -8deg)) rotateY(360deg);
+  }
+  to {
+    transform: translate3d(0, 0, 50px) rotateX(var(--cube-tilt-x, 18deg)) rotateZ(var(--cube-tilt-z, -8deg)) rotateY(0deg);
+  }
+}
+
+/* Subtle Easter-Egg Butterfly 3D Wing Flap & Sparkle Animations */
+@keyframes butterflyWingFlapLeft {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(-68deg); }
+}
+@keyframes butterflyWingFlapRight {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(68deg); }
+}
+@keyframes butterflyWingBreatheLeft {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(-22deg); }
+}
+@keyframes butterflyWingBreatheRight {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(22deg); }
+}
+@keyframes glitterSparkle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.3) rotate(0deg);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate3d(0, 2px, 0) scale(1.15) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.2) rotate(90deg);
+  }
+}
+
+@keyframes glitterFallDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.35) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: translate3d(var(--drift-x, 2px), 12px, 0) scale(1.2) rotate(35deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(calc(var(--drift-x, 2px) * -0.6), calc(var(--fall-dist, 70px) * 0.5), 0) scale(0.95) rotate(90deg);
+  }
+  80% {
+    opacity: 0.6;
+    transform: translate3d(var(--drift-x, 2px), calc(var(--fall-dist, 70px) * 0.82), 0) scale(0.7) rotate(140deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--drift-x, 2px) * 0.2), var(--fall-dist, 70px), 0) scale(0.2) rotate(180deg);
+  }
+}
+
 /* Custom Sleek Scrollbar for Arctic theme */
 ::-webkit-scrollbar {
   width: 7px;

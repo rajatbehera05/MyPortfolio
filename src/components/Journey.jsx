@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { RotateCcw, Radio } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
+import JourneyCube from './JourneyCube';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -390,18 +391,23 @@ export default function Journey({ isEmbedded = false }) {
       {/* ==================================================
           MY JOURNEY INTRO
           ================================================== */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-12">
-        <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 text-[11.5px] font-semibold tracking-wider text-[#2563EB] uppercase font-mono">
-            <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
-            <span>Development Path</span>
-            <span className="text-[#CBD5E1]">•</span>
-            <span className="text-[#64748B]">Milestones</span>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-12 relative z-10 overflow-visible">
+        <div className="space-y-2 relative z-10 overflow-visible">
+          <div>
+            <div className="inline-flex items-center gap-2 text-[11.5px] font-semibold tracking-wider text-[#2563EB] uppercase font-mono">
+              <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
+              <span>Development Path</span>
+              <span className="text-[#CBD5E1]">•</span>
+              <span className="text-[#64748B]">Milestones</span>
+            </div>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-[#111827] font-sans-editorial flex items-center gap-3">
-            <span>MY JOURNEY</span>
-          </h3>
+          <div className="flex items-center gap-3.5 sm:gap-4 relative z-20 overflow-visible">
+            <JourneyCube className="mr-0.5 sm:mr-1" />
+            <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-[#111827] font-sans-editorial">
+              MY JOURNEY
+            </h3>
+          </div>
 
           <p className="text-[15.5px] sm:text-[16.5px] text-[#111827] font-medium leading-relaxed">
             From my first web code to building connected systems.
@@ -736,7 +742,7 @@ export default function Journey({ isEmbedded = false }) {
         id="exploring"
         ref={sectionRef}
         aria-label="Developer Journey"
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-visible"
       >
         {content}
       </div>
@@ -748,7 +754,7 @@ export default function Journey({ isEmbedded = false }) {
       id="exploring"
       ref={sectionRef}
       aria-label="Developer Journey"
-      className="relative w-full py-16 sm:py-24 bg-[#EDF2F7] border-t border-[#D5DFEB] overflow-hidden"
+      className="relative w-full py-16 sm:py-24 bg-[#EDF2F7] border-t border-[#D5DFEB] overflow-visible"
     >
       {/* Subtle Aurora Glow in Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[360px] bg-[#E8F1FF]/60 rounded-full blur-3xl pointer-events-none -z-10" />

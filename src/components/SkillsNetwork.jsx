@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Server, Database, Cpu, Sparkles, X } from 'lucide-react';
+import WireframeCube from './WireframeCube';
 
 /**
  * Skills Section: ARCHITECTURAL TOOLKIT — Arctic Aurora Edition
@@ -75,15 +76,31 @@ export default function SkillsNetwork() {
         transition={{ duration: 0.55 }}
         className="space-y-2.5 mb-14"
       >
-        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-          <span>Toolkit</span>
-          <span className="text-[#CBD5E1]">•</span>
-          <span className="text-[#64748B]">Architectural Competencies</span>
+        <div>
+          <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+            <span>Toolkit</span>
+            <span className="text-[#CBD5E1]">•</span>
+            <span className="text-[#64748B]">Architectural Competencies</span>
+          </div>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
-          How I Apply My Toolkit
-        </h2>
+
+        <div className="flex items-center gap-3.5 sm:gap-4">
+          <WireframeCube
+            size={38}
+            color="#EAB308"
+            tiltX={22}
+            tiltZ={-12}
+            duration={16}
+            divisions={3}
+            floating={false}
+            className="shrink-0"
+          />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+            How I Apply My Toolkit
+          </h2>
+        </div>
+
         <p className="text-[15px] sm:text-[16px] text-[#4B5563] max-w-2xl leading-relaxed">
           I enjoy working across the whole spectrum: building modern, accessible web apps and backend services, while maintaining a strong grip on hardware and low-level code.
         </p>

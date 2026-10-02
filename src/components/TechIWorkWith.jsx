@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Network } from 'lucide-react';
+import WireframeCube from './WireframeCube';
 
 /**
  * High-Precision Technology Brand SVGs
@@ -485,19 +486,33 @@ export default function TechIWorkWith() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
-          className="space-y-2"
+          className="space-y-2.5"
         >
           {/* Subtle Decorative Tag matching portfolio design */}
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full border border-[#2563EB]/20 bg-[#E8F1FF] text-[#2563EB] text-[11px] font-semibold tracking-wider uppercase">
-            <Network className="w-3 h-3 text-[#2563EB]" />
-            <span>The Aurora Tech Stack</span>
-            <span className="text-[#CBD5E1]">•</span>
-            <span className="text-[#64748B]">Core Tools &amp; Ecosystem</span>
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full border border-[#2563EB]/20 bg-[#E8F1FF] text-[#2563EB] text-[11px] font-semibold tracking-wider uppercase">
+              <Network className="w-3 h-3 text-[#2563EB]" />
+              <span>The Aurora Tech Stack</span>
+              <span className="text-[#CBD5E1]">•</span>
+              <span className="text-[#64748B]">Core Tools &amp; Ecosystem</span>
+            </div>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#111827] font-sans-editorial">
-            Tech I Work With
-          </h2>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <WireframeCube
+              size={36}
+              color="#EF4444"
+              tiltX={20}
+              tiltZ={-10}
+              duration={16}
+              divisions={3}
+              floating={false}
+              className="shrink-0"
+            />
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+              Tech I Work With
+            </h2>
+          </div>
 
           <p className="text-[14px] sm:text-[15px] text-[#4B5563] max-w-xl leading-relaxed">
             Tools and technologies I use to build software, web applications, and connected IoT systems.

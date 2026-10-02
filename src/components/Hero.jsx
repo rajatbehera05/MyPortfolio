@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight, FileText, Mail, Camera } from 'lucide-react';
+import WireframeCube from './WireframeCube';
 
 /**
  * Developer Profile Photo
@@ -97,21 +98,32 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
 
             {/* 2. Headline with selected Arctic Blue gradient accents */}
             <div className="space-y-3">
-              <motion.h1
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.25 }}
-                className="text-4xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-[#111827] font-sans-editorial leading-[1.12]"
-              >
-                Building{' '}
-                <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
-                  fast web apps
-                </span>
-                , scalable backends &amp;{' '}
-                <span className="bg-gradient-to-r from-[#2563EB] to-[#4338CA] bg-clip-text text-transparent">
-                  connected systems.
-                </span>
-              </motion.h1>
+              <div className="flex items-start gap-3.5 sm:gap-4.5">
+                <WireframeCube
+                  size={44}
+                  color="#EF4444"
+                  tiltX={-20}
+                  tiltZ={10}
+                  duration={16}
+                  divisions={3}
+                  className="shrink-0 mt-1 sm:mt-1.5"
+                />
+                <motion.h1
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.65, delay: 0.25 }}
+                  className="text-4xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-[#111827] font-sans-editorial leading-[1.12]"
+                >
+                  Building{' '}
+                  <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
+                    fast web apps
+                  </span>
+                  , scalable backends &amp;{' '}
+                  <span className="bg-gradient-to-r from-[#2563EB] to-[#4338CA] bg-clip-text text-transparent">
+                    connected systems.
+                  </span>
+                </motion.h1>
+              </div>
 
               {/* 3. Description */}
               <motion.p

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Code2, Server, Cpu, Award, BookOpen, MapPin, Heart, Sparkles } from 'lucide-react';
 import Journey from './Journey';
+import WireframeCube from './WireframeCube';
 
 /**
  * About Section: ABOUT ME — Arctic Aurora Edition
@@ -15,7 +16,7 @@ export default function About() {
     <section
       id="about"
       aria-label="About Rajat Behera"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative z-10 overflow-visible"
     >
       {/* Background Soft Atmospheric Ambient Glow */}
       <div
@@ -31,15 +32,31 @@ export default function About() {
         transition={{ duration: 0.55 }}
         className="space-y-2.5 mb-14"
       >
-        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-          <span>Background</span>
-          <span className="text-[#CBD5E1]">•</span>
-          <span className="text-[#64748B]">About Me</span>
+        <div>
+          <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+            <span>Background</span>
+            <span className="text-[#CBD5E1]">•</span>
+            <span className="text-[#64748B]">About Me</span>
+          </div>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
-          My Story &amp; Approach
-        </h2>
+
+        <div className="flex items-center gap-3.5 sm:gap-4">
+          <WireframeCube
+            size={38}
+            color="#EC4899"
+            tiltX={26}
+            tiltZ={-14}
+            duration={15}
+            reverse={true}
+            divisions={3}
+            floating={false}
+            className="shrink-0"
+          />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+            My Story &amp; Approach
+          </h2>
+        </div>
       </motion.div>
 
       {/* 1. Story & Quick Facts Two-Column Row */}
@@ -143,7 +160,7 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.6 }}
-        className="pt-16 sm:pt-20 border-t border-[#D5DFEB]/80 mt-16 sm:mt-20"
+        className="pt-16 sm:pt-20 border-t border-[#D5DFEB]/80 mt-16 sm:mt-20 relative z-10 overflow-visible"
       >
         <Journey isEmbedded={true} />
       </motion.div>

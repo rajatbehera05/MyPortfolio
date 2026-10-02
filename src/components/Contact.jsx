@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, ArrowUpRight, Send, CheckCircle2, FileText, MessageSquare, ArrowRight } from 'lucide-react';
+import WireframeCube from './WireframeCube';
+import SecretButterfly from './SecretButterfly';
 
 function GithubIcon({ className = "w-5 h-5" }) {
   return (
@@ -24,6 +26,7 @@ function LinkedinIcon({ className = "w-5 h-5" }) {
  * Contact Section — Arctic Aurora Edition
  */
 export default function Contact({ onOpenCV }) {
+  const sectionRef = useRef(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
 
@@ -39,9 +42,13 @@ export default function Contact({ onOpenCV }) {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       aria-label="Get in Touch"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative overflow-hidden"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative overflow-visible"
     >
+      {/* Easter Egg: Delicate one-time butterfly flight */}
+      <SecretButterfly sectionRef={sectionRef} />
+
       {/* Floating Animated Orb / Aurora Radial Gradient behind CTA */}
       <div
         aria-hidden="true"
@@ -71,17 +78,33 @@ export default function Contact({ onOpenCV }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.55 }}
-        className="space-y-3 mb-14"
+        className="space-y-2.5 mb-14"
       >
-        <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-          <span>Get in Touch</span>
-          <span className="text-[#CBD5E1]">•</span>
-          <span className="text-[#64748B]">Collaboration</span>
+        <div>
+          <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+            <span>Get in Touch</span>
+            <span className="text-[#CBD5E1]">•</span>
+            <span className="text-[#64748B]">Collaboration</span>
+          </div>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
-          Let's build something meaningful.
-        </h2>
+
+        <div className="flex items-center gap-3.5 sm:gap-4">
+          <WireframeCube
+            size={38}
+            color="#EF4444"
+            tiltX={-26}
+            tiltZ={14}
+            duration={16}
+            divisions={3}
+            floating={false}
+            className="shrink-0"
+          />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+            Let's build something meaningful.
+          </h2>
+        </div>
+
         <p className="text-[15px] sm:text-[16px] text-[#4B5563] max-w-2xl leading-relaxed">
           I'm actively seeking Summer 2026 Software Engineering Internships and open to exciting engineering collaborations. Feel free to reach out via email or send a message below!
         </p>
