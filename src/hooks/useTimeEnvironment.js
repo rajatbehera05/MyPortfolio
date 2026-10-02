@@ -2,22 +2,24 @@ import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Determine the portfolio time-of-day state according to the visitor's local browser time.
- * Supports the 3 daytime environments: Morning, Afternoon, and Evening.
+ * Supports exactly three states (NO NIGHT):
  * 
- * Schedule:
- * 00:00 – 11:59 (12:00 AM – 11:59 AM) → morning ("Good Morning")
- * 12:00 – 16:59 (12:00 PM – 04:59 PM) → afternoon ("Good Afternoon")
- * 17:00 – 23:59 (05:00 PM – 11:59 PM) → evening ("Good Evening")
+ * 🌅 MORNING: 12:00 AM – 11:59 AM (hours 0–11)  → "Good Morning"
+ * ☀️ NOON:    12:00 PM – 4:59 PM  (hours 12–16) → "Good Afternoon"
+ * 🌇 EVENING:  5:00 PM – 11:59 PM (hours 17–23) → "Good Evening"
  */
 export function getTimeState(date = new Date()) {
-  const hours = date.getHours();
-  if (hours < 12) {
+  const hour = date.getHours();
+  if (hour >= 0 && hour < 12) {
     return 'morning';
   }
-  if (hours < 17) {
-    return 'afternoon';
+  if (hour >= 12 && hour < 17) {
+    return 'noon';
   }
-  return 'evening';
+  if (hour >= 17 && hour < 24) {
+    return 'evening';
+  }
+  return 'morning';
 }
 
 /**
@@ -27,6 +29,7 @@ export function getTimeGreeting(timeState) {
   switch (timeState) {
     case 'morning':
       return 'Good Morning';
+    case 'noon':
     case 'afternoon':
       return 'Good Afternoon';
     case 'evening':
@@ -37,7 +40,8 @@ export function getTimeGreeting(timeState) {
 
 /**
  * Hook to manage the dynamic local time-based environment.
- * Cycles strictly between the three environments: morning, afternoon, and evening.
+ * The environment updates automatically when the time state changes.
+ * Cycles strictly between: morning, noon, evening.
  */
 export function useTimeEnvironment() {
   const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
@@ -49,16 +53,23 @@ export function useTimeEnvironment() {
       setCurrentTimeState((prev) => (prev !== detected ? detected : prev));
     };
 
-    // Re-check every 30 seconds to catch boundaries seamlessly
-    const timer = setInterval(checkTime, 30000);
-    return () => clearInterval(timer);
+    // Re-check periodically and on visibility/focus change so transitions happen seamlessly
+    const timer = setInterval(checkTime, 10000);
+    window.addEventListener('visibilitychange', checkTime);
+    window.addEventListener('focus', checkTime);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('visibilitychange', checkTime);
+      window.removeEventListener('focus', checkTime);
+    };
   }, []);
 
   const activeState = manualOverride || currentTimeState;
   const greeting = getTimeGreeting(activeState);
 
   const cycleTimeState = useCallback(() => {
-    const states = ['morning', 'afternoon', 'evening'];
+    const states = ['morning', 'noon', 'evening'];
     const idx = states.indexOf(activeState);
     const next = states[(idx + 1) % states.length];
     setManualOverride(next);

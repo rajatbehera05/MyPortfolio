@@ -13,10 +13,9 @@ const PROFILE_IMAGE_URL = null;
 
 function TimeIcon({ timeState, className = "w-4 h-4" }) {
   switch (timeState) {
-    case 'night':
-      return <Moon className={className} />;
     case 'morning':
       return <Sunrise className={className} />;
+    case 'noon':
     case 'afternoon':
       return <Sun className={className} />;
     case 'evening':

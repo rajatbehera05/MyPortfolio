@@ -267,14 +267,14 @@ function NaturalEveningSun() {
 /**
  * HeroTimeEnvironment — Living Daytime Celestial Sky Scenery
  * 
- * Exclusively supports the 3 daytime environments:
- * - 1. Morning: Natural morning sun, soft atmosphere, light clouds, soaring birds.
- * - 2. Afternoon: Bright daylight sun emitting light into blue sky, sparse clouds.
- * - 3. Evening: Warm sunset disk, delicate horizon transition, soaring flock.
+ * Exclusively supports the 3 environmental states (NO NIGHT):
+ * - 1. Morning (00:00 – 11:59): Soft blue sky, smooth sun, subtle clouds, fresh daylight atmosphere
+ * - 2. Noon    (12:00 – 16:59): Brighter blue sky, sun slightly higher, minimal clouds, clean daylight
+ * - 3. Evening (17:00 – 23:59): Blue/lavender/warm peach sky, smooth sunset sun, subtle clouds, horizontal flock
  */
-export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
+export default function HeroTimeEnvironment({ timeState = 'noon' }) {
   const isMorning = timeState === 'morning';
-  const isAfternoon = timeState === 'afternoon';
+  const isNoon = timeState === 'noon' || timeState === 'afternoon';
   const isEvening = timeState === 'evening';
 
   return (
@@ -287,25 +287,25 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
       }}
     >
       {/* ========================================================================= */}
-      {/* 1. MORNING (00:00 – 11:59) — "Good Morning"                                */}
+      {/* 1. MORNING (12:00 AM – 11:59 AM | hours 0–11) — "Good Morning"             */}
       {/* ========================================================================= */}
       <div
         className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
           isMorning ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Visible Morning Sky Gradient */}
+        {/* Soft Blue Sky Gradient */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, #D4E8FC 0%, #E8F2FC 22%, #FEF3C7 52%, #F5F8FC 80%, #EDF2F7 100%)',
+            background: 'linear-gradient(180deg, #D4E8FC 0%, #E8F2FC 22%, #FEF8ED 54%, #F4F8FC 80%, #EDF2F7 100%)',
           }}
         />
 
         {/* Natural Morning Sun: Upper Middle Atmospheric Space */}
         <NaturalMorningSun />
 
-        {/* Atmospheric Clouds in Open Sky */}
+        {/* Subtle Atmospheric Clouds in Open Sky */}
         <div className="absolute top-20 sm:top-22 left-6 sm:left-16 lg:left-24 animate-cloud-drift hidden sm:block">
           <AtmosphericCloud width={175} height={52} tint="day" />
         </div>
@@ -324,14 +324,14 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
 
 
       {/* ========================================================================= */}
-      {/* 2. AFTERNOON (12:00 – 16:59) — "Good Afternoon"                            */}
+      {/* 2. NOON (12:00 PM – 4:59 PM | hours 12–16) — "Good Afternoon"             */}
       {/* ========================================================================= */}
       <div
         className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
-          isAfternoon ? 'opacity-100' : 'opacity-0'
+          isNoon ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Visible Bright Daylight Sky Gradient */}
+        {/* Brighter Clean Blue Daylight Sky Gradient */}
         <div
           className="absolute inset-0"
           style={{
@@ -360,11 +360,11 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           isEvening ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Visible Sunset Gradient: Twilight Blue → Violet → Warm Peach/Coral */}
+        {/* Blue / Lavender / Warm Peach Sunset Sky Gradient */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, #C7D8F8 0%, #E2D3F5 22%, #FED7AA 52%, #F6EDE5 82%, #EDF2F7 100%)',
+            background: 'linear-gradient(180deg, #B8CEF5 0%, #D8C7F0 24%, #FED7AA 54%, #F6EDE5 82%, #EDF2F7 100%)',
           }}
         />
 
