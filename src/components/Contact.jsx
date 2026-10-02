@@ -40,7 +40,7 @@ export default function Contact({ onOpenCV }) {
     <section
       id="contact"
       aria-label="Get in Touch"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#DCE4EF] relative overflow-hidden"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative overflow-hidden"
     >
       {/* Floating Animated Orb / Aurora Radial Gradient behind CTA */}
       <div
@@ -100,7 +100,7 @@ export default function Contact({ onOpenCV }) {
           {/* Email Card */}
           <a
             href="mailto:rajatb220m@gmail.com"
-            className="p-5 rounded-2xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
+            className="p-5 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0 border border-[#2563EB]/20">
@@ -123,7 +123,7 @@ export default function Contact({ onOpenCV }) {
             href="https://github.com/rajatbehera05"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-5 rounded-2xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
+            className="p-5 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-xl bg-[#F8FAFC] text-[#111827] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0 border border-[#E2E8F0]">
@@ -146,7 +146,7 @@ export default function Contact({ onOpenCV }) {
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-5 rounded-2xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
+            className="p-5 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
           >
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0 border border-[#2563EB]/20">
@@ -168,7 +168,7 @@ export default function Contact({ onOpenCV }) {
           <button
             type="button"
             onClick={onOpenCV}
-            className="w-full p-4 rounded-2xl border border-[#DCE4EF] bg-[#F8FAFC] hover:bg-[#E8F1FF] hover:border-[#2563EB]/30 flex items-center justify-center gap-2 text-[13.5px] font-semibold text-[#111827] hover:text-[#2563EB] transition-all cursor-pointer shadow-xs"
+            className="w-full p-4 rounded-2xl border border-[#D5DFEB] bg-[#F8FAFC] hover:bg-[#E8F1FF] hover:border-[#2563EB]/30 flex items-center justify-center gap-2 text-[13.5px] font-semibold text-[#111827] hover:text-[#2563EB] transition-all cursor-pointer shadow-xs"
           >
             <FileText className="w-4 h-4 text-[#2563EB]" />
             <span>Open Engineering Resume</span>
@@ -181,7 +181,7 @@ export default function Contact({ onOpenCV }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="lg:col-span-7 rounded-3xl p-6 sm:p-8 bg-white border border-[#DCE4EF] shadow-[0_12px_36px_rgba(37,99,235,0.05),0_1px_3px_rgba(0,0,0,0.03)]"
+          className="lg:col-span-7 rounded-3xl p-6 sm:p-8 bg-white border border-[#D5DFEB] shadow-[0_10px_35px_rgba(15,23,42,0.05),0_1px_3px_rgba(15,23,42,0.02)]"
         >
           <div className="flex items-center gap-2 mb-6 border-b border-[#F1F5F9] pb-4">
             <MessageSquare className="w-5 h-5 text-[#2563EB]" />
@@ -202,7 +202,7 @@ export default function Contact({ onOpenCV }) {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Alex Morgan"
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#DCE4EF] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
               />
             </div>
 
@@ -217,7 +217,7 @@ export default function Contact({ onOpenCV }) {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="alex@company.com"
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#DCE4EF] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
               />
             </div>
 
@@ -232,7 +232,7 @@ export default function Contact({ onOpenCV }) {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Hi Rajat, I saw your work on the Smart Parking system and wanted to connect about..."
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#DCE4EF] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all resize-none"
               />
             </div>
 

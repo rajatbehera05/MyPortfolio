@@ -143,7 +143,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
               <button
                 type="button"
                 onClick={onAbout}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium text-[#111827] bg-white hover:bg-[#F8FAFC] border border-[#DCE4EF] hover:border-[#2563EB]/40 shadow-xs hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium text-[#111827] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] hover:border-[#2563EB]/40 shadow-xs hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-[#2563EB]" />
                 <span>View Resume</span>
@@ -155,7 +155,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-5 pt-3 text-[13px] text-[#64748B] border-t border-[#DCE4EF]"
+              className="flex flex-wrap items-center gap-5 pt-3 text-[13px] text-[#64748B] border-t border-[#D5DFEB]"
             >
               <a
                 href="https://github.com/rajatbehera05"
@@ -207,11 +207,11 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
               }}
               onMouseMove={handleCardMouseMove}
               onMouseLeave={handleCardMouseLeave}
-              className="group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[24px] p-[1.5px] bg-gradient-to-b from-[#2563EB]/25 via-[#DCE4EF] to-[#8B5CF6]/20 shadow-[0_16px_40px_rgba(37,99,235,0.08),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.14),0_0_24px_rgba(139,92,246,0.12)] transition-shadow duration-300"
+              className="group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[24px] p-[1.5px] bg-gradient-to-b from-[#2563EB]/25 via-[#D5DFEB] to-[#8B5CF6]/20 shadow-[0_16px_40px_rgba(37,99,235,0.08),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.14),0_0_24px_rgba(139,92,246,0.12)] transition-shadow duration-300"
             >
               
               {/* Inner Translucent White Container */}
-              <div className="w-full h-full rounded-[22.5px] overflow-hidden bg-white/95 backdrop-blur-xl border border-[#DCE4EF] group-hover:border-[#2563EB]/40 transition-colors duration-300 relative flex flex-col">
+              <div className="w-full h-full rounded-[22.5px] overflow-hidden bg-white/95 backdrop-blur-xl border border-[#D5DFEB] group-hover:border-[#2563EB]/40 transition-colors duration-300 relative flex flex-col">
                 
                 {PROFILE_IMAGE_URL ? (
                   <img
@@ -259,7 +259,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
                         <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-r-2 border-[#2563EB] rounded-br-[6px]" />
 
                         {/* Aperture / Lens Icon Container */}
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#DCE4EF] text-[#2563EB] flex items-center justify-center shadow-[0_4px_20px_rgba(37,99,235,0.12)] group-hover:shadow-[0_8px_28px_rgba(37,99,235,0.22)] group-hover:border-[#2563EB]/40 group-hover:scale-105 transition-all duration-300">
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#D5DFEB] text-[#2563EB] flex items-center justify-center shadow-[0_4px_20px_rgba(37,99,235,0.12)] group-hover:shadow-[0_8px_28px_rgba(37,99,235,0.22)] group-hover:border-[#2563EB]/40 group-hover:scale-105 transition-all duration-300">
                           <Camera className="w-9 h-9 sm:w-11 sm:h-11 stroke-[1.6]" />
                         </div>
                       </div>
@@ -275,7 +275,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 } }) 
                     </div>
 
                     {/* Bottom Identity Plaque */}
-                    <div className="relative z-10 p-3.5 sm:p-4 rounded-xl bg-white/90 border border-[#DCE4EF] shadow-xs">
+                    <div className="relative z-10 p-3.5 sm:p-4 rounded-xl bg-white/90 border border-[#D5DFEB] shadow-xs">
                       <div className="flex items-center justify-between text-[11.5px] sm:text-[12px]">
                         <div>
                           <div className="font-semibold text-[#111827] text-[12.5px] sm:text-[13px]">Rajat Behera</div>

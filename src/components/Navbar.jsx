@@ -75,8 +75,8 @@ export default function Navbar({ onConnectClick }) {
       <div
         className={`pointer-events-auto transition-all duration-300 w-full max-w-[1340px] mx-4 sm:mx-8 px-5 sm:px-8 flex items-center justify-between rounded-2xl ${
           isScrolled
-            ? 'h-16 bg-white/92 backdrop-blur-xl border border-[#DCE4EF] shadow-[0_10px_32px_rgba(37,99,235,0.06),0_1px_2px_rgba(0,0,0,0.04)]'
-            : 'h-18 bg-white/80 backdrop-blur-lg border border-[#DCE4EF]/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
+            ? 'h-16 bg-white/94 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)]'
+            : 'h-18 bg-white/85 backdrop-blur-lg border border-[#D5DFEB]/80 shadow-[0_4px_20px_rgba(15,23,42,0.04)]'
         }`}
       >
         
@@ -136,7 +136,7 @@ export default function Navbar({ onConnectClick }) {
           <button
             type="button"
             onClick={handleConnect}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-[#111827] bg-[#F4F7FC] hover:bg-[#E8F1FF] border border-[#DCE4EF] hover:border-[#2563EB]/40 hover:text-[#2563EB] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-[#0F172A] bg-[#EDF2F7] hover:bg-[#E8F1FF] border border-[#D5DFEB] hover:border-[#2563EB]/40 hover:text-[#2563EB] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer shadow-xs"
           >
             <span>Get in touch</span>
           </button>
@@ -147,7 +147,7 @@ export default function Navbar({ onConnectClick }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-[#F4F7FC] border border-[#DCE4EF] text-[#4B5563] hover:text-[#111827] transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-[#EDF2F7] border border-[#D5DFEB] text-[#4B5563] hover:text-[#0F172A] transition-colors cursor-pointer"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >

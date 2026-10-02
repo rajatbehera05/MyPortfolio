@@ -63,7 +63,7 @@ export default function SkillsNetwork() {
     <section
       id="skills-network"
       aria-label="Skills & Technologies"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#DCE4EF] relative"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative"
     >
       <div id="skills" className="-mt-24 pt-24" aria-hidden="true" />
 
@@ -101,7 +101,7 @@ export default function SkillsNetwork() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.45, delay: gIdx * 0.08 }}
-              className="p-6 sm:p-7 rounded-2xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/40 transition-all duration-300 space-y-4 shadow-xs hover:shadow-[0_12px_28px_rgba(37,99,235,0.06)]"
+              className="p-6 sm:p-7 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/40 transition-all duration-300 space-y-4 shadow-xs hover:shadow-[0_12px_28px_rgba(37,99,235,0.06)]"
             >
               {/* Group Header */}
               <div className="flex items-center justify-between">

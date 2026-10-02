@@ -128,37 +128,37 @@ export default function ConnectedNetworkBackground() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#F4F7FC]"
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#EDF2F7]"
     >
-      {/* 1. Extremely soft Arctic Aurora volumetric glows */}
+      {/* 1. Refined Arctic Aurora volumetric glows — delicate ambient color without washing out */}
       <div 
         className="absolute inset-0 pointer-events-none animate-aurora-drift"
         style={{
           background: `
-            radial-gradient(ellipse 70% 50% at 20% 15%, rgba(232, 241, 255, 0.9) 0%, transparent 70%),
-            radial-gradient(ellipse 65% 55% at 85% 35%, rgba(241, 236, 255, 0.6) 0%, transparent 65%),
-            radial-gradient(ellipse 60% 45% at 45% 75%, rgba(232, 241, 255, 0.75) 0%, transparent 65%),
-            linear-gradient(180deg, #F4F7FC 0%, #EFF4FB 100%)
+            radial-gradient(ellipse 65% 45% at 20% 15%, rgba(219, 234, 254, 0.55) 0%, transparent 65%),
+            radial-gradient(ellipse 60% 50% at 85% 32%, rgba(237, 233, 254, 0.42) 0%, transparent 60%),
+            radial-gradient(ellipse 55% 40% at 48% 78%, rgba(219, 234, 254, 0.45) 0%, transparent 65%),
+            linear-gradient(180deg, #E6EDF5 0%, #EDF2F7 50%, #E6EDF5 100%)
           `
         }}
       />
 
-      {/* 2. Delicate hairline grid */}
-      <div className="absolute inset-0 pointer-events-none arctic-grid-subtle opacity-40" />
+      {/* 2. Delicate hairline engineering grid */}
+      <div className="absolute inset-0 pointer-events-none arctic-grid-subtle opacity-65" />
 
       {/* 3. Subtle technical datum guidelines */}
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-30"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <line x1="0" y1="80" x2="100%" y2="80" stroke="#DCE4EF" strokeWidth="0.75" />
-        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#DCE4EF" strokeWidth="0.75" strokeDasharray="4 16" />
+        <line x1="0" y1="80" x2="100%" y2="80" stroke="#CBD5E1" strokeWidth="0.75" />
+        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#CBD5E1" strokeWidth="0.75" strokeDasharray="4 16" />
       </svg>
 
       {/* 4. Canvas with calm floating technical points and connection threads */}
       <canvas
         ref={canvasRef}
-        className="relative block w-full h-full opacity-80"
+        className="relative block w-full h-full opacity-85"
       />
     </div>
   );

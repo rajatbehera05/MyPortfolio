@@ -470,7 +470,7 @@ export default function TechIWorkWith() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-12 sm:py-16 border-t border-[#DCE4EF] relative"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-12 sm:py-16 border-t border-[#D5DFEB] relative"
     >
       {/* Background Decorative Ambient Radial Glow */}
       <div
@@ -510,7 +510,7 @@ export default function TechIWorkWith() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-white border border-[#DCE4EF] shadow-xs w-fit"
+          className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-white border border-[#D5DFEB] shadow-xs w-fit"
           role="tablist"
           aria-label="Filter technology categories"
         >
@@ -560,7 +560,7 @@ export default function TechIWorkWith() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2, delay: idx * 0.015 }}
-                className="group relative rounded-xl p-3 sm:p-3.5 transition-all duration-200 ease-out flex flex-col justify-between cursor-pointer overflow-hidden bg-white border border-[#DCE4EF] hover:border-[#2563EB]/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(37,99,235,0.07)]"
+                className="group relative rounded-xl p-3 sm:p-3.5 transition-all duration-200 ease-out flex flex-col justify-between cursor-pointer overflow-hidden bg-white border border-[#D5DFEB] hover:border-[#2563EB]/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(37,99,235,0.07)]"
               >
                 {/* Top Section: Icon & Category Indicator */}
                 <div>
@@ -599,7 +599,7 @@ export default function TechIWorkWith() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        className="mt-6 sm:mt-7 flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 rounded-xl bg-white border border-[#DCE4EF] shadow-xs text-[12px] text-[#64748B]"
+        className="mt-6 sm:mt-7 flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 rounded-xl bg-white border border-[#D5DFEB] shadow-xs text-[12px] text-[#64748B]"
       >
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#2563EB]" />

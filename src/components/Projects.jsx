@@ -47,7 +47,7 @@ export default function Projects({ onOpenSpec }) {
       techs: ['ESP32', 'IR Sensors', 'Servo Motor', 'React', 'Node.js', 'Express', 'REST API'],
       previewType: 'smart-parking-image',
       image: '/assets/smart_parking_system.jpg',
-      github: 'https://github.com/rajatbehera05/smart-parking-system',
+      github: 'https://github.com/rajatbehera05/Model',
       liveDemo: 'https://frontend-seven-ashen-34.vercel.app/'
     },
     {
@@ -138,7 +138,7 @@ export default function Projects({ onOpenSpec }) {
     <section
       id="work"
       aria-label="Featured Projects"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#DCE4EF] relative"
+      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative"
     >
       <div id="systems" className="-mt-24 pt-24" aria-hidden="true" />
 
@@ -171,7 +171,7 @@ export default function Projects({ onOpenSpec }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-[#DCE4EF] shadow-xs self-start md:self-auto text-[12px]"
+          className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-[#D5DFEB] shadow-xs self-start md:self-auto text-[12px]"
         >
           <button
             type="button"
@@ -225,7 +225,7 @@ export default function Projects({ onOpenSpec }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.12 }}
                 transition={{ duration: 0.6, delay: pIdx * 0.08 }}
-                className="project-hover-target group relative overflow-hidden p-7 sm:p-9 lg:p-10 rounded-3xl border border-[#DCE4EF] bg-white hover:border-[#2563EB]/40 transition-all duration-300 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_22px_55px_rgba(37,99,235,0.09)] hover:-translate-y-1"
+                className="project-hover-target group relative overflow-hidden p-7 sm:p-9 lg:p-10 rounded-3xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/50 transition-all duration-300 shadow-[0_4px_24px_rgba(15,23,42,0.05),0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-[0_20px_48px_rgba(37,99,235,0.1)] hover:-translate-y-1"
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                   
@@ -304,7 +304,7 @@ export default function Projects({ onOpenSpec }) {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[12.5px] font-semibold text-[#111827] hover:text-[#2563EB] bg-white hover:bg-[#F8FAFC] border border-[#DCE4EF] hover:border-[#2563EB]/40 shadow-xs transition-all"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[12.5px] font-semibold text-[#111827] hover:text-[#2563EB] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] hover:border-[#2563EB]/40 shadow-xs transition-all"
                             title="View Source on GitHub"
                           >
                             <GithubIcon className="w-3.5 h-3.5" />
@@ -339,7 +339,7 @@ export default function Projects({ onOpenSpec }) {
                   </div>
 
                   {/* Right Preview Column (Or Left if Image Left) */}
-                  <div className={`relative w-full aspect-[16/11] rounded-2xl overflow-hidden border border-[#DCE4EF] bg-[#F8FAFC] shadow-[0_12px_36px_rgba(37,99,235,0.06)] group/img ${
+                  <div className={`relative w-full aspect-[16/11] rounded-2xl overflow-hidden border border-[#D5DFEB] bg-[#F8FAFC] shadow-[0_8px_24px_rgba(15,23,42,0.05)] group/img ${
                     isImageLeft ? 'lg:col-span-5 lg:order-1' : 'lg:col-span-5 lg:order-2'
                   }`}>
                     
@@ -361,13 +361,13 @@ export default function Projects({ onOpenSpec }) {
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0A101D]/90 via-[#0A101D]/35 to-transparent pointer-events-none" />
 
                         {/* Top System Status Badge */}
-                        <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#DCE4EF] text-[11px] text-[#2563EB] font-bold flex items-center gap-1.5 shadow-sm">
+                        <div className="absolute top-3.5 right-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#D5DFEB] text-[11px] text-[#2563EB] font-bold flex items-center gap-1.5 shadow-sm">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
                           <span>Connected IoT System</span>
                         </div>
 
                         {/* Interactive System Pipeline: ESP32 ↓ IR Sensors ↓ REST API ↓ Dashboard */}
-                        <div className="absolute inset-x-3.5 bottom-3.5 p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[#DCE4EF] shadow-lg pointer-events-none space-y-2.5">
+                        <div className="absolute inset-x-3.5 bottom-3.5 p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[#D5DFEB] shadow-lg pointer-events-none space-y-2.5">
                           <div className="flex items-center justify-between text-[10.5px] font-mono font-bold text-[#64748B]">
                             <span className="tracking-wide">PHYSICAL HARDWARE → BACKEND → WEB</span>
                             <span className="text-emerald-600 flex items-center gap-1.5">
@@ -434,7 +434,7 @@ export default function Projects({ onOpenSpec }) {
                           </div>
 
                           {/* Document State Block */}
-                          <div className="p-3.5 rounded-xl bg-white border border-[#DCE4EF] shadow-xs text-center space-y-1">
+                          <div className="p-3.5 rounded-xl bg-white border border-[#D5DFEB] shadow-xs text-center space-y-1">
                             <div className="text-[12px] font-bold text-[#111827]">CRDT Replicated Document</div>
                             <div className="text-[10px] text-emerald-600 font-semibold">
                               ● Deterministic Sync (12ms)
@@ -497,7 +497,7 @@ export default function Projects({ onOpenSpec }) {
                           className="w-full h-full object-cover group-hover/img:scale-105 transition-all duration-500"
                           loading="lazy"
                         />
-                        <div className="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md border border-[#DCE4EF] text-[11px] text-[#2563EB] font-bold shadow-xs">
+                        <div className="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md border border-[#D5DFEB] text-[11px] text-[#2563EB] font-bold shadow-xs">
                           Physical Prototype
                         </div>
                       </div>

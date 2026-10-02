@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ConnectedNetworkBackground from './components/ConnectedNetworkBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -7,9 +9,10 @@ import About from './components/About';
 import TechIWorkWith from './components/TechIWorkWith';
 import Projects from './components/Projects';
 import SkillsNetwork from './components/SkillsNetwork';
-import Timeline from './components/Timeline';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Portfolio Landing Page — Arctic Aurora Engineering System
@@ -22,7 +25,7 @@ export default function PortfolioLanding() {
   const [activeModal, setActiveModal] = useState(null); // 'cv' | 'spec' | null
   const [selectedSpec, setSelectedSpec] = useState(null);
 
-  // 1. Lenis Smooth Scrolling Integration
+  // 1. Lenis Smooth Scrolling Integration synced with GSAP ScrollTrigger
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
@@ -34,15 +37,16 @@ export default function PortfolioLanding() {
       touchMultiplier: 1.5,
     });
 
-    let rafId;
-    function raf(time) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const tickerCallback = (time) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tickerCallback);
       lenis.destroy();
     };
   }, []);
@@ -69,7 +73,7 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F4F7FC] text-[#111827] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
+    <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
       
       {/* 1. Global "The Aurora Network" Signature Atmosphere */}
       <ConnectedNetworkBackground />
@@ -100,10 +104,7 @@ export default function PortfolioLanding() {
         {/* Section 5: Architecture & Skills Network */}
         <SkillsNetwork />
 
-        {/* Section 6: Milestones / Journey */}
-        <Timeline />
-
-        {/* Section 7: Contact & Call to Action */}
+        {/* Section 6: Contact & Call to Action */}
         <Contact onOpenCV={handleOpenCV} />
       </main>
 

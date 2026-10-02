@@ -3,15 +3,15 @@
 @layer base {
   :root {
     /* Arctic Aurora High-End Creative Studio Palette */
-    --bg-base: #F4F7FC;
+    --bg-base: #EDF2F7;
     --bg-surface: #FFFFFF;
     --bg-surface-elevated: #FFFFFF;
     --bg-surface-hover: #F8FAFC;
-    --border-subtle: #DCE4EF;
+    --border-subtle: #D5DFEB;
     --border-strong: #CBD5E1;
 
-    --text-primary: #111827;
-    --text-secondary: #4B5563;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
     --text-muted: #64748B;
 
     --accent-arctic: #2563EB;
@@ -50,10 +50,10 @@
 
 /* Subtle Arctic Aurora Hairline Grid */
 .arctic-grid-subtle {
-  background-size: 48px 48px;
+  background-size: 44px 44px;
   background-image: 
-    linear-gradient(to right, rgba(203, 213, 225, 0.35) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(203, 213, 225, 0.35) 1px, transparent 1px);
+    linear-gradient(to right, rgba(148, 163, 184, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
 }
 
 /* Moving Light Reflection across premium cards */
@@ -115,7 +115,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F4F7FC;
+  background: #EDF2F7;
 }
 
 ::-webkit-scrollbar-thumb {
