@@ -280,14 +280,15 @@ const TechIcons = {
 };
 
 /**
- * 17 Core Technologies categorized into 4 clean engineering domains
+ * Core Technologies categorized into clean engineering domains
  */
 const TECH_CATEGORIES = [
-  { id: 'all', label: 'All Technologies', count: 17 },
-  { id: 'languages', label: 'Languages', count: 3 },
-  { id: 'web', label: 'Web Development', count: 5 },
-  { id: 'iot', label: 'IoT & Embedded', count: 3 },
-  { id: 'tools', label: 'Database & Tools', count: 6 },
+  { id: 'all', label: 'All Technologies' },
+  { id: 'languages', label: 'Languages' },
+  { id: 'web', label: 'Web Development' },
+  { id: 'databases', label: 'Databases' },
+  { id: 'iot', label: 'IoT & Embedded' },
+  { id: 'tools', label: 'Developer Tools' },
 ];
 
 const TECHNOLOGIES = [
@@ -314,7 +315,7 @@ const TECHNOLOGIES = [
     id: 'sql',
     name: 'SQL',
     category: 'languages',
-    categoryLabel: 'Languages',
+    categoryLabel: 'Databases',
     icon: TechIcons.SQL,
     accentColor: '#2563EB',
     tag: 'Queries & Schemas',
@@ -367,7 +368,27 @@ const TECHNOLOGIES = [
     tag: 'Modern Layouts',
   },
 
-  // 3. IoT & Embedded
+  // 3. Databases (Prominently featured)
+  {
+    id: 'postgresql',
+    name: 'PostgreSQL',
+    category: 'databases',
+    categoryLabel: 'Databases',
+    icon: TechIcons.PostgreSQL,
+    accentColor: '#336791',
+    tag: 'Relational DB',
+  },
+  {
+    id: 'mysql',
+    name: 'MySQL',
+    category: 'databases',
+    categoryLabel: 'Databases',
+    icon: TechIcons.MySQL,
+    accentColor: '#00758F',
+    tag: 'Relational DB',
+  },
+
+  // 4. IoT & Embedded
   {
     id: 'esp32',
     name: 'ESP32',
@@ -396,30 +417,12 @@ const TECHNOLOGIES = [
     tag: 'Embedded Firmware',
   },
 
-  // 4. Database & Tools
-  {
-    id: 'postgresql',
-    name: 'PostgreSQL',
-    category: 'tools',
-    categoryLabel: 'Database & Tools',
-    icon: TechIcons.PostgreSQL,
-    accentColor: '#336791',
-    tag: 'Relational DB',
-  },
-  {
-    id: 'mysql',
-    name: 'MySQL',
-    category: 'tools',
-    categoryLabel: 'Database & Tools',
-    icon: TechIcons.MySQL,
-    accentColor: '#00758F',
-    tag: 'Relational DB',
-  },
+  // 5. Developer Tools & DevOps
   {
     id: 'git',
     name: 'Git',
     category: 'tools',
-    categoryLabel: 'Database & Tools',
+    categoryLabel: 'Developer Tools',
     icon: TechIcons.Git,
     accentColor: '#F05032',
     tag: 'Version Control',
@@ -428,28 +431,28 @@ const TECHNOLOGIES = [
     id: 'github',
     name: 'GitHub',
     category: 'tools',
-    categoryLabel: 'Database & Tools',
+    categoryLabel: 'Developer Tools',
     icon: TechIcons.GitHub,
     accentColor: '#111827',
     tag: 'CI/CD & Collab',
   },
   {
-    id: 'vscode',
-    name: 'VS Code',
-    category: 'tools',
-    categoryLabel: 'Database & Tools',
-    icon: TechIcons.VSCode,
-    accentColor: '#007ACC',
-    tag: 'Primary Editor',
-  },
-  {
     id: 'docker',
     name: 'Docker',
     category: 'tools',
-    categoryLabel: 'Database & Tools',
+    categoryLabel: 'Developer Tools',
     icon: TechIcons.Docker,
     accentColor: '#2496ED',
     tag: 'Containers & Env',
+  },
+  {
+    id: 'vscode',
+    name: 'VS Code',
+    category: 'tools',
+    categoryLabel: 'Developer Tools',
+    icon: TechIcons.VSCode,
+    accentColor: '#007ACC',
+    tag: 'Primary Editor',
   },
 ];
 
@@ -461,7 +464,11 @@ export default function TechIWorkWith() {
 
   const filteredTech = activeCategory === 'all'
     ? TECHNOLOGIES
-    : TECHNOLOGIES.filter((t) => t.category === activeCategory);
+    : TECHNOLOGIES.filter((t) => {
+        if (activeCategory === 'languages') return t.category === 'languages' || t.id === 'sql';
+        if (activeCategory === 'databases') return t.category === 'databases' || t.id === 'postgresql' || t.id === 'mysql' || t.id === 'sql';
+        return t.category === activeCategory;
+      });
 
   return (
     <motion.section
