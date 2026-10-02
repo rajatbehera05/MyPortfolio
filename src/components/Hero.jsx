@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, Moon } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 import HeroTimeEnvironment from './HeroTimeEnvironment';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
@@ -13,6 +13,8 @@ const PROFILE_IMAGE_URL = null;
 
 function TimeIcon({ timeState, className = "w-4 h-4" }) {
   switch (timeState) {
+    case 'night':
+      return <Moon className={className} />;
     case 'morning':
       return <Sunrise className={className} />;
     case 'afternoon':
@@ -47,7 +49,7 @@ function LinkedinIcon({ className = "w-4 h-4" }) {
 export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
   const cardRef = useRef(null);
   const fallbackTimeEnv = useTimeEnvironment();
-  const { timeState, greeting, isOverridden, cycleTimeState } = timeEnv || fallbackTimeEnv;
+  const { timeState, greeting, isOverridden, cycleTimeState, isNight } = timeEnv || fallbackTimeEnv;
   
   // 3D Tilt springs for profile card (Subtle: max 2-3 degrees)
   const x = useMotionValue(0);
@@ -107,9 +109,13 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[#2563EB]/20 bg-[#E8F1FF]/80 text-[#2563EB] text-[12px] font-semibold tracking-wide w-fit shadow-xs"
+              className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-[12px] font-semibold tracking-wide w-fit shadow-xs ${
+                isNight
+                  ? 'border-[rgba(150,180,230,0.18)] bg-[#122442]/85 text-[#4F8CFF] shadow-[0_4px_16px_rgba(0,0,0,0.25)]'
+                  : 'border-[#2563EB]/20 bg-[#E8F1FF]/80 text-[#2563EB]'
+              }`}
             >
-              <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
+              <span className={`w-2 h-2 rounded-full ${isNight ? 'bg-[#4F8CFF]' : 'bg-[#2563EB]'} animate-pulse`} />
               <span>Available for Software Engineering Internships · Summer 2026</span>
             </motion.div>
 
@@ -118,23 +124,31 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.22 }}
-              className="flex items-center gap-2.5 text-[13.5px] sm:text-[14px] text-[#4B5563]"
+              className="flex items-center gap-2.5 text-[13.5px] sm:text-[14px]"
             >
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-white/80 border border-[#D5DFEB] text-[#2563EB] shadow-2xs">
-                <TimeIcon timeState={timeState} className="w-3.5 h-3.5 text-[#2563EB]" />
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-md border shadow-2xs ${
+                isNight
+                  ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#4F8CFF]'
+                  : 'bg-white/80 border-[#D5DFEB] text-[#2563EB]'
+              }`}>
+                <TimeIcon timeState={timeState} className={`w-3.5 h-3.5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
               </span>
-              <span className="font-semibold text-[#111827] font-sans-editorial">
+              <span className={`font-semibold font-sans-editorial ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>
                 {greeting}
               </span>
-              <span className="text-[#CBD5E1]">•</span>
-              <span className="text-[#4B5563] font-medium">Rajat Behera</span>
+              <span className={isNight ? 'text-[#475569]' : 'text-[#CBD5E1]'}>•</span>
+              <span className={`font-medium ${isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'}`}>Rajat Behera</span>
 
               {/* Discreet Time State Indicator & Interactive Preview Switcher */}
               <button
                 type="button"
                 onClick={cycleTimeState}
                 title={`Detected local time: ${timeState}. Click to preview different time environments.`}
-                className="ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/80 hover:bg-white border border-[#CBD5E1]/70 hover:border-[#2563EB]/40 text-[11px] font-mono text-[#64748B] hover:text-[#2563EB] transition-colors cursor-pointer shadow-2xs"
+                className={`ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-mono transition-colors cursor-pointer shadow-2xs ${
+                  isNight
+                    ? 'bg-[#122442] hover:bg-[#162C52] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 text-[#A9B8D0] hover:text-[#F1F5FF]'
+                    : 'bg-white/80 hover:bg-white border-[#CBD5E1]/70 hover:border-[#2563EB]/40 text-[#64748B] hover:text-[#2563EB]'
+                }`}
               >
                 <span className="uppercase tracking-wider font-semibold text-[10px]">{timeState}</span>
                 {isOverridden && (
@@ -159,7 +173,9 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.25 }}
-                  className="text-4xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-[#111827] font-sans-editorial leading-[1.12]"
+                  className={`text-4xl sm:text-5xl lg:text-[56px] font-bold tracking-tight font-sans-editorial leading-[1.12] ${
+                    isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'
+                  }`}
                 >
                   Building{' '}
                   <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
@@ -177,9 +193,11 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, delay: 0.45 }}
-                className="text-[16px] sm:text-[17.5px] text-[#4B5563] leading-relaxed max-w-xl font-normal"
+                className={`text-[16px] sm:text-[17.5px] leading-relaxed max-w-xl font-normal ${
+                  isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'
+                }`}
               >
-                Hi, I'm <strong className="text-[#111827] font-semibold">Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. I specialize in building responsive React/TypeScript frontends and distributed cloud architectures, seamlessly bridging them with real-world embedded IoT systems.
+                Hi, I'm <strong className={`font-semibold ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. I specialize in building responsive React/TypeScript frontends and distributed cloud architectures, seamlessly bridging them with real-world embedded IoT systems.
               </motion.p>
             </div>
 
@@ -202,9 +220,13 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               <button
                 type="button"
                 onClick={onAbout}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium text-[#111827] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] hover:border-[#2563EB]/40 shadow-xs hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                className={`inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium border shadow-xs hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${
+                  isNight
+                    ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50'
+                    : 'text-[#111827] bg-white hover:bg-[#F8FAFC] border-[#D5DFEB] hover:border-[#2563EB]/40'
+                }`}
               >
-                <FileText className="w-4 h-4 text-[#2563EB]" />
+                <FileText className={`w-4 h-4 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
                 <span>View Resume</span>
               </button>
             </motion.div>
@@ -214,13 +236,15 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-5 pt-3 text-[13px] text-[#64748B] border-t border-[#D5DFEB]"
+              className={`flex flex-wrap items-center gap-5 pt-3 text-[13px] border-t ${
+                isNight ? 'text-[#A9B8D0] border-[rgba(150,180,230,0.15)]' : 'text-[#64748B] border-[#D5DFEB]'
+              }`}
             >
               <a
                 href="https://github.com/rajatbehera05"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[#111827] hover:-translate-y-0.5 transition-all"
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>GitHub</span>
@@ -230,7 +254,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[#111827] hover:-translate-y-0.5 transition-all"
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
               >
                 <LinkedinIcon className="w-4 h-4" />
                 <span>LinkedIn</span>
@@ -238,14 +262,14 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
               <a
                 href="mailto:rajatb220m@gmail.com"
-                className="inline-flex items-center gap-1.5 hover:text-[#111827] hover:-translate-y-0.5 transition-all"
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
               >
-                <Mail className="w-4 h-4 text-[#2563EB]" />
+                <Mail className={`w-4 h-4 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
                 <span>rajatb220m@gmail.com</span>
               </a>
 
-              <span className="text-[#CBD5E1] hidden sm:inline">•</span>
-              <span className="text-[#4B5563] font-medium hidden sm:inline">B.Tech CSE (8.9 CGPA)</span>
+              <span className={`${isNight ? 'text-[#475569]' : 'text-[#CBD5E1]'} hidden sm:inline`}>•</span>
+              <span className={`${isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'} font-medium hidden sm:inline`}>B.Tech CSE (8.9 CGPA)</span>
             </motion.div>
 
           </div>
@@ -266,11 +290,19 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               }}
               onMouseMove={handleCardMouseMove}
               onMouseLeave={handleCardMouseLeave}
-              className="group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[24px] p-[1.5px] bg-gradient-to-b from-[#2563EB]/25 via-[#D5DFEB] to-[#8B5CF6]/20 shadow-[0_16px_40px_rgba(37,99,235,0.08),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.14),0_0_24px_rgba(139,92,246,0.12)] transition-shadow duration-300"
+              className={`group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[24px] p-[1.5px] transition-shadow duration-300 ${
+                isNight
+                  ? 'bg-gradient-to-b from-[#4F8CFF]/30 via-[rgba(150,180,230,0.15)] to-[#8B5CF6]/20 shadow-[0_20px_50px_rgba(8,20,38,0.7)] hover:shadow-[0_24px_60px_rgba(79,140,255,0.2)]'
+                  : 'bg-gradient-to-b from-[#2563EB]/25 via-[#D5DFEB] to-[#8B5CF6]/20 shadow-[0_16px_40px_rgba(37,99,235,0.08),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.14),0_0_24px_rgba(139,92,246,0.12)]'
+              }`}
             >
               
-              {/* Inner Translucent White Container */}
-              <div className="w-full h-full rounded-[22.5px] overflow-hidden bg-white/95 backdrop-blur-xl border border-[#D5DFEB] group-hover:border-[#2563EB]/40 transition-colors duration-300 relative flex flex-col">
+              {/* Inner Container */}
+              <div className={`w-full h-full rounded-[22.5px] overflow-hidden backdrop-blur-xl border transition-colors duration-300 relative flex flex-col ${
+                isNight
+                  ? 'bg-[#0D1B32]/95 border-[rgba(150,180,230,0.18)] group-hover:border-[#4F8CFF]/40'
+                  : 'bg-white/95 border-[#D5DFEB] group-hover:border-[#2563EB]/40'
+              }`}>
                 
                 {PROFILE_IMAGE_URL ? (
                   <img
@@ -280,14 +312,18 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   />
                 ) : (
                   /* Clean Neutral Identity Frame */
-                  <div className="w-full h-full flex flex-col justify-between p-6 sm:p-7 relative select-none bg-gradient-to-b from-white via-[#F8FAFC] to-[#F1F5F9]">
+                  <div className={`w-full h-full flex flex-col justify-between p-6 sm:p-7 relative select-none ${
+                    isNight
+                      ? 'bg-gradient-to-b from-[#0D1B32] via-[#091528] to-[#081426]'
+                      : 'bg-gradient-to-b from-white via-[#F8FAFC] to-[#F1F5F9]'
+                  }`}>
                     
                     {/* Subtle technical background grid */}
                     <div
                       aria-hidden="true"
-                      className="absolute inset-0 opacity-[0.4] pointer-events-none"
+                      className="absolute inset-0 opacity-[0.35] pointer-events-none"
                       style={{
-                        backgroundImage: 'radial-gradient(rgba(37, 99, 235, 0.25) 1px, transparent 1px)',
+                        backgroundImage: `radial-gradient(${isNight ? 'rgba(79, 140, 255, 0.3)' : 'rgba(37, 99, 235, 0.25)'} 1px, transparent 1px)`,
                         backgroundSize: '20px 20px',
                       }}
                     />
@@ -298,11 +334,17 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
                     {/* Top Header inside card */}
                     <div className="relative z-10 flex items-center justify-between">
-                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E8F1FF] border border-[#2563EB]/25 text-[#2563EB] text-[11.5px] font-semibold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+                      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[11.5px] font-semibold ${
+                        isNight
+                          ? 'bg-[#122442] border-[#4F8CFF]/30 text-[#4F8CFF]'
+                          : 'bg-[#E8F1FF] border-[#2563EB]/25 text-[#2563EB]'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${isNight ? 'bg-[#4F8CFF]' : 'bg-[#2563EB]'} animate-pulse`} />
                         <span>Identity Frame</span>
                       </div>
-                      <span className="text-[11px] font-mono text-[#64748B] tracking-wider uppercase font-semibold">
+                      <span className={`text-[11px] font-mono tracking-wider uppercase font-semibold ${
+                        isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'
+                      }`}>
                         Portrait · 3:4
                       </span>
                     </div>
@@ -310,37 +352,57 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                     {/* Center Framed Focal Reticle */}
                     <div className="relative z-10 my-auto flex flex-col items-center justify-center text-center space-y-4 py-6">
                       {/* Precision Corner Framing Reticle */}
-                      <div className="relative w-44 h-44 sm:w-56 sm:h-56 rounded-[22px] border border-dashed border-[#2563EB]/35 group-hover:border-[#2563EB]/60 bg-white/70 shadow-xs flex items-center justify-center transition-colors duration-300">
+                      <div className={`relative w-44 h-44 sm:w-56 sm:h-56 rounded-[22px] border border-dashed shadow-xs flex items-center justify-center transition-colors duration-300 ${
+                        isNight
+                          ? 'border-[#4F8CFF]/35 group-hover:border-[#4F8CFF]/60 bg-[#122442]/60'
+                          : 'border-[#2563EB]/35 group-hover:border-[#2563EB]/60 bg-white/70'
+                      }`}>
                         {/* Precision corner brackets */}
-                        <div className="absolute -top-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-l-2 border-[#2563EB] rounded-tl-[6px]" />
-                        <div className="absolute -top-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-r-2 border-[#2563EB] rounded-tr-[6px]" />
-                        <div className="absolute -bottom-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-l-2 border-[#2563EB] rounded-bl-[6px]" />
-                        <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-r-2 border-[#2563EB] rounded-br-[6px]" />
+                        <div className={`absolute -top-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-l-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-tl-[6px]`} />
+                        <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-r-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-tr-[6px]`} />
+                        <div className={`absolute -bottom-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-l-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-bl-[6px]`} />
+                        <div className={`absolute -bottom-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-r-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-br-[6px]`} />
 
                         {/* Aperture / Lens Icon Container */}
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-[#D5DFEB] text-[#2563EB] flex items-center justify-center shadow-[0_4px_20px_rgba(37,99,235,0.12)] group-hover:shadow-[0_8px_28px_rgba(37,99,235,0.22)] group-hover:border-[#2563EB]/40 group-hover:scale-105 transition-all duration-300">
+                        <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border flex items-center justify-center group-hover:scale-105 transition-all duration-300 ${
+                          isNight
+                            ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#4F8CFF] shadow-[0_4px_20px_rgba(79,140,255,0.15)] group-hover:border-[#4F8CFF]/50'
+                            : 'bg-white border-[#D5DFEB] text-[#2563EB] shadow-[0_4px_20px_rgba(37,99,235,0.12)] group-hover:border-[#2563EB]/40'
+                        }`}>
                           <Camera className="w-9 h-9 sm:w-11 sm:h-11 stroke-[1.6]" />
                         </div>
                       </div>
 
                       <div className="space-y-1.5">
-                        <div className="text-[14.5px] sm:text-[16px] font-semibold text-[#111827] tracking-tight">
+                        <div className={`text-[14.5px] sm:text-[16px] font-semibold tracking-tight ${
+                          isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'
+                        }`}>
                           Developer Portrait
                         </div>
-                        <p className="text-[12px] sm:text-[13px] text-[#64748B] max-w-[240px] leading-relaxed">
+                        <p className={`text-[12px] sm:text-[13px] max-w-[240px] leading-relaxed ${
+                          isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'
+                        }`}>
                           Placeholder area ready for profile photograph
                         </p>
                       </div>
                     </div>
 
                     {/* Bottom Identity Plaque */}
-                    <div className="relative z-10 p-3.5 sm:p-4 rounded-xl bg-white/90 border border-[#D5DFEB] shadow-xs">
+                    <div className={`relative z-10 p-3.5 sm:p-4 rounded-xl border shadow-xs ${
+                      isNight
+                        ? 'bg-[#122442]/90 border-[rgba(150,180,230,0.18)]'
+                        : 'bg-white/90 border-[#D5DFEB]'
+                    }`}>
                       <div className="flex items-center justify-between text-[11.5px] sm:text-[12px]">
                         <div>
-                          <div className="font-semibold text-[#111827] text-[12.5px] sm:text-[13px]">Rajat Behera</div>
-                          <div className="text-[#64748B] text-[11px] sm:text-[11.5px]">CSE &amp; IoT Developer</div>
+                          <div className={`font-semibold text-[12.5px] sm:text-[13px] ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>Rajat Behera</div>
+                          <div className={`text-[11px] sm:text-[11.5px] ${isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'}`}>CSE &amp; IoT Developer</div>
                         </div>
-                        <span className="px-2.5 py-1 rounded-md bg-[#E8F1FF] border border-[#2563EB]/20 text-[10.5px] font-mono text-[#2563EB] font-bold">
+                        <span className={`px-2.5 py-1 rounded-md border text-[10.5px] font-mono font-bold ${
+                          isNight
+                            ? 'bg-[#0D234A] border-[#4F8CFF]/30 text-[#4F8CFF]'
+                            : 'bg-[#E8F1FF] border-[#2563EB]/20 text-[#2563EB]'
+                        }`}>
                           Ready
                         </span>
                       </div>

@@ -78,19 +78,27 @@ export default function PortfolioLanding() {
   return (
     <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
       
-      {/* 1. Global "The Aurora Network" Signature Atmosphere */}
+      {/* 1. Global "The Aurora Network" Signature Atmosphere (Always Clean Light Base) */}
       <ConnectedNetworkBackground />
 
       {/* 2. Floating Premium Navigation Bar */}
-      <Navbar onConnectClick={() => {
-        const el = document.getElementById('contact');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }} />
+      <Navbar
+        isNight={timeEnv.isNight}
+        onConnectClick={() => {
+          const el = document.getElementById('contact');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* 5. Complete Main Experience */}
       <main className="relative z-10 w-full">
-        {/* Full-Width Living Time Environment Container (Spans 100vw seamlessly across Hero and About) */}
-        <div className="relative w-full overflow-hidden">
+        {/* Living Time Environment Container (Encloses Hero & About Me down through the 3 philosophy cards) */}
+        <div
+          data-theme={timeEnv.isNight ? 'night' : 'light'}
+          className={`relative w-full overflow-hidden transition-colors duration-700 ${
+            timeEnv.isNight ? 'bg-[#081426] text-[#F1F5FF]' : ''
+          }`}
+        >
           {/* Edge-to-edge seamless time atmosphere (100% viewport width, zero card borders) */}
           <HeroTimeEnvironment timeState={timeEnv.timeState} />
 
@@ -101,11 +109,19 @@ export default function PortfolioLanding() {
             timeEnv={timeEnv}
           />
 
-          {/* Section 2: About Me */}
+          {/* Section 2: About Me (including Train Journey & 3 Philosophy Cards) */}
           <About />
+
+          {/* Soft atmospheric gradient transition at bottom of About leading into Tech section */}
+          {timeEnv.isNight && (
+            <div
+              aria-hidden="true"
+              className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none bg-gradient-to-b from-transparent via-[#081426]/50 to-[#EDF2F7]"
+            />
+          )}
         </div>
 
-        {/* Section 3: Tech I Work With — Technology Constellation */}
+        {/* Section 3: Tech I Work With — Technology Constellation (Clean Light Mode) */}
         <TechIWorkWith />
 
         {/* Section 4: Featured Projects */}

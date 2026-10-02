@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react';
  * - Tiny drifting technical points and delicate connection threads
  * - Strictly respects prefers-reduced-motion and keeps content front-and-center
  */
-export default function ConnectedNetworkBackground() {
+export default function ConnectedNetworkBackground({ isNight = false }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -79,7 +79,9 @@ export default function ConnectedNetworkBackground() {
             ctx.beginPath();
             ctx.moveTo(points[i].x, points[i].y);
             ctx.lineTo(points[j].x, points[j].y);
-            ctx.strokeStyle = `rgba(37, 99, 235, ${lineAlpha.toFixed(3)})`;
+            ctx.strokeStyle = isNight
+              ? `rgba(79, 140, 255, ${(lineAlpha * 0.9).toFixed(3)})`
+              : `rgba(37, 99, 235, ${lineAlpha.toFixed(3)})`;
             ctx.lineWidth = 0.75;
             ctx.stroke();
           }
@@ -108,7 +110,9 @@ export default function ConnectedNetworkBackground() {
         ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
         ctx.fillStyle = pt.isLavender
           ? `rgba(139, 92, 246, ${currentAlpha.toFixed(3)})`
-          : `rgba(37, 99, 235, ${currentAlpha.toFixed(3)})`;
+          : isNight
+            ? `rgba(79, 140, 255, ${currentAlpha.toFixed(3)})`
+            : `rgba(37, 99, 235, ${currentAlpha.toFixed(3)})`;
         ctx.fill();
       }
 
@@ -123,36 +127,45 @@ export default function ConnectedNetworkBackground() {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isNight]);
 
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#EDF2F7]"
+      className={`fixed inset-0 pointer-events-none z-0 overflow-hidden transition-colors duration-700 ${
+        isNight ? 'bg-[#081426]' : 'bg-[#EDF2F7]'
+      }`}
     >
-      {/* 1. Refined Arctic Aurora volumetric ambient glows */}
+      {/* 1. Atmospheric depth and subtle illumination */}
       <div 
         className="absolute inset-0 pointer-events-none animate-aurora-drift"
         style={{
-          background: `
-            radial-gradient(ellipse 65% 45% at 20% 15%, rgba(219, 234, 254, 0.55) 0%, transparent 65%),
-            radial-gradient(ellipse 60% 50% at 85% 32%, rgba(237, 233, 254, 0.42) 0%, transparent 60%),
-            radial-gradient(ellipse 55% 40% at 48% 78%, rgba(219, 234, 254, 0.45) 0%, transparent 65%),
-            linear-gradient(180deg, #E6EDF5 0%, #EDF2F7 50%, #E6EDF5 100%)
-          `
+          background: isNight
+            ? `
+              radial-gradient(ellipse 65% 45% at 20% 15%, rgba(79, 140, 255, 0.07) 0%, transparent 65%),
+              radial-gradient(ellipse 60% 50% at 85% 32%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 55% 40% at 48% 78%, rgba(79, 140, 255, 0.06) 0%, transparent 65%),
+              linear-gradient(180deg, #081426 0%, #0D1B32 50%, #081426 100%)
+            `
+            : `
+              radial-gradient(ellipse 65% 45% at 20% 15%, rgba(219, 234, 254, 0.55) 0%, transparent 65%),
+              radial-gradient(ellipse 60% 50% at 85% 32%, rgba(237, 233, 254, 0.42) 0%, transparent 60%),
+              radial-gradient(ellipse 55% 40% at 48% 78%, rgba(219, 234, 254, 0.45) 0%, transparent 65%),
+              linear-gradient(180deg, #E6EDF5 0%, #EDF2F7 50%, #E6EDF5 100%)
+            `
         }}
       />
 
       {/* 2. Delicate hairline engineering grid */}
-      <div className="absolute inset-0 pointer-events-none arctic-grid-subtle opacity-65" />
+      <div className={`absolute inset-0 pointer-events-none ${isNight ? 'arctic-grid-night opacity-75' : 'arctic-grid-subtle opacity-65'}`} />
 
       {/* 3. Subtle technical datum guidelines */}
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        className={`absolute inset-0 w-full h-full pointer-events-none ${isNight ? 'opacity-25' : 'opacity-40'}`}
         xmlns="http://www.w3.org/2000/svg"
       >
-        <line x1="0" y1="80" x2="100%" y2="80" stroke="#CBD5E1" strokeWidth="0.75" />
-        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="#CBD5E1" strokeWidth="0.75" strokeDasharray="4 16" />
+        <line x1="0" y1="80" x2="100%" y2="80" stroke={isNight ? "rgba(150, 180, 230, 0.18)" : "#CBD5E1"} strokeWidth="0.75" />
+        <line x1="50%" y1="0" x2="50%" y2="100%" stroke={isNight ? "rgba(150, 180, 230, 0.18)" : "#CBD5E1"} strokeWidth="0.75" strokeDasharray="4 16" />
       </svg>
 
       {/* 4. Canvas with calm floating technical points and connection threads */}

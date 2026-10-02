@@ -56,6 +56,117 @@
     linear-gradient(to bottom, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
 }
 
+/* Subtle Technical Night Grid (Slightly darker and more subtle for night) */
+.arctic-grid-night {
+  background-size: 44px 44px;
+  background-image: 
+    linear-gradient(to right, rgba(150, 180, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(150, 180, 230, 0.05) 1px, transparent 1px);
+}
+
+/* Independent Star Twinkle: subtle opacity (0.45 -> 1 -> 0.45) & scale (0.85 -> 1 -> 0.85) */
+@keyframes nightStarTwinkle {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================================================= */
+/* Midnight Blue Night Mode Color System                                     */
+/* ========================================================================= */
+[data-theme="night"] {
+  --bg-base: #081426;
+  --bg-surface: #122442;
+  --bg-surface-elevated: #162C52;
+  --bg-surface-hover: #1A3460;
+  --border-subtle: rgba(150, 180, 230, 0.15);
+  --border-strong: rgba(150, 180, 230, 0.25);
+
+  --text-primary: #F1F5FF;
+  --text-secondary: #A9B8D0;
+  --text-muted: #7E92B2;
+
+  --accent-arctic: #4F8CFF;
+  --accent-lavender: #8B5CF6;
+  --soft-blue: #0D234A;
+  --soft-lavender: #1E1B4B;
+
+  background-color: #081426;
+  color: #F1F5FF;
+}
+
+/* Headings and primary text in Night Mode */
+[data-theme="night"] h1,
+[data-theme="night"] h2,
+[data-theme="night"] h3,
+[data-theme="night"] h4,
+[data-theme="night"] .text-\[\#111827\],
+[data-theme="night"] .text-\[\#0F172A\] {
+  color: #F1F5FF !important;
+}
+
+/* Secondary body text in Night Mode */
+[data-theme="night"] .text-\[\#4B5563\],
+[data-theme="night"] .text-\[\#334155\],
+[data-theme="night"] .text-\[\#64748B\] {
+  color: #A9B8D0 !important;
+}
+
+/* Cards & Surface containers in Night Mode */
+[data-theme="night"] .bg-white {
+  background-color: #122442 !important;
+}
+
+[data-theme="night"] .bg-white\/95,
+[data-theme="night"] .bg-white\/94,
+[data-theme="night"] .bg-white\/90,
+[data-theme="night"] .bg-white\/85,
+[data-theme="night"] .bg-white\/80,
+[data-theme="night"] .bg-white\/70 {
+  background-color: rgba(18, 36, 66, 0.88) !important;
+}
+
+[data-theme="night"] .bg-\[\#EDF2F7\],
+[data-theme="night"] .bg-\[\#F8FAFC\],
+[data-theme="night"] .bg-\[\#F1F5F9\] {
+  background-color: #0D1B32 !important;
+}
+
+[data-theme="night"] .bg-\[\#E8F1FF\] {
+  background-color: #0D234A !important;
+}
+
+[data-theme="night"] .hover\:bg-\[\#F8FAFC\]:hover,
+[data-theme="night"] .hover\:bg-\[\#E8F1FF\]:hover {
+  background-color: #162C52 !important;
+}
+
+/* Borders in Night Mode */
+[data-theme="night"] .border-\[\#D5DFEB\],
+[data-theme="night"] .border-\[\#CBD5E1\],
+[data-theme="night"] .border-\[\#E2E8F0\],
+[data-theme="night"] .border-\[\#DCE4EF\],
+[data-theme="night"] .border-\[\#F1F5F9\] {
+  border-color: rgba(150, 180, 230, 0.15) !important;
+}
+
+/* Accents in Night Mode */
+[data-theme="night"] .text-\[\#2563EB\] {
+  color: #4F8CFF !important;
+}
+
+[data-theme="night"] .border-\[\#2563EB\]\/20,
+[data-theme="night"] .border-\[\#2563EB\]\/25,
+[data-theme="night"] .border-\[\#2563EB\]\/30,
+[data-theme="night"] .border-\[\#2563EB\]\/40 {
+  border-color: rgba(79, 140, 255, 0.25) !important;
+}
+
 /* Moving Light Reflection across premium cards */
 @keyframes auroraShimmer {
   0% {

@@ -5,7 +5,7 @@ import { Menu, X } from 'lucide-react';
 /**
  * Modern Floating Arctic Aurora Navigation Bar
  */
-export default function Navbar({ onConnectClick }) {
+export default function Navbar({ onConnectClick, isNight = false }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState('About');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -63,6 +63,9 @@ export default function Navbar({ onConnectClick }) {
     }
   };
 
+  // Only render night navbar while visitor is viewing the Hero & About/Milestones night section
+  const isNightNavbar = isNight && (!isScrolled || activeItem === 'About' || activeItem === 'Milestones');
+
   return (
     <motion.header
       initial={{ opacity: 0, y: -12 }}
@@ -74,9 +77,13 @@ export default function Navbar({ onConnectClick }) {
     >
       <div
         className={`pointer-events-auto transition-all duration-300 w-full max-w-[960px] mx-4 sm:mx-6 px-4 sm:px-6 flex items-center justify-between rounded-2xl ${
-          isScrolled
-            ? 'h-13 sm:h-14 bg-white/94 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)]'
-            : 'h-14 sm:h-15 bg-white/85 backdrop-blur-lg border border-[#D5DFEB]/80 shadow-[0_4px_20px_rgba(15,23,42,0.04)]'
+          isNightNavbar
+            ? isScrolled
+              ? 'h-13 sm:h-14 bg-[#0D1B32]/92 backdrop-blur-xl border border-[rgba(150,180,230,0.18)] shadow-[0_10px_32px_rgba(0,0,0,0.4)]'
+              : 'h-14 sm:h-15 bg-[#0D1B32]/80 backdrop-blur-lg border border-[rgba(150,180,230,0.15)] shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+            : isScrolled
+              ? 'h-13 sm:h-14 bg-white/94 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)]'
+              : 'h-14 sm:h-15 bg-white/85 backdrop-blur-lg border border-[#D5DFEB]/80 shadow-[0_4px_20px_rgba(15,23,42,0.04)]'
         }`}
       >
         
@@ -90,12 +97,18 @@ export default function Navbar({ onConnectClick }) {
           className="group inline-flex items-center gap-3 no-underline focus-visible:outline-none rounded-lg"
           aria-label="Rajat Behera Home"
         >
-          <div className="w-8 h-8 rounded-lg bg-[#E8F1FF] border border-[#2563EB]/20 flex items-center justify-center transition-all duration-200 group-hover:scale-105 group-hover:border-[#2563EB]/40 group-hover:shadow-[0_0_12px_rgba(37,99,235,0.2)]">
-            <span className="text-[12px] font-bold text-[#2563EB]">
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:scale-105 ${
+            isNightNavbar
+              ? 'bg-[#122442] border border-[#4F8CFF]/30 group-hover:border-[#4F8CFF]/60 group-hover:shadow-[0_0_12px_rgba(79,140,255,0.3)]'
+              : 'bg-[#E8F1FF] border border-[#2563EB]/20 group-hover:border-[#2563EB]/40 group-hover:shadow-[0_0_12px_rgba(37,99,235,0.2)]'
+          }`}>
+            <span className={`text-[12px] font-bold ${isNightNavbar ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`}>
               RB
             </span>
           </div>
-          <span className="text-[14px] font-semibold text-[#111827] tracking-tight group-hover:text-[#2563EB] transition-colors font-sans-editorial">
+          <span className={`text-[14px] font-semibold tracking-tight transition-colors font-sans-editorial ${
+            isNightNavbar ? 'text-[#F1F5FF] group-hover:text-[#4F8CFF]' : 'text-[#111827] group-hover:text-[#2563EB]'
+          }`}>
             Rajat Behera
           </span>
         </a>
@@ -115,15 +128,19 @@ export default function Navbar({ onConnectClick }) {
                   onClick={(e) => handleNavClick(e, link.name, link.href)}
                   className={`relative py-1 transition-all duration-200 hover:-translate-y-0.5 ${
                     isActive
-                      ? 'text-[#111827] font-semibold'
-                      : 'text-[#64748B] hover:text-[#111827]'
+                      ? isNightNavbar ? 'text-[#F1F5FF] font-semibold' : 'text-[#111827] font-semibold'
+                      : isNightNavbar ? 'text-[#A9B8D0] hover:text-[#F1F5FF]' : 'text-[#64748B] hover:text-[#111827]'
                   }`}
                 >
                   <span>{link.name}</span>
                   {isActive && (
                     <motion.span 
                       layoutId="activeNavIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#2563EB] rounded-full shadow-[0_0_8px_rgba(37,99,235,0.5)]" 
+                      className={`absolute -bottom-1 left-0 right-0 h-[2px] rounded-full ${
+                        isNightNavbar
+                          ? 'bg-[#4F8CFF] shadow-[0_0_8px_rgba(79,140,255,0.6)]'
+                          : 'bg-[#2563EB] shadow-[0_0_8px_rgba(37,99,235,0.5)]'
+                      }`} 
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -136,7 +153,11 @@ export default function Navbar({ onConnectClick }) {
           <button
             type="button"
             onClick={handleConnect}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-[#0F172A] bg-[#EDF2F7] hover:bg-[#E8F1FF] border border-[#D5DFEB] hover:border-[#2563EB]/40 hover:text-[#2563EB] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer shadow-xs"
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold hover:-translate-y-0.5 transition-all duration-200 cursor-pointer shadow-xs ${
+              isNightNavbar
+                ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 hover:text-[#4F8CFF]'
+                : 'text-[#0F172A] bg-[#EDF2F7] hover:bg-[#E8F1FF] border border-[#D5DFEB] hover:border-[#2563EB]/40 hover:text-[#2563EB]'
+            }`}
           >
             <span>Get in touch</span>
           </button>
@@ -147,7 +168,11 @@ export default function Navbar({ onConnectClick }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-[#EDF2F7] border border-[#D5DFEB] text-[#4B5563] hover:text-[#0F172A] transition-colors cursor-pointer"
+            className={`p-2 rounded-xl border transition-colors cursor-pointer ${
+              isNightNavbar
+                ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#A9B8D0] hover:text-[#F1F5FF]'
+                : 'bg-[#EDF2F7] border-[#D5DFEB] text-[#4B5563] hover:text-[#0F172A]'
+            }`}
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -165,7 +190,11 @@ export default function Navbar({ onConnectClick }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden pointer-events-auto fixed top-24 left-4 right-4 rounded-2xl border border-[#DCE4EF] bg-white/95 backdrop-blur-2xl px-6 py-5 shadow-xl overflow-hidden z-50"
+            className={`md:hidden pointer-events-auto fixed top-24 left-4 right-4 rounded-2xl border px-6 py-5 shadow-xl overflow-hidden z-50 backdrop-blur-2xl ${
+              isNightNavbar
+                ? 'bg-[#0D1B32]/98 border-[rgba(150,180,230,0.25)] text-[#F1F5FF]'
+                : 'bg-white/95 border-[#DCE4EF] text-[#0F172A]'
+            }`}
           >
             <nav className="flex flex-col space-y-3.5">
               {navLinks.map((link) => (
@@ -174,17 +203,19 @@ export default function Navbar({ onConnectClick }) {
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.name, link.href)}
                   className={`text-[14.5px] py-1 transition-colors ${
-                    activeItem === link.name ? 'text-[#2563EB] font-bold' : 'text-[#64748B]'
+                    activeItem === link.name
+                      ? isNightNavbar ? 'text-[#4F8CFF] font-bold' : 'text-[#2563EB] font-bold'
+                      : isNightNavbar ? 'text-[#A9B8D0]' : 'text-[#64748B]'
                   }`}
                 >
                   {link.name}
                 </a>
               ))}
-              <div className="pt-2 border-t border-[#DCE4EF]">
+              <div className={`pt-2 border-t ${isNightNavbar ? 'border-[rgba(150,180,230,0.15)]' : 'border-[#DCE4EF]'}`}>
                 <button
                   type="button"
                   onClick={handleConnect}
-                  className="w-full py-2.5 rounded-xl text-center text-[13.5px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_12px_rgba(37,99,235,0.3)] transition-colors cursor-pointer"
+                  className="w-full py-2.5 rounded-xl text-center text-[13.5px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_12px_rgba(79,140,255,0.3)] transition-colors cursor-pointer"
                 >
                   Get in touch
                 </button>

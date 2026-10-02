@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WireframeCube from './WireframeCube';
 
 /**
  * Clean, sharp vector cloud with crisp hairline stroke and soft drop-shadow.
@@ -318,16 +319,166 @@ function EveningSun() {
 }
 
 /**
+ * 4. Night Scenery Components:
+ * - Elegant vector crescent moon in upper right empty sky
+ * - 21 sparse, crisp twinkling stars with independent cycles
+ * - 2 minimal midnight cloud silhouettes
+ */
+function CrescentMoon({ className = "" }) {
+  return (
+    <div className={`relative pointer-events-none select-none ${className}`}>
+      <svg
+        width="44"
+        height="44"
+        viewBox="0 0 44 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="overflow-visible"
+      >
+        <defs>
+          <mask id="crescentCutoutMask">
+            <rect width="44" height="44" fill="white" />
+            <circle cx="16" cy="18" r="16" fill="black" />
+          </mask>
+        </defs>
+
+        {/* Soft, minimal atmospheric lunar aura */}
+        <circle
+          cx="22"
+          cy="22"
+          r="17"
+          fill="#4F8CFF"
+          fillOpacity="0.08"
+        />
+
+        {/* Crisp vector crescent moon */}
+        <circle
+          cx="22"
+          cy="22"
+          r="17"
+          fill="#F1F5FF"
+          mask="url(#crescentCutoutMask)"
+          style={{
+            filter: 'drop-shadow(0 0 8px rgba(241, 245, 255, 0.45))',
+          }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+function NightCloud({ className = "", width = 175, height = 50 }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 175 54"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`pointer-events-none select-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.3)] ${className}`}
+    >
+      <path
+        d="M20 50C10 50 2 42.5 2 34C2 26.5 8.5 20.5 17.5 19.5C22.5 10.5 32.5 5 44.5 5C57.5 5 68.5 11.5 72.5 21C77.5 17.5 85 15.5 93 15.5C103.5 15.5 112.5 19.5 117.8 25.5C122.5 22.5 128.5 21 135 21C147.5 21 158 29.5 158 40C158 41 157.8 42 157.5 43C164 43.5 169 46.5 169 50H20Z"
+        fill="#0D1E38"
+        fillOpacity="0.8"
+        stroke="rgba(150, 180, 230, 0.12)"
+        strokeWidth="1.2"
+      />
+    </svg>
+  );
+}
+
+// Exactly 21 crisp stars positioned solely in negative space
+const NIGHT_STARS = [
+  // Upper sky (below navbar, above headline & cards)
+  { id: 1, left: '5%', top: '9%', size: 2, duration: 2.8, delay: 0.2, type: 'dot' },
+  { id: 2, left: '18%', top: '7%', size: 2, duration: 3.4, delay: 1.1, type: 'dot' },
+  { id: 3, left: '31%', top: '6%', size: 7, duration: 2.6, delay: 0.5, type: 'cross' },
+  { id: 4, left: '44%', top: '8%', size: 1.5, duration: 3.8, delay: 2.0, type: 'dot' },
+  { id: 5, left: '58%', top: '6%', size: 2, duration: 2.4, delay: 0.8, type: 'dot' },
+  { id: 6, left: '71%', top: '7%', size: 2.5, duration: 3.1, delay: 1.6, type: 'dot' },
+  { id: 7, left: '83%', top: '5%', size: 7.5, duration: 3.6, delay: 0.3, type: 'cross' },
+  { id: 8, left: '94%', top: '9%', size: 2, duration: 2.9, delay: 1.9, type: 'dot' },
+
+  // Far left outer negative space (clear of headline & body text)
+  { id: 9, left: '3%', top: '24%', size: 2, duration: 3.5, delay: 0.6, type: 'dot' },
+  { id: 10, left: '4.5%', top: '42%', size: 7, duration: 2.5, delay: 1.4, type: 'cross' },
+  { id: 11, left: '2.5%', top: '62%', size: 2, duration: 3.9, delay: 2.3, type: 'dot' },
+  { id: 12, left: '5%', top: '80%', size: 1.5, duration: 2.7, delay: 0.9, type: 'dot' },
+
+  // Far right outer negative space (clear of identity frame)
+  { id: 13, left: '96%', top: '26%', size: 2, duration: 3.2, delay: 1.2, type: 'dot' },
+  { id: 14, left: '94%', top: '46%', size: 6.5, duration: 2.3, delay: 0.4, type: 'cross' },
+  { id: 15, left: '97%', top: '64%', size: 2, duration: 3.7, delay: 1.8, type: 'dot' },
+  { id: 16, left: '95%', top: '82%', size: 1.5, duration: 2.8, delay: 2.5, type: 'dot' },
+
+  // Center vertical negative space
+  { id: 17, left: '56%', top: '19%', size: 2, duration: 3.3, delay: 0.7, type: 'dot' },
+  { id: 18, left: '59%', top: '38%', size: 1.5, duration: 2.9, delay: 1.5, type: 'dot' },
+  { id: 19, left: '57%', top: '66%', size: 2, duration: 3.6, delay: 2.1, type: 'dot' },
+
+  // Bottom right negative space
+  { id: 20, left: '78%', top: '78%', size: 2, duration: 2.5, delay: 1.0, type: 'dot' },
+  { id: 21, left: '88%', top: '86%', size: 7, duration: 3.4, delay: 0.5, type: 'cross' },
+];
+
+function NightTwinklingStars() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
+      {NIGHT_STARS.map((star) => (
+        <div
+          key={star.id}
+          className={`absolute flex items-center justify-center ${
+            star.id > 8 && star.id % 2 === 0 ? 'hidden sm:flex' : 'flex'
+          }`}
+          style={{
+            left: star.left,
+            top: star.top,
+            animation: `nightStarTwinkle ${star.duration}s ease-in-out infinite`,
+            animationDelay: `${star.delay}s`,
+            willChange: 'opacity, transform',
+          }}
+        >
+          {star.type === 'cross' ? (
+            <svg
+              width={star.size}
+              height={star.size}
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="overflow-visible"
+            >
+              <path
+                d="M5 0C5 3 3 5 0 5C3 5 5 7 5 10C5 7 7 5 10 5C7 5 5 3 5 0Z"
+                fill="#F1F5FF"
+              />
+            </svg>
+          ) : (
+            <span
+              className="rounded-full bg-[#F1F5FF]"
+              style={{
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+              }}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
  * HeroTimeEnvironment — Clean, Distinct, Sharp Time-Based Living Scenery
  * 
  * Supports:
  * - 1. Morning: Gentle sunrise sky, illustrated sun, soft clouds, distant soaring birds.
  * - 2. Afternoon: Bright daylight sky, high sun, crisp clouds.
  * - 3. Evening: Sunset glow, setting sun, clouds, and realistic 5-bird soaring flock.
- * 
- * Night mode animations removed per user instruction.
+ * - 4. Night: Deep Midnight Navy, subtle indigo depth, crescent moon, twinkling stars, and minimal clouds.
  */
 export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
+  const isNight = timeState === 'night';
   const isMorning = timeState === 'morning';
   const isAfternoon = timeState === 'afternoon';
   const isEvening = timeState === 'evening';
@@ -434,10 +585,70 @@ export default function HeroTimeEnvironment({ timeState = 'afternoon' }) {
           <CrispMinimalCloud width={150} height={46} />
         </div>
 
-        {/* Rebuilt Evening Flock: Natural 5-bird V-formation flying across once with randomized pauses */}
+        {/* Rebuilt Evening Flock */}
         <EveningBirdFlock isEvening={isEvening} />
       </div>
 
+
+      {/* ========================================================================= */}
+      {/* 4. NIGHT (20:00 – 04:59) — "Good Night"                                   */}
+      {/* ========================================================================= */}
+      <div
+        className={`absolute inset-0 transition-opacity duration-[1800ms] ease-in-out ${
+          isNight ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {/* Deep Midnight Navy Sky with subtle atmospheric indigo/blue depth */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(ellipse 70% 45% at 50% 0%, rgba(79, 140, 255, 0.08) 0%, transparent 68%),
+              radial-gradient(ellipse 55% 40% at 85% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+              linear-gradient(180deg, #081426 0%, #0A1830 35%, #0D1B32 70%, #081426 100%)
+            `,
+          }}
+        />
+
+        {/* Elegant Vector Crescent Moon in upper right negative space */}
+        <div className="absolute top-14 sm:top-18 right-8 sm:right-16 lg:right-24 z-10 hidden sm:block">
+          <CrescentMoon />
+        </div>
+
+        {/* Independent Twinkling Stars strictly in empty negative space */}
+        <NightTwinklingStars />
+
+        {/* 2 Subtle Midnight Clouds in empty negative space */}
+        <div className="absolute top-16 sm:top-20 left-4 sm:left-12 lg:left-20 animate-cloud-drift hidden sm:block">
+          <NightCloud width={180} height={52} />
+        </div>
+        <div className="absolute top-32 sm:top-38 right-[10%] sm:right-[18%] animate-cloud-drift-reverse hidden sm:block">
+          <NightCloud width={145} height={44} />
+        </div>
+
+        {/* Subtle decorative wireframe cubes in bottom-right corner */}
+        <div className="absolute -bottom-8 right-6 sm:right-12 hidden lg:flex items-end gap-3 pointer-events-none opacity-40">
+          <WireframeCube
+            size={52}
+            color="#3B82F6"
+            tiltX={-15}
+            tiltZ={15}
+            duration={24}
+            divisions={2}
+          />
+          <div className="mb-6 -ml-4">
+            <WireframeCube
+              size={36}
+              color="#4F8CFF"
+              tiltX={25}
+              tiltZ={-10}
+              duration={18}
+              reverse={true}
+              divisions={2}
+            />
+          </div>
+        </div>
+      </div>
 
     </div>
   );

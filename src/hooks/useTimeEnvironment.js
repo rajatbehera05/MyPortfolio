@@ -2,15 +2,19 @@ import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Determine the portfolio time-of-day state according to the visitor's local browser time.
- * Only Morning, Afternoon (Noon), and Evening environments are animated.
+ * Supports: Morning, Afternoon, Evening, and Night environments.
  * 
  * Schedule:
- * 05:00 – 11:59 → morning
- * 12:00 – 16:59 → afternoon
- * 17:00 – 04:59 → evening
+ * 20:00 – 04:59 (08:00 PM – 04:59 AM) → night ("Good Night")
+ * 05:00 – 11:59 (05:00 AM – 11:59 AM) → morning ("Good Morning")
+ * 12:00 – 16:59 (12:00 PM – 04:59 PM) → afternoon ("Good Afternoon")
+ * 17:00 – 19:59 (05:00 PM – 07:59 PM) → evening ("Good Evening")
  */
 export function getTimeState(date = new Date()) {
   const hours = date.getHours();
+  if (hours >= 20 || hours < 5) {
+    return 'night';
+  }
   if (hours >= 5 && hours < 12) {
     return 'morning';
   }
@@ -25,6 +29,8 @@ export function getTimeState(date = new Date()) {
  */
 export function getTimeGreeting(timeState) {
   switch (timeState) {
+    case 'night':
+      return 'Good Night';
     case 'morning':
       return 'Good Morning';
     case 'afternoon':
@@ -37,7 +43,7 @@ export function getTimeGreeting(timeState) {
 
 /**
  * Hook to manage the dynamic local time-based environment.
- * Cycles strictly between morning, afternoon (noon), and evening.
+ * Cycles strictly between morning, afternoon, evening, and night.
  */
 export function useTimeEnvironment() {
   const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
@@ -58,7 +64,7 @@ export function useTimeEnvironment() {
   const greeting = getTimeGreeting(activeState);
 
   const cycleTimeState = useCallback(() => {
-    const states = ['morning', 'afternoon', 'evening'];
+    const states = ['morning', 'afternoon', 'evening', 'night'];
     const idx = states.indexOf(activeState);
     const next = states[(idx + 1) % states.length];
     setManualOverride(next);
@@ -70,6 +76,7 @@ export function useTimeEnvironment() {
 
   return {
     timeState: activeState,
+    isNight: activeState === 'night',
     greeting,
     isOverridden: manualOverride !== null,
     cycleTimeState,
