@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, Moon } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset } from 'lucide-react';
 import WireframeCube from './WireframeCube';
-import HeroTimeEnvironment from './HeroTimeEnvironment';
+import DigitalTimeConsole from './DigitalTimeConsole';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
@@ -118,43 +118,48 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               <span>Available for Software Engineering Internships · Summer 2026</span>
             </motion.div>
 
-            {/* Subtle Time-Based Environmental Greeting */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.22 }}
-              className="flex items-center gap-2.5 text-[13.5px] sm:text-[14px]"
-            >
-              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-md border shadow-2xs ${
-                isNight
-                  ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#4F8CFF]'
-                  : 'bg-white/80 border-[#D5DFEB] text-[#2563EB]'
-              }`}>
-                <TimeIcon timeState={timeState} className={`w-3.5 h-3.5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
-              </span>
-              <span className={`font-semibold font-sans-editorial ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>
-                {greeting}
-              </span>
-              <span className={isNight ? 'text-[#475569]' : 'text-[#CBD5E1]'}>•</span>
-              <span className={`font-medium ${isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'}`}>Rajat Behera</span>
-
-              {/* Discreet Time State Indicator & Interactive Preview Switcher */}
-              <button
-                type="button"
-                onClick={cycleTimeState}
-                title={`Detected local time: ${timeState}. Click to preview different time environments.`}
-                className={`ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-mono transition-colors cursor-pointer shadow-2xs ${
-                  isNight
-                    ? 'bg-[#122442] hover:bg-[#162C52] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 text-[#A9B8D0] hover:text-[#F1F5FF]'
-                    : 'bg-white/80 hover:bg-white border-[#CBD5E1]/70 hover:border-[#2563EB]/40 text-[#64748B] hover:text-[#2563EB]'
-                }`}
+            {/* 2. Time-Based Environmental Greeting & Digital Time Instrument */}
+            <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.22 }}
+                className="flex items-center gap-3 text-base sm:text-lg lg:text-[19px]"
               >
-                <span className="uppercase tracking-wider font-semibold text-[10px]">{timeState}</span>
-                {isOverridden && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500" title="Preview mode active" />
-                )}
-              </button>
-            </motion.div>
+                <motion.button
+                  type="button"
+                  onClick={cycleTimeState}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  title={`Current scene: ${greeting}. Click to cycle time scene (Morning → Afternoon → Evening)`}
+                  aria-label={`Change time scene. Currently ${greeting}`}
+                  className={`group relative inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg border shadow-2xs shrink-0 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 ${
+                    isNight
+                      ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF] text-[#4F8CFF] hover:bg-[#162C52]'
+                      : 'bg-white/90 border-[#D5DFEB] hover:border-[#2563EB] text-[#2563EB] hover:bg-white'
+                  }`}
+                >
+                  <motion.div
+                    key={timeState}
+                    initial={{ rotate: -30, opacity: 0.5, scale: 0.8 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                  >
+                    <TimeIcon timeState={timeState} className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
+                  </motion.div>
+                </motion.button>
+                <span className={`font-bold font-sans-editorial tracking-tight ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
+                  {greeting}
+                </span>
+              </motion.div>
+
+              {/* Standalone Compact Electronic Digital Instrument */}
+              <DigitalTimeConsole
+                timeState={timeState}
+                isOverridden={isOverridden}
+                isNight={isNight}
+              />
+            </div>
 
             {/* 2. Headline with selected Arctic Blue gradient accents */}
             <div className="space-y-3">

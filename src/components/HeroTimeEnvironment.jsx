@@ -6,6 +6,13 @@ import React, { useState, useEffect } from 'react';
  */
 function AtmosphericCloud({ className = "", width = 160, height = 48, tint = 'day' }) {
   const isEvening = tint === 'evening';
+  const isSunsetNear = tint === 'sunset-near';
+
+  const fillColor = isSunsetNear
+    ? 'rgba(254, 215, 170, 0.72)'
+    : isEvening
+    ? 'rgba(255, 237, 213, 0.55)'
+    : 'rgba(255, 255, 255, 0.65)';
 
   return (
     <svg
@@ -18,11 +25,7 @@ function AtmosphericCloud({ className = "", width = 160, height = 48, tint = 'da
     >
       <path
         d="M20 50C10 50 2 42.5 2 34C2 26.5 8.5 20.5 17.5 19.5C22.5 10.5 32.5 5 44.5 5C57.5 5 68.5 11.5 72.5 21C77.5 17.5 85 15.5 93 15.5C103.5 15.5 112.5 19.5 117.8 25.5C122.5 22.5 128.5 21 135 21C147.5 21 158 29.5 158 40C158 41 157.8 42 157.5 43C164 43.5 169 46.5 169 50H20Z"
-        fill={
-          isEvening
-            ? 'rgba(255, 237, 213, 0.55)'
-            : 'rgba(255, 255, 255, 0.65)'
-        }
+        fill={fillColor}
       />
     </svg>
   );
@@ -181,27 +184,26 @@ function EveningBirdFlock({ isEvening }) {
 
 /**
  * 1. Natural Morning Sun:
- * - Positioned in the upper-middle / slightly right of center atmospheric space
- * - Smooth circular sun disk with subtle natural warm atmospheric shading
- * - Emits soft daylight into the surrounding sky
- * - Zero rectangular background, zero circular UI borders, zero ray ticks
+ * - Positioned in the upper-middle sky with comfortable clearance below navbar
+ * - Bigger, crisp circular sun disk with clear spherical definition
+ * - Warm luminous ambient glow
  */
 function NaturalMorningSun() {
   return (
-    <div className="absolute top-22 sm:top-24 lg:top-26 left-[53%] sm:left-[55%] lg:left-[57%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
-      {/* Soft warm daylight atmospheric emission aura */}
+    <div className="absolute top-30 sm:top-34 lg:top-38 left-[53%] sm:left-[55%] lg:left-[57%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
+      {/* Soft warm daylight atmospheric emission aura with enhanced glow */}
       <div
-        className="absolute w-52 h-52 sm:w-60 sm:h-60 rounded-full pointer-events-none"
+        className="absolute w-64 h-64 sm:w-76 sm:h-76 lg:w-88 lg:h-88 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(254, 243, 199, 0.45) 0%, rgba(253, 230, 138, 0.2) 35%, rgba(251, 191, 36, 0.04) 60%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(254, 240, 138, 0.40) 0%, rgba(253, 224, 71, 0.18) 32%, rgba(251, 191, 36, 0.05) 60%, transparent 75%)',
         }}
       />
-      {/* Natural circular sun disk */}
+      {/* Crisp, clear, larger circular sun disk with warm radiant bloom */}
       <div
-        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full"
+        className="w-14 h-14 sm:w-16 sm:h-16 lg:w-18 lg:h-18 rounded-full"
         style={{
-          background: 'radial-gradient(circle at 40% 40%, #FFFDF5 0%, #FEF3C7 40%, #FBBF24 82%, #F59E0B 100%)',
-          boxShadow: '0 0 16px rgba(251, 191, 36, 0.4), 0 0 32px rgba(245, 158, 11, 0.18)',
+          background: 'radial-gradient(circle at 38% 38%, #FFFFFF 0%, #FFF9E6 25%, #FED766 62%, #F59E0B 92%, #D97706 100%)',
+          boxShadow: 'inset 0 1.5px 3px rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(254, 240, 138, 0.65), 0 0 20px rgba(251, 191, 36, 0.36), 0 0 42px rgba(245, 158, 11, 0.18)',
         }}
       />
     </div>
@@ -210,26 +212,26 @@ function NaturalMorningSun() {
 
 /**
  * 2. Natural Afternoon Sun:
- * - Positioned slightly higher in the upper zenith
- * - Bright, clean daylight sun emitting natural daylight into the surrounding bright blue sky
- * - Pure circular disk with soft warm daylight transition (no ray ticks, no borders, no box)
+ * - Positioned slightly higher zenith daylight while maintaining clear distance below navbar
+ * - Bigger, crisp luminous daylight disk
+ * - Radiant daylight scattering aura with warm luminous glow
  */
 function NaturalAfternoonSun() {
   return (
-    <div className="absolute top-18 sm:top-20 lg:top-22 left-[54%] sm:left-[56%] lg:left-[58%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
-      {/* Daylight atmospheric scattering aura */}
+    <div className="absolute top-24 sm:top-28 lg:top-32 left-[54%] sm:left-[56%] lg:left-[58%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
+      {/* Daylight atmospheric scattering aura with vibrant luminous glow */}
       <div
-        className="absolute w-60 h-60 sm:w-72 sm:h-72 rounded-full pointer-events-none"
+        className="absolute w-72 h-72 sm:w-84 sm:h-84 lg:w-96 lg:h-96 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(224, 242, 254, 0.3) 30%, rgba(186, 230, 253, 0.08) 60%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(254, 240, 138, 0.22) 32%, rgba(186, 230, 253, 0.07) 60%, transparent 75%)',
         }}
       />
-      {/* Bright daylight sun disk */}
+      {/* Crisp, clear, larger daylight sun disk with bright ambient bloom */}
       <div
-        className="w-10 h-10 sm:w-11 sm:h-11 rounded-full"
+        className="w-15 h-15 sm:w-17 sm:h-17 lg:w-19 lg:h-19 rounded-full"
         style={{
-          background: 'radial-gradient(circle at 40% 40%, #FFFFFF 0%, #FFFBEB 35%, #FEF08A 75%, #FDE047 100%)',
-          boxShadow: '0 0 24px rgba(255, 255, 255, 0.8), 0 0 45px rgba(186, 230, 253, 0.3)',
+          background: 'radial-gradient(circle at 38% 38%, #FFFFFF 0%, #FFFDEB 28%, #FEF08A 65%, #FACC15 90%, #EAB308 100%)',
+          boxShadow: 'inset 0 1.5px 3px rgba(255, 255, 255, 1), 0 0 0 1px rgba(255, 255, 255, 0.8), 0 0 24px rgba(250, 204, 21, 0.42), 0 0 48px rgba(253, 224, 71, 0.20)',
         }}
       />
     </div>
@@ -238,26 +240,26 @@ function NaturalAfternoonSun() {
 
 /**
  * 3. Natural Evening Sun:
- * - Positioned lower than morning and afternoon states toward the horizon
- * - Warm sunset amber/coral disk with soft warm horizon atmosphere
- * - Crisp, elegant, minimal (no excessive rays, no dramatic artificial sunset)
+ * - Positioned lower towards the horizon
+ * - Bigger, crisp sunset amber/coral disk with clean contours
+ * - Glowing sunset ambient aura
  */
 function NaturalEveningSun() {
   return (
-    <div className="absolute top-26 sm:top-28 lg:top-32 left-[53%] sm:left-[55%] lg:left-[57%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
-      {/* Warm evening sunset glow aura */}
+    <div className="absolute top-36 sm:top-40 lg:top-46 left-[53%] sm:left-[55%] lg:left-[57%] -translate-x-1/2 pointer-events-none select-none flex items-center justify-center z-1">
+      {/* Warm evening sunset glow aura with glowing ambient warmth */}
       <div
-        className="absolute w-56 h-56 sm:w-64 sm:h-64 rounded-full pointer-events-none"
+        className="absolute w-68 h-68 sm:w-80 sm:h-80 lg:w-92 lg:h-92 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(253, 186, 116, 0.38) 0%, rgba(251, 146, 60, 0.18) 38%, rgba(234, 88, 12, 0.04) 65%, transparent 78%)',
+          background: 'radial-gradient(circle, rgba(253, 186, 116, 0.38) 0%, rgba(251, 146, 60, 0.16) 35%, rgba(234, 88, 12, 0.04) 62%, transparent 78%)',
         }}
       />
-      {/* Setting sun disk */}
+      {/* Crisp, clear, larger setting sun disk with glowing sunset aura */}
       <div
-        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full"
+        className="w-14 h-14 sm:w-16 sm:h-16 lg:w-18 lg:h-18 rounded-full"
         style={{
-          background: 'radial-gradient(circle at 40% 40%, #FEF3C7 0%, #FDBA74 40%, #FB923C 75%, #EA580C 100%)',
-          boxShadow: '0 0 20px rgba(249, 115, 22, 0.4), 0 0 38px rgba(234, 88, 12, 0.2)',
+          background: 'radial-gradient(circle at 38% 38%, #FFF7ED 0%, #FED7AA 26%, #FB923C 64%, #EA580C 92%, #C2410C 100%)',
+          boxShadow: 'inset 0 1.5px 3px rgba(255, 255, 255, 0.85), 0 0 0 1px rgba(254, 215, 170, 0.6), 0 0 22px rgba(249, 115, 22, 0.38), 0 0 46px rgba(234, 88, 12, 0.18)',
         }}
       />
     </div>
@@ -305,6 +307,11 @@ export default function HeroTimeEnvironment({ timeState = 'noon' }) {
         {/* Natural Morning Sun: Upper Middle Atmospheric Space */}
         <NaturalMorningSun />
 
+        {/* Dynamic Swaying Cloud — Distant from Morning Sun (sways in place left-right) */}
+        <div className="absolute top-32 sm:top-36 lg:top-40 left-[25%] sm:left-[28%] lg:left-[30%] -translate-x-1/2 animate-cloud-sway hidden sm:block z-1">
+          <AtmosphericCloud width={155} height={48} tint="day" />
+        </div>
+
         {/* Subtle Atmospheric Clouds in Open Sky */}
         <div className="absolute top-20 sm:top-22 left-6 sm:left-16 lg:left-24 animate-cloud-drift hidden sm:block">
           <AtmosphericCloud width={175} height={52} tint="day" />
@@ -342,6 +349,11 @@ export default function HeroTimeEnvironment({ timeState = 'noon' }) {
         {/* Natural Afternoon Sun: Slightly Higher Zenith */}
         <NaturalAfternoonSun />
 
+        {/* Dynamic Swaying Cloud — Mid-Distance from Sun */}
+        <div className="absolute top-28 sm:top-32 lg:top-36 left-[36%] sm:left-[39%] lg:left-[41%] -translate-x-1/2 animate-cloud-sway hidden sm:block z-1">
+          <AtmosphericCloud width={155} height={48} tint="day" />
+        </div>
+
         {/* Atmospheric Clouds in Open Sky */}
         <div className="absolute top-20 sm:top-22 left-8 sm:left-18 lg:left-28 animate-cloud-drift hidden sm:block">
           <AtmosphericCloud width={180} height={54} tint="day" />
@@ -378,6 +390,11 @@ export default function HeroTimeEnvironment({ timeState = 'noon' }) {
 
         {/* Natural Setting Sunset Sun */}
         <NaturalEveningSun />
+
+        {/* Dynamic Golden Sunset Cloud — Nestled Near the Setting Sun (sways in place left-right) */}
+        <div className="absolute top-40 sm:top-44 lg:top-50 left-[47%] sm:left-[49%] lg:left-[51%] -translate-x-1/2 animate-cloud-sway hidden sm:block z-2">
+          <AtmosphericCloud width={168} height={52} tint="sunset-near" />
+        </div>
 
         {/* Atmospheric Clouds in Open Sky */}
         <div className="absolute top-20 sm:top-22 left-6 sm:left-16 lg:left-24 animate-cloud-drift hidden sm:block">

@@ -283,6 +283,13 @@
   0% { transform: rotateY(0deg); }
   100% { transform: rotateY(22deg); }
 }
+@keyframes electronicColonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.42; }
+}
+.animate-colon-pulse {
+  animation: electronicColonPulse 2s ease-in-out infinite;
+}
 @keyframes glitterSparkle {
   0% {
     opacity: 0;
@@ -361,6 +368,23 @@
 
 .animate-cloud-drift-reverse {
   animation: cloudDriftReverseSlow 32s ease-in-out infinite;
+}
+
+/* Gentle In-Place Cloud Sway: moves left and right in its place without crossing the screen */
+@keyframes cloudSwayHorizontal {
+  0% {
+    transform: translateX(-24px);
+  }
+  50% {
+    transform: translateX(24px);
+  }
+  100% {
+    transform: translateX(-24px);
+  }
+}
+
+.animate-cloud-sway {
+  animation: cloudSwayHorizontal 11s ease-in-out infinite;
 }
 
 /* Subtle Avian Wing Flap & Glide Cycles for Distant Evening Birds */
