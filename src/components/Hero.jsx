@@ -103,28 +103,14 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
           {/* Left Column: Headline & Editorial Presentation */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-6 z-20">
             
-            {/* 1. Availability Status Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-[12px] font-semibold tracking-wide w-fit shadow-xs ${
-                isNight
-                  ? 'border-[rgba(150,180,230,0.18)] bg-[#122442]/85 text-[#4F8CFF] shadow-[0_4px_16px_rgba(0,0,0,0.25)]'
-                  : 'border-[#2563EB]/20 bg-[#E8F1FF]/80 text-[#2563EB]'
-              }`}
-            >
-              <span className={`w-2 h-2 rounded-full ${isNight ? 'bg-[#4F8CFF]' : 'bg-[#2563EB]'} animate-pulse`} />
-              <span>Available for Software Engineering Internships · Summer 2026</span>
-            </motion.div>
 
             {/* 2. Time-Based Environmental Greeting & Digital Time Instrument */}
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22 }}
-                className="flex items-center gap-3 text-base sm:text-lg lg:text-[19px]"
+                className="flex items-center gap-3.5"
               >
                 <motion.button
                   type="button"
@@ -133,7 +119,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   whileTap={{ scale: 0.92 }}
                   title={`Current scene: ${greeting}. Click to cycle time scene (Morning → Afternoon → Evening)`}
                   aria-label={`Change time scene. Currently ${greeting}`}
-                  className={`group relative inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg border shadow-2xs shrink-0 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 ${
+                  className={`group relative inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl border shadow-2xs shrink-0 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 ${
                     isNight
                       ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF] text-[#4F8CFF] hover:bg-[#162C52]'
                       : 'bg-white/90 border-[#D5DFEB] hover:border-[#2563EB] text-[#2563EB] hover:bg-white'
@@ -145,10 +131,10 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                     animate={{ rotate: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                   >
-                    <TimeIcon timeState={timeState} className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
+                    <TimeIcon timeState={timeState} className={`w-4.5 h-4.5 sm:w-5 sm:h-5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
                   </motion.div>
                 </motion.button>
-                <span className={`font-bold font-sans-editorial tracking-tight ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
+                <span className={`text-2xl sm:text-3xl lg:text-[32px] font-bold font-sans-editorial tracking-tight ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                   {greeting}
                 </span>
               </motion.div>

@@ -124,7 +124,7 @@ export default function About() {
               </div>
               <div>
                 <div className="text-[#111827] font-semibold">Location &amp; Availability</div>
-                <div className="text-[12px] text-[#64748B]">Based in India · Open to remote &amp; on-site internships</div>
+                <div className="text-[12px] text-[#64748B]">Based in India · Open to remote &amp; on-site opportunities</div>
               </div>
             </div>
 
@@ -142,7 +142,7 @@ export default function About() {
 
           {/* Current Goal Banner */}
           <div className="p-4 rounded-xl border border-[#2563EB]/20 bg-[#E8F1FF]/60 text-[12.5px] text-[#1E3A8A] leading-relaxed">
-            <strong className="text-[#2563EB] font-bold">Currently Seeking:</strong> Summer 2026 Software Engineering Internships where I can contribute to high-impact web apps and distributed systems.
+            <strong className="text-[#2563EB] font-bold">Currently Seeking:</strong> Software engineering opportunities where I can contribute to high-impact web apps and distributed systems.
           </div>
 
         </motion.div>

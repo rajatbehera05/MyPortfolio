@@ -106,7 +106,7 @@ export default function Contact({ onOpenCV }) {
         </div>
 
         <p className="text-[15px] sm:text-[16px] text-[#4B5563] max-w-2xl leading-relaxed">
-          I'm actively seeking Summer 2026 Software Engineering Internships and open to exciting engineering collaborations. Feel free to reach out via email or send a message below!
+          I'm open to software engineering opportunities and exciting technical collaborations. Feel free to reach out via email or send a message below!
         </p>
       </motion.div>
 
