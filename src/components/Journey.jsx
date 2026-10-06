@@ -216,6 +216,7 @@ export default function Journey({ isEmbedded = false }) {
   const lowerRailRef = useRef(null);
   const mobileRailLeftRef = useRef(null);
   const mobileRailRightRef = useRef(null);
+  const eduAnimatedRef = useRef(false);
 
   // Animation states
   const [activeStationIndex, setActiveStationIndex] = useState(0);
@@ -227,7 +228,44 @@ export default function Journey({ isEmbedded = false }) {
   // GSAP timeline reference
   const timelineRef = useRef(null);
 
+  const startEduAnimation = () => {
+    // Only animate ONCE when section enters viewport; afterwards remains completely static
+    if (eduAnimatedRef.current || !sectionRef.current) return;
+    eduAnimatedRef.current = true;
+
+    const el = sectionRef.current;
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+    // 1. Thin progression line draws from left to right (Segment 1: 01 -> 02)
+    tl.to(el.querySelectorAll('.edu-line-01'), { width: '100%', duration: 0.45, ease: 'power1.inOut' }, 0);
+    tl.to(el.querySelectorAll('.edu-line-mobile'), { height: '100%', duration: 1.1, ease: 'power1.inOut' }, 0);
+
+    // 2. Milestone 01 appears
+    tl.to(el.querySelectorAll('.edu-node-01, .edu-node-mobile-01'), { opacity: 1, scale: 1, duration: 0.3 }, 0);
+
+    // 3. St. Mary's School text fades in
+    tl.to(el.querySelectorAll('.edu-text-01, .edu-text-mobile-01'), { opacity: 1, y: 0, duration: 0.35 }, 0.12);
+
+    // 4. Milestone 02 appears as line reaches it
+    tl.to(el.querySelectorAll('.edu-node-02, .edu-node-mobile-02'), { opacity: 1, scale: 1, duration: 0.3 }, 0.45);
+
+    // 5. Shri Mathuradas College of Science fades in
+    tl.to(el.querySelectorAll('.edu-text-02, .edu-text-mobile-02'), { opacity: 1, y: 0, duration: 0.35 }, 0.55);
+
+    // 6. Line draws: Segment 2 (02 -> 03)
+    tl.to(el.querySelectorAll('.edu-line-02'), { width: '100%', duration: 0.45, ease: 'power1.inOut' }, 0.55);
+
+    // 7. Milestone 03 appears as line reaches it
+    tl.to(el.querySelectorAll('.edu-node-03, .edu-node-mobile-03'), { opacity: 1, scale: 1, duration: 0.3 }, 1.0);
+
+    // 8. YCCE text appears with subtle current-state highlight
+    tl.to(el.querySelectorAll('.edu-text-03, .edu-text-mobile-03'), { opacity: 1, y: 0, duration: 0.35 }, 1.1);
+    tl.to(el.querySelectorAll('.edu-current-badge, .edu-badge-mobile'), { opacity: 1, y: 0, duration: 0.3 }, 1.18);
+  };
+
   const startTrainAnimation = () => {
+    startEduAnimation();
+
     if (!trackWrapperRef.current || !trainRef.current) return;
 
     const trackWidth = trackWrapperRef.current.clientWidth;
@@ -336,9 +374,25 @@ export default function Journey({ isEmbedded = false }) {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
+      eduAnimatedRef.current = true;
       setActiveStationIndex(4);
-      setHighlightProgress(0.90);
+      if (sectionRef.current) {
+        const el = sectionRef.current;
+        gsap.set(el.querySelectorAll('.edu-node-01, .edu-node-02, .edu-node-03, .edu-node-mobile-01, .edu-node-mobile-02, .edu-node-mobile-03'), { opacity: 1, scale: 1 });
+        gsap.set(el.querySelectorAll('.edu-text-01, .edu-text-02, .edu-text-03, .edu-text-mobile-01, .edu-text-mobile-02, .edu-text-mobile-03, .edu-current-badge, .edu-badge-mobile'), { opacity: 1, y: 0 });
+        gsap.set(el.querySelectorAll('.edu-line-01, .edu-line-02'), { width: '100%' });
+        gsap.set(el.querySelectorAll('.edu-line-mobile'), { height: '100%' });
+      }
       return;
+    }
+
+    // Set initial quiet state for education progression before scroll reveal
+    if (!eduAnimatedRef.current && sectionRef.current) {
+      const el = sectionRef.current;
+      gsap.set(el.querySelectorAll('.edu-node-01, .edu-node-02, .edu-node-03, .edu-node-mobile-01, .edu-node-mobile-02, .edu-node-mobile-03'), { opacity: 0, scale: 0.6 });
+      gsap.set(el.querySelectorAll('.edu-text-01, .edu-text-02, .edu-text-03, .edu-text-mobile-01, .edu-text-mobile-02, .edu-text-mobile-03, .edu-current-badge, .edu-badge-mobile'), { opacity: 0, y: 4 });
+      gsap.set(el.querySelectorAll('.edu-line-01, .edu-line-02'), { width: '0%' });
+      gsap.set(el.querySelectorAll('.edu-line-mobile'), { height: '0%' });
     }
 
     // Trigger train journey automatically when section enters viewport (WITHOUT PINNING!)
@@ -387,6 +441,166 @@ export default function Journey({ isEmbedded = false }) {
       {/* Navigation Anchor */}
       <div id="experience" className="absolute -top-24" aria-hidden="true" />
       <div id="journey" className="absolute -top-24" aria-hidden="true" />
+
+      {/* ==================================================
+          EDUCATION: Minimal Academic Progression
+          Three numbered milestones (01, 02, 03)
+          ================================================== */}
+      <div id="education-progression" className="mb-10 sm:mb-12 relative z-10">
+        {/* Simple Section Header */}
+        <div className="mb-5 sm:mb-6">
+          <p className="text-[11px] font-mono font-semibold tracking-wider text-[#64748B] uppercase">
+            EDUCATION
+          </p>
+        </div>
+
+        {/* DESKTOP & TABLET PROGRESSION (>= 640px) */}
+        <div className="hidden sm:grid grid-cols-3 gap-6 sm:gap-8 lg:gap-12 relative">
+          {/* Milestone 01 */}
+          <div className="relative">
+            <div className="edu-node-01">
+              <span className="text-[11px] font-mono font-medium text-[#64748B] block mb-2">
+                01
+              </span>
+              <div className="relative flex items-center mb-3">
+                <div className="w-2 h-2 rounded-full bg-[#0F172A] relative z-10" />
+                {/* Thin progression line from 01 to 02 */}
+                <div className="absolute top-[3.5px] left-[8px] right-[-1.5rem] sm:right-[-2rem] lg:right-[-3rem] h-[1px] bg-[#E2E8F0] pointer-events-none overflow-hidden">
+                  <div 
+                    className="edu-line-01 h-full bg-[#2563EB]/70 origin-left"
+                    style={{ width: '0%' }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="edu-text-01">
+              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+                St. Mary's School
+              </h4>
+              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                Schooling · Class 10
+              </p>
+            </div>
+          </div>
+
+          {/* Milestone 02 */}
+          <div className="relative">
+            <div className="edu-node-02">
+              <span className="text-[11px] font-mono font-medium text-[#64748B] block mb-2">
+                02
+              </span>
+              <div className="relative flex items-center mb-3">
+                <div className="w-2 h-2 rounded-full bg-[#0F172A] relative z-10" />
+                {/* Thin progression line from 02 to 03 */}
+                <div className="absolute top-[3.5px] left-[8px] right-[-1.5rem] sm:right-[-2rem] lg:right-[-3rem] h-[1px] bg-[#E2E8F0] pointer-events-none overflow-hidden">
+                  <div 
+                    className="edu-line-02 h-full bg-[#2563EB]/70 origin-left"
+                    style={{ width: '0%' }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="edu-text-02">
+              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+                Shri Mathuradas College of Science
+              </h4>
+              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                Higher Secondary · Class 11–12
+              </p>
+            </div>
+          </div>
+
+          {/* Milestone 03 (Current Institution) */}
+          <div className="relative">
+            <div className="edu-node-03">
+              <span className="text-[11px] font-mono font-medium text-[#2563EB] block mb-2">
+                03
+              </span>
+              <div className="relative flex items-center mb-3">
+                <div className="w-2 h-2 rounded-full bg-[#2563EB] ring-2 ring-[#BFDBFE] relative z-10" />
+              </div>
+            </div>
+            <div className="edu-text-03">
+              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+                YCCE
+              </h4>
+              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                B.Tech CSE (IoT) · Present
+              </p>
+              <span className="edu-current-badge inline-block mt-2 px-1.5 py-0.5 rounded text-[9.5px] font-mono font-medium text-[#2563EB] bg-[#EFF6FF] border border-[#BFDBFE]">
+                CURRENT
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* MOBILE VERTICAL PROGRESSION (< 640px) */}
+        <div className="sm:hidden relative pl-6 py-1">
+          {/* Extremely thin vertical progression line */}
+          <div className="absolute left-[3.5px] top-2 bottom-3 w-[1px] bg-[#E2E8F0] overflow-hidden">
+            <div 
+              className="edu-line-mobile w-full bg-[#2563EB]/70 origin-top"
+              style={{ height: '0%' }}
+            />
+          </div>
+
+          <div className="space-y-6">
+            {/* Mobile Milestone 01 */}
+            <div className="relative">
+              <div className="edu-node-mobile-01 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#0F172A]" />
+              <div className="edu-text-mobile-01">
+                <span className="text-[10.5px] font-mono font-medium text-[#64748B] block">
+                  01
+                </span>
+                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                  St. Mary's School
+                </h4>
+                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                  Schooling · Class 10
+                </p>
+              </div>
+            </div>
+
+            {/* Mobile Milestone 02 */}
+            <div className="relative">
+              <div className="edu-node-mobile-02 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#0F172A]" />
+              <div className="edu-text-mobile-02">
+                <span className="text-[10.5px] font-mono font-medium text-[#64748B] block">
+                  02
+                </span>
+                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                  Shri Mathuradas College of Science
+                </h4>
+                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                  Higher Secondary · Class 11–12
+                </p>
+              </div>
+            </div>
+
+            {/* Mobile Milestone 03 */}
+            <div className="relative">
+              <div className="edu-node-mobile-03 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#2563EB] ring-2 ring-[#BFDBFE]" />
+              <div className="edu-text-mobile-03">
+                <span className="text-[10.5px] font-mono font-medium text-[#2563EB] block">
+                  03
+                </span>
+                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                  YCCE
+                </h4>
+                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                  B.Tech CSE (IoT) · Present
+                </p>
+                <span className="edu-badge-mobile inline-block mt-1.5 px-1.5 py-0.5 rounded text-[9.5px] font-mono font-medium text-[#2563EB] bg-[#EFF6FF] border border-[#BFDBFE]">
+                  CURRENT
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quiet divider separating Education from My Journey */}
+        <div className="mt-8 sm:mt-10 border-b border-[#E2E8F0]" />
+      </div>
 
       {/* ==================================================
           MY JOURNEY INTRO
