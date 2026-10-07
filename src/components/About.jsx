@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code2, Server, Cpu, Award, BookOpen, MapPin, Heart, Sparkles } from 'lucide-react';
+import { Code2, Server, Cpu } from 'lucide-react';
 import Journey from './Journey';
 import WireframeCube from './WireframeCube';
 
 /**
  * About Section: ABOUT ME — Arctic Aurora Edition
  * Integrates:
- * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT) + Quick Facts
+ * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT)
  * 2. My Journey (Automatic Train Journey Animation & Milestones)
  * 3. Core Engineering Values (Thoughtful Craft, Reliable Systems, Hardware Fluency)
  */
@@ -54,102 +54,28 @@ export default function About() {
         </div>
       </motion.div>
 
-      {/* 1. Story & Quick Facts Two-Column Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        
-        {/* Left Column: Human Narrative */}
-        <motion.div 
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-7 space-y-6"
-        >
-          <p className="text-[18px] sm:text-[19px] text-[#111827] leading-relaxed font-medium font-sans-editorial">
-            I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
-          </p>
+      {/* 1. My Story Narrative */}
+      <motion.div 
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-4xl space-y-6"
+      >
+        <p className="text-[18px] sm:text-[20px] text-[#111827] leading-relaxed font-medium font-sans-editorial">
+          I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
+        </p>
 
-          <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
-            My primary craft centers on full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
-          </p>
+        <p className="text-[15.5px] sm:text-[16px] text-[#4B5563] leading-relaxed font-normal">
+          My primary craft centers on full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
+        </p>
 
-          <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
-            Equally essential is my foundation in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view computing as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
-          </p>
-        </motion.div>
+        <p className="text-[15.5px] sm:text-[16px] text-[#4B5563] leading-relaxed font-normal">
+          Equally essential is my foundation in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view computing as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
+        </p>
+      </motion.div>
 
-        {/* Right Column: Premium White Quick Facts Card */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.65, delay: 0.15 }}
-          className="lg:col-span-5 rounded-2xl p-6 sm:p-7 space-y-5 bg-white/95 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_8px_25px_rgba(15,23,42,0.05),0_1px_3px_rgba(15,23,42,0.02)] text-[#4B5563]"
-        >
-          <div className="flex items-center justify-between border-b border-[#D5DFEB] pb-3.5">
-            <h3 className="text-[14px] font-bold text-[#111827] flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#2563EB]" />
-              <span>Quick Facts</span>
-            </h3>
-            <span className="text-[11px] text-[#2563EB] font-semibold px-2.5 py-0.5 rounded-full bg-[#E8F1FF] border border-[#2563EB]/20">
-              Student &amp; Builder
-            </span>
-          </div>
-
-          <div className="space-y-4 text-[13.5px]">
-            
-            <div className="flex items-start gap-3.5">
-              <div className="p-2 rounded-lg bg-[#E8F1FF] text-[#2563EB] shrink-0 mt-0.5">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[#111827] font-semibold">B.Tech in Computer Science &amp; Engineering</div>
-                <div className="text-[12px] text-[#64748B]">Maintaining an 8.9 / 10.0 Cumulative CGPA</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="p-2 rounded-lg bg-[#F1ECFF] text-[#8B5CF6] shrink-0 mt-0.5">
-                <Award className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[#111827] font-semibold">3x Hackathon Winner</div>
-                <div className="text-[12px] text-[#64748B]">Built collaborative web apps and IoT platforms under 36 hours</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="p-2 rounded-lg bg-[#E8F1FF] text-[#2563EB] shrink-0 mt-0.5">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[#111827] font-semibold">Location &amp; Availability</div>
-                <div className="text-[12px] text-[#64748B]">Based in India · Open to remote &amp; on-site opportunities</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="p-2 rounded-lg bg-rose-50 text-rose-500 shrink-0 mt-0.5">
-                <Heart className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[#111827] font-semibold">When I'm not coding</div>
-                <div className="text-[12px] text-[#64748B]">Soldering prototype boards, tinkering with open source, and learning new stacks</div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Current Goal Banner */}
-          <div className="p-4 rounded-xl border border-[#2563EB]/20 bg-[#E8F1FF]/60 text-[12.5px] text-[#1E3A8A] leading-relaxed">
-            <strong className="text-[#2563EB] font-bold">Currently Seeking:</strong> Software engineering opportunities where I can contribute to high-impact web apps and distributed systems.
-          </div>
-
-        </motion.div>
-
-      </div>
-
-      {/* 2. MY JOURNEY Section (Spanning full available width below Story + Quick Facts) */}
+      {/* 2. MY JOURNEY Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
