@@ -1,349 +1,297 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, MessageSquare, Puzzle, Zap, Brain } from 'lucide-react';
+import { Users, MessageSquare, Puzzle, Zap, Brain } from 'lucide-react';
 
 /**
- * Core Qualities Orbit Visualization
- * - Replaces the rectangular Quick Facts card with a minimal, premium orbit constellation
- * - Desktop: Circular/orbit floating composition with subtle curved connection paths
- * - Tablet/Mobile: Compact, flowing layout that prevents clipping and respects height
+ * Core Qualities Constellation
+ * Exactly matching the user's reference mockup:
+ * - Cursive script "Core Qualities" in the open center with blue underline accent
+ * - 5 orbiting nodes with circular icon badges on top, titles, and centered descriptions
+ * - Radial spokes with colored dots emanating from the center
+ * - Delicate circular orbit arcs with colored dots connecting the icon badges
  */
 
-const QUALITIES = [
+const NODES = [
   {
     id: 'leadership',
     title: 'Leadership',
-    phrase: 'Takes initiative',
-    icon: Compass,
-    accentHex: '#2563EB',     // Soft Blue
-    iconBgHex: '#EFF6FF',
-    // Desktop positioning (percentages of 480x370 container)
-    xPct: 22,
-    yPct: 14,
-    // SVG connection line from center (240, 180) to node
-    linePath: 'M 213 156 Q 160 115 125 72',
-    dotStart: { cx: 213, cy: 156 },
-    dotEnd: { cx: 125, cy: 72 },
+    description: 'Takes initiative and helps drive projects toward completion.',
+    icon: Users,
+    // Coordinates in 560x480 coordinate space (percentages)
+    xPct: 50,
+    yPct: 15,
+    // Colors
+    iconBg: 'bg-[#F3E8FF]',
+    iconBorder: 'border-[#E9D5FF]',
+    iconColor: 'text-[#9333EA]',
+    spokeStroke: '#C084FC',
+    spokeDot: '#A855F7',
+    // Spoke line from center towards node
+    spoke: { x1: 280, y1: 198, x2: 280, y2: 155, dotX: 280, dotY: 155 },
     floatDuration: 6.2,
     floatDelay: 0.1,
   },
   {
-    id: 'problem-solving',
-    title: 'Problem Solving',
-    phrase: 'Finds practical solutions',
-    icon: Puzzle,
-    accentHex: '#0284C7',     // Sky Blue
-    iconBgHex: '#F0F9FF',
-    xPct: 78,
-    yPct: 14,
-    linePath: 'M 267 156 Q 320 115 355 72',
-    dotStart: { cx: 267, cy: 156 },
-    dotEnd: { cx: 355, cy: 72 },
-    floatDuration: 5.8,
-    floatDelay: 0.4,
-  },
-  {
     id: 'communication',
     title: 'Communication',
-    phrase: 'Expresses ideas clearly',
+    description: 'Communicates ideas clearly and works effectively with others.',
     icon: MessageSquare,
-    accentHex: '#8B5CF6',     // Soft Lavender / Violet
-    iconBgHex: '#F5F3FF',
-    xPct: 20,
-    yPct: 56,
-    linePath: 'M 200 188 Q 150 200 130 205',
-    dotStart: { cx: 200, cy: 188 },
-    dotEnd: { cx: 130, cy: 205 },
+    xPct: 18,
+    yPct: 45,
+    iconBg: 'bg-[#EFF6FF]',
+    iconBorder: 'border-[#DBEAFE]',
+    iconColor: 'text-[#3B82F6]',
+    spokeStroke: '#93C5FD',
+    spokeDot: '#3B82F6',
+    spoke: { x1: 228, y1: 228, x2: 182, y2: 220, dotX: 182, dotY: 220 },
     floatDuration: 6.8,
-    floatDelay: 0.8,
+    floatDelay: 0.5,
+  },
+  {
+    id: 'problem-solving',
+    title: 'Problem Solving',
+    description: 'Breaks complex problems into practical, workable solutions.',
+    icon: Puzzle,
+    xPct: 82,
+    yPct: 45,
+    iconBg: 'bg-[#ECFDF5]',
+    iconBorder: 'border-[#D1FAE5]',
+    iconColor: 'text-[#059669]',
+    spokeStroke: '#6EE7B7',
+    spokeDot: '#10B981',
+    spoke: { x1: 332, y1: 228, x2: 378, y2: 220, dotX: 378, dotY: 220 },
+    floatDuration: 5.9,
+    floatDelay: 0.3,
   },
   {
     id: 'quick-learner',
     title: 'Quick Learner',
-    phrase: 'Adapts quickly',
+    description: 'Adapts quickly to new technologies, tools and concepts.',
     icon: Zap,
-    accentHex: '#EC4899',     // Pink
-    iconBgHex: '#FDF2F8',
-    xPct: 80,
-    yPct: 61,
-    linePath: 'M 280 192 Q 330 216 350 225',
-    dotStart: { cx: 280, cy: 192 },
-    dotEnd: { cx: 350, cy: 225 },
-    floatDuration: 6.0,
-    floatDelay: 0.2,
+    xPct: 28,
+    yPct: 83,
+    iconBg: 'bg-[#F5F3FF]',
+    iconBorder: 'border-[#EDE9FE]',
+    iconColor: 'text-[#7C3AED]',
+    spokeStroke: '#DDD6FE',
+    spokeDot: '#8B5CF6',
+    spoke: { x1: 242, y1: 262, x2: 206, y2: 298, dotX: 206, dotY: 298 },
+    floatDuration: 6.4,
+    floatDelay: 0.7,
   },
   {
     id: 'critical-thinking',
     title: 'Critical Thinking',
-    phrase: 'Thinks before deciding',
+    description: 'Evaluates different approaches before making technical decisions.',
     icon: Brain,
-    accentHex: '#6366F1',     // Indigo
-    iconBgHex: '#EEF2FF',
-    xPct: 50,
-    yPct: 89,
-    linePath: 'M 240 222 Q 224 265 240 306',
-    dotStart: { cx: 240, cy: 222 },
-    dotEnd: { cx: 240, cy: 306 },
-    floatDuration: 7.2,
-    floatDelay: 0.6,
+    xPct: 72,
+    yPct: 83,
+    iconBg: 'bg-[#F0F9FF]',
+    iconBorder: 'border-[#E0F2FE]',
+    iconColor: 'text-[#0284C7]',
+    spokeStroke: '#93C5FD',
+    spokeDot: '#0284C7',
+    spoke: { x1: 318, y1: 262, x2: 354, y2: 298, dotX: 354, dotY: 298 },
+    floatDuration: 7.1,
+    floatDelay: 0.2,
+  },
+];
+
+// Circular orbit arcs connecting the 5 icon circles with midpoint dots
+const ORBIT_ARCS = [
+  {
+    id: 'arc-comm-lead',
+    d: 'M 100 180 A 195 195 0 0 1 280 48',
+    stroke: '#93C5FD',
+    dot: { x: 172, y: 96, color: '#38BDF8' },
+  },
+  {
+    id: 'arc-lead-prob',
+    d: 'M 280 48 A 195 195 0 0 1 460 180',
+    stroke: '#A7F3D0',
+    dot: { x: 388, y: 96, color: '#34D399' },
+  },
+  {
+    id: 'arc-prob-crit',
+    d: 'M 460 180 A 185 185 0 0 1 405 352',
+    stroke: '#BAE6FD',
+    dot: { x: 454, y: 268, color: '#0EA5E9' },
+  },
+  {
+    id: 'arc-crit-quick',
+    d: 'M 405 352 A 185 185 0 0 1 155 352',
+    stroke: '#E9D5FF',
+    dot: { x: 280, y: 396, color: '#C084FC' },
+  },
+  {
+    id: 'arc-quick-comm',
+    d: 'M 155 352 A 185 185 0 0 1 100 180',
+    stroke: '#DDD6FE',
+    dot: { x: 106, y: 268, color: '#A78BFA' },
   },
 ];
 
 export default function CoreQualitiesOrbit() {
   const [hoveredId, setHoveredId] = useState(null);
 
-  const activeQuality = hoveredId ? QUALITIES.find((q) => q.id === hoveredId) : null;
-
   return (
-    <div className="w-full">
-      {/* ============================================================ */}
-      {/* 1. DESKTOP VIEW: Circular / Orbit Composition (lg and up)    */}
-      {/* ============================================================ */}
-      <div className="hidden lg:block relative w-full max-w-[480px] h-[370px] mx-auto select-none">
+    <div className="w-full max-w-[580px] mx-auto select-none">
+      {/* Constellation Canvas (560x480 aspect ratio) */}
+      <div className="relative w-full aspect-[560/480]">
         
-        {/* SVG Connection Lines & Orbit Tracks */}
+        {/* SVG Decorative Orbit Arcs & Radial Spokes */}
         <svg
-          viewBox="0 0 480 370"
+          viewBox="0 0 560 480"
           className="absolute inset-0 w-full h-full pointer-events-none z-0"
           aria-hidden="true"
         >
-          {/* Subtle concentric orbit guides */}
-          <circle
-            cx="240"
-            cy="180"
-            r="138"
-            fill="none"
-            stroke="#E2E8F0"
-            strokeWidth="0.75"
-            strokeDasharray="3 4"
-            opacity="0.5"
-          />
-          <circle
-            cx="240"
-            cy="180"
-            r="68"
-            fill="none"
-            stroke="#E2E8F0"
-            strokeWidth="0.75"
-            strokeDasharray="2 3"
-            opacity="0.35"
-          />
+          {/* 1. Orbit Arcs connecting the nodes */}
+          {ORBIT_ARCS.map((arc) => (
+            <g key={arc.id}>
+              <motion.path
+                d={arc.d}
+                fill="none"
+                stroke={arc.stroke}
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.75 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 1, ease: 'easeOut' }}
+              />
+              <motion.circle
+                cx={arc.dot.x}
+                cy={arc.dot.y}
+                r="2.5"
+                fill={arc.dot.color}
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 0.9 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: 0.5 }}
+              />
+            </g>
+          ))}
 
-          {/* Curved Connections from Center Hub to each Node */}
-          {QUALITIES.map((q, idx) => {
-            const isHovered = hoveredId === q.id;
-            const isAnyHovered = hoveredId !== null;
-
+          {/* 2. Radial Spokes with dots pointing outward from Center */}
+          {NODES.map((node) => {
+            const isHovered = hoveredId === node.id;
             return (
-              <g key={q.id}>
-                {/* Curved Connector Path */}
-                <motion.path
-                  d={q.linePath}
-                  fill="none"
+              <g key={`spoke-${node.id}`}>
+                <motion.line
+                  x1={node.spoke.x1}
+                  y1={node.spoke.y1}
+                  x2={node.spoke.x2}
+                  y2={node.spoke.y2}
+                  stroke={node.spokeStroke}
+                  strokeWidth={isHovered ? 2 : 1.25}
+                  strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
-                  whileInView={{ pathLength: 1, opacity: isHovered ? 0.95 : isAnyHovered ? 0.25 : 0.55 }}
+                  whileInView={{ pathLength: 1, opacity: isHovered ? 1 : 0.75 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{
-                    pathLength: { duration: 0.85, delay: 0.2 + idx * 0.1, ease: 'easeOut' },
-                    opacity: { duration: 0.3 },
-                  }}
-                  animate={{
-                    stroke: isHovered ? q.accentHex : '#CBD5E1',
-                    strokeWidth: isHovered ? 1.5 : 0.85,
-                    opacity: isHovered ? 0.95 : isAnyHovered ? 0.25 : 0.55,
-                  }}
-                />
-
-                {/* Subtle Anchor Dots */}
-                <motion.circle
-                  cx={q.dotStart.cx}
-                  cy={q.dotStart.cy}
-                  r={isHovered ? 2.5 : 1.75}
-                  animate={{
-                    fill: isHovered ? q.accentHex : '#94A3B8',
-                    opacity: isHovered ? 1 : isAnyHovered ? 0.3 : 0.7,
-                  }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
                 />
                 <motion.circle
-                  cx={q.dotEnd.cx}
-                  cy={q.dotEnd.cy}
-                  r={isHovered ? 2.5 : 1.75}
-                  animate={{
-                    fill: isHovered ? q.accentHex : '#94A3B8',
-                    opacity: isHovered ? 1 : isAnyHovered ? 0.3 : 0.7,
-                  }}
-                  transition={{ duration: 0.25 }}
+                  cx={node.spoke.dotX}
+                  cy={node.spoke.dotY}
+                  r={isHovered ? 3.5 : 2.5}
+                  fill={node.spokeDot}
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.35, delay: 0.4 }}
                 />
               </g>
             );
           })}
         </svg>
 
-        {/* Center Hub: CORE QUALITIES */}
+        {/* Center: Cursive "Core Qualities" */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.85 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute left-1/2 top-[48.6%] -translate-x-1/2 -translate-y-1/2 z-10"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute left-1/2 top-[49%] -translate-x-1/2 -translate-y-1/2 z-10 text-center pointer-events-none select-none"
         >
           <div
-            className="w-[84px] h-[84px] rounded-full bg-white border flex flex-col items-center justify-center text-center transition-all duration-300"
-            style={{
-              borderColor: activeQuality ? `${activeQuality.accentHex}40` : '#D5DFEB',
-              boxShadow: activeQuality
-                ? `0 6px 20px ${activeQuality.accentHex}15, 0 1px 3px rgba(15,23,42,0.03)`
-                : '0 4px 16px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.02)',
-            }}
+            className="text-[34px] sm:text-[38px] md:text-[42px] font-bold text-[#1E293B] leading-[0.88] tracking-normal"
+            style={{ fontFamily: "'Caveat', cursive, sans-serif" }}
           >
-            <div
-              className="w-1.5 h-1.5 rounded-full mb-1 transition-colors duration-300"
-              style={{
-                backgroundColor: activeQuality ? activeQuality.accentHex : '#2563EB',
-              }}
-            />
-            <span className="text-[9.5px] font-mono tracking-[0.22em] font-semibold text-[#64748B] leading-none uppercase">
-              CORE
-            </span>
-            <span className="text-[11px] font-bold tracking-[0.08em] text-[#111827] leading-tight mt-0.5 uppercase">
-              QUALITIES
-            </span>
+            Core
           </div>
+          <div
+            className="text-[34px] sm:text-[38px] md:text-[42px] font-bold text-[#1E293B] leading-[0.92] tracking-normal mt-0.5"
+            style={{ fontFamily: "'Caveat', cursive, sans-serif" }}
+          >
+            Qualities
+          </div>
+          {/* Blue underline accent */}
+          <div className="w-7 sm:w-8 h-[2.5px] bg-[#2563EB] rounded-full mx-auto mt-1 sm:mt-1.5" />
         </motion.div>
 
-        {/* The 5 Floating Quality Nodes */}
-        {QUALITIES.map((q, idx) => {
-          const Icon = q.icon;
-          const isHovered = hoveredId === q.id;
+        {/* 5 Floating Quality Nodes */}
+        {NODES.map((node, idx) => {
+          const Icon = node.icon;
+          const isHovered = hoveredId === node.id;
 
           return (
             <div
-              key={q.id}
-              className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
-              style={{ left: `${q.xPct}%`, top: `${q.yPct}%` }}
-              onMouseEnter={() => setHoveredId(q.id)}
+              key={node.id}
+              className="absolute -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center text-center cursor-default"
+              style={{ left: `${node.xPct}%`, top: `${node.yPct}%` }}
+              onMouseEnter={() => setHoveredId(node.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              {/* Fade + Scale Entrance */}
+              {/* Entrance reveal */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.85, y: 8 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{
-                  duration: 0.6,
-                  delay: 0.25 + idx * 0.1,
+                  duration: 0.55,
+                  delay: 0.2 + idx * 0.1,
                   ease: [0.16, 1, 0.3, 1],
                 }}
+                className="flex flex-col items-center"
               >
-                {/* Ultra-subtle, gentle breathing float */}
+                {/* Ultra-subtle gentle breathing float */}
                 <motion.div
-                  animate={{ y: [-3, 3, -3] }}
+                  animate={{ y: [-2.5, 2.5, -2.5] }}
                   transition={{
-                    duration: q.floatDuration,
+                    duration: node.floatDuration,
                     repeat: Infinity,
                     ease: 'easeInOut',
-                    delay: q.floatDelay,
+                    delay: node.floatDelay,
                   }}
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  className={`inline-flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-white/95 border transition-all duration-300 cursor-default ${
-                    isHovered
-                      ? 'shadow-[0_6px_20px_rgba(15,23,42,0.07)]'
-                      : 'border-[#E2E8F0] shadow-[0_2px_8px_rgba(15,23,42,0.03)] hover:shadow-[0_4px_14px_rgba(15,23,42,0.05)]'
-                  }`}
-                  style={{
-                    borderColor: isHovered ? q.accentHex : undefined,
-                  }}
+                  className="flex flex-col items-center"
                 >
-                  {/* Icon */}
-                  <div
-                    className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200"
-                    style={{
-                      backgroundColor: q.iconBgHex,
-                      color: q.accentHex,
-                    }}
+                  {/* Circular Icon Badge */}
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border shadow-xs transition-shadow duration-300 ${
+                      node.iconBg
+                    } ${node.iconBorder} ${node.iconColor} ${
+                      isHovered ? 'shadow-[0_4px_16px_rgba(15,23,42,0.1)]' : ''
+                    }`}
                   >
-                    <Icon className="w-3.5 h-3.5" />
-                  </div>
+                    <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                  </motion.div>
 
-                  {/* Texts */}
-                  <div className="flex flex-col text-left pr-0.5 whitespace-nowrap">
-                    <span className="text-[12px] font-semibold text-[#111827] leading-tight">
-                      {q.title}
-                    </span>
-                    <span className="text-[10.5px] text-[#64748B] leading-tight mt-0.5">
-                      {q.phrase}
-                    </span>
-                  </div>
+                  {/* Title */}
+                  <h4 className="text-[13.5px] sm:text-[14.5px] font-bold text-[#111827] mt-1.5 tracking-tight whitespace-nowrap">
+                    {node.title}
+                  </h4>
+
+                  {/* Supporting phrase */}
+                  <p className="text-[10px] sm:text-[11px] md:text-[11.5px] text-[#64748B] text-center max-w-[130px] sm:max-w-[155px] leading-tight sm:leading-snug mt-0.5 sm:mt-1">
+                    {node.description}
+                  </p>
                 </motion.div>
               </motion.div>
             </div>
           );
         })}
-      </div>
-
-      {/* ============================================================ */}
-      {/* 2. TABLET / MOBILE VIEW: Compact Flowing Layout (< lg)       */}
-      {/* ============================================================ */}
-      <div className="block lg:hidden w-full max-w-lg mx-auto select-none pt-2">
-        {/* Compact Center Hub */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center justify-center mb-4"
-        >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#D5DFEB] shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
-            <span className="text-[10px] font-mono tracking-widest font-semibold text-[#64748B] uppercase">
-              CORE
-            </span>
-            <span className="text-[11px] font-bold text-[#111827] uppercase">
-              QUALITIES
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Flowing Grid of 5 Qualities */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {QUALITIES.map((q, idx) => {
-            const Icon = q.icon;
-            const isLastOdd = idx === QUALITIES.length - 1;
-
-            return (
-              <motion.div
-                key={q.id}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: idx * 0.08 }}
-                whileHover={{ scale: 1.02 }}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-[#E2E8F0] shadow-xs transition-all duration-200 ${
-                  isLastOdd ? 'sm:col-span-2 sm:max-w-[240px] sm:mx-auto w-full' : ''
-                }`}
-              >
-                <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-                  style={{
-                    backgroundColor: q.iconBgHex,
-                    color: q.accentHex,
-                  }}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-[12px] font-semibold text-[#111827] leading-tight">
-                    {q.title}
-                  </span>
-                  <span className="text-[10.5px] text-[#64748B] leading-tight mt-0.5">
-                    {q.phrase}
-                  </span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );

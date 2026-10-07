@@ -64,7 +64,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6 }}
-          className="lg:col-span-7 space-y-6"
+          className="lg:col-span-6 space-y-6"
         >
           <p className="text-[18px] sm:text-[19px] text-[#111827] leading-relaxed font-medium font-sans-editorial">
             I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
@@ -80,7 +80,7 @@ export default function About() {
         </motion.div>
 
         {/* Right Column: Unique Core Qualities Orbit Visual */}
-        <div className="lg:col-span-5 w-full flex items-center justify-center">
+        <div className="lg:col-span-6 w-full flex items-center justify-center">
           <CoreQualitiesOrbit />
         </div>
 
