@@ -3,11 +3,12 @@ import { motion } from 'framer-motion';
 import { Code2, Server, Cpu } from 'lucide-react';
 import Journey from './Journey';
 import WireframeCube from './WireframeCube';
+import CoreQualitiesOrbit from './CoreQualitiesOrbit';
 
 /**
  * About Section: ABOUT ME — Arctic Aurora Edition
  * Integrates:
- * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT)
+ * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT) + Core Qualities Orbit
  * 2. My Journey (Automatic Train Journey Animation & Milestones)
  * 3. Core Engineering Values (Thoughtful Craft, Reliable Systems, Hardware Fluency)
  */
@@ -54,26 +55,36 @@ export default function About() {
         </div>
       </motion.div>
 
-      {/* 1. My Story Narrative */}
-      <motion.div 
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-4xl space-y-6"
-      >
-        <p className="text-[18px] sm:text-[20px] text-[#111827] leading-relaxed font-medium font-sans-editorial">
-          I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
-        </p>
+      {/* 1. Story & Core Qualities Two-Column Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 items-center">
+        
+        {/* Left Column: Human Narrative */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-7 space-y-6"
+        >
+          <p className="text-[18px] sm:text-[19px] text-[#111827] leading-relaxed font-medium font-sans-editorial">
+            I'm a Computer Science &amp; Engineering student who loves taking ideas from a blank whiteboard to polished, production-ready software.
+          </p>
 
-        <p className="text-[15.5px] sm:text-[16px] text-[#4B5563] leading-relaxed font-normal">
-          My primary craft centers on full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
-        </p>
+          <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
+            My primary craft centers on full-stack software development. I enjoy building responsive web apps with React and modern JavaScript, structuring high-throughput backend services, and optimizing database queries so interfaces feel instant and effortless.
+          </p>
 
-        <p className="text-[15.5px] sm:text-[16px] text-[#4B5563] leading-relaxed font-normal">
-          Equally essential is my foundation in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view computing as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
-        </p>
-      </motion.div>
+          <p className="text-[15.5px] text-[#4B5563] leading-relaxed font-normal">
+            Equally essential is my foundation in physical hardware and IoT. Spending time writing firmware for microcontrollers and designing sensor circuits gives me a unique advantage: I never view computing as a black box. I understand how high-level code translates into memory caches, network sockets, and electrical signals.
+          </p>
+        </motion.div>
+
+        {/* Right Column: Unique Core Qualities Orbit Visual */}
+        <div className="lg:col-span-5 w-full flex items-center justify-center">
+          <CoreQualitiesOrbit />
+        </div>
+
+      </div>
 
       {/* 2. MY JOURNEY Section */}
       <motion.div 
