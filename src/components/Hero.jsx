@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset } from 'lucide-react';
+import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, User } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 import DigitalTimeConsole from './DigitalTimeConsole';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
@@ -280,18 +280,18 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               }}
               onMouseMove={handleCardMouseMove}
               onMouseLeave={handleCardMouseLeave}
-              className={`group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[24px] p-[1.5px] transition-shadow duration-300 ${
+              className={`group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[28px] sm:rounded-[32px] p-[2px] transition-shadow duration-300 ${
                 isNight
                   ? 'bg-gradient-to-b from-[#4F8CFF]/30 via-[rgba(150,180,230,0.15)] to-[#8B5CF6]/20 shadow-[0_20px_50px_rgba(8,20,38,0.7)] hover:shadow-[0_24px_60px_rgba(79,140,255,0.2)]'
-                  : 'bg-gradient-to-b from-[#2563EB]/25 via-[#D5DFEB] to-[#8B5CF6]/20 shadow-[0_16px_40px_rgba(37,99,235,0.08),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.14),0_0_24px_rgba(139,92,246,0.12)]'
+                  : 'bg-gradient-to-b from-[#2563EB]/25 via-[#CBD5E1] to-[#8B5CF6]/25 shadow-[0_18px_45px_rgba(37,99,235,0.09),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_22px_55px_rgba(37,99,235,0.14)]'
               }`}
             >
               
               {/* Inner Container */}
-              <div className={`w-full h-full rounded-[22.5px] overflow-hidden backdrop-blur-xl border transition-colors duration-300 relative flex flex-col ${
+              <div className={`w-full h-full rounded-[26px] sm:rounded-[30px] overflow-hidden backdrop-blur-xl border transition-colors duration-300 relative flex flex-col z-10 ${
                 isNight
                   ? 'bg-[#0D1B32]/95 border-[rgba(150,180,230,0.18)] group-hover:border-[#4F8CFF]/40'
-                  : 'bg-white/95 border-[#D5DFEB] group-hover:border-[#2563EB]/40'
+                  : 'bg-gradient-to-b from-[#F0F5FF] via-[#F8FAFF] to-[#F1F3FF] border-[#E2E8F0] group-hover:border-[#CBD5E1]'
               }`}>
                 
                 {PROFILE_IMAGE_URL ? (
@@ -301,99 +301,173 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                     className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 ) : (
-                  /* Clean Neutral Identity Frame */
+                  /* Clean Precision Identity Frame matching reference image */
                   <div className={`w-full h-full flex flex-col justify-between p-6 sm:p-7 relative select-none ${
                     isNight
                       ? 'bg-gradient-to-b from-[#0D1B32] via-[#091528] to-[#081426]'
-                      : 'bg-gradient-to-b from-white via-[#F8FAFC] to-[#F1F5F9]'
+                      : 'bg-gradient-to-b from-[#F0F5FF] via-[#F8FAFF] to-[#F1F3FF]'
                   }`}>
                     
-                    {/* Subtle technical background grid */}
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 opacity-[0.35] pointer-events-none"
-                      style={{
-                        backgroundImage: `radial-gradient(${isNight ? 'rgba(79, 140, 255, 0.3)' : 'rgba(37, 99, 235, 0.25)'} 1px, transparent 1px)`,
-                        backgroundSize: '20px 20px',
-                      }}
-                    />
-
-                    {/* Subtle lavender/blue ambient illumination */}
-                    <div className="absolute top-0 right-0 w-56 h-56 rounded-full bg-[#8B5CF6]/10 blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-[#2563EB]/8 blur-2xl pointer-events-none" />
+                    {/* Organic ambient pastel corner waves matching reference design */}
+                    {!isNight ? (
+                      <>
+                        <div className="absolute -bottom-10 -left-10 w-52 h-52 rounded-full bg-[#BFDBFE]/35 blur-3xl pointer-events-none" />
+                        <div className="absolute -bottom-12 -right-12 w-60 h-60 rounded-full bg-[#DDD6FE]/40 blur-3xl pointer-events-none" />
+                        <div className="absolute -top-14 -right-14 w-52 h-52 rounded-full bg-[#C7D2FE]/30 blur-3xl pointer-events-none" />
+                      </>
+                    ) : (
+                      <>
+                        <div className="absolute top-0 right-0 w-56 h-56 rounded-full bg-[#8B5CF6]/15 blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-[#2563EB]/12 blur-2xl pointer-events-none" />
+                      </>
+                    )}
 
                     {/* Top Header inside card */}
                     <div className="relative z-10 flex items-center justify-between">
-                      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[11.5px] font-semibold ${
+                      <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-[11px] font-semibold ${
                         isNight
                           ? 'bg-[#122442] border-[#4F8CFF]/30 text-[#4F8CFF]'
-                          : 'bg-[#E8F1FF] border-[#2563EB]/25 text-[#2563EB]'
+                          : 'bg-[#EFF6FF] border-[#BFDBFE] text-[#1D4ED8] shadow-2xs'
                       }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${isNight ? 'bg-[#4F8CFF]' : 'bg-[#2563EB]'} animate-pulse`} />
+                        <span className={`w-2 h-2 rounded-full ${isNight ? 'bg-[#4F8CFF]' : 'bg-[#2563EB]'}`} />
                         <span>Identity Frame</span>
                       </div>
-                      <span className={`text-[11px] font-mono tracking-wider uppercase font-semibold ${
-                        isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'
+                      <span className={`text-[11px] font-mono tracking-widest uppercase font-semibold ${
+                        isNight ? 'text-[#A9B8D0]' : 'text-[#475569]'
                       }`}>
-                        Portrait · 3:4
+                        PORTRAIT · 3:4
                       </span>
                     </div>
 
-                    {/* Center Framed Focal Reticle */}
-                    <div className="relative z-10 my-auto flex flex-col items-center justify-center text-center space-y-4 py-6">
-                      {/* Precision Corner Framing Reticle */}
-                      <div className={`relative w-44 h-44 sm:w-56 sm:h-56 rounded-[22px] border border-dashed shadow-xs flex items-center justify-center transition-colors duration-300 ${
-                        isNight
-                          ? 'border-[#4F8CFF]/35 group-hover:border-[#4F8CFF]/60 bg-[#122442]/60'
-                          : 'border-[#2563EB]/35 group-hover:border-[#2563EB]/60 bg-white/70'
-                      }`}>
-                        {/* Precision corner brackets */}
-                        <div className={`absolute -top-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-l-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-tl-[6px]`} />
-                        <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-t-2 border-r-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-tr-[6px]`} />
-                        <div className={`absolute -bottom-1.5 -left-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-l-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-bl-[6px]`} />
-                        <div className={`absolute -bottom-1.5 -right-1.5 w-6 h-6 sm:w-7 sm:h-7 border-b-2 border-r-2 ${isNight ? 'border-[#4F8CFF]' : 'border-[#2563EB]'} rounded-br-[6px]`} />
+                    {/* Center Framed Focal Area */}
+                    <div className="relative z-10 my-auto flex flex-col items-center justify-center text-center space-y-4 py-3 sm:py-4">
+                      
+                      {/* Center Box with Orbital Ring */}
+                      <div className="relative flex items-center justify-center">
 
-                        {/* Aperture / Lens Icon Container */}
-                        <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border flex items-center justify-center group-hover:scale-105 transition-all duration-300 ${
+                        {/* Subtle Orbital Tech Guide Rings (Thinner, less visual competition) */}
+                        <svg
+                          aria-hidden="true"
+                          className="absolute -inset-14 sm:-inset-16 w-[calc(100%+112px)] h-[calc(100%+112px)] sm:w-[calc(100%+128px)] sm:h-[calc(100%+128px)] pointer-events-none overflow-visible"
+                          viewBox="0 0 320 320"
+                        >
+                          <defs>
+                            <linearGradient id="orbitGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#2563EB" stopOpacity="0.3" />
+                              <stop offset="60%" stopColor="#7C3AED" stopOpacity="0.25" />
+                              <stop offset="100%" stopColor="#E11D48" stopOpacity="0.2" />
+                            </linearGradient>
+                          </defs>
+
+                          {/* Outer faint dashed circular guide */}
+                          <circle
+                            cx="160"
+                            cy="160"
+                            r="132"
+                            fill="none"
+                            stroke="url(#orbitGradLight)"
+                            strokeWidth="0.8"
+                            strokeDasharray="3 6"
+                            opacity={isNight ? '0.2' : '0.25'}
+                          />
+
+                          {/* Thin subtle orbit ring */}
+                          <circle
+                            cx="160"
+                            cy="160"
+                            r="124"
+                            fill="none"
+                            stroke={isNight ? 'rgba(147, 197, 253, 0.12)' : 'rgba(99, 102, 241, 0.12)'}
+                            strokeWidth="0.75"
+                          />
+
+                          {/* Subtle upper-left accent orbital arc */}
+                          <path
+                            d="M 52 114 A 124 124 0 0 1 160 36"
+                            fill="none"
+                            stroke={isNight ? '#60A5FA' : '#2563EB'}
+                            strokeWidth="1.2"
+                            opacity={isNight ? '0.35' : '0.3'}
+                          />
+
+                          {/* Subtle lower-right accent orbital arc */}
+                          <path
+                            d="M 268 206 A 124 124 0 0 1 160 284"
+                            fill="none"
+                            stroke={isNight ? '#C084FC' : '#7C3AED'}
+                            strokeWidth="1.2"
+                            opacity={isNight ? '0.35' : '0.3'}
+                          />
+
+                          {/* Subtle orbital tracking node at ~2 o'clock */}
+                          <circle cx="238" cy="74" r="2.5" fill={isNight ? '#60A5FA' : '#2563EB'} opacity="0.4" />
+
+                          {/* Subtle orbital tracking node at ~8 o'clock */}
+                          <circle cx="82" cy="246" r="2.5" fill={isNight ? '#A78BFA' : '#7C3AED'} opacity="0.4" />
+                        </svg>
+
+                        {/* Strengthened Precision Corner Brackets (Vibrant Blue on Left, Rich Lavender on Right) */}
+                        <div className="absolute -top-2.5 -left-2.5 w-7 h-7 sm:w-8 sm:h-8 border-t-[3px] border-l-[3px] border-[#2563EB] rounded-tl-[8px] z-10 shadow-[0_0_8px_rgba(37,99,235,0.2)]" />
+                        <div className="absolute -bottom-2.5 -left-2.5 w-7 h-7 sm:w-8 sm:h-8 border-b-[3px] border-l-[3px] border-[#2563EB] rounded-bl-[8px] z-10 shadow-[0_0_8px_rgba(37,99,235,0.2)]" />
+                        <div className="absolute -top-2.5 -right-2.5 w-7 h-7 sm:w-8 sm:h-8 border-t-[3px] border-r-[3px] border-[#7C3AED] rounded-tr-[8px] z-10 shadow-[0_0_8px_rgba(124,58,237,0.2)]" />
+                        <div className="absolute -bottom-2.5 -right-2.5 w-7 h-7 sm:w-8 sm:h-8 border-b-[3px] border-r-[3px] border-[#7C3AED] rounded-br-[8px] z-10 shadow-[0_0_8px_rgba(124,58,237,0.2)]" />
+
+                        {/* Central Framed Square with improved contrast border and subtle glass gradient */}
+                        <div className={`relative w-44 h-44 sm:w-52 sm:h-52 rounded-[28px] sm:rounded-[32px] border flex items-center justify-center transition-all duration-300 ${
                           isNight
-                            ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#4F8CFF] shadow-[0_4px_20px_rgba(79,140,255,0.15)] group-hover:border-[#4F8CFF]/50'
-                            : 'bg-white border-[#D5DFEB] text-[#2563EB] shadow-[0_4px_20px_rgba(37,99,235,0.12)] group-hover:border-[#2563EB]/40'
+                            ? 'bg-gradient-to-br from-[#122442] via-[#0F1D38] to-[#0D1B32] border-[#1E3A6E] shadow-[0_10px_32px_rgba(8,20,38,0.7)]'
+                            : 'bg-gradient-to-br from-white via-[#FAF5FF] to-[#EFF6FF] border-[#CBD5E1]/80 shadow-[0_10px_28px_rgba(37,99,235,0.06),0_1px_3px_rgba(0,0,0,0.04)]'
                         }`}>
-                          <Camera className="w-9 h-9 sm:w-11 sm:h-11 stroke-[1.6]" />
+                          {/* Inner Squircle Camera Container */}
+                          <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-[22px] border flex items-center justify-center group-hover:scale-105 transition-all duration-300 ${
+                            isNight
+                              ? 'bg-[#162C52] border-[#2563EB]/40 text-[#4F8CFF] shadow-[0_6px_24px_rgba(79,140,255,0.2)]'
+                              : 'bg-white shadow-[0_4px_16px_rgba(37,99,235,0.1)] border-[#C7D2FE] text-[#2563EB]'
+                          }`}>
+                            <Camera className="w-10 h-10 sm:w-11 sm:h-11 stroke-[1.8]" />
+                          </div>
                         </div>
+
                       </div>
 
-                      <div className="space-y-1.5">
-                        <div className={`text-[14.5px] sm:text-[16px] font-semibold tracking-tight ${
-                          isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'
+                      {/* Text & Strengthened Dual-Color Divider Line */}
+                      <div className="space-y-1.5 pt-1">
+                        <div className={`text-[18px] sm:text-[20px] font-bold tracking-tight ${
+                          isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                         }`}>
                           Developer Portrait
                         </div>
-                        <p className={`text-[12px] sm:text-[13px] max-w-[240px] leading-relaxed ${
-                          isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'
+                        <p className={`text-[12.5px] sm:text-[13px] max-w-[240px] leading-relaxed mx-auto font-normal ${
+                          isNight ? 'text-[#A9B8D0]' : 'text-[#475569]'
                         }`}>
                           Placeholder area ready for profile photograph
                         </p>
+
+                        {/* Dual-Color Accent Line (Vibrant Blue & Purple) */}
+                        <div className="w-14 h-1 rounded-full bg-gradient-to-r from-[#2563EB] to-[#7C3AED] mx-auto mt-2.5" />
                       </div>
+
                     </div>
 
-                    {/* Bottom Identity Plaque */}
-                    <div className={`relative z-10 p-3.5 sm:p-4 rounded-xl border shadow-xs ${
+                    {/* Bottom Identity Plaque (Crisp contrast border) */}
+                    <div className={`relative z-10 p-3.5 sm:p-4 rounded-2xl border shadow-xs backdrop-blur-md flex items-center gap-3.5 ${
                       isNight
                         ? 'bg-[#122442]/90 border-[rgba(150,180,230,0.18)]'
-                        : 'bg-white/90 border-[#D5DFEB]'
+                        : 'bg-white/95 border border-[#CBD5E1] shadow-xs'
                     }`}>
-                      <div className="flex items-center justify-between text-[11.5px] sm:text-[12px]">
-                        <div>
-                          <div className={`font-semibold text-[12.5px] sm:text-[13px] ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>Rajat Behera</div>
-                          <div className={`text-[11px] sm:text-[11.5px] ${isNight ? 'text-[#A9B8D0]' : 'text-[#64748B]'}`}>CSE &amp; IoT Developer</div>
-                        </div>
-                        <span className={`px-2.5 py-1 rounded-md border text-[10.5px] font-mono font-bold ${
-                          isNight
-                            ? 'bg-[#0D234A] border-[#4F8CFF]/30 text-[#4F8CFF]'
-                            : 'bg-[#E8F1FF] border-[#2563EB]/20 text-[#2563EB]'
-                        }`}>
-                          Ready
+                      <div className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 ${
+                        isNight
+                          ? 'bg-[#0D234A] border-[#4F8CFF]/30 text-[#4F8CFF]'
+                          : 'bg-[#EFF6FF] border-[#BFDBFE] text-[#2563EB]'
+                      }`}>
+                        <User className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className={`font-bold text-[13.5px] sm:text-[14px] ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
+                          Rajat Behera
+                        </span>
+                        <span className={`text-[11.5px] sm:text-[12px] font-medium ${isNight ? 'text-[#A9B8D0]' : 'text-[#475569]'}`}>
+                          CSE &amp; IoT Developer
                         </span>
                       </div>
                     </div>
