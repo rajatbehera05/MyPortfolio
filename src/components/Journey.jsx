@@ -237,30 +237,30 @@ export default function Journey({ isEmbedded = false }) {
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
     // 1. Thin progression line draws from left to right (Segment 1: 01 -> 02)
-    tl.to(el.querySelectorAll('.edu-line-01'), { width: '100%', duration: 0.45, ease: 'power1.inOut' }, 0);
-    tl.to(el.querySelectorAll('.edu-line-mobile'), { height: '100%', duration: 1.1, ease: 'power1.inOut' }, 0);
+    tl.to(el.querySelectorAll('.edu-line-01'), { width: '100%', duration: 0.5, ease: 'power1.inOut' }, 0);
+    tl.to(el.querySelectorAll('.edu-line-mobile'), { height: '100%', duration: 1.2, ease: 'power1.inOut' }, 0);
 
     // 2. Milestone 01 appears
-    tl.to(el.querySelectorAll('.edu-node-01, .edu-node-mobile-01'), { opacity: 1, scale: 1, duration: 0.3 }, 0);
+    tl.to(el.querySelectorAll('.edu-node-01, .edu-node-mobile-01'), { opacity: 1, scale: 1, duration: 0.35 }, 0);
 
-    // 3. St. Mary's School text fades in
-    tl.to(el.querySelectorAll('.edu-text-01, .edu-text-mobile-01'), { opacity: 1, y: 0, duration: 0.35 }, 0.12);
+    // 3. St. Mary's School text fades in and rises
+    tl.to(el.querySelectorAll('.edu-text-01, .edu-text-mobile-01'), { opacity: 1, y: 0, duration: 0.4 }, 0.1);
 
     // 4. Milestone 02 appears as line reaches it
-    tl.to(el.querySelectorAll('.edu-node-02, .edu-node-mobile-02'), { opacity: 1, scale: 1, duration: 0.3 }, 0.45);
+    tl.to(el.querySelectorAll('.edu-node-02, .edu-node-mobile-02'), { opacity: 1, scale: 1, duration: 0.35 }, 0.5);
 
-    // 5. Shri Mathuradas College of Science fades in
-    tl.to(el.querySelectorAll('.edu-text-02, .edu-text-mobile-02'), { opacity: 1, y: 0, duration: 0.35 }, 0.55);
+    // 5. Shri Mathuradas College of Science fades in and rises
+    tl.to(el.querySelectorAll('.edu-text-02, .edu-text-mobile-02'), { opacity: 1, y: 0, duration: 0.4 }, 0.6);
 
     // 6. Line draws: Segment 2 (02 -> 03)
-    tl.to(el.querySelectorAll('.edu-line-02'), { width: '100%', duration: 0.45, ease: 'power1.inOut' }, 0.55);
+    tl.to(el.querySelectorAll('.edu-line-02'), { width: '100%', duration: 0.5, ease: 'power1.inOut' }, 0.6);
 
     // 7. Milestone 03 appears as line reaches it
-    tl.to(el.querySelectorAll('.edu-node-03, .edu-node-mobile-03'), { opacity: 1, scale: 1, duration: 0.3 }, 1.0);
+    tl.to(el.querySelectorAll('.edu-node-03, .edu-node-mobile-03'), { opacity: 1, scale: 1, duration: 0.35 }, 1.1);
 
     // 8. YCCE text appears with subtle current-state highlight
-    tl.to(el.querySelectorAll('.edu-text-03, .edu-text-mobile-03'), { opacity: 1, y: 0, duration: 0.35 }, 1.1);
-    tl.to(el.querySelectorAll('.edu-current-badge, .edu-badge-mobile'), { opacity: 1, y: 0, duration: 0.3 }, 1.18);
+    tl.to(el.querySelectorAll('.edu-text-03, .edu-text-mobile-03'), { opacity: 1, y: 0, duration: 0.4 }, 1.2);
+    tl.to(el.querySelectorAll('.edu-current-badge, .edu-badge-mobile'), { opacity: 1, y: 0, duration: 0.35 }, 1.3);
   };
 
   const startTrainAnimation = () => {
@@ -389,11 +389,22 @@ export default function Journey({ isEmbedded = false }) {
     // Set initial quiet state for education progression before scroll reveal
     if (!eduAnimatedRef.current && sectionRef.current) {
       const el = sectionRef.current;
-      gsap.set(el.querySelectorAll('.edu-node-01, .edu-node-02, .edu-node-03, .edu-node-mobile-01, .edu-node-mobile-02, .edu-node-mobile-03'), { opacity: 0, scale: 0.6 });
-      gsap.set(el.querySelectorAll('.edu-text-01, .edu-text-02, .edu-text-03, .edu-text-mobile-01, .edu-text-mobile-02, .edu-text-mobile-03, .edu-current-badge, .edu-badge-mobile'), { opacity: 0, y: 4 });
+      gsap.set(el.querySelectorAll('.edu-node-01, .edu-node-02, .edu-node-03, .edu-node-mobile-01, .edu-node-mobile-02, .edu-node-mobile-03'), { opacity: 0, scale: 0.7 });
+      gsap.set(el.querySelectorAll('.edu-text-01, .edu-text-02, .edu-text-03, .edu-text-mobile-01, .edu-text-mobile-02, .edu-text-mobile-03, .edu-current-badge, .edu-badge-mobile'), { opacity: 0, y: 8 });
       gsap.set(el.querySelectorAll('.edu-line-01, .edu-line-02'), { width: '0%' });
       gsap.set(el.querySelectorAll('.edu-line-mobile'), { height: '0%' });
     }
+
+    // Trigger Education progression smoothly when it enters viewport
+    const eduEl = sectionRef.current?.querySelector('#education-progression');
+    const eduTrigger = ScrollTrigger.create({
+      trigger: eduEl || sectionRef.current,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        startEduAnimation();
+      }
+    });
 
     // Trigger train journey automatically when section enters viewport (WITHOUT PINNING!)
     const trigger = ScrollTrigger.create({
@@ -426,6 +437,7 @@ export default function Journey({ isEmbedded = false }) {
     window.addEventListener('resize', handleResize);
 
     return () => {
+      if (eduTrigger) eduTrigger.kill();
       trigger.kill();
       if (timelineRef.current) timelineRef.current.kill();
       window.removeEventListener('resize', handleResize);
@@ -446,160 +458,199 @@ export default function Journey({ isEmbedded = false }) {
           EDUCATION: Minimal Academic Progression
           Three numbered milestones (01, 02, 03)
           ================================================== */}
-      <div id="education-progression" className="mb-10 sm:mb-12 relative z-10">
-        {/* Simple Section Header */}
-        <div className="mb-5 sm:mb-6">
-          <p className="text-[11px] font-mono font-semibold tracking-wider text-[#64748B] uppercase">
-            EDUCATION
-          </p>
+      <div id="education-progression" className="pt-2 pb-8 sm:pb-10 relative z-10">
+        {/* Simple Section Header with improved letter spacing and contrast */}
+        <div className="mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]" />
+            <p className="text-[12px] font-mono font-bold tracking-[0.22em] text-[#334155] uppercase">
+              EDUCATION
+            </p>
+          </div>
         </div>
 
         {/* DESKTOP & TABLET PROGRESSION (>= 640px) */}
-        <div className="hidden sm:grid grid-cols-3 gap-6 sm:gap-8 lg:gap-12 relative">
+        <div className="hidden sm:grid grid-cols-3 gap-8 lg:gap-14 relative max-w-[1100px]">
           {/* Milestone 01 */}
-          <div className="relative">
-            <div className="edu-node-01">
-              <span className="text-[11px] font-mono font-medium text-[#64748B] block mb-2">
+          <div className="group relative cursor-default">
+            {/* Step Number */}
+            <div className="edu-text-01">
+              <span className="text-[12px] sm:text-[12.5px] font-mono font-bold tracking-wider text-[#64748B] block mb-2.5 transition-colors duration-200 group-hover:text-[#4F46E5]">
                 01
               </span>
-              <div className="relative flex items-center mb-3">
-                <div className="w-2 h-2 rounded-full bg-[#0F172A] relative z-10" />
-                {/* Thin progression line from 01 to 02 */}
-                <div className="absolute top-[3.5px] left-[8px] right-[-1.5rem] sm:right-[-2rem] lg:right-[-3rem] h-[1px] bg-[#E2E8F0] pointer-events-none overflow-hidden">
-                  <div 
-                    className="edu-line-01 h-full bg-[#2563EB]/70 origin-left"
-                    style={{ width: '0%' }}
-                  />
-                </div>
+            </div>
+
+            {/* Node and Connecting Line Row */}
+            <div className="relative flex items-center mb-4">
+              {/* Refined Circular Node */}
+              <div className="edu-node-01 relative z-10 w-5 h-5 rounded-full border-[1.5px] border-[#94A3B8] bg-white flex items-center justify-center shadow-xs transition-all duration-300 group-hover:border-[#6366F1] group-hover:ring-4 group-hover:ring-[#6366F1]/10">
+                <div className="w-2 h-2 rounded-full bg-[#334155] transition-colors duration-300 group-hover:bg-[#4F46E5]" />
+              </div>
+
+              {/* Connecting Line Track & Progress from 01 to 02 */}
+              <div className="absolute top-[9px] left-[22px] right-[-2rem] lg:right-[-3.5rem] h-[2px] bg-[#E2E8F0] pointer-events-none overflow-hidden rounded-full">
+                <div 
+                  className="edu-line-01 h-full bg-gradient-to-r from-[#4F6D8C] via-[#6366F1]/80 to-[#8B5CF6]/90 origin-left rounded-full"
+                  style={{ width: '0%' }}
+                />
               </div>
             </div>
-            <div className="edu-text-01">
-              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+
+            {/* Institution & Details */}
+            <div className="edu-text-01 space-y-1">
+              <h4 className="text-[16px] sm:text-[17px] font-bold text-[#1E1B2E] leading-snug tracking-tight transition-colors duration-200 group-hover:text-[#4338CA]">
                 St. Mary's School
               </h4>
-              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+              <p className="text-[13px] sm:text-[13.5px] font-medium text-[#64748B] leading-relaxed">
                 Schooling · Class 10
               </p>
             </div>
           </div>
 
           {/* Milestone 02 */}
-          <div className="relative">
-            <div className="edu-node-02">
-              <span className="text-[11px] font-mono font-medium text-[#64748B] block mb-2">
+          <div className="group relative cursor-default">
+            {/* Step Number */}
+            <div className="edu-text-02">
+              <span className="text-[12px] sm:text-[12.5px] font-mono font-bold tracking-wider text-[#64748B] block mb-2.5 transition-colors duration-200 group-hover:text-[#4F46E5]">
                 02
               </span>
-              <div className="relative flex items-center mb-3">
-                <div className="w-2 h-2 rounded-full bg-[#0F172A] relative z-10" />
-                {/* Thin progression line from 02 to 03 */}
-                <div className="absolute top-[3.5px] left-[8px] right-[-1.5rem] sm:right-[-2rem] lg:right-[-3rem] h-[1px] bg-[#E2E8F0] pointer-events-none overflow-hidden">
-                  <div 
-                    className="edu-line-02 h-full bg-[#2563EB]/70 origin-left"
-                    style={{ width: '0%' }}
-                  />
-                </div>
+            </div>
+
+            {/* Node and Connecting Line Row */}
+            <div className="relative flex items-center mb-4">
+              {/* Refined Circular Node */}
+              <div className="edu-node-02 relative z-10 w-5 h-5 rounded-full border-[1.5px] border-[#94A3B8] bg-white flex items-center justify-center shadow-xs transition-all duration-300 group-hover:border-[#6366F1] group-hover:ring-4 group-hover:ring-[#6366F1]/10">
+                <div className="w-2 h-2 rounded-full bg-[#334155] transition-colors duration-300 group-hover:bg-[#4F46E5]" />
+              </div>
+
+              {/* Connecting Line Track & Progress from 02 to 03 */}
+              <div className="absolute top-[9px] left-[22px] right-[-2rem] lg:right-[-3.5rem] h-[2px] bg-[#E2E8F0] pointer-events-none overflow-hidden rounded-full">
+                <div 
+                  className="edu-line-02 h-full bg-gradient-to-r from-[#6366F1]/80 via-[#7C3AED]/80 to-[#8B5CF6] origin-left rounded-full"
+                  style={{ width: '0%' }}
+                />
               </div>
             </div>
-            <div className="edu-text-02">
-              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+
+            {/* Institution & Details */}
+            <div className="edu-text-02 space-y-1">
+              <h4 className="text-[16px] sm:text-[17px] font-bold text-[#1E1B2E] leading-snug tracking-tight transition-colors duration-200 group-hover:text-[#4338CA]">
                 Shri Mathuradas College of Science
               </h4>
-              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+              <p className="text-[13px] sm:text-[13.5px] font-medium text-[#64748B] leading-relaxed">
                 Higher Secondary · Class 11–12
               </p>
             </div>
           </div>
 
           {/* Milestone 03 (Current Institution) */}
-          <div className="relative">
-            <div className="edu-node-03">
-              <span className="text-[11px] font-mono font-medium text-[#2563EB] block mb-2">
+          <div className="group relative cursor-default">
+            {/* Step Number */}
+            <div className="edu-text-03">
+              <span className="text-[12px] sm:text-[12.5px] font-mono font-bold tracking-wider text-[#4F46E5] block mb-2.5">
                 03
               </span>
-              <div className="relative flex items-center mb-3">
-                <div className="w-2 h-2 rounded-full bg-[#2563EB] ring-2 ring-[#BFDBFE] relative z-10" />
+            </div>
+
+            {/* Node Row */}
+            <div className="relative flex items-center mb-4">
+              {/* Circular Node with persistent highlight */}
+              <div className="edu-node-03 relative z-10 w-5 h-5 rounded-full border-2 border-[#6366F1] bg-[#F5F3FF] flex items-center justify-center shadow-xs ring-4 ring-[#8B5CF6]/25 transition-all duration-300 group-hover:ring-[#8B5CF6]/40 group-hover:scale-110">
+                <div className="w-2 h-2 rounded-full bg-[#6366F1]" />
               </div>
             </div>
-            <div className="edu-text-03">
-              <h4 className="text-[13.5px] sm:text-[14px] font-semibold text-[#0F172A] leading-snug tracking-tight">
+
+            {/* Institution & Details */}
+            <div className="edu-text-03 space-y-1">
+              <h4 className="text-[16px] sm:text-[17px] font-bold text-[#1E1B2E] leading-snug tracking-tight transition-colors duration-200 group-hover:text-[#4338CA]">
                 YCCE
               </h4>
-              <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+              <p className="text-[13px] sm:text-[13.5px] font-medium text-[#64748B] leading-relaxed">
                 B.Tech CSE (IoT) · Present
               </p>
-              <span className="edu-current-badge inline-block mt-2 px-1.5 py-0.5 rounded text-[9.5px] font-mono font-medium text-[#2563EB] bg-[#EFF6FF] border border-[#BFDBFE]">
-                CURRENT
-              </span>
+
+              {/* Polished CURRENT indicator */}
+              <div className="edu-current-badge inline-flex items-center gap-1.5 mt-2.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
+                <span>CURRENT</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* MOBILE VERTICAL PROGRESSION (< 640px) */}
-        <div className="sm:hidden relative pl-6 py-1">
-          {/* Extremely thin vertical progression line */}
-          <div className="absolute left-[3.5px] top-2 bottom-3 w-[1px] bg-[#E2E8F0] overflow-hidden">
+        <div className="sm:hidden relative pl-9 py-2">
+          {/* Vertical Connecting Track */}
+          <div className="absolute left-[9px] top-4 bottom-5 w-[2px] bg-[#E2E8F0] overflow-hidden rounded-full">
             <div 
-              className="edu-line-mobile w-full bg-[#2563EB]/70 origin-top"
+              className="edu-line-mobile w-full bg-gradient-to-b from-[#4F6D8C] via-[#6366F1] to-[#8B5CF6] origin-top rounded-full"
               style={{ height: '0%' }}
             />
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Mobile Milestone 01 */}
-            <div className="relative">
-              <div className="edu-node-mobile-01 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#0F172A]" />
-              <div className="edu-text-mobile-01">
-                <span className="text-[10.5px] font-mono font-medium text-[#64748B] block">
+            <div className="group relative cursor-default">
+              <div className="edu-node-mobile-01 absolute -left-[36px] top-0.5 w-5 h-5 rounded-full border-[1.5px] border-[#94A3B8] bg-white flex items-center justify-center shadow-xs">
+                <div className="w-2 h-2 rounded-full bg-[#334155]" />
+              </div>
+              <div className="edu-text-mobile-01 space-y-1">
+                <span className="text-[12px] font-mono font-bold tracking-wider text-[#64748B] block">
                   01
                 </span>
-                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                <h4 className="text-[16px] font-bold text-[#1E1B2E] leading-snug tracking-tight">
                   St. Mary's School
                 </h4>
-                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                <p className="text-[13px] font-medium text-[#64748B] leading-relaxed">
                   Schooling · Class 10
                 </p>
               </div>
             </div>
 
             {/* Mobile Milestone 02 */}
-            <div className="relative">
-              <div className="edu-node-mobile-02 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#0F172A]" />
-              <div className="edu-text-mobile-02">
-                <span className="text-[10.5px] font-mono font-medium text-[#64748B] block">
+            <div className="group relative cursor-default">
+              <div className="edu-node-mobile-02 absolute -left-[36px] top-0.5 w-5 h-5 rounded-full border-[1.5px] border-[#94A3B8] bg-white flex items-center justify-center shadow-xs">
+                <div className="w-2 h-2 rounded-full bg-[#334155]" />
+              </div>
+              <div className="edu-text-mobile-02 space-y-1">
+                <span className="text-[12px] font-mono font-bold tracking-wider text-[#64748B] block">
                   02
                 </span>
-                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                <h4 className="text-[16px] font-bold text-[#1E1B2E] leading-snug tracking-tight">
                   Shri Mathuradas College of Science
                 </h4>
-                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                <p className="text-[13px] font-medium text-[#64748B] leading-relaxed">
                   Higher Secondary · Class 11–12
                 </p>
               </div>
             </div>
 
             {/* Mobile Milestone 03 */}
-            <div className="relative">
-              <div className="edu-node-mobile-03 absolute -left-[24px] top-1 w-2 h-2 rounded-full bg-[#2563EB] ring-2 ring-[#BFDBFE]" />
-              <div className="edu-text-mobile-03">
-                <span className="text-[10.5px] font-mono font-medium text-[#2563EB] block">
+            <div className="group relative cursor-default">
+              <div className="edu-node-mobile-03 absolute -left-[36px] top-0.5 w-5 h-5 rounded-full border-2 border-[#6366F1] bg-[#F5F3FF] ring-4 ring-[#8B5CF6]/25 flex items-center justify-center shadow-xs">
+                <div className="w-2 h-2 rounded-full bg-[#6366F1]" />
+              </div>
+              <div className="edu-text-mobile-03 space-y-1">
+                <span className="text-[12px] font-mono font-bold tracking-wider text-[#4F46E5] block">
                   03
                 </span>
-                <h4 className="text-[13.5px] font-semibold text-[#0F172A] leading-snug tracking-tight mt-0.5">
+                <h4 className="text-[16px] font-bold text-[#1E1B2E] leading-snug tracking-tight">
                   YCCE
                 </h4>
-                <p className="text-[11.5px] font-mono text-[#64748B] mt-0.5">
+                <p className="text-[13px] font-medium text-[#64748B] leading-relaxed">
                   B.Tech CSE (IoT) · Present
                 </p>
-                <span className="edu-badge-mobile inline-block mt-1.5 px-1.5 py-0.5 rounded text-[9.5px] font-mono font-medium text-[#2563EB] bg-[#EFF6FF] border border-[#BFDBFE]">
-                  CURRENT
-                </span>
+                <div className="edu-badge-mobile inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
+                  <span>CURRENT</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Quiet divider separating Education from My Journey */}
-        <div className="mt-8 sm:mt-10 border-b border-[#E2E8F0]" />
+        <div className="mt-10 sm:mt-12 border-b border-[#D5DFEB]" />
       </div>
 
       {/* ==================================================
