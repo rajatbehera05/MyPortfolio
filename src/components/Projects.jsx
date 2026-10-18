@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, ExternalLink, ArrowRight, Server, Globe } from 'lucide-react';
+import { CheckCircle2, ExternalLink, ArrowRight, Server } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 
 function GithubIcon({ className = "w-3.5 h-3.5" }) {
@@ -23,6 +23,29 @@ export default function Projects({ onOpenSpec }) {
   const [filter, setFilter] = useState('ALL'); // 'ALL' | 'SOFTWARE' | 'IOT'
 
   const projects = [
+    {
+      id: 'resqnet',
+      title: 'ResQnet',
+      tagline: 'Emergency Response & Disaster Coordination Platform',
+      categoryTag: 'FEATURED CASE STUDY',
+      category: 'Disaster Response · Full-Stack & Connected IoT',
+      isSoftware: true,
+      isIoT: true,
+      isFeatured: true,
+      description: 'An IoT-enabled disaster response platform designed to support emergency coordination, incident visualization, flood monitoring, SOS reporting, and relief request management through a centralized dashboard.',
+      highlights: [
+        'Interactive Nagpur map for incident visualization',
+        'SOS reporting and emergency incident tracking',
+        'Flood telemetry, monitoring, and alert visualization',
+        'Relief requests and emergency coordination',
+        'IoT integration with ESP32-based telemetry',
+      ],
+      techs: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Leaflet', 'Framer Motion', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'Neon', 'Docker', 'Render', 'Vercel', 'ESP32'],
+      previewType: 'resqnet',
+      image: '/assets/resqnet_preview.jpg',
+      github: 'https://github.com/rajatbehera05/STERNKRAFT-Sociathon',
+      liveDemo: 'https://sternkarft-resqnet.vercel.app/',
+    },
     {
       id: 'smart-parking',
       title: 'Smart Parking Management System',
@@ -61,7 +84,7 @@ export default function Projects({ onOpenSpec }) {
       previewType: 'collab-canvas',
       image: '/assets/workbench.jpg',
       github: 'https://github.com/rajatbehera05/omnisync',
-      liveDemo: 'https://omnisync-preview.vercel.app',
+      liveDemo: 'https://omnisync-preview.vercel.app/',
     },
     {
       id: 'nexusflow',
@@ -105,7 +128,7 @@ export default function Projects({ onOpenSpec }) {
 
   const filteredProjects = projects.filter((p) => {
     if (filter === 'SOFTWARE') return p.isSoftware;
-    if (filter === 'IOT') return !p.isSoftware;
+    if (filter === 'IOT') return p.isIoT || !p.isSoftware;
     return true;
   });
 
@@ -212,7 +235,11 @@ export default function Projects({ onOpenSpec }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.45, delay: pIdx * 0.05 }}
-                className="group relative overflow-hidden p-5 sm:p-6 lg:p-7 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/45 transition-all duration-300 shadow-[0_2px_12px_rgba(15,23,42,0.04)] hover:shadow-[0_12px_32px_rgba(37,99,235,0.08)] hover:-translate-y-0.5"
+                className={`group relative overflow-hidden p-5 sm:p-6 lg:p-7 rounded-2xl border transition-all duration-300 shadow-[0_2px_12px_rgba(15,23,42,0.04)] hover:shadow-[0_12px_32px_rgba(37,99,235,0.08)] hover:-translate-y-0.5 ${
+                  project.isFeatured
+                    ? 'border-[#2563EB]/40 bg-gradient-to-r from-white via-white to-[#F8FAFF]'
+                    : 'border-[#D5DFEB] bg-white hover:border-[#2563EB]/45'
+                }`}
               >
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center">
                   
@@ -221,8 +248,11 @@ export default function Projects({ onOpenSpec }) {
                     
                     {/* 1. Category / Tag Badges */}
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[10px] sm:text-[10.5px] font-bold px-2 py-0.5 rounded-md bg-[#E8F1FF] text-[#2563EB] border border-[#2563EB]/25 uppercase tracking-wider">
-                        {project.categoryTag}
+                      <span className="text-[10px] sm:text-[10.5px] font-bold px-2 py-0.5 rounded-md bg-[#E8F1FF] text-[#2563EB] border border-[#2563EB]/25 uppercase tracking-wider flex items-center gap-1.5">
+                        {project.isFeatured && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+                        )}
+                        <span>{project.categoryTag}</span>
                       </span>
                       <span className="text-[11px] sm:text-[11.5px] font-medium text-[#64748B]">
                         {project.category}
@@ -253,9 +283,15 @@ export default function Projects({ onOpenSpec }) {
                         <img
                           src={project.image}
                           alt={project.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover object-top"
                           loading="lazy"
                         />
+                        {project.id === 'resqnet' && (
+                          <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-white/95 text-[10px] text-red-600 font-bold shadow-2xs flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                            <span>Nagpur Grid</span>
+                          </div>
+                        )}
                         {project.id === 'smart-parking' && (
                           <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-white/95 text-[10px] text-[#2563EB] font-bold shadow-2xs">
                             ● Active Stream
@@ -333,7 +369,36 @@ export default function Projects({ onOpenSpec }) {
                       className="relative w-full h-[280px] lg:h-[310px] rounded-xl overflow-hidden border border-[#D5DFEB] bg-[#0F172A] shadow-2xs group/img cursor-pointer transition-all duration-300 group-hover:border-[#2563EB]/40"
                       title="Click to view details"
                     >
-                      {project.previewType === 'smart-parking' ? (
+                      {project.previewType === 'resqnet' ? (
+                        /* ResQnet Disaster Response Visual */
+                        <div className="relative w-full h-full">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover object-top group-hover/img:scale-[1.02] transition-transform duration-500"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0A101D]/80 via-transparent to-transparent pointer-events-none" />
+
+                          {/* Top Compact Status Badge */}
+                          <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-[#D5DFEB] text-[10px] text-red-600 font-bold flex items-center gap-1.5 shadow-2xs">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                            <span>Nagpur Incident Grid</span>
+                          </div>
+
+                          {/* Bottom Compact Telemetry Indicator */}
+                          <div className="absolute inset-x-2.5 bottom-2.5 px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur-md border border-[#D5DFEB] flex items-center justify-between text-[10px] font-mono shadow-2xs">
+                            <span className="text-[#334155] font-semibold flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
+                              ESP32 ➔ Flood Telemetry
+                            </span>
+                            <span className="text-emerald-600 font-bold flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              Active Dispatch
+                            </span>
+                          </div>
+                        </div>
+                      ) : project.previewType === 'smart-parking' ? (
                         /* Smart Parking Contained Visual */
                         <div className="relative w-full h-full">
                           <img

@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { RotateCcw } from 'lucide-react';
 import JourneyCube from './JourneyCube';
+import RealisticLightBulb from './RealisticLightBulb';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -459,14 +460,28 @@ export default function Journey({ isEmbedded = false }) {
           Three numbered milestones (01, 02, 03)
           ================================================== */}
       <div id="education-progression" className="pt-2 pb-8 sm:pb-10 relative z-10">
-        {/* Simple Section Header with improved letter spacing and contrast */}
-        <div className="mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]" />
-            <p className="text-[12px] font-mono font-bold tracking-[0.22em] text-[#334155] uppercase">
-              EDUCATION
-            </p>
+        {/* Redesigned Education Heading Area with Realistic 3D Animated Light Bulb */}
+        <div className="mb-8 sm:mb-11">
+          <div className="inline-flex items-center gap-2 text-[11px] sm:text-[11.5px] font-semibold tracking-wider text-[#4F46E5] uppercase mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1] animate-pulse" />
+            <span>Academic Foundation</span>
+            <span className="text-[#CBD5E1]">•</span>
+            <span className="text-[#64748B]">Milestones</span>
           </div>
+
+          <div className="flex items-center gap-3.5 sm:gap-4">
+            <RealisticLightBulb
+              size={50}
+              className="shrink-0 -mt-0.5 sm:-mt-1"
+            />
+            <h3 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[#0F172A] font-sans-editorial leading-none">
+              Education
+            </h3>
+          </div>
+
+          <p className="text-[14px] sm:text-[14.5px] text-[#475569] max-w-xl leading-relaxed mt-2 font-normal">
+            Formal academic milestones, foundational coursework, and ongoing engineering studies.
+          </p>
         </div>
 
         {/* DESKTOP & TABLET PROGRESSION (>= 640px) */}
