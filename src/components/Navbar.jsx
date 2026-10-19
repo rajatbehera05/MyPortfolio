@@ -17,6 +17,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
       const sections = [
         { id: 'about', name: 'About' },
         { id: 'tech', name: 'Tech' },
+        { id: 'achievements', name: 'Achievements' },
         { id: 'work', name: 'Projects' },
         { id: 'exploring', name: 'Milestones' },
       ];
@@ -37,6 +38,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
   const navLinks = [
     { name: 'About', href: '#about' },
     { name: 'Tech', href: '#tech' },
+    { name: 'Achievements', href: '#achievements' },
     { name: 'Projects', href: '#work' },
     { name: 'Milestones', href: '#exploring' },
   ];

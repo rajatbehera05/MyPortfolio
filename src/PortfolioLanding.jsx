@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import TechIWorkWith from './components/TechIWorkWith';
+import Achievements from './components/Achievements';
 import Projects from './components/Projects';
 import SkillsNetwork from './components/SkillsNetwork';
 import Contact from './components/Contact';
@@ -124,7 +125,10 @@ export default function PortfolioLanding() {
         {/* Section 3: Tech I Work With — Technology Constellation (Clean Light Mode) */}
         <TechIWorkWith />
 
-        {/* Section 4: Featured Projects */}
+        {/* Section 4: Achievements — Milestones That Shape My Journey */}
+        <Achievements />
+
+        {/* Section 5: Featured Projects */}
         <Projects onOpenSpec={handleOpenSpec} />
 
         {/* Section 5: Architecture & Skills Network */}
