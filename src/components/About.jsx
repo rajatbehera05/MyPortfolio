@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code2, Server, Cpu } from 'lucide-react';
 import Journey from './Journey';
 import WireframeCube from './WireframeCube';
 import CoreQualitiesOrbit from './CoreQualitiesOrbit';
@@ -10,7 +9,6 @@ import CoreQualitiesOrbit from './CoreQualitiesOrbit';
  * Integrates:
  * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT) + Core Qualities Orbit
  * 2. My Journey (Automatic Train Journey Animation & Milestones)
- * 3. Core Engineering Values (Thoughtful Craft, Reliable Systems, Hardware Fluency)
  */
 export default function About() {
   return (
@@ -96,62 +94,6 @@ export default function About() {
       >
         <Journey isEmbedded={true} />
       </motion.div>
-
-      {/* 3. Three Core Engineering Philosophy Values */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-8 sm:pt-10 border-t border-[#D5DFEB]/60 mt-8 sm:mt-10">
-        
-        {/* Value 1 */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-          className="group p-5 rounded-2xl border border-[#D5DFEB] bg-white shadow-xs hover:border-[#2563EB]/40 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08),0_0_16px_rgba(139,92,246,0.06)] transition-all duration-300 space-y-2.5 aurora-shimmer-effect"
-        >
-          <div className="w-9 h-9 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center border border-[#2563EB]/20 group-hover:scale-105 group-hover:bg-[#2563EB] group-hover:text-white transition-all duration-200">
-            <Code2 className="w-4.5 h-4.5" />
-          </div>
-          <h3 className="text-[14px] font-bold text-[#111827]">
-            Thoughtful Craft
-          </h3>
-          <p className="text-[12.5px] text-[#64748B] leading-relaxed">
-            Clean component hierarchy, strict contracts, and details that delight users.
-          </p>
-        </motion.div>
-
-        {/* Value 2 */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-          className="group p-5 rounded-2xl border border-[#D5DFEB] bg-white shadow-xs hover:border-[#2563EB]/40 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08),0_0_16px_rgba(139,92,246,0.06)] transition-all duration-300 space-y-2.5 aurora-shimmer-effect"
-        >
-          <div className="w-9 h-9 rounded-xl bg-[#F1ECFF] text-[#8B5CF6] flex items-center justify-center border border-[#8B5CF6]/20 group-hover:scale-105 group-hover:bg-[#8B5CF6] group-hover:text-white transition-all duration-200">
-            <Server className="w-4.5 h-4.5" />
-          </div>
-          <h3 className="text-[14px] font-bold text-[#111827]">
-            Reliable Systems
-          </h3>
-          <p className="text-[12.5px] text-[#64748B] leading-relaxed">
-            Designing services that stay fast, resilient, and observable under load.
-          </p>
-        </motion.div>
-
-        {/* Value 3 */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-          className="group p-5 rounded-2xl border border-[#D5DFEB] bg-white shadow-xs hover:border-[#2563EB]/40 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08),0_0_16px_rgba(139,92,246,0.06)] transition-all duration-300 space-y-2.5 aurora-shimmer-effect"
-        >
-          <div className="w-9 h-9 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center border border-[#2563EB]/20 group-hover:scale-105 group-hover:bg-[#2563EB] group-hover:text-white transition-all duration-200">
-            <Cpu className="w-4.5 h-4.5" />
-          </div>
-          <h3 className="text-[14px] font-bold text-[#111827]">
-            Hardware Fluency
-          </h3>
-          <p className="text-[12.5px] text-[#64748B] leading-relaxed">
-            Understanding constraints from memory buffers all the way to silicon.
-          </p>
-        </motion.div>
-
-      </div>
       </div>
     </section>
   );

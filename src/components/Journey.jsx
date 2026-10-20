@@ -581,13 +581,13 @@ export default function Journey({ isEmbedded = false }) {
                 YCCE
               </h4>
               <p className="text-[13px] sm:text-[13.5px] font-medium text-[#64748B] leading-relaxed">
-                B.Tech CSE (IoT) · Present
+                B.Tech CSE (IoT) · 2024 - 2025
               </p>
 
               {/* Polished CURRENT indicator */}
               <div className="edu-current-badge inline-flex items-center gap-1.5 mt-2.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
-                <span>CURRENT</span>
+                <span>2024 - 2025</span>
               </div>
             </div>
           </div>
@@ -653,11 +653,11 @@ export default function Journey({ isEmbedded = false }) {
                   YCCE
                 </h4>
                 <p className="text-[13px] font-medium text-[#64748B] leading-relaxed">
-                  B.Tech CSE (IoT) · Present
+                  B.Tech CSE (IoT) · 2024 - 2025
                 </p>
                 <div className="edu-badge-mobile inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
-                  <span>CURRENT</span>
+                  <span>2024 - 2025</span>
                 </div>
               </div>
             </div>

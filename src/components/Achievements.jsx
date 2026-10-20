@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import {
   Trophy,
   Code2,
@@ -124,8 +124,8 @@ const ACHIEVEMENTS_DATA = [
     shortTitle: 'B.Tech CSE (IoT)',
     category: 'Academics',
     badge: 'ACADEMICS',
-    year: '2022 - 2026',
-    subtitle: 'Undergraduate Degree · 2022 - 2026',
+    year: '2024 - 2025',
+    subtitle: 'Undergraduate Degree · 2024 - 2025',
     description:
       'Pursuing B.Tech in Computer Science & Engineering with specialization in Internet of Things. Maintained strong academic standing across semesters with deep focus on distributed software, algorithms, embedded systems, and telemetry.',
     bottomSnippet: 'CGPA: 8.51 (Sem 4) | SGPA: 8.74 (Sem 3) | 9.11 (Sem 2)',
@@ -303,6 +303,100 @@ export default function Achievements() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
+  const platformRef = useRef(null);
+  const isPlatformInView = useInView(platformRef, { once: true, amount: 0.3 });
+  const orangePathRef = useRef(null);
+  const orangeGlowPathRef = useRef(null);
+  const orangeHeadRef = useRef(null);
+  const hasSweepTriggeredRef = useRef(false);
+
+  const [isPlatformSweepComplete, setIsPlatformSweepComplete] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+
+  // Scroll-triggered orange light sweep activation along the elliptical platform
+  useEffect(() => {
+    if (!isPlatformInView || hasSweepTriggeredRef.current || isPlatformSweepComplete) return;
+    hasSweepTriggeredRef.current = true;
+
+    const path = orangePathRef.current;
+    const glowPath = orangeGlowPathRef.current;
+    const head = orangeHeadRef.current;
+    if (!path) return;
+
+    const totalLength = path.getTotalLength ? path.getTotalLength() : 912;
+
+    // Initialize stroke dash offsets to 100% hidden
+    path.style.strokeDasharray = `${totalLength}`;
+    path.style.strokeDashoffset = `${totalLength}`;
+    if (glowPath) {
+      glowPath.style.strokeDasharray = `${totalLength}`;
+      glowPath.style.strokeDashoffset = `${totalLength}`;
+    }
+
+    // Set start point at the apex (210, 1.2)
+    const startPt = path.getPointAtLength ? path.getPointAtLength(0) : { x: 210, y: 1.2 };
+    if (head) {
+      head.setAttribute('transform', `translate(${startPt.x}, ${startPt.y})`);
+      head.style.opacity = '1';
+    }
+
+    let animationFrameId;
+    const DURATION = 2200; // 2.2 seconds for an elegant, smooth revolution
+    let startTime = null;
+
+    const easeInOutCubic = (t) => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const rawProgress = Math.min(1, elapsed / DURATION);
+      const progress = easeInOutCubic(rawProgress);
+      const currentOffset = totalLength * (1 - progress);
+      const currentDist = progress * totalLength;
+
+      if (path) {
+        path.style.strokeDashoffset = `${currentOffset}`;
+      }
+      if (glowPath) {
+        glowPath.style.strokeDashoffset = `${currentOffset}`;
+      }
+
+      if (head && path.getPointAtLength) {
+        const pt = path.getPointAtLength(currentDist);
+        head.setAttribute('transform', `translate(${pt.x}, ${pt.y})`);
+      }
+
+      if (rawProgress < 1) {
+        animationFrameId = requestAnimationFrame(step);
+      } else {
+        // Complete the sweep: smoothly dissolve moving head and leave permanent glowing outline
+        if (head) {
+          head.style.transition = 'opacity 0.4s ease-out';
+          head.style.opacity = '0';
+        }
+        setIsPlatformSweepComplete(true);
+      }
+    };
+
+    // Small delay (150ms) so viewer catches the start of activation as it enters view
+    const timer = setTimeout(() => {
+      animationFrameId = requestAnimationFrame(step);
+    }, 150);
+
+    return () => {
+      clearTimeout(timer);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [isPlatformInView, isPlatformSweepComplete]);
+
 
   const selectedIndex = ACHIEVEMENTS_DATA.findIndex((item) => item.id === selectedId);
   const currentAchievement = ACHIEVEMENTS_DATA[selectedIndex] || ACHIEVEMENTS_DATA[0];
@@ -450,8 +544,9 @@ export default function Achievements() {
               className="relative w-full max-w-[480px] sm:max-w-[510px] h-[370px] sm:h-[400px] flex items-center justify-center"
               style={{ perspective: 1100 }}
             >
-              {/* Soft Illuminated Elliptical Platform with Ambient Pulse */}
+              {/* Soft Illuminated Elliptical Platform Grounding the Composition */}
               <motion.div
+                ref={platformRef}
                 animate={{
                   scale: [1, 1.02, 1],
                   opacity: [0.75, 0.9, 0.75],
@@ -467,7 +562,140 @@ export default function Achievements() {
                   boxShadow: '0 0 35px rgba(165, 180, 252, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.8)',
                   border: '1px solid rgba(199, 210, 254, 0.45)',
                 }}
-              />
+              >
+                {/* Scroll-Triggered Orange Light Sweep SVG Overlay with Controlled Glitter */}
+                <svg
+                  viewBox="0 0 420 125"
+                  preserveAspectRatio="none"
+                  className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
+                >
+                  <defs>
+                    <linearGradient id="platformOrangeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#EA580C" stopOpacity="0.95" />
+                      <stop offset="35%" stopColor="#F97316" stopOpacity="1" />
+                      <stop offset="70%" stopColor="#F59E0B" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#FBBF24" stopOpacity="0.95" />
+                    </linearGradient>
+
+                    {/* Tightly confined halo with minimal blur */}
+                    <filter id="orangeTightHalo" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="1.0" />
+                    </filter>
+
+                    <filter id="orangeSparkGlow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#F97316" floodOpacity="0.85" />
+                    </filter>
+                  </defs>
+
+                  {/* Progressive Trail: Tightly Confined Underlying Glow */}
+                  <path
+                    ref={orangeGlowPathRef}
+                    d="M 210, 1.2 A 208.8 61.3 0 1 1 209.99 1.2 Z"
+                    fill="none"
+                    stroke="rgba(249, 115, 22, 0.22)"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                    style={{
+                      strokeDasharray: isPlatformSweepComplete ? 'none' : '912',
+                      strokeDashoffset: isPlatformSweepComplete ? '0' : '912',
+                      filter: 'url(#orangeTightHalo)',
+                    }}
+                  />
+
+                  {/* Progressive Trail: Thin, Crisp Orange-to-Amber Line */}
+                  <path
+                    ref={orangePathRef}
+                    d="M 210, 1.2 A 208.8 61.3 0 1 1 209.99 1.2 Z"
+                    fill="none"
+                    stroke="url(#platformOrangeGradient)"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                    style={{
+                      strokeDasharray: isPlatformSweepComplete ? 'none' : '912',
+                      strokeDashoffset: isPlatformSweepComplete ? '0' : '912',
+                      filter: isPlatformSweepComplete
+                        ? 'drop-shadow(0 0 2.5px rgba(249, 115, 22, 0.4))'
+                        : 'drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))',
+                    }}
+                  />
+
+                  {/* Independent Star Sparkles (scattered near the platform, twinkling independently) */}
+                  <g className="pointer-events-none">
+                    {[
+                      // Left flank (slightly outside the rim)
+                      { id: 'sp-1', x: 34, y: 50, size: 3.6, color: '#FFFBEB', duration: 3.6, delay: 0.5, repeatDelay: 2.8 },
+                      // Left flank (slightly inside the rim)
+                      { id: 'sp-2', x: 64, y: 76, size: 3.0, color: '#FEF3C7', duration: 4.0, delay: 1.9, repeatDelay: 3.2 },
+                      // Bottom-left curve (rim edge)
+                      { id: 'sp-3', x: 106, y: 111, size: 3.4, color: '#FDE68A', duration: 3.3, delay: 2.7, repeatDelay: 2.5 },
+                      // Bottom-left center lip
+                      { id: 'sp-4', x: 154, y: 122, size: 2.8, color: '#FFFBEB', duration: 3.7, delay: 0.2, repeatDelay: 3.5 },
+                      // Bottom-right center lip
+                      { id: 'sp-5', x: 266, y: 122, size: 3.0, color: '#FED7AA', duration: 3.5, delay: 1.3, repeatDelay: 2.9 },
+                      // Bottom-right curve (rim edge)
+                      { id: 'sp-6', x: 314, y: 112, size: 3.4, color: '#FFFBEB', duration: 4.1, delay: 2.3, repeatDelay: 2.3 },
+                      // Right flank (slightly inside the rim)
+                      { id: 'sp-7', x: 356, y: 74, size: 3.2, color: '#FEF3C7', duration: 3.6, delay: 0.8, repeatDelay: 3.0 },
+                      // Right flank (slightly outside the rim)
+                      { id: 'sp-8', x: 386, y: 48, size: 3.6, color: '#FDBA74', duration: 3.8, delay: 2.4, repeatDelay: 2.6 },
+                    ].map((sp) => {
+                      const half = sp.size / 2;
+                      return (
+                        <motion.g
+                          key={sp.id}
+                          transform={`translate(${sp.x}, ${sp.y})`}
+                          initial={{ opacity: 0, scale: 0.3 }}
+                          animate={
+                            isPlatformInView
+                              ? {
+                                  opacity: [0, 0, 0.85, 1, 0.25, 0.9, 0, 0],
+                                  scale: [0.3, 0.3, 1, 1.15, 0.75, 1.05, 0.3, 0.3],
+                                }
+                              : { opacity: 0, scale: 0.3 }
+                          }
+                          transition={{
+                            duration: sp.duration,
+                            delay: sp.delay,
+                            repeat: Infinity,
+                            repeatDelay: sp.repeatDelay,
+                            ease: 'easeInOut',
+                          }}
+                        >
+                          {/* Micro localized warm glow behind star */}
+                          <circle r={sp.size * 0.75} fill={sp.color} opacity="0.25" filter="url(#orangeTightHalo)" />
+                          {/* Crisp 4-point star glint */}
+                          <path
+                            d={`M 0,${-half} Q 0,0 ${half},0 Q 0,0 0,${half} Q 0,0 ${-half},0 Q 0,0 0,${-half} Z`}
+                            fill={sp.color}
+                            style={{ filter: `drop-shadow(0 0 1.5px ${sp.color})` }}
+                          />
+                          {/* Specular bright center core */}
+                          <circle r="0.5" fill="#FFFFFF" />
+                        </motion.g>
+                      );
+                    })}
+                  </g>
+
+                  {/* Traveling Leading Light Spark (compact, bright, dissolves smoothly upon completion) */}
+                  <g
+                    ref={orangeHeadRef}
+                    style={{
+                      opacity: 0,
+                      willChange: 'transform, opacity',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {/* Small confined ambient halo */}
+                    <circle r="4.5" fill="rgba(251, 146, 60, 0.25)" filter="url(#orangeTightHalo)" />
+                    {/* Vivid warm orange mid spark */}
+                    <circle r="2.2" fill="#EA580C" filter="url(#orangeSparkGlow)" />
+                    {/* Incandescent white-amber core */}
+                    <circle r="1.0" fill="#FFFBEB" />
+                  </g>
+                </svg>
+              </motion.div>
 
               {/* Gentle Localized Reflection Beneath Central Card */}
               <div className="absolute bottom-6 sm:bottom-5 left-1/2 -translate-x-1/2 w-36 sm:w-44 h-4 bg-indigo-500/12 rounded-full blur-md pointer-events-none z-10" />

@@ -110,7 +110,7 @@ export default function PortfolioLanding() {
             timeEnv={timeEnv}
           />
 
-          {/* Section 2: About Me (including Train Journey & 3 Philosophy Cards) */}
+          {/* Section 2: About Me (including Train Journey) */}
           <About />
 
           {/* Soft atmospheric gradient transition at bottom of About leading into Tech section */}
