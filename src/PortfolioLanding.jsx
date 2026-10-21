@@ -8,7 +8,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import TechIWorkWith from './components/TechIWorkWith';
 import Achievements from './components/Achievements';
-import Projects from './components/Projects';
+import ProjectsEntry from './components/ProjectsEntry';
 import SkillsNetwork from './components/SkillsNetwork';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
@@ -128,8 +128,8 @@ export default function PortfolioLanding() {
         {/* Section 4: Achievements — Milestones That Shape My Journey */}
         <Achievements />
 
-        {/* Section 5: Featured Projects */}
-        <Projects onOpenSpec={handleOpenSpec} />
+        {/* Section 5: Projects Entry (Art-directed serif heading + Explore CTA) */}
+        <ProjectsEntry />
 
         {/* Section 5: Architecture & Skills Network */}
         <SkillsNetwork />

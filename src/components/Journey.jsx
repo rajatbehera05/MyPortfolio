@@ -474,7 +474,7 @@ export default function Journey({ isEmbedded = false }) {
               size={50}
               className="shrink-0 -mt-0.5 sm:-mt-1"
             />
-            <h3 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[#0F172A] font-sans-editorial leading-none">
+            <h3 className="font-editorial-serif text-[32px] sm:text-[44px] lg:text-[50px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
               Education
             </h3>
           </div>
@@ -684,7 +684,7 @@ export default function Journey({ isEmbedded = false }) {
 
           <div className="flex items-center gap-3.5 sm:gap-4 relative z-20 overflow-visible">
             <JourneyCube className="mr-0.5 sm:mr-1" />
-            <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-bold tracking-tight text-[#111827] font-sans-editorial">
+            <h3 className="font-editorial-serif text-[30px] sm:text-[40px] lg:text-[48px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
               MY JOURNEY
             </h3>
           </div>

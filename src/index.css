@@ -49,6 +49,11 @@
   font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 }
 
+.font-editorial-serif {
+  font-family: 'Playfair Display', 'Instrument Serif', 'Cormorant Garamond', 'Didot', 'Bodoni MT', Georgia, serif;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
 /* Subtle Arctic Aurora Hairline Grid */
 .arctic-grid-subtle {
   background-size: 44px 44px;

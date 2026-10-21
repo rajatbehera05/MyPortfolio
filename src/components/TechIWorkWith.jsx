@@ -242,7 +242,7 @@ export default function TechIWorkWith() {
               floating={false}
               className="shrink-0"
             />
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#111827] font-sans-editorial">
+            <h2 className="font-editorial-serif text-[34px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
               Tech I Work With
             </h2>
           </div>

@@ -496,7 +496,7 @@ export default function Achievements() {
               </div>
 
               {/* Headline with natural two-line editorial wrapping */}
-              <h2 className="text-3xl sm:text-[34px] xl:text-[38px] font-bold tracking-[-0.025em] text-[#0F172A] leading-[1.2]">
+              <h2 className="font-editorial-serif text-[34px] sm:text-[44px] md:text-[50px] xl:text-[56px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-[1.15]">
                 Milestones That Shape{' '}
                 <span className="bg-gradient-to-r from-[#3730A3] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">
                   My Journey

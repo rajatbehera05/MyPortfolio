@@ -163,8 +163,8 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.25 }}
-                  className={`text-4xl sm:text-5xl lg:text-[56px] font-bold tracking-tight font-sans-editorial leading-[1.12] ${
-                    isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'
+                  className={`text-4xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium tracking-tight font-editorial-serif leading-[1.12] ${
+                    isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                   }`}
                 >
                   Building{' '}
