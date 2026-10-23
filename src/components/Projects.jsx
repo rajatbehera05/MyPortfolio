@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, ExternalLink, ArrowRight, Server } from 'lucide-react';
+import { CheckCircle2, ExternalLink, ArrowRight } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 
 function GithubIcon({ className = "w-3.5 h-3.5" }) {
@@ -53,6 +53,7 @@ export default function Projects({ onOpenSpec }) {
       categoryTag: 'FEATURED CASE STUDY',
       category: 'Connected IoT · Embedded Systems',
       isSoftware: false,
+      isIoT: true,
       description: 'An IoT-enabled parking system combining ESP32-based vehicle detection, real-time occupancy monitoring and automated gate control.',
       highlights: [
         'Real-time parking occupancy detection',
@@ -65,64 +66,6 @@ export default function Projects({ onOpenSpec }) {
       image: '/assets/smart_parking_system.jpg',
       github: 'https://github.com/rajatbehera05/Model',
       liveDemo: 'https://frontend-seven-ashen-34.vercel.app/',
-    },
-    {
-      id: 'omnisync',
-      title: 'OmniSync',
-      tagline: 'Real-Time Collaborative Workspace & State Sync Engine',
-      categoryTag: 'FULL-STACK CASE STUDY',
-      category: 'Real-Time Web · Distributed State',
-      isSoftware: true,
-      description: 'A multiplayer collaborative workspace engineered with CRDTs and WebSockets for conflict-free multi-user state synchronization.',
-      highlights: [
-        'Sub-15ms sync latency over persistent WebSockets',
-        'Optimistic client mutations with local undo/redo',
-        'Deterministic CRDT conflict resolution',
-        'Redis Pub/Sub multi-pod event distribution',
-      ],
-      techs: ['React 19', 'TypeScript', 'Node.js', 'WebSockets', 'Redis', 'PostgreSQL', 'Docker'],
-      previewType: 'collab-canvas',
-      image: '/assets/workbench.jpg',
-      github: 'https://github.com/rajatbehera05/omnisync',
-      liveDemo: 'https://omnisync-preview.vercel.app/',
-    },
-    {
-      id: 'nexusflow',
-      title: 'NexusFlow',
-      tagline: 'High-Throughput Microservice API Gateway & Observability',
-      categoryTag: 'BACKEND CASE STUDY',
-      category: 'Cloud & Distributed Systems',
-      isSoftware: true,
-      description: 'An asynchronous API gateway handling high request volumes with dynamic token-bucket rate limiting and distributed telemetry.',
-      highlights: [
-        '150k+ req/min throughput with sub-10ms P99 latency',
-        'Multi-tier Redis caching achieving 94.6% hit rate',
-        'End-to-end OpenTelemetry distributed trace propagation',
-        'Dynamic token-bucket rate limiting & circuit breakers',
-      ],
-      techs: ['FastAPI', 'Python', 'Redis Cluster', 'Docker', 'OpenTelemetry', 'PostgreSQL'],
-      previewType: 'api-dashboard',
-      image: '/assets/workbench.jpg',
-      github: 'https://github.com/rajatbehera05/nexusflow',
-    },
-    {
-      id: 'edgevision',
-      title: 'EdgeVision',
-      tagline: 'On-Device TinyML Classifier & Cloud Diagnostics Portal',
-      categoryTag: 'EDGE AI CASE STUDY',
-      category: 'Applied TinyML · Embedded Systems',
-      isSoftware: false,
-      description: 'An on-device INT8 quantized neural network running on ARM Cortex microcontrollers for vibration anomaly classification.',
-      highlights: [
-        'Deep neural network compressed to 84 KB SRAM budget',
-        'Sub-15ms on-device inference without cloud dependency',
-        'Real-time acoustic fault detection at 97.2% precision',
-        'Live spectral waterfall diagnostics portal via WebSockets',
-      ],
-      techs: ['ARM Cortex', 'TinyML', 'PyTorch', 'Python', 'WebSockets', 'React'],
-      previewType: 'photo',
-      image: '/assets/parking_node.jpg',
-      github: 'https://github.com/rajatbehera05/edgevision',
     },
   ];
 
@@ -398,7 +341,7 @@ export default function Projects({ onOpenSpec }) {
                             </span>
                           </div>
                         </div>
-                      ) : project.previewType === 'smart-parking' ? (
+                      ) : (
                         /* Smart Parking Contained Visual */
                         <div className="relative w-full h-full">
                           <img
@@ -422,71 +365,6 @@ export default function Projects({ onOpenSpec }) {
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                               Active Stream
                             </span>
-                          </div>
-                        </div>
-                      ) : project.previewType === 'collab-canvas' ? (
-                        /* OmniSync Compact Workspace UI */
-                        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-white to-[#F8FAFC] select-none text-[11px]">
-                          <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
-                            <div className="flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
-                              <span className="font-bold text-[#111827]">OmniSync Workspace</span>
-                            </div>
-                            <span className="text-[10px] text-emerald-600 font-bold">5 Online</span>
-                          </div>
-
-                          <div className="relative my-auto h-24 rounded-lg border border-dashed border-[#CBD5E1] bg-[#F1F5F9]/50 flex items-center justify-center p-2.5">
-                            <div className="p-2.5 rounded-lg bg-white border border-[#D5DFEB] shadow-2xs text-center">
-                              <div className="text-[11px] font-bold text-[#111827]">CRDT Replicated Document</div>
-                              <div className="text-[9.5px] text-emerald-600 font-semibold mt-0.5">● Deterministic Sync (12ms)</div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2 border-t border-[#E2E8F0] text-[10px] text-[#64748B]">
-                            <span>WebSockets Stream</span>
-                            <span className="text-[#2563EB] font-bold">Zero Conflict</span>
-                          </div>
-                        </div>
-                      ) : project.previewType === 'api-dashboard' ? (
-                        /* NexusFlow Compact Route Log */
-                        <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-white to-[#F8FAFC] select-none text-[11px]">
-                          <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
-                            <div className="flex items-center gap-1.5">
-                              <Server className="w-3 h-3 text-[#2563EB]" />
-                              <span className="font-bold text-[#111827]">NexusFlow Gateway</span>
-                            </div>
-                            <span className="text-[9.5px] text-emerald-600 font-bold px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200">
-                              99.99% Uptime
-                            </span>
-                          </div>
-
-                          <div className="space-y-1.5 my-auto">
-                            <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E2E8F0] shadow-2xs text-[10px]">
-                              <span className="font-mono text-[#111827] truncate">POST /api/v1/auth/session</span>
-                              <span className="text-emerald-600 font-bold ml-1">200 OK</span>
-                            </div>
-                            <div className="flex items-center justify-between p-2 rounded-lg bg-white border border-[#E2E8F0] shadow-2xs text-[10px]">
-                              <span className="font-mono text-[#111827] truncate">GET /api/v1/telemetry</span>
-                              <span className="text-emerald-600 font-bold ml-1">1.8ms</span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2 border-t border-[#E2E8F0] text-[10px] text-[#64748B]">
-                            <span>16 Async Workers</span>
-                            <span className="text-[#2563EB] font-bold">OTel Traced</span>
-                          </div>
-                        </div>
-                      ) : (
-                        /* Edge AI Photo Preview */
-                        <div className="relative w-full h-full">
-                          <img
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-full object-cover group-hover/img:scale-[1.02] transition-transform duration-500"
-                            loading="lazy"
-                          />
-                          <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md border border-[#D5DFEB] text-[10px] text-[#2563EB] font-bold shadow-2xs">
-                            Physical Prototype
                           </div>
                         </div>
                       )}

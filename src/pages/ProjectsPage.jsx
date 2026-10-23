@@ -9,9 +9,9 @@ import Modals from '../components/Modals';
  * ProjectsPage — Dedicated /projects page displaying the complete Featured Projects showcase.
  * 
  * Preserves:
- * - All project cards (ResQnet, Smart Parking, OmniSync, NexusFlow, EdgeVision)
+ * - Real project showcase cards (ResQnet, Smart Parking Management System)
  * - Category filters (All Work, Web & Full-Stack, Connected IoT)
- * - Live previews, photo nodes, and screenshots
+ * - Live previews, telemetry nodes, and screenshots
  * - Technology tags and architecture metrics
  * - GitHub links, Live Demo buttons, and Spec Sheet modal inspection
  */
