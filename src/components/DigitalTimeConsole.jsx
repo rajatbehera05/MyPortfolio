@@ -2,14 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * Weekday indicators (Monday to Sunday)
+ * Day names (Monday to Sunday)
  */
-const WEEKDAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-/**
- * Clean local time and calendar data helper
- */
 /**
  * Clean local time and calendar data helper
  */
@@ -189,9 +185,22 @@ export default function DigitalTimeConsole({
           {/* RIGHT ZONE: [ SUN ICON ] / Weekdays (M T W T F S S)               */}
           {/* ================================================================= */}
           <div className="flex flex-col items-center justify-center gap-1">
-            {/* Minimal Elegant Sun / Atmosphere Icon */}
+            {/* Minimal Elegant Sun / Moon / Atmosphere Icon */}
             <div className="flex items-center justify-center">
-              {timeState === 'evening' ? (
+              {isNight || timeState === 'night' ? (
+                <svg
+                  className="w-3.5 h-3.5 text-[#C084FC] drop-shadow-[0_0_4px_rgba(192,132,252,0.45)]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              ) : timeState === 'evening' ? (
                 <svg
                   className="w-3.5 h-3.5 text-[#F43F5E] drop-shadow-[0_0_4px_rgba(244,63,94,0.35)]"
                   viewBox="0 0 24 24"
@@ -253,46 +262,19 @@ export default function DigitalTimeConsole({
               )}
             </div>
 
-            {/* Weekday Row: M T W T F S S with Active Day Highlight */}
-            <div className="flex items-center gap-[4.5px] sm:gap-[5.5px]">
-              {WEEKDAYS.map((day, idx) => {
-                const isActive = idx === timeData.dayIndex;
-                return (
-                  <div
-                    key={`${day}-${idx}`}
-                    className="flex flex-col items-center justify-center"
-                    title={DAY_NAMES[idx]}
-                  >
-                    <span
-                      className={`text-[8.5px] sm:text-[9.5px] leading-none transition-all duration-200 ${
-                        isActive
-                          ? isNight
-                            ? 'text-[#F472B6] font-bold scale-110 drop-shadow-[0_0_3px_rgba(244,114,182,0.5)]'
-                            : 'text-[#EC4899] font-bold scale-110'
-                          : isNight
-                          ? 'text-[#64748B] font-medium'
-                          : 'text-[#94A3B8] font-medium'
-                      }`}
-                      style={{
-                        fontFamily: "'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif",
-                      }}
-                    >
-                      {day}
-                    </span>
-
-                    {/* Active Accent Dot */}
-                    <span
-                      className={`w-[3px] h-[3px] rounded-full mt-[2px] transition-all duration-200 ${
-                        isActive
-                          ? 'bg-[#EC4899] shadow-[0_0_4px_rgba(236,72,153,0.8)] opacity-100 scale-100'
-                          : 'bg-transparent opacity-0 scale-50'
-                      }`}
-                      aria-hidden="true"
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            {/* Current Day Name */}
+            <span
+              className={`text-[10.5px] sm:text-[11.5px] font-bold tracking-tight leading-none transition-colors duration-200 ${
+                isNight
+                  ? 'text-[#F472B6] drop-shadow-[0_0_3px_rgba(244,114,182,0.4)]'
+                  : 'text-[#EC4899]'
+              }`}
+              style={{
+                fontFamily: "'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif",
+              }}
+            >
+              {timeData.dayName}
+            </span>
           </div>
         </div>
       </div>

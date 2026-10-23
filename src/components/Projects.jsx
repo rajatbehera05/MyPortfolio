@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, ExternalLink, ArrowRight } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import WireframeCube from './WireframeCube';
-
-function GithubIcon({ className = "w-3.5 h-3.5" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-    </svg>
-  );
-}
+import LiquidButton from './LiquidButton';
 
 /**
  * Projects Section: Compact Professional Card Showcase
@@ -265,42 +258,45 @@ export default function Projects({ onOpenSpec }) {
                       ))}
                     </div>
 
-                    {/* 6. Actions: GitHub / Live Demo / Details → */}
+                    {/* 6. Actions: GitHub / Live Demo / Details */}
                     <div className="flex items-center gap-2 pt-2.5 border-t border-[#F1F5F9]">
                       {project.github && (
-                        <a
+                        <LiquidButton
+                          as="a"
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11.5px] font-semibold text-[#111827] hover:text-[#2563EB] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] hover:border-[#2563EB]/40 shadow-2xs transition-all"
-                          title="View Source on GitHub"
+                          variant="secondary"
+                          size="sm"
+                          aria-label={`View ${project.title} source on GitHub`}
                         >
-                          <GithubIcon className="w-3 h-3" />
-                          <span>GitHub</span>
-                        </a>
+                          GitHub
+                        </LiquidButton>
                       )}
 
                       {project.liveDemo && (
-                        <a
+                        <LiquidButton
+                          as="a"
                           href={project.liveDemo}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[11.5px] font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-2xs hover:shadow-xs transition-all"
-                          title="Open Live Demo"
+                          variant="primary"
+                          size="sm"
+                          aria-label={`Open ${project.title} Live Demo`}
                         >
-                          <ExternalLink className="w-3 h-3" />
-                          <span>Live Demo</span>
-                        </a>
+                          Live Demo
+                        </LiquidButton>
                       )}
 
-                      <button
-                        type="button"
+                      <LiquidButton
+                        variant="subtle"
+                        size="sm"
                         onClick={() => onOpenSpec && onOpenSpec(project)}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11.5px] font-semibold text-[#64748B] hover:text-[#2563EB] hover:bg-[#E8F1FF] border border-transparent hover:border-[#2563EB]/20 cursor-pointer transition-colors ml-auto sm:ml-0"
+                        aria-label={`View ${project.title} details`}
+                        className="ml-auto sm:ml-0"
                       >
-                        <span>Details</span>
-                        <ArrowRight className="w-3 h-3 text-[#2563EB] transition-transform group-hover:translate-x-0.5" />
-                      </button>
+                        Details
+                      </LiquidButton>
                     </div>
 
                   </div>

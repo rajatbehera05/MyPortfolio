@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, FileDown, CheckCircle2, Sparkles, BookOpen, Layers, ExternalLink } from 'lucide-react';
-
-function GithubIcon({ className = "w-3.5 h-3.5" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-    </svg>
-  );
-}
+import { X, CheckCircle2, Sparkles, BookOpen, Layers } from 'lucide-react';
+import LiquidButton from './LiquidButton';
 
 /**
  * Modals Component — Arctic Aurora Edition
@@ -94,24 +87,25 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#F1F5F9]">
-                <button
-                  type="button"
+                <LiquidButton
+                  variant="secondary"
+                  size="sm"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-[13px] font-medium border border-[#D5DFEB] text-[#4B5563] hover:text-[#111827] hover:bg-[#F8FAFC] cursor-pointer transition-colors"
+                  aria-label="Close Curriculum Vitae"
                 >
                   Close
-                </button>
-                <button
-                  type="button"
+                </LiquidButton>
+                <LiquidButton
+                  variant="primary"
+                  size="sm"
                   onClick={() => {
                     alert('Curriculum Vitae Download Initiated: Rajat_Behera_Resume.pdf');
                     onClose();
                   }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_12px_rgba(37,99,235,0.3)] transition-all cursor-pointer"
+                  aria-label="Download PDF"
                 >
-                  <FileDown className="w-4 h-4" />
-                  <span>Download PDF</span>
-                </button>
+                  Download PDF
+                </LiquidButton>
               </div>
             </motion.div>
           )}
@@ -197,36 +191,41 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
               <div className="flex items-center justify-between pt-3 border-t border-[#F1F5F9]">
                 <div className="flex items-center gap-2">
                   {systemSpec.github && (
-                    <a
+                    <LiquidButton
+                      as="a"
                       href={systemSpec.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-medium text-[#111827] hover:text-[#2563EB] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] transition-colors"
+                      variant="secondary"
+                      size="sm"
+                      aria-label="View on GitHub"
                     >
-                      <GithubIcon className="w-3.5 h-3.5" />
-                      <span>GitHub</span>
-                    </a>
+                      GitHub
+                    </LiquidButton>
                   )}
                   {systemSpec.liveDemo && (
-                    <a
+                    <LiquidButton
+                      as="a"
                       href={systemSpec.liveDemo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_10px_rgba(37,99,235,0.25)] transition-all"
+                      variant="primary"
+                      size="sm"
+                      aria-label="Open Live Demo"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      <span>Live Demo</span>
-                    </a>
+                      Live Demo
+                    </LiquidButton>
                   )}
                 </div>
 
-                <button
-                  type="button"
+                <LiquidButton
+                  variant="secondary"
+                  size="sm"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all cursor-pointer"
+                  aria-label="Close Overview"
                 >
                   Close
-                </button>
+                </LiquidButton>
               </div>
             </motion.div>
           )}

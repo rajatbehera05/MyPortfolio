@@ -4,6 +4,7 @@ import { ArrowLeft, Send } from 'lucide-react';
 import ConnectedNetworkBackground from '../components/ConnectedNetworkBackground';
 import Projects from '../components/Projects';
 import Modals from '../components/Modals';
+import LiquidButton from '../components/LiquidButton';
 
 /**
  * ProjectsPage — Dedicated /projects page displaying the complete Featured Projects showcase.
@@ -45,17 +46,14 @@ export default function ProjectsPage() {
         <div className="pointer-events-auto transition-all duration-300 w-full max-w-[1240px] mx-4 sm:mx-6 px-4 sm:px-6 h-14 sm:h-15 bg-white/90 backdrop-blur-xl border border-[#D5DFEB] shadow-[0_10px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(15,23,42,0.04)] rounded-2xl flex items-center justify-between">
           
           {/* Back to Home CTA */}
-          <button
-            type="button"
+          <LiquidButton
+            variant="secondary"
+            size="sm"
             onClick={() => navigate('/')}
-            className="group inline-flex items-center gap-2.5 text-[13px] sm:text-[14px] font-semibold text-[#334155] hover:text-[#2563EB] transition-colors cursor-pointer py-1.5 px-2 rounded-lg"
-            aria-label="Back to Portfolio Homepage"
+            aria-label="Back to Portfolio"
           >
-            <span className="w-7 h-7 rounded-lg bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center group-hover:-translate-x-1 transition-transform duration-200">
-              <ArrowLeft className="w-4 h-4" />
-            </span>
-            <span>Back to Portfolio</span>
-          </button>
+            Back to Portfolio
+          </LiquidButton>
 
           {/* Right Brand Monogram */}
           <button

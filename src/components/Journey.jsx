@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { RotateCcw } from 'lucide-react';
 import JourneyCube from './JourneyCube';
 import RealisticLightBulb from './RealisticLightBulb';
+import LiquidButton from './LiquidButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -581,13 +582,13 @@ export default function Journey({ isEmbedded = false }) {
                 YCCE
               </h4>
               <p className="text-[13px] sm:text-[13.5px] font-medium text-[#64748B] leading-relaxed">
-                B.Tech CSE (IoT) · 2024 - 2025
+                B.Tech CSE (IoT) · 2024 - 2028
               </p>
 
               {/* Polished CURRENT indicator */}
               <div className="edu-current-badge inline-flex items-center gap-1.5 mt-2.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
-                <span>2024 - 2025</span>
+                <span>2024 - 2028</span>
               </div>
             </div>
           </div>
@@ -653,11 +654,11 @@ export default function Journey({ isEmbedded = false }) {
                   YCCE
                 </h4>
                 <p className="text-[13px] font-medium text-[#64748B] leading-relaxed">
-                  B.Tech CSE (IoT) · 2024 - 2025
+                  B.Tech CSE (IoT) · 2024 - 2028
                 </p>
                 <div className="edu-badge-mobile inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider text-[#4338CA] bg-[#EEF2FF] border border-[#C7D2FE] shadow-[0_1px_3px_rgba(79,70,229,0.06)]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5] animate-pulse" />
-                  <span>2024 - 2025</span>
+                  <span>2024 - 2028</span>
                 </div>
               </div>
             </div>
@@ -700,15 +701,16 @@ export default function Journey({ isEmbedded = false }) {
 
         {/* Dynamic Train Status Pill */}
         <div className="flex items-center gap-3">
-          <button
-            type="button"
+          <LiquidButton
+            variant="subtle"
+            size="sm"
             onClick={handleReplay}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[12px] font-mono font-medium text-[#475569] bg-white border border-[#DCE4EF] hover:text-[#2563EB] hover:border-[#2563EB]/40 hover:shadow-xs transition-all cursor-pointer"
             title="Replay Train Journey"
+            aria-label="Replay Train Journey"
+            className="font-mono text-[12px]"
           >
-            <RotateCcw className={`w-3.5 h-3.5 ${isTrainMoving ? 'animate-spin text-[#2563EB]' : 'text-[#64748B]'}`} />
-            <span>{statusText}</span>
-          </button>
+            {statusText}
+          </LiquidButton>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import LiquidButton from './LiquidButton';
 
 /**
  * Modern Floating Arctic Aurora Navigation Bar
@@ -152,17 +153,15 @@ export default function Navbar({ onConnectClick, isNight = false }) {
           </nav>
 
           {/* Action: Get in touch */}
-          <button
-            type="button"
+          <LiquidButton
+            variant="nav"
+            size="sm"
+            isNight={isNightNavbar}
             onClick={handleConnect}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold hover:-translate-y-0.5 transition-all duration-200 cursor-pointer shadow-xs ${
-              isNightNavbar
-                ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 hover:text-[#4F8CFF]'
-                : 'text-[#0F172A] bg-[#EDF2F7] hover:bg-[#E8F1FF] border border-[#D5DFEB] hover:border-[#2563EB]/40 hover:text-[#2563EB]'
-            }`}
+            aria-label="Get in touch"
           >
-            <span>Get in touch</span>
-          </button>
+            Get in touch
+          </LiquidButton>
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -214,13 +213,15 @@ export default function Navbar({ onConnectClick, isNight = false }) {
                 </a>
               ))}
               <div className={`pt-2 border-t ${isNightNavbar ? 'border-[rgba(150,180,230,0.15)]' : 'border-[#DCE4EF]'}`}>
-                <button
-                  type="button"
+                <LiquidButton
+                  variant="primary"
+                  size="md"
                   onClick={handleConnect}
-                  className="w-full py-2.5 rounded-xl text-center text-[13.5px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_2px_12px_rgba(79,140,255,0.3)] transition-colors cursor-pointer"
+                  className="w-full"
+                  aria-label="Get in touch"
                 >
                   Get in touch
-                </button>
+                </LiquidButton>
               </div>
             </nav>
           </motion.div>

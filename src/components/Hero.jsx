@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, User } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 import DigitalTimeConsole from './DigitalTimeConsole';
+import LiquidButton from './LiquidButton';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
@@ -189,34 +190,38 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
             </div>
 
             {/* 4. Call to Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex flex-wrap items-center gap-4 pt-1"
-            >
-              <button
-                type="button"
-                onClick={onExplore}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-[13.5px] font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_20px_rgba(37,99,235,0.28)] hover:shadow-[0_6px_28px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+            <div className="flex flex-wrap items-center gap-4 pt-1">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span>View Featured Projects</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </button>
+                <LiquidButton
+                  variant="primary"
+                  size="md"
+                  onClick={onExplore}
+                  aria-label="View Featured Projects"
+                >
+                  View Featured Projects
+                </LiquidButton>
+              </motion.div>
 
-              <button
-                type="button"
-                onClick={onAbout}
-                className={`inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[13.5px] font-medium border shadow-xs hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${
-                  isNight
-                    ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50'
-                    : 'text-[#111827] bg-white hover:bg-[#F8FAFC] border-[#D5DFEB] hover:border-[#2563EB]/40'
-                }`}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.67, ease: [0.16, 1, 0.3, 1] }}
               >
-                <FileText className={`w-4 h-4 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
-                <span>View Resume</span>
-              </button>
-            </motion.div>
+                <LiquidButton
+                  variant="secondary"
+                  size="md"
+                  isNight={isNight}
+                  onClick={onAbout}
+                  aria-label="View Resume"
+                >
+                  View Resume
+                </LiquidButton>
+              </motion.div>
+            </div>
 
             {/* 5. Quick Links & Socials */}
             <motion.div

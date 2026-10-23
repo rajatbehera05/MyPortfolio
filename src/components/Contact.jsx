@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, ArrowUpRight, Send, CheckCircle2, FileText, MessageSquare, ArrowRight } from 'lucide-react';
 import WireframeCube from './WireframeCube';
 import SecretButterfly from './SecretButterfly';
+import LiquidButton from './LiquidButton';
 
 function GithubIcon({ className = "w-5 h-5" }) {
   return (
@@ -188,14 +189,15 @@ export default function Contact({ onOpenCV }) {
           </a>
 
           {/* Quick Resume View */}
-          <button
-            type="button"
+          <LiquidButton
+            variant="secondary"
+            size="md"
             onClick={onOpenCV}
-            className="w-full p-4 rounded-2xl border border-[#D5DFEB] bg-[#F8FAFC] hover:bg-[#E8F1FF] hover:border-[#2563EB]/30 flex items-center justify-center gap-2 text-[13.5px] font-semibold text-[#111827] hover:text-[#2563EB] transition-all cursor-pointer shadow-xs"
+            className="w-full"
+            aria-label="Open Engineering Resume"
           >
-            <FileText className="w-4 h-4 text-[#2563EB]" />
-            <span>Open Engineering Resume</span>
-          </button>
+            Open Engineering Resume
+          </LiquidButton>
         </motion.div>
 
         {/* Right Column: Contact Message Form */}
@@ -259,28 +261,16 @@ export default function Contact({ onOpenCV }) {
               />
             </div>
 
-            <button
+            <LiquidButton
               type="submit"
+              variant="primary"
+              size="md"
               disabled={sent}
-              className={`w-full py-3.5 px-6 rounded-xl text-[14px] font-semibold flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 ${
-                sent
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_28px_rgba(37,99,235,0.4)] hover:-translate-y-0.5'
-              }`}
+              className={`w-full py-3.5 px-6 ${sent ? 'bg-emerald-600' : ''}`}
+              aria-label="Send Message"
             >
-              {sent ? (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Opening Mail Client...</span>
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  <span>Send Message</span>
-                  <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                </>
-              )}
-            </button>
+              {sent ? 'Opening Mail Client...' : 'Send Message'}
+            </LiquidButton>
           </form>
         </motion.div>
 

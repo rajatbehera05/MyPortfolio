@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import LiquidButton from './LiquidButton';
 
 /**
  * ProjectsEntry — Premium Ancient Dragon Projects CTA Section
@@ -177,28 +178,19 @@ export default function ProjectsEntry() {
         </div>
 
         {/* ==============================================================
-            CENTER: ELEVATED BLUE "EXPLORE MY PROJECTS ↗" BUTTON
+            CENTER: ELEVATED "EXPLORE MY PROJECTS" BUTTON
             Shifted UP to align horizontally between both dragon mouths.
             ============================================================== */}
         <div className="relative z-30 pointer-events-auto -translate-y-10 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16">
-          <motion.button
+          <LiquidButton
             id="projects-cta-btn"
-            type="button"
+            variant="primary"
+            size="lg"
             onClick={handleExplore}
-            whileHover={{ y: -2, scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            className="group relative inline-flex items-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl text-[15px] sm:text-[16px] font-medium tracking-tight text-white bg-[#1E3A8A] hover:bg-[#172554] shadow-[0_4px_22px_rgba(30,58,138,0.42)] hover:shadow-[0_8px_32px_rgba(23,37,84,0.55)] border border-blue-400/35 transition-all duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A8A]"
             aria-label="Explore My Projects"
           >
-            <span className="relative z-10 font-medium tracking-tight">Explore My Projects</span>
-            <span
-              className="relative z-10 inline-block transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:-translate-y-1 text-[17px] leading-none text-blue-200 group-hover:text-white"
-              aria-hidden="true"
-            >
-              ↗
-            </span>
-          </motion.button>
+            Explore My Projects
+          </LiquidButton>
         </div>
 
         {/* ==============================================================
