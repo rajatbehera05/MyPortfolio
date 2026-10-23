@@ -167,14 +167,11 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                     isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                   }`}
                 >
-                  Building{' '}
+                  Hello, I am{' '}
                   <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
-                    fast web apps
+                    Rajat Behera
                   </span>
-                  , scalable backends &amp;{' '}
-                  <span className="bg-gradient-to-r from-[#2563EB] to-[#4338CA] bg-clip-text text-transparent">
-                    connected systems.
-                  </span>
+                  .
                 </motion.h1>
               </div>
 
@@ -187,7 +184,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'
                 }`}
               >
-                Hi, I'm <strong className={`font-semibold ${isNight ? 'text-[#F1F5FF]' : 'text-[#111827]'}`}>Rajat Behera</strong>. I'm a Computer Science &amp; Engineering student who loves turning complex engineering ideas into clean, snappy software. I specialize in building responsive React/TypeScript frontends and distributed cloud architectures, seamlessly bridging them with real-world embedded IoT systems.
+                I’m a Computer Science &amp; Engineering student who builds clean, responsive web applications and scalable backend systems, connecting software with real-world IoT and embedded technology.
               </motion.p>
             </div>
 
