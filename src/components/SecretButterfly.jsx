@@ -1,24 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 /**
  * SecretButterfly — Ultra-Smooth High-Performance Butterfly with Ornate 3D Wings & Canvas Glitter Trail
  * 
- * Performance Optimizations:
- * 1. Zero React re-renders during flight (uses direct DOM transform via ref instead of 60fps setState).
- * 2. Removed CSS transition-transform conflict which previously fought against requestAnimationFrame.
- * 3. High-performance HTML5 Canvas for the glitter trail (replaces 35+ React SVG DOM nodes with filters).
- * 4. Hardware-accelerated 3D CSS transforms with willChange for flutter-free wing flapping.
- * 5. Full support for High DPI (Retina) displays and prefers-reduced-motion accessibility.
+ * Features & Optimizations:
+ * 1. Triggers flight once every time the user scrolls to the Contact section.
+ * 2. When the user scrolls away, resets cleanly so the next scroll-in triggers flight again.
+ * 3. Does not loop repeatedly while the user remains in the section.
+ * 4. Zero React re-renders during flight (DOM transforms via ref & HTML5 Canvas sparkles).
+ * 5. Elements stay mounted to prevent React rendering race conditions with RAF.
  */
 export default function SecretButterfly({ sectionRef }) {
-  const [isActive, setIsActive] = useState(false);
-
   const containerRef = useRef(null);
   const butterflyRef = useRef(null);
   const canvasRef = useRef(null);
   const flightRafRef = useRef(null);
   const isFlyingRef = useRef(false);
-  const canTriggerRef = useRef(true);
+  const hasFlownThisVisitRef = useRef(false);
 
   useEffect(() => {
     const target = sectionRef?.current || document.getElementById('contact');
@@ -28,150 +26,157 @@ export default function SecretButterfly({ sectionRef }) {
     if (prefersReducedMotion) return;
 
     const startFlight = () => {
-      if (isFlyingRef.current || !canTriggerRef.current) return;
+      if (isFlyingRef.current) return;
       isFlyingRef.current = true;
-      canTriggerRef.current = false;
-      setIsActive(true);
 
-      // Give React one tick to mount the canvas and butterfly container
-      requestAnimationFrame(() => {
-        const canvas = canvasRef.current;
-        const butterfly = butterflyRef.current;
-        const container = containerRef.current;
-        if (!butterfly || !canvas) return;
+      const canvas = canvasRef.current;
+      const butterfly = butterflyRef.current;
+      const container = containerRef.current;
+      if (!butterfly || !canvas) {
+        isFlyingRef.current = false;
+        return;
+      }
 
-        const ctx = canvas.getContext('2d', { alpha: true });
-        if (!ctx) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      if (!ctx) {
+        isFlyingRef.current = false;
+        return;
+      }
 
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const screenW = container ? container.clientWidth : window.innerWidth;
-        const canvasH = 340;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const screenW = container ? container.clientWidth : window.innerWidth;
+      const canvasH = 340;
 
-        canvas.width = Math.floor(screenW * dpr);
-        canvas.height = Math.floor(canvasH * dpr);
-        canvas.style.width = `${screenW}px`;
-        canvas.style.height = `${canvasH}px`;
-        ctx.scale(dpr, dpr);
+      canvas.width = Math.floor(screenW * dpr);
+      canvas.height = Math.floor(canvasH * dpr);
+      canvas.style.width = `${screenW}px`;
+      canvas.style.height = `${canvasH}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const flightDuration = 6200; // 6.2s majestic leisurely flight
-        const startTime = performance.now();
-        const startX = -80;
-        const endX = screenW + 80;
-        const totalDistance = endX - startX;
-        const baseY = 110;
+      // Make butterfly visible and start at left offscreen
+      butterfly.style.opacity = '1';
 
-        const particles = [];
-        let lastSparkleTime = 0;
-        const sparkleColors = ['#F59E0B', '#FBBF24', '#FDE047', '#FEF08A', '#FFFBEB', '#FFFFFF'];
+      const flightDuration = 5200; // 5.2s majestic leisurely flight
+      const startTime = performance.now();
+      const startX = -80;
+      const endX = screenW + 80;
+      const totalDistance = endX - startX;
+      const baseY = 110;
 
-        const animate = (now) => {
-          const elapsed = now - startTime;
-          const p = Math.min(elapsed / flightDuration, 1);
+      const particles = [];
+      let lastSparkleTime = 0;
+      const sparkleColors = ['#F59E0B', '#FBBF24', '#FDE047', '#FEF08A', '#FFFBEB', '#FFFFFF'];
 
-          // Smoothstep curve for natural glide
-          const easeP = p * p * (3 - 2 * p);
+      const animate = (now) => {
+        const elapsed = now - startTime;
+        const p = Math.min(elapsed / flightDuration, 1);
 
-          // 1. Horizontal position
-          const curX = startX + totalDistance * easeP;
+        // Smoothstep curve for natural glide
+        const easeP = p * p * (3 - 2 * p);
 
-          // 2. Natural sinusoidal vertical wave
-          const curY = baseY + Math.sin(p * Math.PI * 6.5) * 20 + Math.sin(p * Math.PI * 2) * 8;
+        // 1. Horizontal position
+        const curX = startX + totalDistance * easeP;
 
-          // 3. Gentle banking tilt
-          const curRot = 78 + Math.cos(p * Math.PI * 6.5) * 8;
+        // 2. Natural sinusoidal vertical wave
+        const curY = baseY + Math.sin(p * Math.PI * 6.5) * 20 + Math.sin(p * Math.PI * 2) * 8;
 
-          // Direct DOM transform (zero React re-renders)
-          if (butterfly) {
-            butterfly.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${curRot}deg)`;
+        // 3. Gentle banking tilt
+        const curRot = 78 + Math.cos(p * Math.PI * 6.5) * 8;
+
+        // Direct DOM transform (zero React re-renders)
+        if (butterfly) {
+          butterfly.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${curRot}deg)`;
+        }
+
+        // 4. Emit sparkling glitter particles while on-screen
+        if (now - lastSparkleTime > 50 && p > 0.02 && p < 0.98) {
+          lastSparkleTime = now;
+
+          // Emit 2 glittering particles behind the butterfly
+          for (let i = 0; i < 2; i++) {
+            const col = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+            particles.push({
+              x: curX - 6 + (Math.random() - 0.5) * 12,
+              y: curY + 16 + (Math.random() - 0.5) * 8,
+              vx: (Math.random() - 0.5) * 0.9 - 0.4,
+              vy: 0.5 + Math.random() * 0.9,
+              gravity: 0.02,
+              color: col,
+              size: 2.2 + Math.random() * 1.6,
+              maxLife: 45 + Math.floor(Math.random() * 30),
+              life: 0,
+              rot: Math.random() * Math.PI,
+              rotSpeed: (Math.random() - 0.5) * 0.08,
+            });
+          }
+        }
+
+        // 5. Draw Canvas Glitter Particles
+        ctx.clearRect(0, 0, screenW, canvasH);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const pt = particles[i];
+          pt.life++;
+          if (pt.life >= pt.maxLife) {
+            particles.splice(i, 1);
+            continue;
           }
 
-          // 4. Emit sparkling glitter particles while on-screen
-          if (now - lastSparkleTime > 55 && p > 0.02 && p < 0.98) {
-            lastSparkleTime = now;
+          pt.x += pt.vx;
+          pt.y += pt.vy;
+          pt.vy += pt.gravity;
+          pt.rot += pt.rotSpeed;
 
-            // Emit 2 glittering particles behind the butterfly
-            for (let i = 0; i < 2; i++) {
-              const col = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
-              particles.push({
-                x: curX - 6 + (Math.random() - 0.5) * 12,
-                y: curY + 16 + (Math.random() - 0.5) * 8,
-                vx: (Math.random() - 0.5) * 0.9 - 0.4,
-                vy: 0.5 + Math.random() * 0.9,
-                gravity: 0.02,
-                color: col,
-                size: 2.2 + Math.random() * 1.6,
-                maxLife: 50 + Math.floor(Math.random() * 35),
-                life: 0,
-                rot: Math.random() * Math.PI,
-                rotSpeed: (Math.random() - 0.5) * 0.08,
-              });
-            }
-          }
+          const progress = pt.life / pt.maxLife;
+          // Quick fade-in (first 15%), smooth fade-out
+          const alpha = progress < 0.15
+            ? (progress / 0.15)
+            : Math.max(0, 1 - (progress - 0.15) / 0.85);
 
-          // 5. Draw Canvas Glitter Particles
+          ctx.save();
+          ctx.translate(pt.x, pt.y);
+          ctx.rotate(pt.rot);
+          ctx.globalAlpha = alpha;
+
+          // 4-point Diamond Starburst Sparkle
+          const s = pt.size;
+          ctx.fillStyle = pt.color;
+          ctx.shadowColor = pt.color;
+          ctx.shadowBlur = 4;
+          ctx.beginPath();
+          ctx.moveTo(0, -s * 2.2);
+          ctx.quadraticCurveTo(0, 0, s * 2.2, 0);
+          ctx.quadraticCurveTo(0, 0, 0, s * 2.2);
+          ctx.quadraticCurveTo(0, 0, -s * 2.2, 0);
+          ctx.quadraticCurveTo(0, 0, 0, -s * 2.2);
+          ctx.closePath();
+          ctx.fill();
+
+          // Core bright center dot
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 0.45, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.restore();
+        }
+
+        // Continue animation if flight is in progress or particles still settling
+        if (p < 1 || particles.length > 0) {
+          flightRafRef.current = requestAnimationFrame(animate);
+        } else {
+          // Flight completed and all sparkles dissolved
           ctx.clearRect(0, 0, screenW, canvasH);
-
-          for (let i = particles.length - 1; i >= 0; i--) {
-            const pt = particles[i];
-            pt.life++;
-            if (pt.life >= pt.maxLife) {
-              particles.splice(i, 1);
-              continue;
-            }
-
-            pt.x += pt.vx;
-            pt.y += pt.vy;
-            pt.vy += pt.gravity;
-            pt.rot += pt.rotSpeed;
-
-            const progress = pt.life / pt.maxLife;
-            // Quick fade-in (first 15%), smooth fade-out
-            const alpha = progress < 0.15
-              ? (progress / 0.15)
-              : Math.max(0, 1 - (progress - 0.15) / 0.85);
-
-            ctx.save();
-            ctx.translate(pt.x, pt.y);
-            ctx.rotate(pt.rot);
-            ctx.globalAlpha = alpha;
-
-            // 4-point Diamond Starburst Sparkle
-            const s = pt.size;
-            ctx.fillStyle = pt.color;
-            ctx.shadowColor = pt.color;
-            ctx.shadowBlur = 4;
-            ctx.beginPath();
-            ctx.moveTo(0, -s * 2.2);
-            ctx.quadraticCurveTo(0, 0, s * 2.2, 0);
-            ctx.quadraticCurveTo(0, 0, 0, s * 2.2);
-            ctx.quadraticCurveTo(0, 0, -s * 2.2, 0);
-            ctx.quadraticCurveTo(0, 0, 0, -s * 2.2);
-            ctx.closePath();
-            ctx.fill();
-
-            // Core bright center dot
-            ctx.fillStyle = '#FFFFFF';
-            ctx.beginPath();
-            ctx.arc(0, 0, s * 0.45, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
+          if (butterfly) {
+            butterfly.style.opacity = '0';
+            butterfly.style.transform = `translate3d(${startX}px, ${baseY}px, 0) rotate(78deg)`;
           }
+          isFlyingRef.current = false;
+          flightRafRef.current = null;
+        }
+      };
 
-          // Continue animation if flight is in progress or particles still settling
-          if (p < 1 || particles.length > 0) {
-            flightRafRef.current = requestAnimationFrame(animate);
-          } else {
-            // Flight completed and all sparkles dissolved
-            ctx.clearRect(0, 0, screenW, canvasH);
-            setIsActive(false);
-            isFlyingRef.current = false;
-            canTriggerRef.current = true;
-          }
-        };
-
-        flightRafRef.current = requestAnimationFrame(animate);
-      });
+      flightRafRef.current = requestAnimationFrame(animate);
     };
 
     const stopAndReset = () => {
@@ -180,21 +185,35 @@ export default function SecretButterfly({ sectionRef }) {
         flightRafRef.current = null;
       }
       isFlyingRef.current = false;
-      canTriggerRef.current = true;
-      setIsActive(false);
+      const canvas = canvasRef.current;
+      const butterfly = butterflyRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      if (butterfly) {
+        butterfly.style.opacity = '0';
+        butterfly.style.transform = 'translate3d(-100px, 110px, 0) rotate(78deg)';
+      }
     };
 
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (entry && entry.isIntersecting) {
-          startFlight();
+          if (!isFlyingRef.current && !hasFlownThisVisitRef.current) {
+            hasFlownThisVisitRef.current = true;
+            startFlight();
+          }
         } else {
-          // Immediately reset whenever user scrolls away from section
+          // Immediately reset whenever user scrolls away from section so next scroll-in triggers again
+          hasFlownThisVisitRef.current = false;
           stopAndReset();
         }
       },
-      { threshold: 0.08 }
+      { threshold: 0.1 }
     );
 
     observer.observe(target);
@@ -205,14 +224,12 @@ export default function SecretButterfly({ sectionRef }) {
     };
   }, [sectionRef]);
 
-  if (!isActive) return null;
-
   return (
     <div
       ref={containerRef}
       aria-hidden="true"
       className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none z-40 overflow-hidden"
-      style={{ width: '100vw', height: '340px' }}
+      style={{ width: '100vw', maxWidth: '100vw', height: '340px' }}
     >
       {/* High-Performance Canvas for Sparkling Starburst Glitter Trail */}
       <canvas
@@ -232,6 +249,8 @@ export default function SecretButterfly({ sectionRef }) {
           willChange: 'transform',
           transform: 'translate3d(-100px, 110px, 0) rotate(78deg)',
           filter: 'drop-shadow(0 3px 8px rgba(234,179,8,0.4))',
+          opacity: 0,
+          transition: 'opacity 0.25s ease',
         }}
       >
         <div

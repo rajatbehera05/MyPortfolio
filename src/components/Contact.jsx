@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, ArrowUpRight, Send, CheckCircle2, FileText, MessageSquare, ArrowRight } from 'lucide-react';
+import { Mail, ArrowUpRight, CheckCircle2, AlertCircle, MessageSquare } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import WireframeCube from './WireframeCube';
 import SecretButterfly from './SecretButterfly';
 import LiquidButton from './LiquidButton';
@@ -28,16 +29,100 @@ function LinkedinIcon({ className = "w-5 h-5" }) {
  */
 export default function Contact({ onOpenCV }) {
   const sectionRef = useRef(null);
+  const lastSentTimeRef = useRef(0);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
+  const [botField, setBotField] = useState('');
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email) return;
-    setSent(true);
-    setTimeout(() => {
-      window.location.href = `mailto:rajatb220m@gmail.com?subject=Message from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(formData.message)}`;
-    }, 1000);
+    if (status === 'sending') return;
+
+    // Anti-spam honeypot check: If filled, quietly pretend success
+    if (botField) {
+      setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+      return;
+    }
+
+    // Input validation
+    const newErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = 'Please enter your name.';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Please enter your email address.';
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Please enter a message.';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Please enter at least 10 characters.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Rate limiting: Prevent multiple rapid submissions
+    if (Date.now() - lastSentTimeRef.current < 10000) {
+      setErrorMessage('Please wait a few seconds before sending another message.');
+      setStatus('error');
+      return;
+    }
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey || serviceId === 'your_emailjs_service_id_here') {
+      console.error('EmailJS configuration missing in environment variables.');
+      setErrorMessage('Email service configuration is pending. Please configure VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY in your .env file.');
+      setStatus('error');
+      return;
+    }
+
+    setErrors({});
+    setErrorMessage('');
+    setStatus('sending');
+
+    try {
+      const templateParams = {
+        from_name: formData.name.trim(),
+        from_email: formData.email.trim(),
+        message: formData.message.trim(),
+        reply_to: formData.email.trim(),
+        to_email: 'rajatb220m@gmail.com',
+      };
+
+      const response = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      if (response.status === 200 || response.text === 'OK') {
+        lastSentTimeRef.current = Date.now();
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        // Restore button state after 6 seconds
+        setTimeout(() => {
+          setStatus((prev) => (prev === 'success' ? 'idle' : prev));
+        }, 6000);
+      } else {
+        throw new Error(`EmailJS responded with status: ${response.status}`);
+      }
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      setStatus('error');
+      setErrorMessage(
+        err?.text || err?.message || 'Failed to send message. Please try again or reach out directly at rajatb220m@gmail.com.'
+      );
+      // Notice: formData is preserved on error so user does not lose their typed message
+    }
   };
 
   return (
@@ -215,7 +300,21 @@ export default function Contact({ onOpenCV }) {
             </h3>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            {/* Anti-spam honeypot field - visually hidden from genuine human visitors */}
+            <div style={{ display: 'none' }} aria-hidden="true">
+              <label htmlFor="contact-hp">Do not fill this field</label>
+              <input
+                id="contact-hp"
+                type="text"
+                name="company_website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={botField}
+                onChange={(e) => setBotField(e.target.value)}
+              />
+            </div>
+
             <div>
               <label htmlFor="contact-name" className="block text-[12px] font-semibold text-[#4B5563] mb-1.5">
                 Your Name
@@ -225,10 +324,15 @@ export default function Contact({ onOpenCV }) {
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value });
+                  if (errors.name) setErrors({ ...errors, name: '' });
+                }}
+                disabled={status === 'sending'}
                 placeholder="Alex Morgan"
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
+                className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border ${errors.name ? 'border-rose-400 focus:border-rose-500 ring-1 ring-rose-400/20' : 'border-[#D5DFEB] focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15'} text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none transition-all disabled:opacity-60`}
               />
+              {errors.name && <p className="text-[12px] text-rose-600 mt-1">{errors.name}</p>}
             </div>
 
             <div>
@@ -240,10 +344,15 @@ export default function Contact({ onOpenCV }) {
                 type="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value });
+                  if (errors.email) setErrors({ ...errors, email: '' });
+                }}
+                disabled={status === 'sending'}
                 placeholder="alex@company.com"
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all"
+                className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border ${errors.email ? 'border-rose-400 focus:border-rose-500 ring-1 ring-rose-400/20' : 'border-[#D5DFEB] focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15'} text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none transition-all disabled:opacity-60`}
               />
+              {errors.email && <p className="text-[12px] text-rose-600 mt-1">{errors.email}</p>}
             </div>
 
             <div>
@@ -255,21 +364,70 @@ export default function Contact({ onOpenCV }) {
                 rows="4"
                 required
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, message: e.target.value });
+                  if (errors.message) setErrors({ ...errors, message: '' });
+                }}
+                disabled={status === 'sending'}
                 placeholder="Hi Rajat, I saw your work on the Smart Parking system and wanted to connect about..."
-                className="w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border border-[#D5DFEB] text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15 transition-all resize-none"
+                className={`w-full px-4 py-3 rounded-xl bg-[#F8FAFC] border ${errors.message ? 'border-rose-400 focus:border-rose-500 ring-1 ring-rose-400/20' : 'border-[#D5DFEB] focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/15'} text-[#111827] placeholder-[#94A3B8] text-[14px] focus:outline-none transition-all resize-none disabled:opacity-60`}
               />
+              {errors.message && <p className="text-[12px] text-rose-600 mt-1">{errors.message}</p>}
             </div>
+
+            {/* Success Feedback Notification */}
+            {status === 'success' && (
+              <div
+                role="status"
+                className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[13.5px] flex items-center gap-3 transition-all"
+              >
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <p className="font-semibold text-emerald-900">Message Sent Successfully!</p>
+                  <p className="text-[12.5px] text-emerald-700/90 mt-0.5">
+                    Thank you for reaching out! Your message was delivered to my Gmail inbox and I will reply soon.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Error Feedback Notification */}
+            {status === 'error' && (
+              <div
+                role="alert"
+                className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-[13.5px] flex items-start gap-3 transition-all"
+              >
+                <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-semibold text-rose-900">Unable to Send Message</p>
+                  <p className="text-[12.5px] text-rose-700/90 mt-0.5">
+                    {errorMessage || 'Something went wrong while sending your message. Please try again.'}
+                  </p>
+                  <p className="text-[12px] text-rose-700/80 mt-1">
+                    You can also email directly at{' '}
+                    <a href="mailto:rajatb220m@gmail.com" className="underline font-semibold hover:text-rose-950">
+                      rajatb220m@gmail.com
+                    </a>
+                  </p>
+                </div>
+              </div>
+            )}
 
             <LiquidButton
               type="submit"
               variant="primary"
               size="md"
-              disabled={sent}
-              className={`w-full py-3.5 px-6 ${sent ? 'bg-emerald-600' : ''}`}
+              disabled={status === 'sending'}
+              className={`w-full py-3.5 px-6 ${status === 'success' ? 'bg-emerald-600' : ''}`}
               aria-label="Send Message"
             >
-              {sent ? 'Opening Mail Client...' : 'Send Message'}
+              {status === 'sending'
+                ? 'Sending Message...'
+                : status === 'success'
+                ? 'Message Sent Successfully!'
+                : status === 'error'
+                ? 'Retry Sending Message'
+                : 'Send Message'}
             </LiquidButton>
           </form>
         </motion.div>
