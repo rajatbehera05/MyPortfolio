@@ -182,89 +182,12 @@ export default function DigitalTimeConsole({
           />
 
           {/* ================================================================= */}
-          {/* RIGHT ZONE: [ SUN ICON ] / Weekdays (M T W T F S S)               */}
+          {/* RIGHT ZONE: Day Name (e.g. Saturday)                              */}
           {/* ================================================================= */}
-          <div className="flex flex-col items-center justify-center gap-1">
-            {/* Minimal Elegant Sun / Moon / Atmosphere Icon */}
-            <div className="flex items-center justify-center">
-              {isNight || timeState === 'night' ? (
-                <svg
-                  className="w-3.5 h-3.5 text-[#C084FC] drop-shadow-[0_0_4px_rgba(192,132,252,0.45)]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-              ) : timeState === 'evening' ? (
-                <svg
-                  className="w-3.5 h-3.5 text-[#F43F5E] drop-shadow-[0_0_4px_rgba(244,63,94,0.35)]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M17 18a5 5 0 0 0-10 0" />
-                  <line x1="12" y1="9" x2="12" y2="2" />
-                  <line x1="4.22" y1="10.22" x2="5.64" y2="11.64" />
-                  <line x1="1" y1="18" x2="3" y2="18" />
-                  <line x1="21" y1="18" x2="23" y2="18" />
-                  <line x1="18.36" y1="11.64" x2="19.78" y2="10.22" />
-                  <line x1="23" y1="22" x2="1" y2="22" />
-                </svg>
-              ) : timeState === 'morning' ? (
-                <svg
-                  className="w-3.5 h-3.5 text-[#F59E0B] drop-shadow-[0_0_4px_rgba(245,158,11,0.35)]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M12 2v6" />
-                  <path d="M4.93 4.93l4.24 4.24" />
-                  <path d="M2 18h2" />
-                  <path d="M20 18h2" />
-                  <path d="M19.07 4.93l-4.24 4.24" />
-                  <path d="M16 18a4 4 0 0 0-8 0" />
-                  <line x1="1" y1="22" x2="23" y2="22" />
-                </svg>
-              ) : (
-                <svg
-                  className="w-3.5 h-3.5 text-[#EC4899] drop-shadow-[0_0_4px_rgba(236,72,153,0.35)]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="4.5" fill="currentColor" fillOpacity="0.2" />
-                  <line x1="12" y1="2" x2="12" y2="4.5" />
-                  <line x1="12" y1="19.5" x2="12" y2="22" />
-                  <line x1="2" y1="12" x2="4.5" y2="12" />
-                  <line x1="19.5" y1="12" x2="22" y2="12" />
-                  <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
-                  <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
-                  <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
-                  <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
-                </svg>
-              )}
-            </div>
-
+          <div className="flex items-center justify-center px-1">
             {/* Current Day Name */}
             <span
-              className={`text-[10.5px] sm:text-[11.5px] font-bold tracking-tight leading-none transition-colors duration-200 ${
+              className={`text-[14px] sm:text-[16px] font-bold tracking-tight leading-none transition-colors duration-200 ${
                 isNight
                   ? 'text-[#F472B6] drop-shadow-[0_0_3px_rgba(244,114,182,0.4)]'
                   : 'text-[#EC4899]'
