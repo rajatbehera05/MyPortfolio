@@ -129,7 +129,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.name, link.href)}
-                  className={`relative py-1 transition-all duration-200 hover:-translate-y-0.5 ${
+                  className={`relative py-1 transition-colors duration-200 ${
                     isActive
                       ? isNightNavbar ? 'text-[#F1F5FF] font-semibold' : 'text-[#111827] font-semibold'
                       : isNightNavbar ? 'text-[#A9B8D0] hover:text-[#F1F5FF]' : 'text-[#64748B] hover:text-[#111827]'

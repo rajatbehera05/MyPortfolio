@@ -111,31 +111,10 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22 }}
-                className="flex items-center gap-3.5"
               >
-                <motion.button
-                  type="button"
-                  onClick={cycleTimeState}
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.92 }}
-                  title={`Current scene: ${greeting}. Click to cycle time scene (Morning → Afternoon → Evening)`}
-                  aria-label={`Change time scene. Currently ${greeting}`}
-                  className={`group relative inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl border shadow-2xs shrink-0 cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 ${
-                    isNight
-                      ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF] text-[#4F8CFF] hover:bg-[#162C52]'
-                      : 'bg-white/90 border-[#D5DFEB] hover:border-[#2563EB] text-[#2563EB] hover:bg-white'
-                  }`}
-                >
-                  <motion.div
-                    key={timeState}
-                    initial={{ rotate: -30, opacity: 0.5, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                  >
-                    <TimeIcon timeState={timeState} className={`w-4.5 h-4.5 sm:w-5 sm:h-5 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
-                  </motion.div>
-                </motion.button>
-                <span className={`text-2xl sm:text-3xl lg:text-[32px] font-bold font-sans-editorial tracking-tight ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
+                <span className={`block text-4xl sm:text-5xl lg:text-[56px] font-normal font-editorial-display tracking-tight leading-none ${
+                  isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                }`}>
                   {greeting}
                 </span>
               </motion.div>
@@ -236,7 +215,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 href="https://github.com/rajatbehera05"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} transition-colors`}
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>GitHub</span>
@@ -246,7 +225,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} transition-colors`}
               >
                 <LinkedinIcon className="w-4 h-4" />
                 <span>LinkedIn</span>
@@ -254,7 +233,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
               <a
                 href="mailto:rajatb220m@gmail.com"
-                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} hover:-translate-y-0.5 transition-all`}
+                className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} transition-colors`}
               >
                 <Mail className={`w-4 h-4 ${isNight ? 'text-[#4F8CFF]' : 'text-[#2563EB]'}`} />
                 <span>rajatb220m@gmail.com</span>

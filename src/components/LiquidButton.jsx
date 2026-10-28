@@ -91,7 +91,7 @@ export default function LiquidButton({
     variantClasses = `
       btn-subtle-pearl
       ${isNight ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 focus-visible:ring-[#4F8CFF]' : 'text-[#1E293B] bg-white hover:bg-[#F8FAFC] border border-[#D5DFEB] hover:border-[#2563EB]/40 focus-visible:ring-[#2563EB]'}
-      shadow-2xs hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]
+      shadow-2xs hover:shadow-xs active:scale-[0.98]
       transition-all duration-200
     `;
     spotlightStyle = {
@@ -103,7 +103,7 @@ export default function LiquidButton({
     variantClasses = `
       btn-nav-pearl
       ${isNight ? 'text-[#F1F5FF] bg-[#122442] hover:bg-[#162C52] border border-[rgba(150,180,230,0.2)] hover:border-[#4F8CFF]/50 hover:text-[#4F8CFF]' : 'text-[#0F172A] bg-[#EDF2F7] hover:bg-[#E8F1FF] border border-[#D5DFEB] hover:border-[#2563EB]/45 hover:text-[#2563EB]'}
-      shadow-2xs hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]
+      shadow-2xs active:scale-[0.98]
       transition-all duration-200
     `;
     spotlightStyle = {

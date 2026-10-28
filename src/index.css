@@ -53,6 +53,12 @@
   font-feature-settings: "liga" 1, "dlig" 1;
 }
 
+.font-editorial-display {
+  font-family: 'Instrument Serif', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
 /* Subtle Arctic Aurora Hairline Grid */
 .arctic-grid-subtle {
   background-size: 44px 44px;
@@ -577,7 +583,7 @@
   background: linear-gradient(105deg, #4F46E5 0%, #6366F1 18%, #7C3AED 38%, #9333EA 58%, #C026D3 78%, #DB2777 92%, #E11D48 100%);
   background-size: 100% 100%;
   box-shadow: 0 4px 20px -2px rgba(79, 70, 229, 0.45), 0 8px 26px -4px rgba(225, 29, 72, 0.35);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
   cursor: pointer;
   border: none;
   outline: none;
@@ -586,13 +592,12 @@
 }
 
 .btn-liquid-aurora:hover {
-  transform: translateY(-3.5px);
   filter: brightness(1.08) saturate(1.12);
   box-shadow: 0 8px 30px -2px rgba(79, 70, 229, 0.6), 0 16px 38px -4px rgba(225, 29, 72, 0.5), 0 0 16px rgba(192, 38, 211, 0.4);
 }
 
 .btn-liquid-aurora:active {
-  transform: translateY(-0.5px) scale(0.975);
+  transform: scale(0.975);
   box-shadow: 0 2px 10px rgba(79, 70, 229, 0.35);
   transition-duration: 0.1s;
 }
@@ -625,7 +630,7 @@
   color: #0F172A;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 255, 0.92) 50%, rgba(240, 245, 255, 0.95) 100%);
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04), 0 6px 18px -3px rgba(99, 102, 241, 0.08);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, color 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, color 0.2s ease;
   cursor: pointer;
   border: none;
   outline: none;
@@ -634,13 +639,12 @@
 }
 
 .btn-iridescent-pearl:hover {
-  transform: translateY(-2.5px);
   background: linear-gradient(145deg, rgba(255, 255, 255, 1) 0%, rgba(241, 245, 255, 0.96) 50%, rgba(235, 242, 255, 1) 100%);
   box-shadow: 0 8px 24px -2px rgba(99, 102, 241, 0.16), 0 14px 32px -4px rgba(139, 92, 246, 0.14), 0 0 14px rgba(199, 210, 254, 0.4);
 }
 
 .btn-iridescent-pearl:active {
-  transform: translateY(-0.5px) scale(0.98);
+  transform: scale(0.98);
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
   transition-duration: 0.1s;
 }
