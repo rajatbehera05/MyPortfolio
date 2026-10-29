@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send } from 'lucide-react';
 import ConnectedNetworkBackground from '../components/ConnectedNetworkBackground';
 import Projects from '../components/Projects';
 import Modals from '../components/Modals';

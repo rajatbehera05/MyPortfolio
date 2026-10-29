@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 /**
  * LiquidButton — Unified Liquid Chrome × Aurora Motion Button System

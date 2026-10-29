@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { RotateCcw } from 'lucide-react';
 import JourneyCube from './JourneyCube';
 import RealisticLightBulb from './RealisticLightBulb';
 import LiquidButton from './LiquidButton';
