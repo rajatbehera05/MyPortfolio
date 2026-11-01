@@ -112,7 +112,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22 }}
               >
-                <span className={`block text-4xl sm:text-5xl lg:text-[56px] font-normal font-editorial-display tracking-tight leading-none ${
+                <span className={`block text-4xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium font-editorial-serif tracking-tight leading-none ${
                   isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                 }`}>
                   {greeting}
