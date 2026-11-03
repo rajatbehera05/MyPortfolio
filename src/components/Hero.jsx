@@ -79,7 +79,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
     <section
       id="home"
       aria-label="Rajat Behera Software Portfolio"
-      className="relative min-h-[calc(100vh-80px)] w-full flex items-center justify-center pt-28 pb-16 sm:pt-32 sm:pb-20 px-6 sm:px-12 overflow-hidden"
+      className="relative min-h-[calc(100vh-80px)] w-full flex items-center justify-center pt-24 pb-14 sm:pt-32 sm:pb-20 px-4 sm:px-12 overflow-hidden"
     >
 
       {/* Interactive Faint Technical Lines reacting subtly to mouse */}
@@ -112,7 +112,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22 }}
               >
-                <span className={`block text-4xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium font-editorial-serif tracking-tight leading-none ${
+                <span className={`block text-3xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium font-editorial-serif tracking-tight leading-none ${
                   isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                 }`}>
                   {greeting}
@@ -129,9 +129,9 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
             {/* 2. Headline with selected Arctic Blue gradient accents */}
             <div className="space-y-3">
-              <div className="flex items-start gap-3.5 sm:gap-4.5">
+              <div className="flex items-start gap-3 sm:gap-4.5">
                 <WireframeCube
-                  size={44}
+                  size={36}
                   color="#EF4444"
                   tiltX={-20}
                   tiltZ={10}
@@ -143,7 +143,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.25 }}
-                  className={`text-4xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium tracking-tight font-editorial-serif leading-[1.12] ${
+                  className={`text-3xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium tracking-tight font-editorial-serif leading-[1.12] ${
                     isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                   }`}
                 >
@@ -169,16 +169,18 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
             </div>
 
             {/* 4. Call to Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-1">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full sm:w-auto"
               >
                 <LiquidButton
                   variant="primary"
                   size="md"
                   onClick={onExplore}
+                  className="w-full sm:w-auto"
                   aria-label="View Featured Projects"
                 >
                   View Featured Projects
@@ -189,12 +191,14 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, delay: 0.67, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full sm:w-auto"
               >
                 <LiquidButton
                   variant="secondary"
                   size="md"
                   isNight={isNight}
                   onClick={onAbout}
+                  className="w-full sm:w-auto"
                   aria-label="View Resume"
                 >
                   View Resume
@@ -261,7 +265,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               }}
               onMouseMove={handleCardMouseMove}
               onMouseLeave={handleCardMouseLeave}
-              className={`group relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[28px] sm:rounded-[32px] p-[2px] transition-shadow duration-300 ${
+              className={`group relative w-full max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] lg:max-w-[440px] xl:max-w-[460px] aspect-[4/5] sm:aspect-[3/4] rounded-[28px] sm:rounded-[32px] p-[2px] transition-shadow duration-300 ${
                 isNight
                   ? 'bg-gradient-to-b from-[#4F8CFF]/30 via-[rgba(150,180,230,0.15)] to-[#8B5CF6]/20 shadow-[0_20px_50px_rgba(8,20,38,0.7)] hover:shadow-[0_24px_60px_rgba(79,140,255,0.2)]'
                   : 'bg-gradient-to-b from-[#2563EB]/25 via-[#CBD5E1] to-[#8B5CF6]/25 shadow-[0_18px_45px_rgba(37,99,235,0.09),0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_22px_55px_rgba(37,99,235,0.14)]'

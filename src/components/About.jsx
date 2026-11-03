@@ -17,14 +17,14 @@ export default function About() {
       aria-label="About Rajat Behera"
       className="w-full relative z-10 overflow-visible py-16 sm:py-20 border-t border-[#D5DFEB]/50"
     >
-      <div className="max-w-[1380px] mx-auto px-6 sm:px-12">
+      <div className="max-w-[1380px] mx-auto px-4 sm:px-12">
         {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.55 }}
-          className="space-y-2.5 mb-14"
+          className="space-y-2.5 mb-10 sm:mb-14"
         >
         <div>
           <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
@@ -35,9 +35,9 @@ export default function About() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3.5 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <WireframeCube
-            size={38}
+            size={36}
             color="#EC4899"
             tiltX={26}
             tiltZ={-14}
@@ -47,7 +47,7 @@ export default function About() {
             floating={false}
             className="shrink-0"
           />
-          <h2 className="font-editorial-serif text-[34px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+          <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
             My Story &amp; Approach
           </h2>
         </div>

@@ -113,7 +113,7 @@ export default function ProjectsEntry() {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-20 w-full max-w-[1240px] px-6 sm:px-10 mb-2 sm:mb-4 text-center pointer-events-none"
       >
-        <h2 className="font-editorial-serif text-[36px] sm:text-[50px] md:text-[58px] lg:text-[66px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight select-none whitespace-normal sm:whitespace-nowrap">
+        <h2 className="font-editorial-serif text-[28px] xs:text-[34px] sm:text-[50px] md:text-[58px] lg:text-[66px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight select-none whitespace-normal sm:whitespace-nowrap">
           Here you go with my Projects.
         </h2>
       </motion.div>
@@ -122,14 +122,14 @@ export default function ProjectsEntry() {
         2. DEDICATED DRAGON ARENA WITH ELEVATED BUTTON & EXACT DRAGONS
         Button moved UP directly between the dragons' mouths.
       */}
-      <div className="relative w-full max-w-[1400px] h-[480px] sm:h-[540px] md:h-[600px] lg:h-[650px] flex items-center justify-center px-2 sm:px-6">
+      <div className="relative w-full max-w-[1400px] h-[380px] xs:h-[440px] sm:h-[540px] md:h-[600px] lg:h-[650px] flex items-center justify-center px-2 sm:px-6">
         
         {/* ==============================================================
             MIDDLE-LEFT: THE ANCIENT CRIMSON & GOLD DRAGON
             Living organic animation: breathing, chest expansion, and roar recoil
             ============================================================== */}
         <div
-          className="absolute left-0 sm:left-2 md:left-4 lg:left-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[240px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
+          className="absolute left-0 sm:left-2 md:left-4 lg:left-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[150px] xs:w-[190px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
           style={{ transformPerspective: 900 }}
         >
           {/* Ground Contact Shadow with breathing response */}
@@ -181,7 +181,7 @@ export default function ProjectsEntry() {
             CENTER: ELEVATED "EXPLORE MY PROJECTS" BUTTON
             Shifted UP to align horizontally between both dragon mouths.
             ============================================================== */}
-        <div className="relative z-30 pointer-events-auto -translate-y-10 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16">
+        <div className="relative z-30 pointer-events-auto -translate-y-8 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16">
           <LiquidButton
             id="projects-cta-btn"
             variant="primary"
@@ -198,7 +198,7 @@ export default function ProjectsEntry() {
             Living organic animation: breathing, chest expansion, and roar recoil
             ============================================================== */}
         <div
-          className="absolute right-0 sm:right-2 md:right-4 lg:right-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[240px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
+          className="absolute right-0 sm:right-2 md:right-4 lg:right-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[150px] xs:w-[190px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
           style={{ transformPerspective: 900 }}
         >
           {/* Ground Contact Shadow with breathing response */}

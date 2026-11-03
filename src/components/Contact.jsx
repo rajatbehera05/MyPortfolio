@@ -130,7 +130,7 @@ export default function Contact({ onOpenCV }) {
       id="contact"
       ref={sectionRef}
       aria-label="Get in Touch"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative overflow-visible"
+      className="max-w-[1380px] mx-auto px-4 sm:px-12 py-16 sm:py-24 border-t border-[#D5DFEB] relative overflow-visible"
     >
       {/* Easter Egg: Delicate one-time butterfly flight */}
       <SecretButterfly sectionRef={sectionRef} />
@@ -164,7 +164,7 @@ export default function Contact({ onOpenCV }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.55 }}
-        className="space-y-2.5 mb-14"
+        className="space-y-2.5 mb-10 sm:mb-14"
       >
         <div>
           <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
@@ -175,9 +175,9 @@ export default function Contact({ onOpenCV }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-3.5 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <WireframeCube
-            size={38}
+            size={36}
             color="#EF4444"
             tiltX={-26}
             tiltZ={14}
@@ -186,7 +186,7 @@ export default function Contact({ onOpenCV }) {
             floating={false}
             className="shrink-0"
           />
-          <h2 className="font-editorial-serif text-[34px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+          <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
             Let's build something meaningful.
           </h2>
         </div>

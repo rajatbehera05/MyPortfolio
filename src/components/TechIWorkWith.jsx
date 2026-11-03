@@ -204,7 +204,7 @@ export default function TechIWorkWith() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-12 sm:py-16 border-t border-[#D5DFEB] relative"
+      className="max-w-[1380px] mx-auto px-4 sm:px-12 py-12 sm:py-16 border-t border-[#D5DFEB] relative"
     >
       {/* Background Decorative Ambient Radial Glow */}
       <div
@@ -242,7 +242,7 @@ export default function TechIWorkWith() {
               floating={false}
               className="shrink-0"
             />
-            <h2 className="font-editorial-serif text-[34px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+            <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
               Tech I Work With
             </h2>
           </div>

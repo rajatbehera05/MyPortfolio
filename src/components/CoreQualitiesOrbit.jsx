@@ -145,9 +145,9 @@ export default function CoreQualitiesOrbit() {
   const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <div className="w-full max-w-[580px] mx-auto select-none">
+    <div className="w-full max-w-[580px] mx-auto select-none overflow-visible px-1 sm:px-0">
       {/* Constellation Canvas (560x480 aspect ratio) */}
-      <div className="relative w-full aspect-[560/480]">
+      <div className="relative w-full aspect-[560/480] scale-[0.92] xs:scale-[0.96] sm:scale-100 origin-center transition-transform">
         
         {/* SVG Decorative Orbit Arcs & Radial Spokes */}
         <svg
@@ -279,22 +279,22 @@ export default function CoreQualitiesOrbit() {
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                    className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-300 ${
                       node.iconBg
                     } ${node.iconBorder} ${node.iconColor} ${node.iconShadow} ${
                       isHovered ? 'shadow-[0_4px_16px_rgba(45,31,48,0.18)]' : ''
                     }`}
                   >
-                    <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </motion.div>
 
                   {/* Title: Deep Charcoal / Dark Plum */}
-                  <h4 className="text-[13.5px] sm:text-[14.5px] font-bold text-[#2D1F30] mt-1.5 tracking-tight whitespace-nowrap">
+                  <h4 className="text-[12px] sm:text-[14.5px] font-bold text-[#2D1F30] mt-1 sm:mt-1.5 tracking-tight whitespace-nowrap">
                     {node.title}
                   </h4>
 
                   {/* Supporting phrase: Muted Warm Grey / Brown */}
-                  <p className="text-[10px] sm:text-[11px] md:text-[11.5px] text-[#6B5E65] text-center max-w-[130px] sm:max-w-[155px] leading-tight sm:leading-snug mt-0.5 sm:mt-1 font-normal">
+                  <p className="text-[9px] sm:text-[11px] md:text-[11.5px] text-[#6B5E65] text-center max-w-[110px] sm:max-w-[155px] leading-tight sm:leading-snug mt-0.5 sm:mt-1 font-normal">
                     {node.description}
                   </p>
                 </motion.div>

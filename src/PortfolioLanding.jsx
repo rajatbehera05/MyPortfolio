@@ -77,7 +77,7 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
+    <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB] overflow-x-clip">
       
       {/* 1. Global "The Aurora Network" Signature Atmosphere (Always Clean Light Base) */}
       <ConnectedNetworkBackground />
@@ -92,7 +92,7 @@ export default function PortfolioLanding() {
       />
 
       {/* 5. Complete Main Experience */}
-      <main className="relative z-10 w-full">
+      <main className="relative z-10 w-full overflow-x-clip">
         {/* Living Time Environment Container (Encloses Hero & About Me down through the 3 philosophy cards) */}
         <div
           data-theme={timeEnv.isNight ? 'night' : 'light'}

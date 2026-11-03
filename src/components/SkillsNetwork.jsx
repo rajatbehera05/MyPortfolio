@@ -64,7 +64,7 @@ export default function SkillsNetwork() {
     <section
       id="skills-network"
       aria-label="Skills & Technologies"
-      className="max-w-[1380px] mx-auto px-6 sm:px-12 py-24 border-t border-[#D5DFEB] relative"
+      className="max-w-[1380px] mx-auto px-4 sm:px-12 py-16 sm:py-24 border-t border-[#D5DFEB] relative"
     >
       <div id="skills" className="-mt-24 pt-24" aria-hidden="true" />
 
@@ -74,7 +74,7 @@ export default function SkillsNetwork() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.55 }}
-        className="space-y-2.5 mb-14"
+        className="space-y-2.5 mb-10 sm:mb-14"
       >
         <div>
           <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
@@ -85,9 +85,9 @@ export default function SkillsNetwork() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3.5 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <WireframeCube
-            size={38}
+            size={36}
             color="#EAB308"
             tiltX={22}
             tiltZ={-12}
@@ -96,7 +96,7 @@ export default function SkillsNetwork() {
             floating={false}
             className="shrink-0"
           />
-          <h2 className="font-editorial-serif text-[34px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+          <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
             How I Apply My Toolkit
           </h2>
         </div>
@@ -106,102 +106,113 @@ export default function SkillsNetwork() {
         </p>
       </motion.div>
 
-      {/* 4 Clean Skill Group Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {skillGroups.map((group, gIdx) => {
-          const Icon = group.icon;
+      {/* 4 Clean Square Skill Group Cards with Space on Right Side */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left: 4 Square Cards in a 2x2 grid */}
+        <div className="lg:col-span-8 xl:col-span-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-[760px] mx-auto sm:mx-0">
+            {skillGroups.map((group, gIdx) => {
+              const Icon = group.icon;
 
-          return (
-            <motion.div
-              key={group.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.45, delay: gIdx * 0.08 }}
-              className="p-6 sm:p-7 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/40 transition-all duration-300 space-y-4 shadow-xs hover:shadow-[0_12px_28px_rgba(37,99,235,0.06)]"
-            >
-              {/* Group Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center border border-[#2563EB]/20">
-                    <Icon className="w-4 h-4" />
+              return (
+                <motion.div
+                  key={group.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.45, delay: gIdx * 0.08 }}
+                  className="aspect-auto sm:aspect-square min-h-[290px] sm:min-h-0 p-5 sm:p-6 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/40 transition-all duration-300 shadow-xs hover:shadow-[0_12px_28px_rgba(37,99,235,0.06)] flex flex-col justify-between overflow-hidden"
+                >
+                  {/* Top section: Header & Description */}
+                  <div className="space-y-3">
+                    {/* Group Header */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-2.5 min-w-0">
+                        <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-xl bg-[#E8F1FF] text-[#2563EB] flex items-center justify-center border border-[#2563EB]/20 shrink-0 mt-0.5">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h3 className="text-[15px] sm:text-[16px] font-bold text-[#111827] font-sans-editorial leading-snug">
+                            {group.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <span className="text-[10px] sm:text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0] shrink-0 whitespace-nowrap">
+                        {group.focus}
+                      </span>
+                    </div>
+
+                    {/* Group Description */}
+                    <p className="text-[12.5px] sm:text-[13px] text-[#4B5563] leading-relaxed">
+                      {group.description}
+                    </p>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#111827] font-sans-editorial">
-                      {group.title}
-                    </h3>
+
+                  {/* Bottom section: Skill Tags */}
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
+                    {group.skills.map((skill) => {
+                      const isSelected = selectedTech?.name === skill.name;
+
+                      return (
+                        <button
+                          key={skill.name}
+                          type="button"
+                          onClick={() => setSelectedTech(isSelected ? null : skill)}
+                          className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg text-[11px] sm:text-[11.5px] font-medium transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+                            isSelected
+                              ? 'bg-[#2563EB] text-white font-semibold shadow-xs'
+                              : 'bg-[#F8FAFC] text-[#111827] border border-[#E2E8F0] hover:border-[#2563EB]/50 hover:bg-[#E8F1FF]'
+                          }`}
+                        >
+                          <span>{skill.name}</span>
+                        </button>
+                      );
+                    })}
                   </div>
-                </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]">
-                  {group.focus}
-                </span>
-              </div>
-
-              {/* Group Description */}
-              <p className="text-[13.5px] text-[#4B5563] leading-relaxed">
-                {group.description}
-              </p>
-
-              {/* Skill Tags */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                {group.skills.map((skill) => {
-                  const isSelected = selectedTech?.name === skill.name;
-
-                  return (
-                    <button
-                      key={skill.name}
-                      type="button"
-                      onClick={() => setSelectedTech(isSelected ? null : skill)}
-                      className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-                        isSelected
-                          ? 'bg-[#2563EB] text-white font-semibold shadow-xs'
-                          : 'bg-[#F8FAFC] text-[#111827] border border-[#E2E8F0] hover:border-[#2563EB]/50 hover:bg-[#E8F1FF]'
-                      }`}
-                    >
-                      <span>{skill.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Selected Skill Detail Modal/Card */}
-      <AnimatePresence>
-        {selectedTech && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, y: 8, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden mt-6"
-          >
-            <div className="p-4 sm:p-5 rounded-2xl border border-[#2563EB]/30 bg-[#E8F1FF]/60 text-[#111827] shadow-sm flex items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 text-[12px] text-[#2563EB] font-bold">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>How I use {selectedTech.name} in my projects:</span>
-                </div>
-                <p className="text-[14px] text-[#1E3A8A] leading-relaxed font-medium">
-                  {selectedTech.detail}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSelectedTech(null)}
-                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#111827] hover:bg-white transition-colors cursor-pointer shrink-0"
-                aria-label="Close"
+          {/* Selected Skill Detail Modal/Card */}
+          <AnimatePresence>
+            {selectedTech && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: 8, height: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden mt-5 max-w-[760px]"
               >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <div className="p-4 sm:p-5 rounded-2xl border border-[#2563EB]/30 bg-[#E8F1FF]/60 text-[#111827] shadow-sm flex items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-[12px] text-[#2563EB] font-bold">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>How I use {selectedTech.name} in my projects:</span>
+                    </div>
+                    <p className="text-[13.5px] text-[#1E3A8A] leading-relaxed font-medium">
+                      {selectedTech.detail}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedTech(null)}
+                    className="p-1.5 rounded-lg text-[#64748B] hover:text-[#111827] hover:bg-white transition-colors cursor-pointer shrink-0"
+                    aria-label="Close"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Right side: Kept as open space */}
+        <div className="hidden lg:block lg:col-span-4 xl:col-span-5" aria-hidden="true" />
+      </div>
 
     </section>
   );

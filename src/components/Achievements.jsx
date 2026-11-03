@@ -542,7 +542,7 @@ export default function Achievements() {
           >
             {/* Perspective Canvas Container */}
             <div
-              className="relative w-full max-w-[480px] sm:max-w-[510px] h-[370px] sm:h-[400px] flex items-center justify-center"
+              className="relative w-full max-w-[480px] sm:max-w-[510px] h-[370px] sm:h-[400px] flex items-center justify-center scale-[0.86] xs:scale-[0.94] sm:scale-100 origin-center transition-transform"
               style={{ perspective: 1100 }}
             >
               {/* Soft Illuminated Elliptical Platform Grounding the Composition */}
