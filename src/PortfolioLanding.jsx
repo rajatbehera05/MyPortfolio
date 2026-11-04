@@ -10,6 +10,7 @@ import TechIWorkWith from './components/TechIWorkWith';
 import Achievements from './components/Achievements';
 import ProjectsEntry from './components/ProjectsEntry';
 import SkillsNetwork from './components/SkillsNetwork';
+import GithubActivity from './components/GithubActivity';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
 import HeroTimeEnvironment from './components/HeroTimeEnvironment';
@@ -138,7 +139,10 @@ export default function PortfolioLanding() {
         {/* Section 5: Architecture & Skills Network */}
         <SkillsNetwork />
 
-        {/* Section 6: Contact & Call to Action */}
+        {/* Section 6: GitHub & Development Activity */}
+        <GithubActivity />
+
+        {/* Section 7: Contact & Call to Action */}
         <Contact onOpenCV={handleOpenCV} />
       </main>
 

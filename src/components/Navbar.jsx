@@ -8,7 +8,8 @@ import {
   Trophy,
   FolderGit2,
   Compass,
-  ArrowRight
+  ArrowRight,
+  GitBranch
 } from 'lucide-react';
 
 /**
@@ -132,6 +133,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
         { id: 'achievements', name: 'Achievements' },
         { id: 'work', name: 'Projects' },
         { id: 'exploring', name: 'Milestones' },
+        { id: 'github-activity', name: 'Activity' },
       ];
 
       const scrollPosition = window.scrollY + 220;
@@ -153,6 +155,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     { name: 'Achievements', href: '#achievements', icon: Trophy },
     { name: 'Projects', href: '#work', icon: FolderGit2 },
     { name: 'Milestones', href: '#exploring', icon: Compass },
+    { name: 'Activity', href: '#github-activity', icon: GitBranch },
   ];
 
   const handleNavClick = (e, name, href) => {
