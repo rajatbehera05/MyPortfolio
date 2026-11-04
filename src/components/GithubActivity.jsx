@@ -8,13 +8,13 @@ import {
   Calendar,
   ExternalLink,
   Code2,
-  RefreshCw,
   FolderGit2,
-  Sparkles,
-  Layers,
-  Activity
+  Activity,
+  MapPin,
+  CheckCircle2
 } from 'lucide-react';
 import WireframeCube from './WireframeCube';
+import realContributionsData from '../data/real_github_contributions.json';
 
 function GithubIcon({ className = "w-4 h-4" }) {
   return (
@@ -96,84 +96,39 @@ const LANGUAGE_COLORS = {
   Default: { dot: '#2563EB', text: '#1E40AF', bg: '#EFF6FF', border: '#DBEAFE' },
 };
 
-/**
- * Generate simulated deterministic yearly calendar grid for the heatmap
- * if third-party endpoints are rate-limited or blocked
- */
-function generateDeterministicCalendar() {
-  const weeks = 52;
-  const days = 7;
-  const data = [];
-  const baseDate = new Date();
-  baseDate.setDate(baseDate.getDate() - (weeks * 7));
-
-  // Pattern with realistic engineering activity bursts (weekdays, peak hackathon months)
-  let countTotal = 0;
-  for (let w = 0; w < weeks; w++) {
-    const weekDays = [];
-    for (let d = 0; d < days; d++) {
-      const curDate = new Date(baseDate);
-      curDate.setDate(curDate.getDate() + (w * 7 + d));
-      
-      // Deterministic pseudo-randomness based on week and day
-      const seed = Math.sin(w * 0.42 + d * 0.88) * 10000;
-      const rand = seed - Math.floor(seed);
-      
-      let level = 0;
-      let count = 0;
-      if (d === 0 || d === 6) {
-        // Weekends: occasional sprints
-        if (rand > 0.68) {
-          level = rand > 0.9 ? 3 : rand > 0.8 ? 2 : 1;
-          count = level * 3 + Math.floor(rand * 3);
-        }
-      } else {
-        // Weekdays: active development
-        if (rand > 0.32) {
-          level = rand > 0.88 ? 4 : rand > 0.72 ? 3 : rand > 0.52 ? 2 : 1;
-          count = level * 2 + Math.floor(rand * 4);
-        }
-      }
-
-      countTotal += count;
-      weekDays.push({
-        date: curDate.toISOString().split('T')[0],
-        day: d,
-        count,
-        level,
-      });
-    }
-    data.push({ week: w, days: weekDays });
-  }
-
-  return { weeks: data, total: countTotal };
-}
-
 export default function GithubActivity() {
   const [profile, setProfile] = useState({
     login: 'rajatbehera05',
     name: 'Rajat Behera',
     bio: 'CSE | Software · IoT · Embedded Systems · AI/ML | Building practical systems',
+    location: 'India',
     public_repos: 24,
     followers: 6,
     following: 2,
-    avatar_url: 'https://avatars.githubusercontent.com/u/225657425?v=4',
+    avatar_url: '/assets/rajat_github_avatar.jpg',
     html_url: 'https://github.com/rajatbehera05'
   });
 
   const [repos, setRepos] = useState(FALLBACK_REPOS);
-  const [loading, setLoading] = useState(false);
   const [hoveredCell, setHoveredCell] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('ALL');
 
-  // Heatmap deterministic fallback calendar
-  const calendarData = useMemo(() => generateDeterministicCalendar(), []);
+  // Load real verified GitHub contribution calendar
+  const calendarData = useMemo(() => {
+    if (realContributionsData && realContributionsData.weeks) {
+      return realContributionsData;
+    }
+    return {
+      totalContributions: 210,
+      weeks: []
+    };
+  }, []);
 
-  // Fetch GitHub User details and repositories with caching
+  // Fetch live GitHub User details and repositories with caching
   useEffect(() => {
     let isMounted = true;
-    const CACHE_KEY = 'rajat_github_activity_v1';
-    const CACHE_TIME_KEY = 'rajat_github_activity_time';
+    const CACHE_KEY = 'rajat_github_activity_v2';
+    const CACHE_TIME_KEY = 'rajat_github_activity_time_v2';
     const CACHE_EXPIRY = 60 * 60 * 1000; // 1 hour
 
     const loadData = async () => {
@@ -183,7 +138,7 @@ export default function GithubActivity() {
         const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
         if (cached && cachedTime && Date.now() - parseInt(cachedTime, 10) < CACHE_EXPIRY) {
           const parsed = JSON.parse(cached);
-          if (parsed.profile) setProfile(parsed.profile);
+          if (parsed.profile) setProfile((prev) => ({ ...prev, ...parsed.profile }));
           if (parsed.repos && parsed.repos.length > 0) setRepos(parsed.repos);
           return;
         }
@@ -191,18 +146,20 @@ export default function GithubActivity() {
         // Ignore cache parse errors
       }
 
-      setLoading(true);
       try {
         // Fetch User profile
         const userRes = await fetch('https://api.github.com/users/rajatbehera05');
+        let fetchedUser = null;
         if (userRes.ok) {
           const userData = await userRes.json();
           if (isMounted && userData && userData.login) {
+            fetchedUser = userData;
             setProfile((prev) => ({
               ...prev,
               login: userData.login,
               name: userData.name || prev.name,
               bio: userData.bio || prev.bio,
+              location: userData.location || prev.location,
               public_repos: userData.public_repos ?? prev.public_repos,
               followers: userData.followers ?? prev.followers,
               following: userData.following ?? prev.following,
@@ -233,7 +190,7 @@ export default function GithubActivity() {
               localStorage.setItem(
                 CACHE_KEY,
                 JSON.stringify({
-                  profile: userData,
+                  profile: fetchedUser,
                   repos: formatted.slice(0, 6)
                 })
               );
@@ -244,8 +201,6 @@ export default function GithubActivity() {
       } catch (err) {
         // Fallback remains safely mounted
         console.warn('GitHub API request notice:', err);
-      } finally {
-        if (isMounted) setLoading(false);
       }
     };
 
@@ -290,8 +245,8 @@ export default function GithubActivity() {
       className="w-full relative z-10 py-16 sm:py-24 border-t border-[#D5DFEB]"
     >
       <div className="max-w-[1380px] mx-auto px-4 sm:px-12">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10 sm:mb-12">
+        {/* Section Header with Real Profile Identity Card */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -327,7 +282,7 @@ export default function GithubActivity() {
             </p>
           </motion.div>
 
-          {/* GitHub Profile Pill Badge */}
+          {/* Real GitHub Profile Identity Card */}
           <motion.a
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -335,24 +290,51 @@ export default function GithubActivity() {
             href={profile.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white border border-[#D5DFEB] shadow-xs hover:border-[#2563EB]/50 hover:shadow-[0_8px_24px_rgba(37,99,235,0.08)] transition-all duration-200 self-start md:self-auto group cursor-pointer"
+            className="flex items-center gap-3.5 p-2 sm:p-2.5 pr-4.5 rounded-2xl bg-white/95 backdrop-blur-md border border-[#D5DFEB] shadow-xs hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.09)] transition-all duration-200 self-start md:self-auto group cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-xl bg-[#0F172A] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-              <GithubIcon className="w-4 h-4" />
+            {/* Real Avatar Photo with Online Status Beacon */}
+            <div className="relative shrink-0">
+              <img
+                src={profile.avatar_url || '/assets/rajat_github_avatar.jpg'}
+                alt={profile.name || 'Rajat Behera'}
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover border border-[#D5DFEB] group-hover:scale-105 transition-transform duration-200"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = 'https://avatars.githubusercontent.com/u/225657425?v=4';
+                }}
+              />
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#10B981] border-2 border-white" />
+              </span>
             </div>
-            <div className="text-left">
-              <div className="text-[11px] text-[#64748B] font-mono leading-none">
-                @{profile.login}
+
+            {/* Profile Info */}
+            <div className="text-left min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[13.5px] sm:text-[14px] font-bold text-[#0F172A] group-hover:text-[#2563EB] transition-colors leading-tight truncate">
+                  {profile.name || 'Rajat Behera'}
+                </span>
+                <span className="px-1.5 py-0.2 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-[9px] font-bold uppercase tracking-wider">
+                  Verified
+                </span>
               </div>
-              <div className="text-[13px] font-bold text-[#0F172A] group-hover:text-[#2563EB] transition-colors leading-tight mt-0.5 flex items-center gap-1">
+              <div className="text-[11.5px] text-[#64748B] font-mono leading-tight mt-0.5 flex items-center gap-1">
+                <span>@{profile.login}</span>
+                <span className="text-[#CBD5E1]">•</span>
+                <span className="text-[#3B82F6] flex items-center gap-0.5">
+                  <MapPin className="w-2.5 h-2.5 inline" /> {profile.location || 'India'}
+                </span>
+              </div>
+              <div className="text-[11px] font-semibold text-[#2563EB] group-hover:underline flex items-center gap-1 mt-1">
                 <span>View GitHub Profile</span>
-                <ExternalLink className="w-3 h-3 text-[#64748B] group-hover:text-[#2563EB] transition-colors" />
+                <ExternalLink className="w-3 h-3 text-[#2563EB] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </div>
             </div>
           </motion.a>
         </div>
 
-        {/* 1. TOP METRICS DASHBOARD (4 Cards) */}
+        {/* 1. TOP METRICS DASHBOARD (4 Cards with Real Data) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 mb-6">
           {/* Metric 1: Public Repos */}
           <motion.div
@@ -375,7 +357,7 @@ export default function GithubActivity() {
             </div>
           </motion.div>
 
-          {/* Metric 2: Estimated Annual Commits */}
+          {/* Metric 2: Real Verified Annual Commits */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -388,10 +370,10 @@ export default function GithubActivity() {
               <Flame className="w-4 h-4 text-[#F97316]" />
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-[#0F172A] font-mono-tech tracking-tight">
-              {calendarData.total}+
+              {calendarData.totalContributions || 210}
             </div>
             <div className="text-[11.5px] text-[#64748B] mt-1 flex items-center gap-1">
-              <span className="text-[#F97316] font-semibold">Active Streak</span>
+              <span className="text-[#F97316] font-semibold">Verified</span>
               <span className="text-[#CBD5E1]">•</span>
               <span>Past 12 Months</span>
             </div>
@@ -438,7 +420,7 @@ export default function GithubActivity() {
           </motion.div>
         </div>
 
-        {/* 2. CONTRIBUTION HEATMAP DASHBOARD */}
+        {/* 2. REAL CONTRIBUTION HEATMAP DASHBOARD */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -456,7 +438,7 @@ export default function GithubActivity() {
                   Commit Cadence &amp; Engineering Rhythm
                 </h3>
                 <p className="text-[12px] text-[#64748B]">
-                  Interactive heatmap visualization over the past 52 weeks
+                  Verified GitHub activity over the past 52 weeks ({calendarData.totalContributions || 210} contributions)
                 </p>
               </div>
             </div>
@@ -477,8 +459,8 @@ export default function GithubActivity() {
 
           {/* Interactive Heatmap Matrix */}
           <div className="pt-5 overflow-x-auto custom-scrollbar pb-2">
-            <div className="min-w-[680px]">
-              {/* Grid with 52 Columns x 7 Rows */}
+            <div className="min-w-[700px]">
+              {/* Grid with 53 Columns x 7 Rows */}
               <div className="flex gap-[3.5px]">
                 {calendarData.weeks.map((week) => (
                   <div key={`week-${week.week}`} className="flex flex-col gap-[3.5px]">
@@ -500,7 +482,9 @@ export default function GithubActivity() {
               <div className="h-6 mt-3 flex items-center text-[12px] text-[#475569] font-mono">
                 {hoveredCell ? (
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#F1F5F9] border border-[#E2E8F0]">
-                    <span className="font-bold text-[#0F172A]">{hoveredCell.count} contributions</span>
+                    <span className="font-bold text-[#0F172A]">
+                      {hoveredCell.count === 0 ? 'No contributions' : `${hoveredCell.count} contribution${hoveredCell.count > 1 ? 's' : ''}`}
+                    </span>
                     <span>on {hoveredCell.date}</span>
                   </span>
                 ) : (
@@ -608,4 +592,3 @@ export default function GithubActivity() {
     </section>
   );
 }
-
