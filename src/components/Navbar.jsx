@@ -213,44 +213,40 @@ export default function Navbar({ onConnectClick, isNight = false }) {
               className="group flex items-center gap-2.5 sm:gap-3 no-underline focus-visible:outline-none"
               aria-label="Rajat Behera Home"
             >
-              {/* Distinctive Geometric RB Emblem with Subtle Blue Gradient */}
+              {/* Crisp Phoenix Emblem Logo */}
               <div
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-105 shrink-0"
+                className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden flex items-center justify-center transition-all duration-300 group-hover:scale-105 shrink-0 bg-[#0B0A09]"
                 style={{
-                  background: 'linear-gradient(135deg, #1E3A8A 0%, #2563EB 55%, #3B82F6 100%)',
-                  boxShadow: '0 2px 8px rgba(37, 99, 235, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.45)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)'
+                  boxShadow: '0 2px 10px rgba(234, 88, 12, 0.35), 0 0 16px rgba(249, 115, 22, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
+                  border: '1.5px solid rgba(251, 146, 60, 0.6)'
                 }}
               >
-                <span className="text-[11.5px] sm:text-[12.5px] font-bold tracking-wider text-white font-mono">
-                  RB
-                </span>
+                <img
+                  src="/assets/phoenix-crop.png"
+                  alt="Phoenix Emblem"
+                  width="40"
+                  height="40"
+                  decoding="async"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  style={{
+                    imageRendering: '-webkit-optimize-contrast',
+                    backfaceVisibility: 'hidden',
+                    transform: 'translateZ(0)'
+                  }}
+                />
               </div>
 
-              {/* Name & Availability Indicator */}
-              <div className="flex items-center gap-2 sm:gap-2.5">
-                <span className={`text-[14px] sm:text-[14.5px] font-bold tracking-tight font-sans-editorial ${
-                  isNightNavbar ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
-                }`}>
-                  Rajat Behera
-                </span>
-
-                {/* Available for Work Indicator */}
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-                  </span>
-                  <span className="text-[10.5px] font-medium text-emerald-600 dark:text-emerald-400 whitespace-nowrap hidden sm:inline">
-                    Available for Work
-                  </span>
-                </div>
-              </div>
+              {/* Name */}
+              <span className={`text-[14.5px] sm:text-[15.5px] font-bold tracking-tight font-sans-editorial group-hover:text-[#2563EB] transition-colors duration-200 select-none ${
+                isNightNavbar ? 'text-[#F1F5FF] group-hover:text-[#60A5FA]' : 'text-[#0F172A]'
+              }`}>
+                Rajat Behera
+              </span>
             </a>
 
             {/* Refined Divider */}
             <div
-              className={`hidden md:block w-[1px] h-5 mx-1 ${
+              className={`hidden md:block w-[1px] h-5 mx-1.5 ${
                 isNightNavbar ? 'bg-white/15' : 'bg-[#E2E8F0]'
               }`}
               aria-hidden="true"

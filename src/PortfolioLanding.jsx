@@ -13,6 +13,7 @@ import SkillsNetwork from './components/SkillsNetwork';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
 import HeroTimeEnvironment from './components/HeroTimeEnvironment';
+import CosmicScrollIndicator from './components/CosmicScrollIndicator';
 import { useTimeEnvironment } from './hooks/useTimeEnvironment';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -90,6 +91,9 @@ export default function PortfolioLanding() {
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
       />
+
+      {/* 3. Cosmic Shooting Star & Constellation Scroll Indicator */}
+      <CosmicScrollIndicator />
 
       {/* 5. Complete Main Experience */}
       <main className="relative z-10 w-full overflow-x-clip">
