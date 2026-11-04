@@ -252,7 +252,7 @@ export default function Contact({ onOpenCV }) {
 
           {/* LinkedIn Card */}
           <a
-            href="https://linkedin.com"
+            href="https://linkedin.com/in/rajat-behera-5a02b7328/"
             target="_blank"
             rel="noopener noreferrer"
             className="p-5 rounded-2xl border border-[#D5DFEB] bg-white hover:border-[#2563EB]/50 hover:shadow-[0_12px_28px_rgba(37,99,235,0.08)] flex items-center justify-between group transition-all duration-300 block text-inherit no-underline shadow-xs hover:-translate-y-0.5"
@@ -266,7 +266,7 @@ export default function Contact({ onOpenCV }) {
                   Professional Network
                 </div>
                 <div className="text-[14.5px] font-semibold text-[#111827] group-hover:text-[#2563EB] transition-colors">
-                  Connect on LinkedIn
+                  linkedin.com/in/rajat-behera-5a02b7328
                 </div>
               </div>
             </div>

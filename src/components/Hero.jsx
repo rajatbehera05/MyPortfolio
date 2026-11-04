@@ -226,7 +226,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/rajat-behera-5a02b7328/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center gap-1.5 ${isNight ? 'hover:text-[#F1F5FF]' : 'hover:text-[#111827]'} transition-colors`}
@@ -244,7 +244,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               </a>
 
               <span className={`${isNight ? 'text-[#475569]' : 'text-[#CBD5E1]'} hidden sm:inline`}>•</span>
-              <span className={`${isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'} font-medium hidden sm:inline`}>B.Tech CSE (8.9 CGPA)</span>
+              <span className={`${isNight ? 'text-[#A9B8D0]' : 'text-[#4B5563]'} font-medium hidden sm:inline`}>B.Tech CSE (IoT) · YCCE</span>
             </motion.div>
 
           </div>
