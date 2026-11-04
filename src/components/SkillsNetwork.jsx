@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Code2, Server, Database, Cpu, Sparkles, X, ArrowUpRight } from 'lucide-react';
 import WireframeCube from './WireframeCube';
+import RobotMascotVisual from './RobotMascotVisual';
 
 /**
  * Individual Card Personality Visual Accent
@@ -441,8 +442,10 @@ export default function SkillsNetwork() {
           </AnimatePresence>
         </div>
 
-        {/* Right side: Kept as open space */}
-        <div className="hidden lg:block lg:col-span-4 xl:col-span-5" aria-hidden="true" />
+        {/* Right side: Animated 3D Robot Mascot */}
+        <div className="lg:col-span-4 xl:col-span-5 flex items-center justify-center w-full">
+          <RobotMascotVisual />
+        </div>
       </div>
 
     </section>
