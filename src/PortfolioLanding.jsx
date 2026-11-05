@@ -140,7 +140,7 @@ export default function PortfolioLanding() {
         <TechIWorkWith />
 
         {/* Section 4: Achievements — Milestones That Shape My Journey */}
-        <Achievements />
+        <Achievements isNight={timeEnv.isNight} />
 
         {/* Section 5: Projects Entry (Art-directed serif heading + Explore CTA) */}
         <ProjectsEntry />

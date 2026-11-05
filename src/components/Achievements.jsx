@@ -16,6 +16,7 @@ import {
   Sparkles,
   Calendar
 } from 'lucide-react';
+import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 // Verified achievement items data with premium editorial copy
 const ACHIEVEMENTS_DATA = [
@@ -237,11 +238,13 @@ function TrophyGraphic({ className = "w-20 h-20 sm:w-22 sm:h-22" }) {
 /**
  * 3D Crystal Gem Prism in bottom-right corner matching reference
  */
-function CrystalPrism({ className = "w-16 h-16 sm:w-18 sm:h-18" }) {
+function CrystalPrism({ className = "w-16 h-16 sm:w-18 sm:h-18", isNight = false }) {
   return (
     <div className={`relative select-none pointer-events-none ${className}`}>
       {/* Soft ground shadow */}
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-16 h-4 bg-indigo-950/10 rounded-full blur-md" />
+      <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full blur-md ${
+        isNight ? 'bg-[#38BDF8]/15' : 'bg-indigo-950/10'
+      }`} />
 
       <svg viewBox="0 0 100 100" fill="none" className="w-full h-full overflow-visible drop-shadow-[0_8px_16px_rgba(139,92,246,0.18)]">
         <defs>
@@ -283,23 +286,26 @@ function CrystalPrism({ className = "w-16 h-16 sm:w-18 sm:h-18" }) {
 /**
  * High-contrast responsive icon renderer for floating flanker cards
  */
-function FlankerIcon({ iconType }) {
+function FlankerIcon({ iconType, isNight = false }) {
   if (iconType === 'trophy') {
-    return <Trophy className="w-5 h-5 text-[#4F46E5]" />;
+    return <Trophy className={`w-5 h-5 ${isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'}`} />;
   }
   if (iconType === 'code') {
-    return <Code2 className="w-5 h-5 text-[#2563EB]" />;
+    return <Code2 className={`w-5 h-5 ${isNight ? 'text-[#38BDF8]' : 'text-[#2563EB]'}`} />;
   }
   if (iconType === 'academic') {
-    return <GraduationCap className="w-5 h-5 text-[#4F46E5]" />;
+    return <GraduationCap className={`w-5 h-5 ${isNight ? 'text-[#A78BFA]' : 'text-[#4F46E5]'}`} />;
   }
   if (iconType === 'certificate') {
-    return <FileCheck className="w-5 h-5 text-[#7C3AED]" />;
+    return <FileCheck className={`w-5 h-5 ${isNight ? 'text-[#C084FC]' : 'text-[#7C3AED]'}`} />;
   }
-  return <Sparkles className="w-5 h-5 text-[#4F46E5]" />;
+  return <Sparkles className={`w-5 h-5 ${isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'}`} />;
 }
 
-export default function Achievements() {
+export default function Achievements({ isNight: isNightProp }) {
+  const fallbackEnv = useTimeEnvironment();
+  const isNight = isNightProp !== undefined ? isNightProp : fallbackEnv.isNight;
+
   const [selectedId, setSelectedId] = useState('sternkraft');
   const [activeFilter, setActiveFilter] = useState('All');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -468,12 +474,26 @@ export default function Achievements() {
     <section
       id="achievements"
       aria-label="Achievements & Milestones"
-      className="w-full relative z-10 py-16 sm:py-24 overflow-hidden bg-[#FAFBFE] border-t border-[#E2E8F0]/80 select-none"
+      data-theme={isNight ? 'night' : 'light'}
+      className={`w-full relative z-10 py-16 sm:py-24 overflow-hidden select-none transition-colors duration-700 ${
+        isNight
+          ? 'bg-[#081426] border-t border-[rgba(150,180,230,0.12)]'
+          : 'bg-[#FAFBFE] border-t border-[#E2E8F0]/80'
+      }`}
     >
-      {/* Background Soft Atmospheric Radiance (Refined Warm White with subtle icy-lavender tint) */}
+      {/* Background Soft Atmospheric Radiance */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[350px] bg-gradient-to-tr from-indigo-100/25 via-purple-100/15 to-transparent rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[300px] bg-gradient-to-bl from-purple-100/20 via-indigo-50/20 to-transparent rounded-full blur-[90px]" />
+        {isNight ? (
+          <>
+            <div className="absolute top-1/4 left-1/3 w-[520px] h-[360px] bg-gradient-to-tr from-[#38BDF8]/10 via-[#8B5CF6]/8 to-transparent rounded-full blur-[110px] -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-1/4 right-1/4 w-[460px] h-[320px] bg-gradient-to-bl from-[#6366F1]/10 via-[#38BDF8]/6 to-transparent rounded-full blur-[100px]" />
+          </>
+        ) : (
+          <>
+            <div className="absolute top-1/4 left-1/3 w-[500px] h-[350px] bg-gradient-to-tr from-indigo-100/25 via-purple-100/15 to-transparent rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[300px] bg-gradient-to-bl from-purple-100/20 via-indigo-50/20 to-transparent rounded-full blur-[90px]" />
+          </>
+        )}
       </div>
 
       <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12 relative z-10">
@@ -488,24 +508,32 @@ export default function Achievements() {
           {/* --------------------------------------------------------------------- */}
           <div className="lg:col-span-4 xl:col-span-4 space-y-6">
             <div>
-              {/* Small uppercase label with thin indigo rule */}
+              {/* Small uppercase label with thin rule */}
               <div className="flex items-center gap-2 mb-3">
-                <span className="w-5 h-[2px] bg-[#4F46E5] rounded-full inline-block" />
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#4F46E5] uppercase">
+                <span className={`w-5 h-[2px] rounded-full inline-block ${isNight ? 'bg-[#818CF8]' : 'bg-[#4F46E5]'}`} />
+                <span className={`text-[11px] font-bold tracking-[0.2em] uppercase ${isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'}`}>
                   ACHIEVEMENTS
                 </span>
               </div>
 
               {/* Headline with natural two-line editorial wrapping */}
-              <h2 className="font-editorial-serif text-[34px] sm:text-[44px] md:text-[50px] xl:text-[56px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-[1.15]">
+              <h2 className={`font-editorial-serif text-[34px] sm:text-[44px] md:text-[50px] xl:text-[56px] font-normal sm:font-medium tracking-tight leading-[1.15] transition-colors duration-500 ${
+                isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+              }`}>
                 Milestones That Shape{' '}
-                <span className="bg-gradient-to-r from-[#3730A3] via-[#4F46E5] to-[#7C3AED] bg-clip-text text-transparent">
+                <span className={`bg-clip-text text-transparent ${
+                  isNight
+                    ? 'bg-gradient-to-r from-[#38BDF8] via-[#818CF8] to-[#C084FC]'
+                    : 'bg-gradient-to-r from-[#3730A3] via-[#4F46E5] to-[#7C3AED]'
+                }`}>
                   My Journey
                 </span>
               </h2>
 
               {/* Refined, readable description underneath */}
-              <p className="mt-3.5 text-[14px] text-[#475569] leading-relaxed font-normal max-w-[340px]">
+              <p className={`mt-3.5 text-[14px] leading-relaxed font-normal max-w-[340px] transition-colors duration-500 ${
+                isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
+              }`}>
                 A curated collection of hackathon victories, engineering projects, academic milestones, and certifications that define my technical path.
               </p>
             </div>
@@ -518,10 +546,14 @@ export default function Achievements() {
                   <button
                     key={cat}
                     onClick={() => handleFilterClick(cat)}
-                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]/40 ${
+                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]/40 ${
                       isActive
-                        ? 'bg-[#312E81] text-white shadow-xs'
-                        : 'bg-white text-[#475569] hover:text-[#0F172A] hover:bg-slate-50 border border-[#E2E8F0] shadow-2xs'
+                        ? isNight
+                          ? 'bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white shadow-[0_0_12px_rgba(99,102,241,0.4)] border border-[#818CF8]/40'
+                          : 'bg-[#312E81] text-white shadow-xs'
+                        : isNight
+                          ? 'bg-[#122442]/80 text-[#94A3B8] hover:text-[#F1F5FF] hover:bg-[#162C52] border border-[rgba(150,180,230,0.18)] shadow-2xs'
+                          : 'bg-white text-[#475569] hover:text-[#0F172A] hover:bg-slate-50 border border-[#E2E8F0] shadow-2xs'
                     }`}
                   >
                     {cat}
@@ -550,18 +582,24 @@ export default function Achievements() {
                 ref={platformRef}
                 animate={{
                   scale: [1, 1.02, 1],
-                  opacity: [0.75, 0.9, 0.75],
+                  opacity: isNight ? [0.85, 1, 0.85] : [0.75, 0.9, 0.75],
                 }}
                 transition={{
                   duration: 6,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute bottom-4 sm:bottom-3 w-[350px] sm:w-[420px] h-[105px] sm:h-[125px] rounded-[100%] pointer-events-none"
+                className="absolute bottom-4 sm:bottom-3 w-[350px] sm:w-[420px] h-[105px] sm:h-[125px] rounded-[100%] pointer-events-none transition-all duration-500"
                 style={{
-                  background: 'radial-gradient(ellipse at center, rgba(238, 242, 255, 0.8) 0%, rgba(224, 231, 255, 0.45) 40%, rgba(199, 210, 254, 0.2) 65%, transparent 80%)',
-                  boxShadow: '0 0 35px rgba(165, 180, 252, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.8)',
-                  border: '1px solid rgba(199, 210, 254, 0.45)',
+                  background: isNight
+                    ? 'radial-gradient(ellipse at center, rgba(30, 48, 88, 0.85) 0%, rgba(18, 30, 58, 0.6) 45%, rgba(10, 20, 40, 0.3) 70%, transparent 85%)'
+                    : 'radial-gradient(ellipse at center, rgba(238, 242, 255, 0.8) 0%, rgba(224, 231, 255, 0.45) 40%, rgba(199, 210, 254, 0.2) 65%, transparent 80%)',
+                  boxShadow: isNight
+                    ? '0 0 40px rgba(56, 189, 248, 0.16), 0 0 20px rgba(139, 92, 246, 0.22), inset 0 0 20px rgba(56, 189, 248, 0.12)'
+                    : '0 0 35px rgba(165, 180, 252, 0.25), inset 0 0 20px rgba(255, 255, 255, 0.8)',
+                  border: isNight
+                    ? '1px solid rgba(129, 140, 248, 0.35)'
+                    : '1px solid rgba(199, 210, 254, 0.45)',
                 }}
               >
                 {/* Scroll-Triggered Orange Light Sweep SVG Overlay with Controlled Glitter */}
@@ -625,21 +663,13 @@ export default function Achievements() {
                   {/* Independent Star Sparkles (scattered near the platform, twinkling independently) */}
                   <g className="pointer-events-none">
                     {[
-                      // Left flank (slightly outside the rim)
                       { id: 'sp-1', x: 34, y: 50, size: 3.6, color: '#FFFBEB', duration: 3.6, delay: 0.5, repeatDelay: 2.8 },
-                      // Left flank (slightly inside the rim)
                       { id: 'sp-2', x: 64, y: 76, size: 3.0, color: '#FEF3C7', duration: 4.0, delay: 1.9, repeatDelay: 3.2 },
-                      // Bottom-left curve (rim edge)
                       { id: 'sp-3', x: 106, y: 111, size: 3.4, color: '#FDE68A', duration: 3.3, delay: 2.7, repeatDelay: 2.5 },
-                      // Bottom-left center lip
                       { id: 'sp-4', x: 154, y: 122, size: 2.8, color: '#FFFBEB', duration: 3.7, delay: 0.2, repeatDelay: 3.5 },
-                      // Bottom-right center lip
                       { id: 'sp-5', x: 266, y: 122, size: 3.0, color: '#FED7AA', duration: 3.5, delay: 1.3, repeatDelay: 2.9 },
-                      // Bottom-right curve (rim edge)
                       { id: 'sp-6', x: 314, y: 112, size: 3.4, color: '#FFFBEB', duration: 4.1, delay: 2.3, repeatDelay: 2.3 },
-                      // Right flank (slightly inside the rim)
                       { id: 'sp-7', x: 356, y: 74, size: 3.2, color: '#FEF3C7', duration: 3.6, delay: 0.8, repeatDelay: 3.0 },
-                      // Right flank (slightly outside the rim)
                       { id: 'sp-8', x: 386, y: 48, size: 3.6, color: '#FDBA74', duration: 3.8, delay: 2.4, repeatDelay: 2.6 },
                     ].map((sp) => {
                       const half = sp.size / 2;
@@ -664,22 +694,19 @@ export default function Achievements() {
                             ease: 'easeInOut',
                           }}
                         >
-                          {/* Micro localized warm glow behind star */}
                           <circle r={sp.size * 0.75} fill={sp.color} opacity="0.25" filter="url(#orangeTightHalo)" />
-                          {/* Crisp 4-point star glint */}
                           <path
                             d={`M 0,${-half} Q 0,0 ${half},0 Q 0,0 0,${half} Q 0,0 ${-half},0 Q 0,0 0,${-half} Z`}
                             fill={sp.color}
                             style={{ filter: `drop-shadow(0 0 1.5px ${sp.color})` }}
                           />
-                          {/* Specular bright center core */}
                           <circle r="0.5" fill="#FFFFFF" />
                         </motion.g>
                       );
                     })}
                   </g>
 
-                  {/* Traveling Leading Light Spark (compact, bright, dissolves smoothly upon completion) */}
+                  {/* Traveling Leading Light Spark */}
                   <g
                     ref={orangeHeadRef}
                     style={{
@@ -688,18 +715,17 @@ export default function Achievements() {
                       pointerEvents: 'none',
                     }}
                   >
-                    {/* Small confined ambient halo */}
                     <circle r="4.5" fill="rgba(251, 146, 60, 0.25)" filter="url(#orangeTightHalo)" />
-                    {/* Vivid warm orange mid spark */}
                     <circle r="2.2" fill="#EA580C" filter="url(#orangeSparkGlow)" />
-                    {/* Incandescent white-amber core */}
                     <circle r="1.0" fill="#FFFBEB" />
                   </g>
                 </svg>
               </motion.div>
 
               {/* Gentle Localized Reflection Beneath Central Card */}
-              <div className="absolute bottom-6 sm:bottom-5 left-1/2 -translate-x-1/2 w-36 sm:w-44 h-4 bg-indigo-500/12 rounded-full blur-md pointer-events-none z-10" />
+              <div className={`absolute bottom-6 sm:bottom-5 left-1/2 -translate-x-1/2 w-36 sm:w-44 h-4 rounded-full blur-md pointer-events-none z-10 transition-colors duration-500 ${
+                isNight ? 'bg-[#38BDF8]/15' : 'bg-indigo-500/12'
+              }`} />
 
               {/* Animated Orbital Lines sweeping cleanly behind the composition */}
               <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-visible z-0">
@@ -710,10 +736,10 @@ export default function Achievements() {
                 >
                   <defs>
                     <linearGradient id="orbitStrokeRefined" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#818CF8" stopOpacity="0.08" />
-                      <stop offset="40%" stopColor="#6366F1" stopOpacity="0.45" />
-                      <stop offset="70%" stopColor="#8B5CF6" stopOpacity="0.45" />
-                      <stop offset="100%" stopColor="#38BDF8" stopOpacity="0.1" />
+                      <stop offset="0%" stopColor="#818CF8" stopOpacity={isNight ? 0.15 : 0.08} />
+                      <stop offset="40%" stopColor="#6366F1" stopOpacity={isNight ? 0.6 : 0.45} />
+                      <stop offset="70%" stopColor="#8B5CF6" stopOpacity={isNight ? 0.6 : 0.45} />
+                      <stop offset="100%" stopColor="#38BDF8" stopOpacity={isNight ? 0.25 : 0.1} />
                     </linearGradient>
                   </defs>
 
@@ -740,8 +766,8 @@ export default function Achievements() {
                   {/* Traveling Orbit Sparkle Node */}
                   <motion.circle
                     r="3"
-                    fill="#818CF8"
-                    filter="drop-shadow(0 0 4px #6366F1)"
+                    fill={isNight ? '#38BDF8' : '#818CF8'}
+                    filter={isNight ? 'drop-shadow(0 0 6px #38BDF8)' : 'drop-shadow(0 0 4px #6366F1)'}
                     animate={{
                       cx: [80, 220, 450, 310, 80],
                       cy: [225, 145, 165, 255, 225],
@@ -772,31 +798,49 @@ export default function Achievements() {
                   rotateX: { duration: 0.25 },
                 }}
                 whileHover={{ scale: 1.05, zIndex: 25, y: -8 }}
-                className="absolute -left-2 sm:left-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-shadow"
+                className="absolute -left-2 sm:left-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-all duration-300"
                 style={{
                   transformStyle: 'preserve-3d',
-                  background: 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
-                  border: '1px solid rgba(203, 213, 225, 0.85)',
-                  boxShadow: '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  background: isNight
+                    ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
+                    : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
+                  border: isNight
+                    ? '1px solid rgba(129, 140, 248, 0.35)'
+                    : '1px solid rgba(203, 213, 225, 0.85)',
+                  boxShadow: isNight
+                    ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
+                    : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
                 }}
                 title={`Select ${leftCardData.title}`}
               >
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5">
                   {/* High-Contrast Icon Badge */}
-                  <div className="w-10 h-10 rounded-xl bg-indigo-50/90 border border-indigo-100 flex items-center justify-center shadow-xs">
-                    <FlankerIcon iconType={leftCardData.iconType} />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
+                    isNight
+                      ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
+                      : 'bg-indigo-50/90 border-indigo-100'
+                  }`}>
+                    <FlankerIcon iconType={leftCardData.iconType} isNight={isNight} />
                   </div>
                   <div>
-                    <h4 className="text-[13.5px] font-bold text-[#0F172A] tracking-tight leading-snug line-clamp-2 px-1">
+                    <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
+                      isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                    }`}>
                       {leftCardData.shortTitle}
                     </h4>
                     <div className="mt-1.5">
-                      <span className="inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase bg-indigo-50 text-[#4338CA] border border-indigo-100/90">
+                      <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
+                        isNight
+                          ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
+                          : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
+                      }`}>
                         {leftCardData.badge}
                       </span>
                     </div>
                   </div>
-                  <span className="text-[11.5px] font-semibold text-[#475569]">
+                  <span className={`text-[11.5px] font-semibold ${
+                    isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
+                  }`}>
                     {leftCardData.year}
                   </span>
                 </div>
@@ -819,31 +863,49 @@ export default function Achievements() {
                   rotateX: { duration: 0.25 },
                 }}
                 whileHover={{ scale: 1.05, zIndex: 25, y: -8 }}
-                className="absolute -right-2 sm:right-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-shadow"
+                className="absolute -right-2 sm:right-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-all duration-300"
                 style={{
                   transformStyle: 'preserve-3d',
-                  background: 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
-                  border: '1px solid rgba(203, 213, 225, 0.85)',
-                  boxShadow: '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  background: isNight
+                    ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
+                    : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
+                  border: isNight
+                    ? '1px solid rgba(129, 140, 248, 0.35)'
+                    : '1px solid rgba(203, 213, 225, 0.85)',
+                  boxShadow: isNight
+                    ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
+                    : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
                 }}
                 title={`Select ${rightCardData.title}`}
               >
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5">
                   {/* High-Contrast Icon Badge */}
-                  <div className="w-10 h-10 rounded-xl bg-indigo-50/90 border border-indigo-100 flex items-center justify-center shadow-xs">
-                    <FlankerIcon iconType={rightCardData.iconType} />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
+                    isNight
+                      ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
+                      : 'bg-indigo-50/90 border-indigo-100'
+                  }`}>
+                    <FlankerIcon iconType={rightCardData.iconType} isNight={isNight} />
                   </div>
                   <div>
-                    <h4 className="text-[13.5px] font-bold text-[#0F172A] tracking-tight leading-snug line-clamp-2 px-1">
+                    <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
+                      isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                    }`}>
                       {rightCardData.shortTitle}
                     </h4>
                     <div className="mt-1.5">
-                      <span className="inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase bg-indigo-50 text-[#4338CA] border border-indigo-100/90">
+                      <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
+                        isNight
+                          ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
+                          : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
+                      }`}>
                         {rightCardData.badge}
                       </span>
                     </div>
                   </div>
-                  <span className="text-[11.5px] font-semibold text-[#475569]">
+                  <span className={`text-[11.5px] font-semibold ${
+                    isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
+                  }`}>
                     {rightCardData.year}
                   </span>
                 </div>
@@ -871,19 +933,33 @@ export default function Achievements() {
                   rotateX: { duration: 0.2 },
                 }}
                 whileHover={{ scale: 1.025 }}
-                className="relative z-20 w-[225px] sm:w-[250px] h-[320px] sm:h-[345px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center select-none"
+                className="relative z-20 w-[225px] sm:w-[250px] h-[320px] sm:h-[345px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center select-none transition-all duration-300"
                 style={{
                   transformStyle: 'preserve-3d',
-                  background: 'linear-gradient(155deg, #FFFFFF 0%, #FAF8FF 45%, #F0F4FF 100%)',
-                  border: '1.5px solid rgba(199, 210, 254, 0.75)',
-                  boxShadow: '0 25px 55px -12px rgba(79, 70, 229, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 1.5px 2px rgba(255, 255, 255, 1)',
+                  background: isNight
+                    ? 'linear-gradient(155deg, rgba(22, 44, 82, 0.96) 0%, rgba(14, 28, 54, 0.97) 50%, rgba(9, 18, 36, 0.98) 100%)'
+                    : 'linear-gradient(155deg, #FFFFFF 0%, #FAF8FF 45%, #F0F4FF 100%)',
+                  border: isNight
+                    ? '1.5px solid rgba(129, 140, 248, 0.45)'
+                    : '1.5px solid rgba(199, 210, 254, 0.75)',
+                  boxShadow: isNight
+                    ? '0 25px 55px -12px rgba(3, 8, 20, 0.7), 0 0 25px rgba(99, 102, 241, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.15)'
+                    : '0 25px 55px -12px rgba(79, 70, 229, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 1.5px 2px rgba(255, 255, 255, 1)',
                 }}
               >
-                {/* Restrained Localized Lavender Glow Directly Behind Trophy */}
-                <div className="absolute top-7 left-1/2 -translate-x-1/2 w-28 h-28 bg-gradient-to-b from-indigo-400/20 via-purple-300/12 to-transparent rounded-full blur-xl pointer-events-none" />
+                {/* Localized Glow Directly Behind Trophy */}
+                <div className={`absolute top-7 left-1/2 -translate-x-1/2 w-28 h-28 rounded-full blur-xl pointer-events-none ${
+                  isNight
+                    ? 'bg-gradient-to-b from-indigo-500/30 via-purple-500/20 to-transparent'
+                    : 'bg-gradient-to-b from-indigo-400/20 via-purple-300/12 to-transparent'
+                }`} />
 
                 {/* Delicate Specular Bevel Line at Top */}
-                <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent" />
+                <div className={`absolute top-0 left-8 right-8 h-[1px] ${
+                  isNight
+                    ? 'bg-gradient-to-r from-transparent via-[#38BDF8]/40 to-transparent'
+                    : 'bg-gradient-to-r from-transparent via-white to-transparent'
+                }`} />
 
                 {/* Top/Center Visual: Trophy with Subtle Independent Float */}
                 <div className="w-full flex items-center justify-center pt-1 relative z-10">
@@ -899,35 +975,53 @@ export default function Achievements() {
                       <Code2 className="w-9 h-9 text-sky-400" />
                     </div>
                   ) : currentAchievement.iconType === 'academic' ? (
-                    <div className="w-18 h-18 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shadow-lg shadow-indigo-500/10">
-                      <GraduationCap className="w-9 h-9 text-indigo-600" />
+                    <div className={`w-18 h-18 rounded-2xl border flex items-center justify-center shadow-lg ${
+                      isNight
+                        ? 'bg-[#1E293B] border-[rgba(150,180,230,0.25)] shadow-indigo-500/20'
+                        : 'bg-indigo-50 border-indigo-100 shadow-indigo-500/10'
+                    }`}>
+                      <GraduationCap className={`w-9 h-9 ${isNight ? 'text-[#818CF8]' : 'text-indigo-600'}`} />
                     </div>
                   ) : (
-                    <div className="w-18 h-18 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center shadow-lg shadow-purple-500/10">
-                      <FileCheck className="w-9 h-9 text-purple-600" />
+                    <div className={`w-18 h-18 rounded-2xl border flex items-center justify-center shadow-lg ${
+                      isNight
+                        ? 'bg-[#1E293B] border-[rgba(150,180,230,0.25)] shadow-purple-500/20'
+                        : 'bg-purple-50 border-purple-100 shadow-purple-500/10'
+                    }`}>
+                      <FileCheck className={`w-9 h-9 ${isNight ? 'text-[#C084FC]' : 'text-purple-600'}`} />
                     </div>
                   )}
                 </div>
 
-                {/* Award Information Stack: 2nd Prize / STERNKRAFT / Hackathon / 2026 */}
+                {/* Award Information Stack */}
                 <div className="space-y-2 pb-1 flex flex-col items-center relative z-10">
-                  <h3 className="text-[22px] sm:text-[25px] font-black text-[#0B132B] tracking-tight leading-tight">
+                  <h3 className={`text-[22px] sm:text-[25px] font-black tracking-tight leading-tight ${
+                    isNight ? 'text-[#F1F5FF]' : 'text-[#0B132B]'
+                  }`}>
                     {currentAchievement.cardTitle || currentAchievement.title}
                   </h3>
 
                   {currentAchievement.team && (
-                    <p className="text-[11px] font-bold text-[#4338CA] tracking-[0.2em] uppercase">
+                    <p className={`text-[11px] font-bold tracking-[0.2em] uppercase ${
+                      isNight ? 'text-[#38BDF8]' : 'text-[#4338CA]'
+                    }`}>
                       {currentAchievement.team}
                     </p>
                   )}
 
                   <div>
-                    <span className="inline-block px-3 py-0.5 rounded-full text-[10.5px] font-bold bg-[#EDE9FE] text-[#4F46E5] border border-indigo-200/80 shadow-2xs">
+                    <span className={`inline-block px-3 py-0.5 rounded-full text-[10.5px] font-bold border shadow-2xs ${
+                      isNight
+                        ? 'bg-[#1E1B4B] text-[#C084FC] border-[#818CF8]/40'
+                        : 'bg-[#EDE9FE] text-[#4F46E5] border-indigo-200/80'
+                    }`}>
                       {currentAchievement.badge === 'HACKATHON' ? 'Hackathon' : currentAchievement.badge}
                     </span>
                   </div>
 
-                  <p className="text-[12px] font-semibold text-[#64748B] pt-0.5">
+                  <p className={`text-[12px] font-semibold pt-0.5 ${
+                    isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'
+                  }`}>
                     {currentAchievement.year}
                   </p>
                 </div>
@@ -940,13 +1034,21 @@ export default function Achievements() {
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous Achievement"
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white text-[#475569] hover:text-[#312E81] hover:bg-slate-50 border border-slate-200/90 shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]/40"
+                className={`w-8 h-8 rounded-full flex items-center justify-center border shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]/40 ${
+                  isNight
+                    ? 'bg-[#122442]/90 text-[#94A3B8] hover:text-white hover:bg-[#162C52] border-[rgba(150,180,230,0.2)]'
+                    : 'bg-white text-[#475569] hover:text-[#312E81] hover:bg-slate-50 border-slate-200/90'
+                }`}
               >
                 <ChevronLeft className="w-4 h-4 stroke-[2.2]" />
               </button>
 
               {/* Unified Pagination Indicators in Clean Dock */}
-              <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-slate-100/70 border border-slate-200/60">
+              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-full border ${
+                isNight
+                  ? 'bg-[#0D1B32]/90 border-[rgba(150,180,230,0.18)]'
+                  : 'bg-slate-100/70 border-slate-200/60'
+              }`}>
                 {ACHIEVEMENTS_DATA.map((item, idx) => {
                   const isActive = idx === selectedIndex;
                   return (
@@ -957,8 +1059,12 @@ export default function Achievements() {
                       aria-label={`Go to achievement ${idx + 1}`}
                       className={`transition-all duration-200 rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 ${
                         isActive
-                          ? 'w-5 h-1.5 bg-[#4338CA] shadow-2xs'
-                          : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400'
+                          ? isNight
+                            ? 'w-5 h-1.5 bg-[#38BDF8] shadow-[0_0_8px_rgba(56,189,248,0.6)]'
+                            : 'w-5 h-1.5 bg-[#4338CA] shadow-2xs'
+                          : isNight
+                            ? 'w-1.5 h-1.5 bg-[#334155] hover:bg-[#64748B]'
+                            : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400'
                       }`}
                     />
                   );
@@ -969,7 +1075,11 @@ export default function Achievements() {
                 type="button"
                 onClick={handleNext}
                 aria-label="Next Achievement"
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-white text-[#475569] hover:text-[#312E81] hover:bg-slate-50 border border-slate-200/90 shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]/40"
+                className={`w-8 h-8 rounded-full flex items-center justify-center border shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]/40 ${
+                  isNight
+                    ? 'bg-[#122442]/90 text-[#94A3B8] hover:text-white hover:bg-[#162C52] border-[rgba(150,180,230,0.2)]'
+                    : 'bg-white text-[#475569] hover:text-[#312E81] hover:bg-slate-50 border-slate-200/90'
+                }`}
               >
                 <ChevronRight className="w-4 h-4 stroke-[2.2]" />
               </button>
@@ -987,11 +1097,19 @@ export default function Achievements() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
-                className="w-full bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-[0_12px_32px_rgba(15,23,42,0.04),0_1px_2px_rgba(0,0,0,0.02)] space-y-5"
+                className={`w-full rounded-2xl sm:rounded-3xl p-6 sm:p-7 border space-y-5 transition-colors duration-500 ${
+                  isNight
+                    ? 'bg-[#122442]/90 backdrop-blur-xl border-[rgba(150,180,230,0.2)] shadow-[0_12px_32px_rgba(3,8,20,0.4),0_0_20px_rgba(56,189,248,0.08)]'
+                    : 'bg-white border-[#E2E8F0] shadow-[0_12px_32px_rgba(15,23,42,0.04),0_1px_2px_rgba(0,0,0,0.02)]'
+                }`}
               >
                 {/* Category Badge Pill */}
                 <div>
-                  <span className="inline-block px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wider uppercase bg-[#EEF2FF] text-[#4338CA] border border-indigo-100/80">
+                  <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wider uppercase border ${
+                    isNight
+                      ? 'bg-[#1E1B4B] text-[#A5B4FC] border-[#818CF8]/40'
+                      : 'bg-[#EEF2FF] text-[#4338CA] border-indigo-100/80'
+                  }`}>
                     {currentAchievement.badge}
                   </span>
                 </div>
@@ -999,41 +1117,55 @@ export default function Achievements() {
                 {/* Title & Subtitle */}
                 <div>
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-xl sm:text-[22px] font-bold text-[#0F172A] tracking-tight leading-snug">
+                    <h3 className={`text-xl sm:text-[22px] font-bold tracking-tight leading-snug ${
+                      isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                    }`}>
                       {currentAchievement.title}
                     </h3>
                     {currentAchievement.actionUrl && currentAchievement.actionUrl !== '#' && (
                       <a
                         href={currentAchievement.actionUrl}
-                        className="text-[#6366F1] hover:text-[#4338CA] p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                        className={`p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                          isNight ? 'text-[#38BDF8] hover:text-[#7DD3FC]' : 'text-[#6366F1] hover:text-[#4338CA]'
+                        }`}
                         aria-label="Open Link"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>
-                  <p className="text-[13px] font-medium text-[#64748B] mt-1">
+                  <p className={`text-[13px] font-medium mt-1 ${
+                    isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'
+                  }`}>
                     {currentAchievement.subtitle}
                   </p>
                 </div>
 
                 {/* Description Paragraph */}
-                <p className="text-[13.5px] text-[#475569] leading-relaxed font-normal">
+                <p className={`text-[13.5px] leading-relaxed font-normal ${
+                  isNight ? 'text-[#CBD5E1]' : 'text-[#475569]'
+                }`}>
                   {currentAchievement.description}
                 </p>
 
                 {/* Aligned Metadata Rows with Consistent Line Icons */}
-                <div className="space-y-3 pt-3 border-t border-[#F1F5F9]">
+                <div className={`space-y-3 pt-3 border-t ${
+                  isNight ? 'border-[rgba(150,180,230,0.14)]' : 'border-[#F1F5F9]'
+                }`}>
                   {currentAchievement.outcome && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <Award className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <Award className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Result</span>
-                        <span className="text-[#0F172A] font-semibold">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Result</span>
+                        <span className={`font-semibold ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.outcome}
                         </span>
                         {currentAchievement.isPrize && (
-                          <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                          <span className={`ml-2 px-1.5 py-0.5 rounded text-[10px] font-semibold border ${
+                            isNight
+                              ? 'bg-[#1E293B] text-[#7DD3FC] border-[#38BDF8]/30'
+                              : 'bg-indigo-50 text-indigo-700 border-indigo-100'
+                          }`}>
                             Winner
                           </span>
                         )}
@@ -1043,10 +1175,10 @@ export default function Achievements() {
 
                   {currentAchievement.date && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <Calendar className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <Calendar className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Date</span>
-                        <span className="text-[#0F172A] font-medium">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Date</span>
+                        <span className={`font-medium ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.date}
                         </span>
                       </div>
@@ -1055,10 +1187,10 @@ export default function Achievements() {
 
                   {currentAchievement.team && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <Users className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <Users className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Team</span>
-                        <span className="text-[#0F172A] font-medium">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Team</span>
+                        <span className={`font-medium ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.team}
                         </span>
                       </div>
@@ -1067,10 +1199,10 @@ export default function Achievements() {
 
                   {!currentAchievement.team && currentAchievement.teamSize && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <Users className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <Users className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Team Size</span>
-                        <span className="text-[#0F172A] font-medium">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Team Size</span>
+                        <span className={`font-medium ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.teamSize}
                         </span>
                       </div>
@@ -1079,10 +1211,10 @@ export default function Achievements() {
 
                   {currentAchievement.project && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <Code2 className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <Code2 className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Project</span>
-                        <span className="text-[#0F172A] font-medium">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Project</span>
+                        <span className={`font-medium ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.project}
                         </span>
                       </div>
@@ -1091,10 +1223,10 @@ export default function Achievements() {
 
                   {currentAchievement.location && (
                     <div className="flex items-center gap-3 text-[12.5px]">
-                      <MapPin className="w-4 h-4 text-[#6366F1] shrink-0" />
+                      <MapPin className={`w-4 h-4 shrink-0 ${isNight ? 'text-[#38BDF8]' : 'text-[#6366F1]'}`} />
                       <div className="flex items-center">
-                        <span className="text-[#64748B] w-16 shrink-0">Location</span>
-                        <span className="text-[#0F172A] font-medium">
+                        <span className={`w-16 shrink-0 ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>Location</span>
+                        <span className={`font-medium ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>
                           {currentAchievement.location}
                         </span>
                       </div>
@@ -1102,12 +1234,16 @@ export default function Achievements() {
                   )}
                 </div>
 
-                {/* Refined Indigo Action Button (Only when destination exists) */}
+                {/* Refined Action Button (Only when destination exists) */}
                 {currentAchievement.actionUrl && currentAchievement.actionUrl !== '#' && (
                   <div className="pt-2">
                     <a
                       href={currentAchievement.actionUrl}
-                      className="w-full py-2.5 px-4 rounded-xl text-[13px] font-semibold text-white bg-gradient-to-r from-[#4338CA] to-[#4F46E5] hover:from-[#3730A3] hover:to-[#4338CA] shadow-sm shadow-indigo-600/20 inline-flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                      className={`w-full py-2.5 px-4 rounded-xl text-[13px] font-semibold text-white inline-flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 ${
+                        isNight
+                          ? 'bg-gradient-to-r from-[#38BDF8] via-[#6366F1] to-[#8B5CF6] hover:brightness-110 shadow-[0_0_18px_rgba(56,189,248,0.3)] focus-visible:ring-[#38BDF8]'
+                          : 'bg-gradient-to-r from-[#4338CA] to-[#4F46E5] hover:from-[#3730A3] hover:to-[#4338CA] shadow-sm shadow-indigo-600/20 focus-visible:ring-indigo-500'
+                      }`}
                     >
                       <span>{currentAchievement.actionText}</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -1123,12 +1259,14 @@ export default function Achievements() {
         {/* ========================================================================= */}
         {/* BOTTOM SECTION — THE JOURNEY Horizontal Milestone Ribbon                  */}
         {/* ========================================================================= */}
-        <div className="mt-14 sm:mt-20 pt-8 sm:pt-10 border-t border-[#E2E8F0] relative">
+        <div className={`mt-14 sm:mt-20 pt-8 sm:pt-10 border-t relative transition-colors duration-500 ${
+          isNight ? 'border-[rgba(150,180,230,0.15)]' : 'border-[#E2E8F0]'
+        }`}>
           
-          {/* Label: Small uppercase "THE JOURNEY" with thin indigo rule */}
+          {/* Label: Small uppercase "THE JOURNEY" with thin rule */}
           <div className="flex items-center gap-2 mb-8">
-            <span className="w-5 h-[2px] bg-[#4F46E5] rounded-full inline-block" />
-            <span className="text-[11px] font-bold tracking-[0.2em] text-[#4F46E5] uppercase">
+            <span className={`w-5 h-[2px] rounded-full inline-block ${isNight ? 'bg-[#818CF8]' : 'bg-[#4F46E5]'}`} />
+            <span className={`text-[11px] font-bold tracking-[0.2em] uppercase ${isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'}`}>
               THE JOURNEY
             </span>
           </div>
@@ -1144,10 +1282,11 @@ export default function Achievements() {
               >
                 <path
                   d="M 0 12 Q 130 14, 240 22 T 480 20 T 720 28 T 960 22 T 1200 30"
-                  stroke="#C7D2FE"
+                  stroke={isNight ? '#6366F1' : '#C7D2FE'}
                   strokeWidth="1.2"
-                  strokeOpacity="0.75"
+                  strokeOpacity={isNight ? '0.45' : '0.75'}
                 />
+
                 {/* Glowing Nodes along the path corresponding to each card position */}
                 {[120, 360, 600, 840, 1080].map((cx, idx) => {
                   const isCurrent = idx === selectedIndex;
@@ -1158,15 +1297,15 @@ export default function Achievements() {
                         cx={cx}
                         cy={cyValues[idx]}
                         r={isCurrent ? 4.5 : 3}
-                        fill={isCurrent ? '#4F46E5' : '#CBD5E1'}
+                        fill={isCurrent ? (isNight ? '#38BDF8' : '#4F46E5') : (isNight ? '#334155' : '#CBD5E1')}
                       />
                       {isCurrent && (
                         <circle
                           cx={cx}
                           cy={cyValues[idx]}
                           r={7.5}
-                          fill="#4F46E5"
-                          opacity={0.2}
+                          fill={isNight ? '#38BDF8' : '#4F46E5'}
+                          opacity={isNight ? 0.35 : 0.2}
                         />
                       )}
                     </React.Fragment>
@@ -1180,7 +1319,11 @@ export default function Achievements() {
               type="button"
               onClick={handlePrev}
               aria-label="Previous Milestone"
-              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200 text-[#475569] hover:text-[#312E81] hover:bg-slate-50 flex items-center justify-center transition-all cursor-pointer hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className={`absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full shadow-sm border flex items-center justify-center transition-all cursor-pointer hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]/40 ${
+                isNight
+                  ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#94A3B8] hover:text-white hover:bg-[#162C52]'
+                  : 'bg-white border-slate-200 text-[#475569] hover:text-[#312E81] hover:bg-slate-50'
+              }`}
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -1189,7 +1332,11 @@ export default function Achievements() {
               type="button"
               onClick={handleNext}
               aria-label="Next Milestone"
-              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200 text-[#475569] hover:text-[#312E81] hover:bg-slate-50 flex items-center justify-center transition-all cursor-pointer hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className={`absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full shadow-sm border flex items-center justify-center transition-all cursor-pointer hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]/40 ${
+                isNight
+                  ? 'bg-[#122442] border-[rgba(150,180,230,0.2)] text-[#94A3B8] hover:text-white hover:bg-[#162C52]'
+                  : 'bg-white border-slate-200 text-[#475569] hover:text-[#312E81] hover:bg-slate-50'
+              }`}
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -1207,8 +1354,12 @@ export default function Achievements() {
                     transition={{ duration: 0.15 }}
                     className={`rounded-2xl p-4 sm:p-4.5 cursor-pointer transition-all duration-200 flex flex-col justify-between min-h-[170px] ${
                       isSelected
-                        ? 'bg-indigo-50/40 border-2 border-[#4F46E5] shadow-[0_8px_20px_rgba(79,70,229,0.08)] ring-2 ring-[#4F46E5]/15'
-                        : 'bg-white hover:bg-slate-50/80 border border-[#E2E8F0] shadow-2xs'
+                        ? isNight
+                          ? 'bg-[#162C52] border-2 border-[#38BDF8] shadow-[0_8px_24px_rgba(56,189,248,0.2)] ring-2 ring-[#38BDF8]/20'
+                          : 'bg-indigo-50/40 border-2 border-[#4F46E5] shadow-[0_8px_20px_rgba(79,70,229,0.08)] ring-2 ring-[#4F46E5]/15'
+                        : isNight
+                          ? 'bg-[#122442]/80 hover:bg-[#162C52] border border-[rgba(150,180,230,0.16)] shadow-2xs'
+                          : 'bg-white hover:bg-slate-50/80 border border-[#E2E8F0] shadow-2xs'
                     }`}
                   >
                     {/* Top Row: Icon Container */}
@@ -1219,10 +1370,16 @@ export default function Achievements() {
                             item.id === 'dealorbit'
                               ? 'bg-[#1E2333] text-sky-400'
                               : item.isPrize
-                              ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/70 shadow-2xs'
+                              ? isNight
+                                ? 'bg-[#1E293B] text-[#7DD3FC] border border-[#38BDF8]/30 shadow-2xs'
+                                : 'bg-indigo-50 text-indigo-700 border border-indigo-200/70 shadow-2xs'
                               : isSelected
-                              ? 'bg-[#EEF2FF] text-[#4F46E5]'
-                              : 'bg-slate-100 text-[#475569]'
+                              ? isNight
+                                ? 'bg-[#1E1B4B] text-[#38BDF8]'
+                                : 'bg-[#EEF2FF] text-[#4F46E5]'
+                              : isNight
+                                ? 'bg-[#1E293B] text-[#94A3B8]'
+                                : 'bg-slate-100 text-[#475569]'
                           }`}
                         >
                           {item.iconType === 'trophy' ? (
@@ -1239,38 +1396,52 @@ export default function Achievements() {
                         </div>
 
                         {item.isPrize && (
-                          <span className="px-2 py-0.5 rounded-full text-[9.5px] font-semibold uppercase bg-indigo-50 text-indigo-700 border border-indigo-200/80 flex items-center gap-1 shadow-2xs">
-                            <Sparkles className="w-2.5 h-2.5 text-indigo-500" />
+                          <span className={`px-2 py-0.5 rounded-full text-[9.5px] font-semibold uppercase border flex items-center gap-1 shadow-2xs ${
+                            isNight
+                              ? 'bg-[#1E293B] text-[#7DD3FC] border-[#38BDF8]/30'
+                              : 'bg-indigo-50 text-indigo-700 border border-indigo-200/80'
+                          }`}>
+                            <Sparkles className={`w-2.5 h-2.5 ${isNight ? 'text-[#38BDF8]' : 'text-indigo-500'}`} />
                             Winner
                           </span>
                         )}
                       </div>
 
                       {/* Title */}
-                      <h4 className="text-[13px] font-bold text-[#0F172A] tracking-tight leading-snug line-clamp-1">
+                      <h4 className={`text-[13px] font-bold tracking-tight leading-snug line-clamp-1 ${
+                        isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                      }`}>
                         {item.shortTitle}
                       </h4>
 
                       {/* Pill & Year Row */}
                       <div className="flex items-center gap-2 mt-1.5 mb-2">
                         <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
                             item.isPrize
-                              ? 'bg-indigo-50 text-indigo-700 border border-indigo-200/60'
+                              ? isNight
+                                ? 'bg-[#1E293B] text-[#7DD3FC] border-[#38BDF8]/20'
+                                : 'bg-indigo-50 text-indigo-700 border border-indigo-200/60'
                               : isSelected
-                              ? 'bg-[#EEF2FF] text-[#4F46E5]'
-                              : 'bg-slate-100 text-[#475569]'
+                              ? isNight
+                                ? 'bg-[#1E1B4B] text-[#C084FC] border-[#818CF8]/30'
+                                : 'bg-[#EEF2FF] text-[#4F46E5] border-transparent'
+                              : isNight
+                                ? 'bg-[#1E293B] text-[#94A3B8] border-[rgba(150,180,230,0.15)]'
+                                : 'bg-slate-100 text-[#475569] border-transparent'
                           }`}
                         >
                           {item.badge}
                         </span>
-                        <span className="text-[11px] text-[#64748B] font-medium">
+                        <span className={`text-[11px] font-medium ${isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'}`}>
                           {item.year}
                         </span>
                       </div>
 
                       {/* Snippet Description */}
-                      <p className="text-[11.5px] text-[#64748B] leading-relaxed line-clamp-2">
+                      <p className={`text-[11.5px] leading-relaxed line-clamp-2 ${
+                        isNight ? 'text-[#94A3B8]' : 'text-[#64748B]'
+                      }`}>
                         {item.bottomSnippet}
                       </p>
                     </div>
@@ -1280,8 +1451,12 @@ export default function Achievements() {
                       <ArrowRight
                         className={`w-3.5 h-3.5 transition-transform duration-150 ${
                           isSelected
-                            ? 'text-[#4F46E5] translate-x-0.5'
-                            : 'text-[#94A3B8]'
+                            ? isNight
+                              ? 'text-[#38BDF8] translate-x-0.5'
+                              : 'text-[#4F46E5] translate-x-0.5'
+                            : isNight
+                              ? 'text-[#64748B]'
+                              : 'text-[#94A3B8]'
                         }`}
                       />
                     </div>
@@ -1293,16 +1468,18 @@ export default function Achievements() {
 
           {/* Bottom Prompt + 3D Crystal Gem in Bottom-Right */}
           <div className="flex items-center justify-between mt-8 pt-2">
-            <div className="flex items-center gap-2 text-[12.5px] text-[#4F46E5] font-medium">
+            <div className={`flex items-center gap-2 text-[12.5px] font-medium ${
+              isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'
+            }`}>
               <ArrowRight className="w-3.5 h-3.5" />
               <span>
-                Keep going. There's more <strong className="font-semibold text-[#0F172A]">ahead</strong>.
+                Keep going. There's more <strong className={`font-semibold ${isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'}`}>ahead</strong>.
               </span>
             </div>
 
             {/* Refined 3D Crystal Prism in bottom-right */}
             <div className="relative -mt-6 sm:-mt-8 -mr-2">
-              <CrystalPrism className="w-14 h-14 sm:w-16 sm:h-16" />
+              <CrystalPrism className="w-14 h-14 sm:w-16 sm:h-16" isNight={isNight} />
             </div>
           </div>
 

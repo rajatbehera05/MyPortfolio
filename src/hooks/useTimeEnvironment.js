@@ -100,6 +100,13 @@ export function useTimeEnvironment() {
   const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
   const [manualOverride, setManualOverride] = useState(() => {
     try {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTheme = urlParams.get('theme');
+        if (urlTheme && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(urlTheme)) {
+          return urlTheme === 'afternoon' ? 'noon' : urlTheme;
+        }
+      }
       const stored = localStorage.getItem(THEME_STORAGE_KEY);
       if (stored && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(stored)) {
         return stored === 'afternoon' ? 'noon' : stored;
