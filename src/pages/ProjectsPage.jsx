@@ -4,6 +4,7 @@ import ConnectedNetworkBackground from '../components/ConnectedNetworkBackground
 import Projects from '../components/Projects';
 import Modals from '../components/Modals';
 import LiquidButton from '../components/LiquidButton';
+import CosmicThemeSwitcher from '../components/CosmicThemeSwitcher';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
@@ -46,6 +47,9 @@ export default function ProjectsPage() {
     >
       {/* Aurora Ambient Atmosphere */}
       <ConnectedNetworkBackground isNight={timeEnv.isNight} />
+
+      {/* Floating Top-Left Minimal Cosmic Theme Switcher */}
+      <CosmicThemeSwitcher timeEnv={timeEnv} />
 
       {/* Clean Floating Sticky Top Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 flex items-center justify-center pointer-events-none">

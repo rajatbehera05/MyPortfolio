@@ -15,6 +15,7 @@ import Contact from './components/Contact';
 import Modals from './components/Modals';
 import HeroTimeEnvironment from './components/HeroTimeEnvironment';
 import CosmicScrollIndicator from './components/CosmicScrollIndicator';
+import CosmicThemeSwitcher from './components/CosmicThemeSwitcher';
 import { useTimeEnvironment } from './hooks/useTimeEnvironment';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -88,6 +89,9 @@ export default function PortfolioLanding() {
       
       {/* 1. Global "The Aurora Network" Signature Atmosphere */}
       <ConnectedNetworkBackground isNight={timeEnv.isNight} />
+
+      {/* Floating Top-Left Minimal Cosmic Theme Switcher */}
+      <CosmicThemeSwitcher timeEnv={timeEnv} />
 
       {/* 2. Floating Premium Navigation Bar */}
       <Navbar

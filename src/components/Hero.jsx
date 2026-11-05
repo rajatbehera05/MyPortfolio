@@ -4,7 +4,6 @@ import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, User } from '
 import WireframeCube from './WireframeCube';
 import DigitalTimeConsole from './DigitalTimeConsole';
 import LiquidButton from './LiquidButton';
-import CosmicThemeSwitcher from './CosmicThemeSwitcher';
 import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
@@ -169,53 +168,41 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
               </motion.p>
             </div>
 
-            {/* 4. Call to Action Buttons & Cosmic Theme Switcher */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.55, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full sm:w-auto"
-                >
-                  <LiquidButton
-                    variant="primary"
-                    size="md"
-                    onClick={onExplore}
-                    className="w-full sm:w-auto"
-                    aria-label="View Featured Projects"
-                  >
-                    View Featured Projects
-                  </LiquidButton>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.55, delay: 0.67, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full sm:w-auto"
-                >
-                  <LiquidButton
-                    variant="secondary"
-                    size="md"
-                    isNight={isNight}
-                    onClick={onAbout}
-                    className="w-full sm:w-auto"
-                    aria-label="View Resume"
-                  >
-                    View Resume
-                  </LiquidButton>
-                </motion.div>
-              </div>
-
-              {/* Cosmic Theme Switcher — Positioned toward the right side of the available space */}
+            {/* 4. Call to Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.55, delay: 0.72 }}
-                className="self-start sm:self-auto sm:ml-auto"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full sm:w-auto"
               >
-                <CosmicThemeSwitcher timeEnv={timeEnv || fallbackTimeEnv} />
+                <LiquidButton
+                  variant="primary"
+                  size="md"
+                  onClick={onExplore}
+                  className="w-full sm:w-auto"
+                  aria-label="View Featured Projects"
+                >
+                  View Featured Projects
+                </LiquidButton>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.67, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full sm:w-auto"
+              >
+                <LiquidButton
+                  variant="secondary"
+                  size="md"
+                  isNight={isNight}
+                  onClick={onAbout}
+                  className="w-full sm:w-auto"
+                  aria-label="View Resume"
+                >
+                  View Resume
+                </LiquidButton>
               </motion.div>
             </div>
 
