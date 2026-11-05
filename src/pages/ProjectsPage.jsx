@@ -4,6 +4,7 @@ import ConnectedNetworkBackground from '../components/ConnectedNetworkBackground
 import Projects from '../components/Projects';
 import Modals from '../components/Modals';
 import LiquidButton from '../components/LiquidButton';
+import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
  * ProjectsPage — Dedicated /projects page displaying the complete Featured Projects showcase.
@@ -17,6 +18,7 @@ import LiquidButton from '../components/LiquidButton';
  */
 export default function ProjectsPage() {
   const navigate = useNavigate();
+  const timeEnv = useTimeEnvironment();
   const [activeModal, setActiveModal] = useState(null); // 'spec' | null
   const [selectedSpec, setSelectedSpec] = useState(null);
 
@@ -36,9 +38,14 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB]">
+    <div
+      data-theme={timeEnv.isNight ? 'night' : 'light'}
+      className={`relative min-h-screen font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB] transition-colors duration-700 ${
+        timeEnv.isNight ? 'bg-[#081426] text-[#F1F5FF]' : 'bg-[#EDF2F7] text-[#0F172A]'
+      }`}
+    >
       {/* Aurora Ambient Atmosphere */}
-      <ConnectedNetworkBackground />
+      <ConnectedNetworkBackground isNight={timeEnv.isNight} />
 
       {/* Clean Floating Sticky Top Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 flex items-center justify-center pointer-events-none">

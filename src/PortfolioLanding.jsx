@@ -79,10 +79,15 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#EDF2F7] text-[#0F172A] font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB] overflow-x-clip">
+    <div
+      data-theme={timeEnv.isNight ? 'night' : 'light'}
+      className={`relative min-h-screen font-sans-editorial antialiased selection:bg-[#2563EB]/15 selection:text-[#2563EB] overflow-x-clip transition-colors duration-700 ${
+        timeEnv.isNight ? 'bg-[#081426] text-[#F1F5FF]' : 'bg-[#EDF2F7] text-[#0F172A]'
+      }`}
+    >
       
-      {/* 1. Global "The Aurora Network" Signature Atmosphere (Always Clean Light Base) */}
-      <ConnectedNetworkBackground />
+      {/* 1. Global "The Aurora Network" Signature Atmosphere */}
+      <ConnectedNetworkBackground isNight={timeEnv.isNight} />
 
       {/* 2. Floating Premium Navigation Bar */}
       <Navbar
