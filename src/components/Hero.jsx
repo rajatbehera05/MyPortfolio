@@ -49,7 +49,7 @@ function LinkedinIcon({ className = "w-4 h-4" }) {
 export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
   const cardRef = useRef(null);
   const fallbackTimeEnv = useTimeEnvironment();
-  const { timeState, greeting, isOverridden, cycleTimeState, isNight } = timeEnv || fallbackTimeEnv;
+  const { timeState, greeting, isOverridden, cycleTimeState, isNight, currentTime } = timeEnv || fallbackTimeEnv;
   
   // 3D Tilt springs for profile card (Subtle: max 2-3 degrees)
   const x = useMotionValue(0);
@@ -121,8 +121,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
               {/* Standalone Compact Electronic Digital Instrument */}
               <DigitalTimeConsole
-                timeState={timeState}
-                isOverridden={isOverridden}
+                currentTime={currentTime}
                 isNight={isNight}
               />
             </div>

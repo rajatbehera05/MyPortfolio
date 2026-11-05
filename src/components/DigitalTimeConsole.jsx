@@ -7,25 +7,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 /**
- * Clean local time and calendar data helper
+ * Clean real-time local time and calendar data helper.
+ * Strictly uses the visitor's actual local device time.
+ * Never uses simulated or hardcoded times, and never derives time from the selected theme.
  */
-function getLocalTimeData(timeState, isOverridden) {
-  const now = new Date();
-  let hours24 = now.getHours();
-  let minutes = now.getMinutes();
-
-  if (isOverridden) {
-    if (timeState === 'morning') {
-      hours24 = 9;
-      minutes = 30;
-    } else if (timeState === 'noon' || timeState === 'afternoon') {
-      hours24 = 14;
-      minutes = 15;
-    } else if (timeState === 'evening') {
-      hours24 = 19;
-      minutes = 45;
-    }
-  }
+function getActualLocalTimeData(date = new Date()) {
+  const now = date instanceof Date && !isNaN(date.getTime()) ? date : new Date();
+  const hours24 = now.getHours();
+  const minutes = now.getMinutes();
 
   // 12-hour format
   const hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
@@ -57,33 +46,27 @@ function getLocalTimeData(timeState, isOverridden) {
  *                                                   M T W T F S S
  * - Subtle lavender/purple border with gentle magenta/pink accents
  * - Calm, long-term comfortable viewing with zero flicker or harsh segments
+ * - Strictly tracks the visitor's actual local device time independently of any theme selection
  */
 export default function DigitalTimeConsole({
-  timeState = 'noon',
-  isOverridden = false,
+  currentTime,
   isNight = false,
   className = '',
 }) {
-  const [timeData, setTimeData] = useState(() => getLocalTimeData(timeState, isOverridden));
-  const prevMinuteRef = useRef(timeData.rawMinute);
+  const [timeData, setTimeData] = useState(() => getActualLocalTimeData(currentTime || new Date()));
 
   useEffect(() => {
-    setTimeData(getLocalTimeData(timeState, isOverridden));
-  }, [timeState, isOverridden]);
-
-  useEffect(() => {
-    if (isOverridden) return;
+    if (currentTime instanceof Date && !isNaN(currentTime.getTime())) {
+      setTimeData(getActualLocalTimeData(currentTime));
+      return;
+    }
 
     const interval = setInterval(() => {
-      const updated = getLocalTimeData(timeState, false);
-      if (updated.rawMinute !== prevMinuteRef.current) {
-        prevMinuteRef.current = updated.rawMinute;
-      }
-      setTimeData(updated);
+      setTimeData(getActualLocalTimeData(new Date()));
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeState, isOverridden]);
+  }, [currentTime]);
 
   return (
     <motion.div

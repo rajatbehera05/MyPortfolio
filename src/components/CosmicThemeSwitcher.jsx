@@ -377,10 +377,11 @@ export default function CosmicThemeSwitcher({ timeEnv }) {
                         className={`px-2 py-0.5 rounded-full text-[10px] font-semibold transition-all cursor-pointer ${
                           !isOverridden
                             ? 'bg-[#38BDF8]/20 text-[#38BDF8] border border-[#38BDF8]/50 shadow-[0_0_8px_rgba(56,189,248,0.25)]'
-                            : 'bg-white/5 text-[#94A3B8] hover:text-white hover:bg-white/10 border border-white/10'
+                            : 'bg-white/10 text-white hover:bg-[#38BDF8]/20 hover:text-[#38BDF8] border border-[#38BDF8]/40 shadow-xs'
                         }`}
+                        title={!isOverridden ? 'Automatic time-based theme is active' : 'Reset to automatic time-based theme'}
                       >
-                        {!isOverridden ? 'Auto' : 'Reset Auto'}
+                        {!isOverridden ? 'Auto' : 'Reset to Auto'}
                       </button>
 
                       <button

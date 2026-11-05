@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 /**
  * Available Celestial Themes in the Portfolio:
- * 1. Morning Dawn: Golden sunrise & fresh daylight
- * 2. Noon Daylight: Vibrant azure zenith sky
- * 3. Golden Evening: Amber sunset & twilight flock
- * 4. Midnight Cosmic: Deep midnight navy, crescent moon, stars & dark mode
+ * 1. Morning Dawn: Golden sunrise & fresh daylight (05:00 – 11:59)
+ * 2. Noon Daylight: Vibrant azure zenith sky (12:00 – 16:59)
+ * 3. Golden Evening: Amber sunset & twilight flock (17:00 – 21:59)
+ * 4. Midnight Cosmic: Deep midnight navy, crescent moon, stars & dark mode (22:00 – 04:59)
  */
 export const AVAILABLE_THEMES = [
   {
@@ -55,9 +55,10 @@ export const AVAILABLE_THEMES = [
 ];
 
 const THEME_STORAGE_KEY = 'rajat_portfolio_theme';
+const THEME_MODE_STORAGE_KEY = 'rajat_portfolio_theme_mode';
 
 /**
- * Determine the portfolio time-of-day state according to the visitor's local browser time.
+ * Determine the automatic portfolio theme according to the visitor's actual local time.
  * Supports: morning, noon, evening, and night.
  */
 export function getTimeState(date = new Date()) {
@@ -93,7 +94,7 @@ export function getLocalDeviceGreeting(date = new Date()) {
 }
 
 /**
- * Editorial Greeting corresponding to the time state
+ * Editorial Greeting helper for legacy callers
  */
 export function getTimeGreeting(timeState) {
   switch (timeState) {
@@ -110,13 +111,41 @@ export function getTimeGreeting(timeState) {
 }
 
 /**
- * Hook to manage the dynamic local time-based environment.
- * Reuses existing theme system tokens and localStorage persistence.
+ * Primary Hook to manage the decoupled time, greeting, and theme environment.
+ *
+ * Separates completely:
+ * 1. currentTime: Actual visitor local device time (never altered by theme switching)
+ * 2. greeting: Strictly derived from currentTime (never altered by theme switching)
+ * 3. themeMode: 'auto' | 'manual'
+ * 4. selectedTheme: The visual theme applied (derived from currentTime in 'auto', or manual selection)
  */
 export function useTimeEnvironment() {
-  const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
-  const [currentGreeting, setCurrentGreeting] = useState(() => getLocalDeviceGreeting());
-  const [manualOverride, setManualOverride] = useState(() => {
+  // 1. REAL-TIME CLOCK: strictly tracks the visitor's actual local device time
+  const [currentTime, setCurrentTime] = useState(() => new Date());
+
+  // 2. THEME MODE: 'auto' or 'manual'
+  const [themeMode, setThemeMode] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('theme')) return 'manual';
+      }
+      const storedMode = localStorage.getItem(THEME_MODE_STORAGE_KEY);
+      if (storedMode === 'manual' || storedMode === 'auto') {
+        return storedMode;
+      }
+      const legacyTheme = localStorage.getItem(THEME_STORAGE_KEY);
+      if (legacyTheme && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(legacyTheme)) {
+        return 'manual';
+      }
+    } catch {
+      // LocalStorage error fallback
+    }
+    return 'auto';
+  });
+
+  // 3. MANUAL THEME OVERRIDE (only applied when themeMode === 'manual')
+  const [manualTheme, setManualTheme] = useState(() => {
     try {
       if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
@@ -135,30 +164,34 @@ export function useTimeEnvironment() {
     return null;
   });
 
+  // Clock updates every second, and syncs on tab visibility change or focus
   useEffect(() => {
-    const checkTime = () => {
-      const detected = getTimeState();
-      setCurrentTimeState((prev) => (prev !== detected ? detected : prev));
-      const detectedGreeting = getLocalDeviceGreeting();
-      setCurrentGreeting((prev) => (prev !== detectedGreeting ? detectedGreeting : prev));
+    const updateClock = () => {
+      setCurrentTime(new Date());
     };
 
-    // Check every 10 seconds to respond automatically when the time period transitions
-    const timer = setInterval(checkTime, 10000);
-    window.addEventListener('visibilitychange', checkTime);
-    window.addEventListener('focus', checkTime);
+    const interval = setInterval(updateClock, 1000);
+    window.addEventListener('visibilitychange', updateClock);
+    window.addEventListener('focus', updateClock);
 
     return () => {
-      clearInterval(timer);
-      window.removeEventListener('visibilitychange', checkTime);
-      window.removeEventListener('focus', checkTime);
+      clearInterval(interval);
+      window.removeEventListener('visibilitychange', updateClock);
+      window.removeEventListener('focus', updateClock);
     };
   }, []);
 
-  const rawActive = manualOverride || currentTimeState;
+  // 4. GREETING: derived strictly and exclusively from actual local device time
+  const greeting = useMemo(() => getLocalDeviceGreeting(currentTime), [currentTime]);
+
+  // 5. AUTOMATIC THEME: calculated from current local time
+  const autoTheme = useMemo(() => getTimeState(currentTime), [currentTime]);
+
+  // 6. APPLIED VISUAL THEME: in 'auto' mode uses autoTheme; in 'manual' uses manualTheme
+  const rawActive = themeMode === 'manual' && manualTheme ? manualTheme : autoTheme;
   const activeState = rawActive === 'afternoon' ? 'noon' : rawActive;
   const isNight = activeState === 'night';
-  const greeting = currentGreeting;
+  const isOverridden = themeMode === 'manual' && manualTheme !== null;
 
   // Sync document root data-theme attribute across the entire application
   useEffect(() => {
@@ -168,16 +201,21 @@ export function useTimeEnvironment() {
     } catch {}
   }, [isNight]);
 
+  // Set theme handler (supports 'auto' to reset, or specific theme ID)
   const setTheme = useCallback((themeId) => {
     if (themeId === 'auto') {
-      setManualOverride(null);
+      setThemeMode('auto');
+      setManualTheme(null);
       try {
+        localStorage.setItem(THEME_MODE_STORAGE_KEY, 'auto');
         localStorage.removeItem(THEME_STORAGE_KEY);
       } catch {}
     } else {
       const normalized = themeId === 'afternoon' ? 'noon' : themeId;
-      setManualOverride(normalized);
+      setThemeMode('manual');
+      setManualTheme(normalized);
       try {
+        localStorage.setItem(THEME_MODE_STORAGE_KEY, 'manual');
         localStorage.setItem(THEME_STORAGE_KEY, normalized);
       } catch {}
     }
@@ -195,10 +233,13 @@ export function useTimeEnvironment() {
   }, [setTheme]);
 
   return {
-    timeState: activeState,
-    isNight,
+    currentTime,
     greeting,
-    isOverridden: manualOverride !== null,
+    themeMode,
+    selectedTheme: activeState,
+    timeState: activeState, // Backward compatibility alias
+    isNight,
+    isOverridden,
     setTheme,
     cycleTimeState,
     resetToRealTime,
