@@ -311,6 +311,7 @@ export default function Achievements({ isNight: isNightProp }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
   const platformRef = useRef(null);
+  const mouseRafRef = useRef(null);
   const isPlatformInView = useInView(platformRef, { once: true, amount: 0.3 });
   const orangePathRef = useRef(null);
   const orangeGlowPathRef = useRef(null);
@@ -435,16 +436,25 @@ export default function Achievements({ isNight: isNightProp }) {
     setSelectedId(ACHIEVEMENTS_DATA[prevIndex].id);
   };
 
-  // Subtle interactive 3D parallax on mouse movement over the visualization
+  // Subtle interactive 3D parallax on mouse movement over the visualization (RAF-throttled)
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
+    if (mouseRafRef.current === null) {
+      mouseRafRef.current = requestAnimationFrame(() => {
+        setMousePos({ x, y });
+        mouseRafRef.current = null;
+      });
+    }
   };
 
   const handleMouseLeave = () => {
+    if (mouseRafRef.current !== null) {
+      cancelAnimationFrame(mouseRafRef.current);
+      mouseRafRef.current = null;
+    }
     setMousePos({ x: 0, y: 0 });
   };
 
@@ -785,168 +795,211 @@ export default function Achievements({ isNight: isNightProp }) {
               {/* LEFT FLOATING CARD — Tilted Academic Card in 3D Perspective   */}
               {/* ------------------------------------------------------------- */}
               <motion.div
-                onClick={() => setSelectedId(leftCardData.id)}
                 animate={{
                   y: [-4, 5, -4],
-                  rotateY: 20 + mousePos.x * 5,
-                  rotateZ: -6,
-                  rotateX: 4 - mousePos.y * 3,
                 }}
                 transition={{
-                  y: { duration: 6.2, repeat: Infinity, ease: 'easeInOut' },
-                  rotateY: { duration: 0.25 },
-                  rotateX: { duration: 0.25 },
+                  duration: 6.2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
                 }}
-                whileHover={{ scale: 1.05, zIndex: 25, y: -8 }}
-                className="absolute -left-2 sm:left-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-all duration-300"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  background: isNight
-                    ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
-                    : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
-                  border: isNight
-                    ? '1px solid rgba(129, 140, 248, 0.35)'
-                    : '1px solid rgba(203, 213, 225, 0.85)',
-                  boxShadow: isNight
-                    ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
-                    : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
-                }}
-                title={`Select ${leftCardData.title}`}
+                className="absolute -left-2 sm:left-1 z-10 select-none"
               >
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5">
-                  {/* High-Contrast Icon Badge */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
-                    isNight
-                      ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
-                      : 'bg-indigo-50/90 border-indigo-100'
-                  }`}>
-                    <FlankerIcon iconType={leftCardData.iconType} isNight={isNight} />
-                  </div>
-                  <div>
-                    <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
-                      isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                <motion.div
+                  onClick={() => setSelectedId(leftCardData.id)}
+                  animate={{
+                    rotateY: 18,
+                    rotateZ: -5,
+                    rotateX: 3,
+                    scale: 1,
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    rotateY: 8,
+                    rotateZ: -2,
+                    rotateX: 1,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transformOrigin: 'left center',
+                    background: isNight
+                      ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
+                      : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
+                    border: isNight
+                      ? '1px solid rgba(129, 140, 248, 0.35)'
+                      : '1px solid rgba(203, 213, 225, 0.85)',
+                    boxShadow: isNight
+                      ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
+                      : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  }}
+                  aria-label={`Select ${leftCardData.title}`}
+                >
+                  <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5 pointer-events-none">
+                    {/* High-Contrast Icon Badge */}
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
+                      isNight
+                        ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
+                        : 'bg-indigo-50/90 border-indigo-100'
                     }`}>
-                      {leftCardData.shortTitle}
-                    </h4>
-                    <div className="mt-1.5">
-                      <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
-                        isNight
-                          ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
-                          : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
-                      }`}>
-                        {leftCardData.badge}
-                      </span>
+                      <FlankerIcon iconType={leftCardData.iconType} isNight={isNight} />
                     </div>
+                    <div>
+                      <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
+                        isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                      }`}>
+                        {leftCardData.shortTitle}
+                      </h4>
+                      <div className="mt-1.5">
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
+                          isNight
+                            ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
+                            : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
+                        }`}>
+                          {leftCardData.badge}
+                        </span>
+                      </div>
+                    </div>
+                    <span className={`text-[11.5px] font-semibold ${
+                      isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
+                    }`}>
+                      {leftCardData.year}
+                    </span>
                   </div>
-                  <span className={`text-[11.5px] font-semibold ${
-                    isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
-                  }`}>
-                    {leftCardData.year}
-                  </span>
-                </div>
+                </motion.div>
               </motion.div>
 
               {/* ------------------------------------------------------------- */}
               {/* RIGHT FLOATING CARD — Tilted Hackathon Card in 3D Perspective */}
               {/* ------------------------------------------------------------- */}
               <motion.div
-                onClick={() => setSelectedId(rightCardData.id)}
                 animate={{
                   y: [5, -4, 5],
-                  rotateY: -20 + mousePos.x * 5,
-                  rotateZ: 6,
-                  rotateX: 4 - mousePos.y * 3,
                 }}
                 transition={{
-                  y: { duration: 6.6, repeat: Infinity, ease: 'easeInOut' },
-                  rotateY: { duration: 0.25 },
-                  rotateX: { duration: 0.25 },
+                  duration: 6.6,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
                 }}
-                whileHover={{ scale: 1.05, zIndex: 25, y: -8 }}
-                className="absolute -right-2 sm:right-1 z-10 w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer transition-all duration-300"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  background: isNight
-                    ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
-                    : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
-                  border: isNight
-                    ? '1px solid rgba(129, 140, 248, 0.35)'
-                    : '1px solid rgba(203, 213, 225, 0.85)',
-                  boxShadow: isNight
-                    ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
-                    : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
-                }}
-                title={`Select ${rightCardData.title}`}
+                className="absolute -right-2 sm:right-1 z-10 select-none"
               >
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5">
-                  {/* High-Contrast Icon Badge */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
-                    isNight
-                      ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
-                      : 'bg-indigo-50/90 border-indigo-100'
-                  }`}>
-                    <FlankerIcon iconType={rightCardData.iconType} isNight={isNight} />
-                  </div>
-                  <div>
-                    <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
-                      isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                <motion.div
+                  onClick={() => setSelectedId(rightCardData.id)}
+                  animate={{
+                    rotateY: -18,
+                    rotateZ: 5,
+                    rotateX: 3,
+                    scale: 1,
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    rotateY: -8,
+                    rotateZ: 2,
+                    rotateX: 1,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transformOrigin: 'right center',
+                    background: isNight
+                      ? 'linear-gradient(160deg, rgba(20, 40, 72, 0.94) 0%, rgba(12, 24, 46, 0.96) 100%)'
+                      : 'linear-gradient(160deg, #FFFFFF 0%, #F9FAFF 60%, #F3F5FD 100%)',
+                    border: isNight
+                      ? '1px solid rgba(129, 140, 248, 0.35)'
+                      : '1px solid rgba(203, 213, 225, 0.85)',
+                    boxShadow: isNight
+                      ? '0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
+                      : '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+                  }}
+                  aria-label={`Select ${rightCardData.title}`}
+                >
+                  <div className="flex flex-col items-center justify-center h-full text-center space-y-2.5 pointer-events-none">
+                    {/* High-Contrast Icon Badge */}
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs border ${
+                      isNight
+                        ? 'bg-[#1E293B]/90 border-[rgba(150,180,230,0.22)]'
+                        : 'bg-indigo-50/90 border-indigo-100'
                     }`}>
-                      {rightCardData.shortTitle}
-                    </h4>
-                    <div className="mt-1.5">
-                      <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
-                        isNight
-                          ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
-                          : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
-                      }`}>
-                        {rightCardData.badge}
-                      </span>
+                      <FlankerIcon iconType={rightCardData.iconType} isNight={isNight} />
                     </div>
+                    <div>
+                      <h4 className={`text-[13.5px] font-bold tracking-tight leading-snug line-clamp-2 px-1 ${
+                        isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                      }`}>
+                        {rightCardData.shortTitle}
+                      </h4>
+                      <div className="mt-1.5">
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase border ${
+                          isNight
+                            ? 'bg-[#1E293B] text-[#A5B4FC] border-[#38BDF8]/30'
+                            : 'bg-indigo-50 text-[#4338CA] border-indigo-100/90'
+                        }`}>
+                          {rightCardData.badge}
+                        </span>
+                      </div>
+                    </div>
+                    <span className={`text-[11.5px] font-semibold ${
+                      isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
+                    }`}>
+                      {rightCardData.year}
+                    </span>
                   </div>
-                  <span className={`text-[11.5px] font-semibold ${
-                    isNight ? 'text-[#94A3B8]' : 'text-[#475569]'
-                  }`}>
-                    {rightCardData.year}
-                  </span>
-                </div>
+                </motion.div>
               </motion.div>
 
               {/* ------------------------------------------------------------- */}
               {/* CENTER HERO CARD — Dominant Award Display                      */}
               {/* ------------------------------------------------------------- */}
               <motion.div
-                key={currentAchievement.id}
-                initial={{ scale: 0.94, opacity: 0 }}
                 animate={{
-                  scale: 1,
-                  opacity: 1,
                   y: [-5, 5, -5],
-                  rotateY: mousePos.x * 7,
-                  rotateX: -mousePos.y * 7,
                 }}
-                exit={{ scale: 0.94, opacity: 0 }}
                 transition={{
-                  scale: { duration: 0.35, ease: 'easeOut' },
-                  opacity: { duration: 0.35 },
-                  y: { duration: 5.4, repeat: Infinity, ease: 'easeInOut' },
-                  rotateY: { duration: 0.2 },
-                  rotateX: { duration: 0.2 },
+                  duration: 5.4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
                 }}
-                whileHover={{ scale: 1.025 }}
-                className="relative z-20 w-[225px] sm:w-[250px] h-[320px] sm:h-[345px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center select-none transition-all duration-300"
-                style={{
-                  transformStyle: 'preserve-3d',
-                  background: isNight
-                    ? 'linear-gradient(155deg, rgba(22, 44, 82, 0.96) 0%, rgba(14, 28, 54, 0.97) 50%, rgba(9, 18, 36, 0.98) 100%)'
-                    : 'linear-gradient(155deg, #FFFFFF 0%, #FAF8FF 45%, #F0F4FF 100%)',
-                  border: isNight
-                    ? '1.5px solid rgba(129, 140, 248, 0.45)'
-                    : '1.5px solid rgba(199, 210, 254, 0.75)',
-                  boxShadow: isNight
-                    ? '0 25px 55px -12px rgba(3, 8, 20, 0.7), 0 0 25px rgba(99, 102, 241, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.15)'
-                    : '0 25px 55px -12px rgba(79, 70, 229, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 1.5px 2px rgba(255, 255, 255, 1)',
-                }}
+                className="relative z-20"
               >
+                <motion.div
+                  key={currentAchievement.id}
+                  initial={{ scale: 0.94, opacity: 0 }}
+                  animate={{
+                    scale: 1,
+                    opacity: 1,
+                    rotateY: mousePos.x * 6,
+                    rotateX: -mousePos.y * 6,
+                  }}
+                  exit={{ scale: 0.94, opacity: 0 }}
+                  transition={{
+                    scale: { duration: 0.35, ease: 'easeOut' },
+                    opacity: { duration: 0.35 },
+                    rotateY: { duration: 0.2 },
+                    rotateX: { duration: 0.2 },
+                  }}
+                  whileHover={{ scale: 1.025 }}
+                  className="w-[225px] sm:w-[250px] h-[320px] sm:h-[345px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center select-none"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    background: isNight
+                      ? 'linear-gradient(155deg, rgba(22, 44, 82, 0.96) 0%, rgba(14, 28, 54, 0.97) 50%, rgba(9, 18, 36, 0.98) 100%)'
+                      : 'linear-gradient(155deg, #FFFFFF 0%, #FAF8FF 45%, #F0F4FF 100%)',
+                    border: isNight
+                      ? '1.5px solid rgba(129, 140, 248, 0.45)'
+                      : '1.5px solid rgba(199, 210, 254, 0.75)',
+                    boxShadow: isNight
+                      ? '0 25px 55px -12px rgba(3, 8, 20, 0.7), 0 0 25px rgba(99, 102, 241, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.15)'
+                      : '0 25px 55px -12px rgba(79, 70, 229, 0.18), 0 8px 20px -6px rgba(15, 23, 42, 0.05), inset 0 1.5px 2px rgba(255, 255, 255, 1)',
+                  }}
+                >
                 {/* Localized Glow Directly Behind Trophy */}
                 <div className={`absolute top-7 left-1/2 -translate-x-1/2 w-28 h-28 rounded-full blur-xl pointer-events-none ${
                   isNight
@@ -1026,7 +1079,8 @@ export default function Achievements({ isNight: isNightProp }) {
                   </p>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
+          </div>
 
             {/* Polished Compact Navigation Control Group Positioned Subordinately Below Platform */}
             <div className="flex items-center gap-3.5 mt-5 sm:mt-6 z-20">

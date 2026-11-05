@@ -122,15 +122,17 @@ export default function Navbar({ onConnectClick, isNight = false }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState('About');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isNavClickRef = useRef(false);
+  const navClickTimerRef = useRef(null);
 
   useEffect(() => {
     let rafId = null;
-    const sections = [
+    const sectionConfigs = [
       { id: 'about', name: 'About' },
+      { id: 'exploring', name: 'Milestones' },
       { id: 'tech', name: 'Tech' },
       { id: 'achievements', name: 'Achievements' },
       { id: 'work', name: 'Projects' },
-      { id: 'exploring', name: 'Milestones' },
       { id: 'github-activity', name: 'Activity' },
     ];
 
@@ -139,14 +141,36 @@ export default function Navbar({ onConnectClick, isNight = false }) {
       const nextScrolled = sy > 20;
       setIsScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
 
-      const scrollPosition = sy + 220;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i].id);
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveItem((prev) => (prev !== sections[i].name ? sections[i].name : prev));
+      if (isNavClickRef.current) {
+        rafId = null;
+        return;
+      }
+
+      const scrollPosition = sy + 240;
+
+      // Compute exact absolute page top coordinates for each section
+      const activeSections = sectionConfigs
+        .map((sec) => {
+          const el = document.getElementById(sec.id);
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          return {
+            name: sec.name,
+            top: rect.top + sy,
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.top - b.top);
+
+      let matched = activeSections[0]?.name || 'About';
+      for (let i = activeSections.length - 1; i >= 0; i--) {
+        if (scrollPosition >= activeSections[i].top) {
+          matched = activeSections[i].name;
           break;
         }
       }
+
+      setActiveItem((prev) => (prev !== matched ? matched : prev));
       rafId = null;
     };
 
@@ -162,6 +186,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     return () => {
       window.removeEventListener('scroll', onScroll);
       if (rafId) cancelAnimationFrame(rafId);
+      if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     };
   }, []);
 
@@ -177,10 +202,21 @@ export default function Navbar({ onConnectClick, isNight = false }) {
   const handleNavClick = (e, name, href) => {
     e.preventDefault();
     setActiveItem(name);
+    isNavClickRef.current = true;
+    if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+    navClickTimerRef.current = setTimeout(() => {
+      isNavClickRef.current = false;
+    }, 1000);
+
     setMobileMenuOpen(false);
     const targetId = href.replace('#', '');
     if (window.__lenis) {
-      window.__lenis.scrollTo(`#${targetId}`, { offset: -70 });
+      window.__lenis.scrollTo(`#${targetId}`, {
+        offset: -70,
+        onComplete: () => {
+          isNavClickRef.current = false;
+        },
+      });
     } else {
       const el = document.getElementById(targetId);
       if (el) {
@@ -191,9 +227,20 @@ export default function Navbar({ onConnectClick, isNight = false }) {
 
   const handleConnect = (e) => {
     e.preventDefault();
+    isNavClickRef.current = true;
+    if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+    navClickTimerRef.current = setTimeout(() => {
+      isNavClickRef.current = false;
+    }, 1000);
+
     setMobileMenuOpen(false);
     if (window.__lenis) {
-      window.__lenis.scrollTo('#contact', { offset: -70 });
+      window.__lenis.scrollTo('#contact', {
+        offset: -70,
+        onComplete: () => {
+          isNavClickRef.current = false;
+        },
+      });
     } else {
       const el = document.getElementById('contact');
       if (el) {
@@ -204,7 +251,7 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     }
   };
 
-  const isNightNavbar = isNight && (!isScrolled || activeItem === 'About' || activeItem === 'Milestones');
+  const isNightNavbar = isNight && (!isScrolled || activeItem === 'About' || activeItem === 'Milestones' || activeItem === 'Achievements');
 
   return (
     <motion.header

@@ -128,31 +128,31 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
 
             {/* 2. Headline with selected Arctic Blue gradient accents */}
             <div className="space-y-3">
-              <div className="flex items-start gap-3 sm:gap-4.5">
-                <WireframeCube
-                  size={36}
-                  color="#EF4444"
-                  tiltX={-20}
-                  tiltZ={10}
-                  duration={16}
-                  divisions={3}
-                  className="shrink-0 mt-1 sm:mt-1.5"
-                />
-                <motion.h1
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.65, delay: 0.25 }}
-                  className={`text-3xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium tracking-tight font-editorial-serif leading-[1.12] ${
-                    isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
-                  }`}
-                >
-                  Hello, I am{' '}
-                  <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
-                    Rajat Behera
-                  </span>
-                  .
-                </motion.h1>
-              </div>
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.25 }}
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-normal sm:font-medium tracking-tight font-editorial-serif leading-[1.14] ${
+                  isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
+                }`}
+              >
+                <span className="inline-flex items-center align-middle mr-2.5 sm:mr-3.5 lg:mr-4.5 shrink-0 -translate-y-1 sm:-translate-y-1.5 lg:-translate-y-2">
+                  <WireframeCube
+                    size={34}
+                    color="#EF4444"
+                    tiltX={-20}
+                    tiltZ={10}
+                    duration={16}
+                    divisions={3}
+                    floating={false}
+                  />
+                </span>
+                Hello, I am{' '}
+                <span className="bg-gradient-to-r from-[#2563EB] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
+                  Rajat Behera
+                </span>
+                .
+              </motion.h1>
 
               {/* 3. Description */}
               <motion.p
