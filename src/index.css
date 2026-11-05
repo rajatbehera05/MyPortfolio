@@ -23,10 +23,27 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-base);
     color: var(--text-primary);
+  }
+
+  /* Lenis smooth scrolling integration rules */
+  html.lenis, html.lenis-smooth {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
   }
 
   body {
@@ -706,6 +723,24 @@
   background: #94A3B8;
 }
 
+/* Celestial Moon Subtle Floating Animation */
+@keyframes celestialMoonFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.8deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-celestial-float {
+  animation: celestialMoonFloat 9s ease-in-out infinite alternate;
+}
+
+
 /* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -715,5 +750,8 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .animate-celestial-float {
+    animation: none !important;
   }
 }

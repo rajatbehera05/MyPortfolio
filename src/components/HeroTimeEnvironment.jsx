@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ShootingStars from './ShootingStars';
 
 /**
  * AtmosphericCloud: Soft, natural cloud silhouette that blends seamlessly into the sky.
@@ -255,36 +256,90 @@ function NaturalEveningSun() {
 }
 
 /**
- * 4. Midnight Crescent Moon
+ * 4. Realistic Elegant Midnight Crescent Moon
+ * - Pure, clean luminous silver-white crescent surface (no dark/black rounded back)
+ * - Delicate craters and lunar mare texture
+ * - Specular outer rim highlight and atmospheric cool-blue/lavender halo
+ * - Very slow, graceful celestial floating animation
  */
 function CrescentMoon({ className = "" }) {
   return (
     <div className={`relative pointer-events-none select-none flex items-center justify-center ${className}`}>
+      {/* 1. Outermost Deep Atmospheric Lavender/Blue Ambient Glow */}
       <div
-        className="absolute w-56 h-56 sm:w-68 sm:h-68 rounded-full pointer-events-none"
+        className="absolute w-60 h-60 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(147, 197, 253, 0.22) 0%, rgba(139, 92, 246, 0.12) 35%, transparent 70%)',
+          background:
+            'radial-gradient(circle, rgba(147, 197, 253, 0.18) 0%, rgba(139, 92, 246, 0.10) 30%, rgba(79, 140, 255, 0.03) 55%, transparent 70%)',
         }}
       />
+
+      {/* 2. Soft Inner Lunar Glow */}
+      <div
+        className="absolute w-28 h-28 sm:w-34 sm:h-34 rounded-full pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(255, 255, 255, 0.40) 0%, rgba(186, 230, 253, 0.22) 38%, transparent 70%)',
+        }}
+      />
+
+      {/* 3. Pure Clean Silver-White Lunar Crescent (Clean, no black rounded part) */}
       <svg
-        width="46"
-        height="46"
-        viewBox="0 0 48 48"
+        width="62"
+        height="62"
+        viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="drop-shadow-[0_0_18px_rgba(147,197,253,0.55)]"
+        className="relative z-10 w-13 h-13 sm:w-15 sm:h-15 lg:w-16 lg:h-16 drop-shadow-[0_0_12px_rgba(255,255,255,0.85)] drop-shadow-[0_0_24px_rgba(147,197,253,0.55)] drop-shadow-[0_0_42px_rgba(139,92,246,0.3)]"
       >
-        <path
-          d="M32 6C23.16 6 16 13.16 16 22C16 30.84 23.16 38 32 38C34.78 38 37.38 37.28 39.64 36.02C36.14 39.12 31.48 41 26.36 41C15.68 41 7 32.32 7 21.64C7 11.58 14.7 3.32 24.52 2.38C26.96 2.14 29.5 2.5 32 3.32C29.44 4.02 27.22 5.56 25.8 7.64C28.2 6.58 30.98 6 32 6Z"
-          fill="url(#moonGlowGrad)"
-        />
         <defs>
-          <linearGradient id="moonGlowGrad" x1="12" y1="4" x2="38" y2="40" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#FFFFFF" />
-            <stop offset="0.6" stopColor="#E0F2FE" />
-            <stop offset="1" stopColor="#93C5FD" />
+          {/* Pure Silver-White Luminous Gradient */}
+          <linearGradient id="pureLunarWhiteGrad" x1="56" y1="16" x2="38" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="45%" stopColor="#FFFFFF" />
+            <stop offset="75%" stopColor="#F0F9FF" />
+            <stop offset="90%" stopColor="#E0F2FE" />
+            <stop offset="100%" stopColor="#BAE6FD" />
           </linearGradient>
+
+          {/* Exact Crescent Mask for delicate surface craters */}
+          <clipPath id="pureCrescentMask">
+            <path d="M 32 7 A 25 25 0 0 1 32 57 A 17 25 0 0 0 32 7 Z" />
+          </clipPath>
         </defs>
+
+        {/* Natural Celestial Angle (~16deg tilt) */}
+        <g transform="rotate(-16 32 32)">
+          {/* A. Pure Clean White Crescent Body */}
+          <path
+            d="M 32 7 A 25 25 0 0 1 32 57 A 17 25 0 0 0 32 7 Z"
+            fill="url(#pureLunarWhiteGrad)"
+          />
+
+          {/* B. Subtle Lunar Surface Details (Purely inside the white crescent) */}
+          <g clipPath="url(#pureCrescentMask)">
+            {/* Soft Mare Formations */}
+            <ellipse cx="52" cy="24" rx="2.5" ry="1.7" fill="#CBD5E1" fillOpacity="0.45" />
+            <ellipse cx="53" cy="35" rx="3.2" ry="2.0" fill="#CBD5E1" fillOpacity="0.4" />
+
+            {/* Delicate Crater Highlights */}
+            <circle cx="46" cy="46" r="1.8" fill="#CBD5E1" fillOpacity="0.38" stroke="#FFFFFF" strokeWidth="0.4" strokeOpacity="0.9" />
+            <circle cx="48" cy="18" r="1.4" fill="#CBD5E1" fillOpacity="0.38" stroke="#FFFFFF" strokeWidth="0.4" strokeOpacity="0.85" />
+
+            <ellipse cx="49" cy="29" rx="2.2" ry="2.8" fill="#CBD5E1" fillOpacity="0.3" />
+            <circle cx="44" cy="40" r="1.1" fill="#CBD5E1" fillOpacity="0.4" />
+          </g>
+
+          {/* C. Brilliant Outer Specular Rim Highlight */}
+          <path
+            d="M 32 7 A 25 25 0 0 1 32 57"
+            fill="none"
+            stroke="#FFFFFF"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+            opacity="1"
+          />
+        </g>
       </svg>
     </div>
   );
@@ -454,14 +509,21 @@ export default function HeroTimeEnvironment({ timeState = 'noon' }) {
             `,
           }}
         />
+        {/* Twinkling Static Night Stars */}
         <NightTwinklingStars />
-        <div className="absolute top-24 sm:top-28 right-[12%] sm:right-[18%] lg:right-[22%] pointer-events-none select-none z-1">
+
+        {/* Cinematic HTML5 Canvas 2D Shooting Stars System */}
+        <ShootingStars />
+
+        {/* Repositioned Realistic Crescent Moon in Open Central Space */}
+        <div className="absolute top-22 sm:top-26 lg:top-30 left-[52%] sm:left-[54%] lg:left-[56%] -translate-x-1/2 pointer-events-none select-none z-1 animate-celestial-float">
           <CrescentMoon />
         </div>
+
         <div className="absolute top-16 sm:top-20 left-4 sm:left-12 lg:left-20 animate-cloud-drift hidden sm:block">
           <AtmosphericCloud width={175} height={50} tint="night" />
         </div>
-        <div className="absolute top-32 sm:top-38 right-[8%] sm:right-[14%] animate-cloud-drift-reverse hidden sm:block">
+        <div className="absolute top-36 sm:top-42 right-[8%] sm:right-[14%] animate-cloud-drift-reverse hidden sm:block">
           <AtmosphericCloud width={145} height={44} tint="night" />
         </div>
       </div>

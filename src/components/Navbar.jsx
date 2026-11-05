@@ -124,29 +124,45 @@ export default function Navbar({ onConnectClick, isNight = false }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    let rafId = null;
+    const sections = [
+      { id: 'about', name: 'About' },
+      { id: 'tech', name: 'Tech' },
+      { id: 'achievements', name: 'Achievements' },
+      { id: 'work', name: 'Projects' },
+      { id: 'exploring', name: 'Milestones' },
+      { id: 'github-activity', name: 'Activity' },
+    ];
 
-      const sections = [
-        { id: 'about', name: 'About' },
-        { id: 'tech', name: 'Tech' },
-        { id: 'achievements', name: 'Achievements' },
-        { id: 'work', name: 'Projects' },
-        { id: 'exploring', name: 'Milestones' },
-        { id: 'github-activity', name: 'Activity' },
-      ];
+    const updateScroll = () => {
+      const sy = window.scrollY;
+      const nextScrolled = sy > 20;
+      setIsScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
 
-      const scrollPosition = window.scrollY + 220;
+      const scrollPosition = sy + 220;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i].id);
         if (el && el.offsetTop <= scrollPosition) {
-          setActiveItem(sections[i].name);
-          return;
+          setActiveItem((prev) => (prev !== sections[i].name ? sections[i].name : prev));
+          break;
         }
       }
+      rafId = null;
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const onScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(updateScroll);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateScroll();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const navLinks = [
@@ -163,20 +179,28 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     setActiveItem(name);
     setMobileMenuOpen(false);
     const targetId = href.replace('#', '');
-    const el = document.getElementById(targetId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(`#${targetId}`, { offset: -70 });
+    } else {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   const handleConnect = (e) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const el = document.getElementById('contact');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (onConnectClick) {
-      onConnectClick();
+    if (window.__lenis) {
+      window.__lenis.scrollTo('#contact', { offset: -70 });
+    } else {
+      const el = document.getElementById('contact');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else if (onConnectClick) {
+        onConnectClick();
+      }
     }
   };
 

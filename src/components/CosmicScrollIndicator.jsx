@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
 /**
  * Ultra-Premium Cosmic Shooting Star Scrollbar
+ * Fully GPU-Accelerated & Ref-Driven (Zero React re-renders during scrolling)
  *
  * Core mechanics:
  * 1. The shooting star ITSELF is the draggable scrollbar thumb.
@@ -15,11 +16,19 @@ import { useReducedMotion } from 'framer-motion';
 export default function CosmicScrollIndicator() {
   const prefersReducedMotion = useReducedMotion();
   const trackRef = useRef(null);
+  const starThumbRef = useRef(null);
+  const tailRef = useRef(null);
+  const flareRef = useRef(null);
+  const coronaRef = useRef(null);
+  const haloRef = useRef(null);
+  const starHeadRef = useRef(null);
+  const particleElsRef = useRef([]);
+
   const isDraggingRef = useRef(false);
   const dragStartYRef = useRef(0);
   const dragStartScrollYRef = useRef(0);
 
-  // Real-time animation physics refs (avoiding React re-renders during high-frequency scroll)
+  // Real-time animation physics refs
   const animStateRef = useRef({
     currentProgress: 0,
     targetProgress: 0,
@@ -31,15 +40,25 @@ export default function CosmicScrollIndicator() {
     scrollTimeout: null,
   });
 
-  const [starPos, setStarPos] = useState({ topPct: 0, speed: 0, dir: 'down', isMoving: false });
-  const [particles, setParticles] = useState([]);
-  const particleIdCounter = useRef(0);
+  // Particle pool for zero-allocation, zero-re-render stardust
+  const particlePoolRef = useRef(
+    Array.from({ length: 8 }, () => ({
+      active: false,
+      x: 0,
+      y: 0,
+      size: 2,
+      opacity: 0,
+      color: '#60A5FA',
+      life: 0,
+      maxLife: 18,
+    }))
+  );
 
   // Subtle ambient stars along the right track (clean, non-intrusive)
   const backgroundStars = useMemo(() => {
     return Array.from({ length: 9 }).map((_, i) => ({
       id: i,
-      top: 8 + (i * 84) / 8 + (Math.sin(i * 2.3) * 3), // 8% to 92%
+      top: 8 + (i * 84) / 8 + Math.sin(i * 2.3) * 3, // 8% to 92%
       offset: (i % 2 === 0 ? 1 : -1) * (1 + (i % 3) * 1.5),
       size: 1 + (i % 3) * 0.6, // 1px to 2.2px
       opacity: 0.18 + (i % 3) * 0.12,
@@ -48,9 +67,16 @@ export default function CosmicScrollIndicator() {
     }));
   }, []);
 
-  // Sync scroll progress and velocity
+  // Sync scroll progress and velocity without layout thrashing
   useEffect(() => {
     let rafId = null;
+    let cachedMaxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+
+    const updateCachedMaxScroll = () => {
+      cachedMaxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    };
+
+    window.addEventListener('resize', updateCachedMaxScroll, { passive: true });
 
     const updateScrollMetrics = () => {
       const scrollY = window.scrollY;
@@ -59,11 +85,9 @@ export default function CosmicScrollIndicator() {
       const dt = Math.max(now - state.lastTime, 1);
       const dy = scrollY - state.lastScrollY;
 
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const targetP = maxScroll > 0 ? Math.min(Math.max(scrollY / maxScroll, 0), 1) : 0;
-      state.targetProgress = targetP;
+      state.targetProgress = cachedMaxScroll > 0 ? Math.min(Math.max(scrollY / cachedMaxScroll, 0), 1) : 0;
 
-      // Calculate normalized velocity (pixels / ms)
+      // Normalized velocity (pixels / ms)
       const instantVelocity = Math.abs(dy) / dt;
       state.velocity = Math.min(instantVelocity * 1.5, 4.5);
 
@@ -82,8 +106,9 @@ export default function CosmicScrollIndicator() {
       state.lastTime = now;
     };
 
-    // Smooth animation loop to update thumb position & particle trail
     let lastParticleTime = 0;
+
+    // Smooth animation loop to update thumb position & particle trail directly on DOM
     const animate = (currentTime) => {
       const state = animStateRef.current;
 
@@ -96,31 +121,102 @@ export default function CosmicScrollIndicator() {
         state.velocity *= 0.88;
       }
 
-      // Update state for visual star rendering
-      setStarPos({
-        topPct: state.currentProgress * 100,
-        speed: state.velocity,
-        dir: state.direction > 0 ? 'down' : 'up',
-        isMoving: state.isScrolling || state.velocity > 0.08,
-      });
+      const topPct = state.currentProgress * 100;
+      const speed = state.velocity;
+      const isMoving = state.isScrolling || speed > 0.08;
+      const dir = state.direction > 0 ? 'down' : 'up';
 
-      // Spawn meteor dust particles along the tail when in motion
-      if (!prefersReducedMotion && state.velocity > 0.12 && currentTime - lastParticleTime > 45) {
-        lastParticleTime = currentTime;
-        const dir = state.direction;
-        const speed = state.velocity;
-        const pId = ++particleIdCounter.current;
+      // 1. Direct thumb position update
+      if (starThumbRef.current) {
+        starThumbRef.current.style.top = `calc(${topPct}% * 0.96 + 2%)`;
+      }
 
-        const newParticle = {
-          id: pId,
-          x: (Math.random() - 0.5) * (4 + speed * 3), // slight horizontal dispersion
-          y: dir > 0 ? -(6 + Math.random() * (12 + speed * 16)) : (6 + Math.random() * (12 + speed * 16)),
-          size: 1 + Math.random() * (1.5 + speed * 0.5),
-          opacity: 0.85 + Math.random() * 0.15,
-          color: Math.random() > 0.4 ? '#60A5FA' : Math.random() > 0.5 ? '#E0F2FE' : '#C084FC',
-        };
+      // 2. Direct meteor tail update
+      if (tailRef.current) {
+        const base = isMoving ? 26 : 10;
+        const tailLen = prefersReducedMotion ? 14 : Math.min(base + speed * 28, 96);
+        const tailOp = prefersReducedMotion ? 0.5 : Math.min(0.45 + speed * 0.28, 0.98);
 
-        setParticles((prev) => [...prev.slice(-12), newParticle]);
+        tailRef.current.style.height = `${tailLen}px`;
+        tailRef.current.style.width = speed > 1.2 ? '3.5px' : '2.5px';
+        tailRef.current.style.opacity = `${tailOp}`;
+
+        if (dir === 'down') {
+          tailRef.current.className =
+            'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out bottom-[6px] origin-bottom';
+          tailRef.current.style.background =
+            'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
+        } else {
+          tailRef.current.className =
+            'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out top-[6px] origin-top';
+          tailRef.current.style.background =
+            'linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
+        }
+
+        if (flareRef.current) {
+          flareRef.current.style.height = `${tailLen * 0.65}px`;
+          flareRef.current.className = `absolute left-1/2 -translate-x-1/2 w-[1px] bg-white/90 ${
+            dir === 'down' ? 'bottom-0' : 'top-0'
+          }`;
+        }
+      }
+
+      // 3. Direct corona & halo glow update
+      if (coronaRef.current) {
+        coronaRef.current.style.transform = `scale(${1 + Math.min(speed * 0.35, 0.7)})`;
+      }
+      if (haloRef.current) {
+        haloRef.current.style.transform = `scale(${1 + Math.min(speed * 0.25, 0.5)})`;
+      }
+
+      // 4. Direct star head rotation
+      if (starHeadRef.current) {
+        const rot = isMoving ? (dir === 'down' ? 180 : 0) : 45;
+        starHeadRef.current.style.transform = `rotate(${rot}deg)`;
+      }
+
+      // 5. Stardust particle pool update (zero React renders)
+      if (!prefersReducedMotion) {
+        if (speed > 0.12 && currentTime - lastParticleTime > 45) {
+          lastParticleTime = currentTime;
+          // Spawn in first available particle
+          const p = particlePoolRef.current.find((item) => !item.active);
+          if (p) {
+            p.active = true;
+            p.life = 0;
+            p.maxLife = 16 + Math.floor(speed * 4);
+            p.x = (Math.random() - 0.5) * (4 + speed * 3);
+            p.y = dir === 'down' ? -(6 + Math.random() * (12 + speed * 16)) : 6 + Math.random() * (12 + speed * 16);
+            p.size = 1 + Math.random() * (1.5 + speed * 0.5);
+            p.opacity = 0.85 + Math.random() * 0.15;
+            p.color = Math.random() > 0.4 ? '#60A5FA' : Math.random() > 0.5 ? '#E0F2FE' : '#C084FC';
+          }
+        }
+
+        // Advance particles
+        particlePoolRef.current.forEach((p, index) => {
+          const el = particleElsRef.current[index];
+          if (!el) return;
+
+          if (p.active) {
+            p.life++;
+            const progress = p.life / p.maxLife;
+            if (progress >= 1) {
+              p.active = false;
+              el.style.opacity = '0';
+            } else {
+              const currentOpacity = p.opacity * (1 - progress);
+              el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+              el.style.width = `${p.size}px`;
+              el.style.height = `${p.size}px`;
+              el.style.backgroundColor = p.color;
+              el.style.boxShadow = `0 0 6px ${p.color}, 0 0 10px rgba(139, 92, 246, 0.4)`;
+              el.style.opacity = `${currentOpacity}`;
+            }
+          } else {
+            el.style.opacity = '0';
+          }
+        });
       }
 
       rafId = requestAnimationFrame(animate);
@@ -132,23 +228,14 @@ export default function CosmicScrollIndicator() {
 
     return () => {
       window.removeEventListener('scroll', updateScrollMetrics);
+      window.removeEventListener('resize', updateCachedMaxScroll);
       if (rafId) cancelAnimationFrame(rafId);
       if (animStateRef.current.scrollTimeout) clearTimeout(animStateRef.current.scrollTimeout);
     };
   }, [prefersReducedMotion]);
 
-  // Clean expired stardust particles
-  useEffect(() => {
-    if (particles.length === 0) return;
-    const timer = setTimeout(() => {
-      setParticles((prev) => (prev.length > 0 ? prev.slice(1) : []));
-    }, 180);
-    return () => clearTimeout(timer);
-  }, [particles]);
-
-  // Track click: Jump scroll to clicked position
+  // Track click: Jump scroll to clicked position smoothly via Lenis
   const handleTrackClick = useCallback((e) => {
-    // If clicking directly on or dragging the star, ignore
     if (isDraggingRef.current) return;
     const track = trackRef.current;
     if (!track) return;
@@ -157,13 +244,17 @@ export default function CosmicScrollIndicator() {
     const clickY = e.clientY - rect.top;
     const clickPct = Math.min(Math.max(clickY / rect.height, 0), 1);
 
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     const targetScroll = clickPct * maxScroll;
 
-    window.scrollTo({
-      top: targetScroll,
-      behavior: 'smooth',
-    });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(targetScroll);
+    } else {
+      window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+      });
+    }
   }, []);
 
   // Mouse Drag on Star Thumb: Draggable like a native scrollbar thumb
@@ -178,13 +269,18 @@ export default function CosmicScrollIndicator() {
       if (!isDraggingRef.current || !trackRef.current) return;
       const rect = trackRef.current.getBoundingClientRect();
       const deltaY = moveEvent.clientY - dragStartYRef.current;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
       const deltaScroll = (deltaY / rect.height) * maxScroll;
+      const targetScroll = Math.min(Math.max(dragStartScrollYRef.current + deltaScroll, 0), maxScroll);
 
-      window.scrollTo({
-        top: Math.min(Math.max(dragStartScrollYRef.current + deltaScroll, 0), maxScroll),
-        behavior: 'auto',
-      });
+      if (window.__lenis) {
+        window.__lenis.scrollTo(targetScroll, { immediate: true });
+      } else {
+        window.scrollTo({
+          top: targetScroll,
+          behavior: 'auto',
+        });
+      }
     };
 
     const onPointerUp = () => {
@@ -196,18 +292,6 @@ export default function CosmicScrollIndicator() {
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
   }, []);
-
-  // Compute dynamic meteor tail properties based on speed and direction
-  const tailLength = useMemo(() => {
-    if (prefersReducedMotion) return 14;
-    const base = starPos.isMoving ? 26 : 10;
-    return Math.min(base + starPos.speed * 28, 96); // 10px stationary -> up to 96px on rapid scroll
-  }, [starPos.speed, starPos.isMoving, prefersReducedMotion]);
-
-  const tailOpacity = useMemo(() => {
-    if (prefersReducedMotion) return 0.5;
-    return Math.min(0.45 + starPos.speed * 0.28, 0.98);
-  }, [starPos.speed, prefersReducedMotion]);
 
   return (
     <aside
@@ -245,77 +329,71 @@ export default function CosmicScrollIndicator() {
             THE ANIMATED SHOOTING STAR SCROLLBAR THUMB
             ========================================================================= */}
         <div
+          ref={starThumbRef}
           onPointerDown={handlePointerDown}
           className="absolute right-[5px] -translate-x-[50%] -translate-y-1/2 flex items-center justify-center cursor-grab active:cursor-grabbing pointer-events-auto group/star z-30 touch-none"
           style={{
-            top: `calc(${starPos.topPct}% * 0.96 + 2%)`, // padded within viewport margins
+            top: '2%', // initial fallback position
           }}
         >
           {/* 1. TAPERED LUMINOUS METEOR TAIL (Follows real scroll direction) */}
           <div
-            className={`absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out ${
-              starPos.dir === 'down' ? 'bottom-[6px] origin-bottom' : 'top-[6px] origin-top'
-            }`}
+            ref={tailRef}
+            className="absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out bottom-[6px] origin-bottom"
             style={{
-              height: `${tailLength}px`,
-              width: starPos.speed > 1.2 ? '3.5px' : '2.5px',
-              opacity: tailOpacity,
+              height: '14px',
+              width: '2.5px',
+              opacity: 0.5,
               background:
-                starPos.dir === 'down'
-                  ? 'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)'
-                  : 'linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)',
+                'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)',
               filter: `drop-shadow(0 0 6px rgba(56, 189, 248, 0.85)) drop-shadow(0 0 12px rgba(139, 92, 246, 0.5))`,
               borderRadius: '9999px',
             }}
           >
-            {/* Subtle Core Flare Ray inside the tail for irregularity and cinematic realism */}
+            {/* Core Flare Ray */}
             <div
-              className={`absolute left-1/2 -translate-x-1/2 w-[1px] bg-white/90 ${
-                starPos.dir === 'down' ? 'bottom-0' : 'top-0'
-              }`}
-              style={{ height: `${tailLength * 0.65}px` }}
+              ref={flareRef}
+              className="absolute left-1/2 -translate-x-1/2 w-[1px] bg-white/90 bottom-0"
+              style={{ height: '9px' }}
             />
           </div>
 
-          {/* 2. DYNAMIC FAILING PARTICLES / STARDUST TRAIL */}
+          {/* 2. DYNAMIC FAILING PARTICLES / STARDUST TRAIL (Direct Ref Pool) */}
           {!prefersReducedMotion &&
-            particles.map((p) => (
+            Array.from({ length: 8 }).map((_, i) => (
               <div
-                key={p.id}
-                className="absolute rounded-full pointer-events-none transition-all duration-200 ease-out"
+                key={`p-pool-${i}`}
+                ref={(el) => (particleElsRef.current[i] = el)}
+                className="absolute rounded-full pointer-events-none transition-opacity duration-150 ease-out"
                 style={{
-                  top: `${p.y}px`,
-                  left: `${p.x}px`,
-                  width: `${p.size}px`,
-                  height: `${p.size}px`,
-                  backgroundColor: p.color,
-                  opacity: p.opacity,
-                  boxShadow: `0 0 6px ${p.color}, 0 0 10px rgba(139, 92, 246, 0.4)`,
+                  top: '0px',
+                  left: '0px',
+                  width: '2px',
+                  height: '2px',
+                  opacity: 0,
+                  transform: 'translate3d(0, 0, 0)',
                 }}
               />
             ))}
 
           {/* 3. ATMOSPHERIC VIOLET CORONA (Outer Soft Glow) */}
           <div
+            ref={coronaRef}
             className="absolute -inset-3.5 rounded-full bg-[#8B5CF6]/35 blur-[8px] pointer-events-none transition-all duration-300"
-            style={{
-              transform: `scale(${1 + Math.min(starPos.speed * 0.35, 0.7)})`,
-            }}
           />
 
           {/* 4. ELECTRIC-BLUE MIDDLE HALO */}
           <div
+            ref={haloRef}
             className="absolute -inset-1.5 rounded-full bg-[#38BDF8]/65 blur-[4px] pointer-events-none transition-all duration-200"
-            style={{
-              transform: `scale(${1 + Math.min(starPos.speed * 0.25, 0.5)})`,
-            }}
           />
 
           {/* 5. DISTINCT FOUR-POINT STAR HEAD (SVG Meteor Silhouette) */}
           <div
+            ref={starHeadRef}
             className="relative flex items-center justify-center pointer-events-none"
             style={{
-              transform: `rotate(${starPos.isMoving ? (starPos.dir === 'down' ? 180 : 0) : 45}deg)`,
+              transform: 'rotate(45deg)',
               transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
@@ -344,9 +422,7 @@ export default function CosmicScrollIndicator() {
             </svg>
 
             {/* Ultra-Brilliant Icy-White Nucleus */}
-            <div
-              className="absolute w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#FFFFFF,0_0_12px_#38BDF8]"
-            />
+            <div className="absolute w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#FFFFFF,0_0_12px_#38BDF8]" />
           </div>
 
           {/* Draggable Hover Glow / Touch Target Expander */}

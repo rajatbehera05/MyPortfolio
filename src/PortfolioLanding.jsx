@@ -38,11 +38,14 @@ export default function PortfolioLanding() {
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.24,
+      wheelMultiplier: 1.3,
+      touchMultiplier: 1.0,
+      syncTouch: false,
       smoothWheel: true,
-      touchMultiplier: 1.5,
     });
+
+    window.__lenis = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -50,18 +53,21 @@ export default function PortfolioLanding() {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(1000, 16);
 
     return () => {
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
+      window.__lenis = null;
     };
   }, []);
 
   const handleExplore = () => {
-    const el = document.getElementById('work');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (window.__lenis) {
+      window.__lenis.scrollTo('#work', { offset: -70 });
+    } else {
+      const el = document.getElementById('work');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -97,8 +103,12 @@ export default function PortfolioLanding() {
       <Navbar
         isNight={timeEnv.isNight}
         onConnectClick={() => {
-          const el = document.getElementById('contact');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (window.__lenis) {
+            window.__lenis.scrollTo('#contact', { offset: -70 });
+          } else {
+            const el = document.getElementById('contact');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }
         }}
       />
 

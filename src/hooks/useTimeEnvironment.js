@@ -123,20 +123,16 @@ export function useTimeEnvironment() {
   // 1. REAL-TIME CLOCK: strictly tracks the visitor's actual local device time
   const [currentTime, setCurrentTime] = useState(() => new Date());
 
-  // 2. THEME MODE: 'auto' or 'manual'
+  // 2. THEME MODE: Always defaults to 'auto' so every visit automatically matches visitor's local time timestamp
   const [themeMode, setThemeMode] = useState(() => {
     try {
       if (typeof window !== 'undefined') {
+        // Clear any lingering localStorage overrides so any new visit uses actual timestamp
+        localStorage.removeItem(THEME_STORAGE_KEY);
+        localStorage.removeItem(THEME_MODE_STORAGE_KEY);
+
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('theme')) return 'manual';
-      }
-      const storedMode = localStorage.getItem(THEME_MODE_STORAGE_KEY);
-      if (storedMode === 'manual' || storedMode === 'auto') {
-        return storedMode;
-      }
-      const legacyTheme = localStorage.getItem(THEME_STORAGE_KEY);
-      if (legacyTheme && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(legacyTheme)) {
-        return 'manual';
       }
     } catch {
       // LocalStorage error fallback
@@ -144,7 +140,7 @@ export function useTimeEnvironment() {
     return 'auto';
   });
 
-  // 3. MANUAL THEME OVERRIDE (only applied when themeMode === 'manual')
+  // 3. MANUAL THEME OVERRIDE (only active if visitor manually selects a theme in current session)
   const [manualTheme, setManualTheme] = useState(() => {
     try {
       if (typeof window !== 'undefined') {
@@ -153,10 +149,6 @@ export function useTimeEnvironment() {
         if (urlTheme && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(urlTheme)) {
           return urlTheme === 'afternoon' ? 'noon' : urlTheme;
         }
-      }
-      const stored = localStorage.getItem(THEME_STORAGE_KEY);
-      if (stored && ['morning', 'noon', 'afternoon', 'evening', 'night'].includes(stored)) {
-        return stored === 'afternoon' ? 'noon' : stored;
       }
     } catch {
       // LocalStorage error fallback
@@ -201,23 +193,15 @@ export function useTimeEnvironment() {
     } catch {}
   }, [isNight]);
 
-  // Set theme handler (supports 'auto' to reset, or specific theme ID)
+  // Set theme handler: In-session exploration (revisiting website resets automatically to time-based theme)
   const setTheme = useCallback((themeId) => {
     if (themeId === 'auto') {
       setThemeMode('auto');
       setManualTheme(null);
-      try {
-        localStorage.setItem(THEME_MODE_STORAGE_KEY, 'auto');
-        localStorage.removeItem(THEME_STORAGE_KEY);
-      } catch {}
     } else {
       const normalized = themeId === 'afternoon' ? 'noon' : themeId;
       setThemeMode('manual');
       setManualTheme(normalized);
-      try {
-        localStorage.setItem(THEME_MODE_STORAGE_KEY, 'manual');
-        localStorage.setItem(THEME_STORAGE_KEY, normalized);
-      } catch {}
     }
   }, []);
 
