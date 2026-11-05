@@ -46,7 +46,7 @@ export const AVAILABLE_THEMES = [
     name: 'Midnight Cosmic',
     subtitle: 'Midnight sky, crescent moon & dark mode',
     schedule: '22:00 – 04:59',
-    greeting: 'Good Night',
+    greeting: 'Good Evening',
     accentColor: '#818CF8',
     skyGradient: 'linear-gradient(135deg, #081426 0%, #0F1D38 50%, #162C52 100%)',
     iconType: 'moon',
@@ -75,18 +75,35 @@ export function getTimeState(date = new Date()) {
 }
 
 /**
+ * Dynamic greeting derived strictly from the visitor's local device time:
+ * - 5:00 AM – 11:59 AM: Good Morning
+ * - 12:00 PM – 4:59 PM: Good Afternoon
+ * - 5:00 PM – 4:59 AM: Good Evening
+ * (Never displays "Good Night")
+ */
+export function getLocalDeviceGreeting(date = new Date()) {
+  const hour = date.getHours();
+  if (hour >= 5 && hour < 12) {
+    return 'Good Morning';
+  }
+  if (hour >= 12 && hour < 17) {
+    return 'Good Afternoon';
+  }
+  return 'Good Evening';
+}
+
+/**
  * Editorial Greeting corresponding to the time state
  */
 export function getTimeGreeting(timeState) {
   switch (timeState) {
-    case 'night':
-      return 'Good Night';
     case 'morning':
       return 'Good Morning';
     case 'noon':
     case 'afternoon':
       return 'Good Afternoon';
     case 'evening':
+    case 'night':
     default:
       return 'Good Evening';
   }
@@ -98,6 +115,7 @@ export function getTimeGreeting(timeState) {
  */
 export function useTimeEnvironment() {
   const [currentTimeState, setCurrentTimeState] = useState(() => getTimeState());
+  const [currentGreeting, setCurrentGreeting] = useState(() => getLocalDeviceGreeting());
   const [manualOverride, setManualOverride] = useState(() => {
     try {
       if (typeof window !== 'undefined') {
@@ -121,8 +139,11 @@ export function useTimeEnvironment() {
     const checkTime = () => {
       const detected = getTimeState();
       setCurrentTimeState((prev) => (prev !== detected ? detected : prev));
+      const detectedGreeting = getLocalDeviceGreeting();
+      setCurrentGreeting((prev) => (prev !== detectedGreeting ? detectedGreeting : prev));
     };
 
+    // Check every 10 seconds to respond automatically when the time period transitions
     const timer = setInterval(checkTime, 10000);
     window.addEventListener('visibilitychange', checkTime);
     window.addEventListener('focus', checkTime);
@@ -137,7 +158,7 @@ export function useTimeEnvironment() {
   const rawActive = manualOverride || currentTimeState;
   const activeState = rawActive === 'afternoon' ? 'noon' : rawActive;
   const isNight = activeState === 'night';
-  const greeting = getTimeGreeting(activeState);
+  const greeting = currentGreeting;
 
   // Sync document root data-theme attribute across the entire application
   useEffect(() => {
