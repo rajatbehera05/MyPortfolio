@@ -443,6 +443,7 @@ function Achievements({ isNight: isNightProp = false }) {
 
   // Fluid 3D parallax on mouse movement without React re-renders
   const handleMouseMove = (e) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -597,7 +598,7 @@ function Achievements({ isNight: isNightProp = false }) {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute bottom-4 sm:bottom-3 w-[350px] sm:w-[420px] h-[105px] sm:h-[125px] rounded-[100%] pointer-events-none transition-all duration-500"
+                className="absolute bottom-4 sm:bottom-3 w-[290px] xs:w-[350px] sm:w-[420px] h-[105px] sm:h-[125px] rounded-[100%] pointer-events-none transition-all duration-500"
                 style={{
                   background: isNight
                     ? 'radial-gradient(ellipse at center, rgba(30, 48, 88, 0.85) 0%, rgba(18, 30, 58, 0.6) 45%, rgba(10, 20, 40, 0.3) 70%, transparent 85%)'
@@ -801,7 +802,7 @@ function Achievements({ isNight: isNightProp = false }) {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute -left-2 sm:left-1 z-10 hover:z-30 transition-[z-index] select-none"
+                className="absolute -left-2 sm:left-1 z-10 hover:z-30 transition-[z-index] select-none hidden sm:block"
               >
                 <motion.div
                   onClick={() => setSelectedId(leftCardData.id)}
@@ -881,7 +882,7 @@ function Achievements({ isNight: isNightProp = false }) {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute -right-2 sm:right-1 z-10 hover:z-30 transition-[z-index] select-none"
+                className="absolute -right-2 sm:right-1 z-10 hover:z-30 transition-[z-index] select-none hidden sm:block"
               >
                 <motion.div
                   onClick={() => setSelectedId(rightCardData.id)}

@@ -289,12 +289,12 @@ export default function CoreQualitiesOrbit() {
                   </motion.div>
 
                   {/* Title: Deep Charcoal / Dark Plum */}
-                  <h4 className="text-[12px] sm:text-[14.5px] font-bold text-[#2D1F30] mt-1 sm:mt-1.5 tracking-tight whitespace-nowrap">
+                  <h4 className="text-[11px] xs:text-[12px] sm:text-[14.5px] font-bold text-[#2D1F30] mt-1 sm:mt-1.5 tracking-tight whitespace-nowrap">
                     {node.title}
                   </h4>
 
-                  {/* Supporting phrase: Muted Warm Grey / Brown */}
-                  <p className="text-[9px] sm:text-[11px] md:text-[11.5px] text-[#6B5E65] text-center max-w-[110px] sm:max-w-[155px] leading-tight sm:leading-snug mt-0.5 sm:mt-1 font-normal">
+                  {/* Supporting phrase: Muted Warm Grey / Brown (Hidden on small mobile screens to prevent messy overlap) */}
+                  <p className="hidden sm:block text-[9px] sm:text-[11px] md:text-[11.5px] text-[#6B5E65] text-center max-w-[110px] sm:max-w-[155px] leading-tight sm:leading-snug mt-0.5 sm:mt-1 font-normal">
                     {node.description}
                   </p>
                 </motion.div>

@@ -203,9 +203,11 @@ export default function CosmicThemeSwitcher({ timeEnv }) {
       left = Math.max(14, window.innerWidth - popoverWidth - 14);
     }
 
-    // If bottom overflow would happen, open upwards if space permits
-    if (top + 280 > window.innerHeight && rect.top > 290) {
-      top = rect.top - 280 - 10;
+    // Open upward when button is docked near the bottom (e.g. mobile), otherwise open below
+    if (rect.top > 300) {
+      top = Math.max(10, rect.top - 285);
+    } else {
+      top = rect.bottom + 10;
     }
 
     setPopoverPos({ top, left, width: popoverWidth });
@@ -274,8 +276,8 @@ export default function CosmicThemeSwitcher({ timeEnv }) {
 
   return (
     <>
-      {/* ─── 1. TOP-LEFT FLOATING CIRCULAR COSMIC BUTTON (ICON ONLY) ─── */}
-      <div className="fixed top-[74px] left-4 sm:top-[78px] sm:left-6 lg:top-4.5 lg:left-7 xl:left-9 z-40 select-none pointer-events-auto transition-all duration-300">
+      {/* ─── 1. FLOATING CIRCULAR COSMIC BUTTON (ICON ONLY) ─── */}
+      <div className="fixed bottom-5 left-4 sm:bottom-6 sm:left-6 md:top-4.5 md:left-7 md:bottom-auto z-40 select-none pointer-events-auto transition-all duration-300">
         <motion.button
           ref={buttonRef}
           type="button"

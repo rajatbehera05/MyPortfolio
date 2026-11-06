@@ -19,6 +19,7 @@ function ProjectsEntry() {
   const mouseRafRef = useRef(null);
 
   const handleMouseMove = (e) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     const { clientX, clientY, currentTarget } = e;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
     const x = (clientX - (left + width / 2)) / (width / 2);
@@ -139,7 +140,7 @@ function ProjectsEntry() {
             Living organic animation: breathing, chest expansion, and roar recoil
             ============================================================== */}
         <div
-          className="absolute left-0 sm:left-2 md:left-4 lg:left-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[150px] xs:w-[190px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
+          className="absolute left-0 sm:left-2 md:left-4 lg:left-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[95px] xs:w-[130px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
           style={{ transformPerspective: 900 }}
         >
           {/* Ground Contact Shadow with breathing response */}
@@ -193,7 +194,7 @@ function ProjectsEntry() {
             CENTER: ELEVATED "EXPLORE MY PROJECTS" BUTTON
             Shifted UP to align horizontally between both dragon mouths.
             ============================================================== */}
-        <div className="relative z-30 pointer-events-auto -translate-y-8 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16">
+        <div className="relative z-30 pointer-events-auto -translate-y-4 xs:-translate-y-6 sm:-translate-y-12 md:-translate-y-14 lg:-translate-y-16 px-2">
           <LiquidButton
             id="projects-cta-btn"
             variant="primary"
@@ -210,7 +211,7 @@ function ProjectsEntry() {
             Living organic animation: breathing, chest expansion, and roar recoil
             ============================================================== */}
         <div
-          className="absolute right-0 sm:right-2 md:right-4 lg:right-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[150px] xs:w-[190px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
+          className="absolute right-0 sm:right-2 md:right-4 lg:right-6 bottom-4 sm:bottom-6 md:bottom-8 z-10 w-[95px] xs:w-[130px] sm:w-[320px] md:w-[410px] lg:w-[480px] pointer-events-none"
           style={{ transformPerspective: 900 }}
         >
           {/* Ground Contact Shadow with breathing response */}

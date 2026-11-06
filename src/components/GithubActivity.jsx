@@ -613,7 +613,7 @@ function GithubActivity({ isNight = false }) {
           </div>
 
           {/* Interactive Heatmap Matrix */}
-          <div className="pt-5 overflow-x-auto custom-scrollbar pb-2">
+          <div className="pt-5 overflow-x-auto custom-scrollbar pb-2 overscroll-x-contain touch-pan-x" style={{ WebkitOverflowScrolling: 'touch' }}>
             <div className="min-w-[700px]">
               {/* Grid with 53 Columns x 7 Rows */}
               <div className="flex gap-[3.5px]">

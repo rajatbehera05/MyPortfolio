@@ -244,7 +244,7 @@ function TechIWorkWith({ isNight = false }) {
               floating={false}
               className="shrink-0"
             />
-            <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+            <h2 className="font-editorial-serif text-[26px] xs:text-[32px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
               Tech I Work With
             </h2>
           </div>
@@ -260,7 +260,7 @@ function TechIWorkWith({ isNight = false }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-white border border-[#D5DFEB] shadow-xs w-fit"
+          className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-[#D5DFEB] shadow-xs max-w-full overflow-x-auto custom-scrollbar sm:flex-wrap w-fit shrink-0"
           role="tablist"
           aria-label="Filter technology categories"
         >

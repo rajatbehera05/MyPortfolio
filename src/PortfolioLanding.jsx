@@ -35,14 +35,27 @@ export default function PortfolioLanding() {
   // 1. Lenis Smooth Scrolling Integration synced with GSAP ScrollTrigger
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    // On touch devices / mobile screens, let native hardware-accelerated compositor scrolling
+    // handle touch gestures at 60/120fps with zero JS interference (eliminates mobile stutter).
+    const isTouchDevice =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.innerWidth < 768);
 
+    if (prefersReducedMotion || isTouchDevice) return;
+
+    // Ultra-fluid, clean, sensitive momentum scrolling for desktop mouse/trackpad
     const lenis = new Lenis({
-      lerp: 0.24,
-      wheelMultiplier: 1.3,
+      duration: 0.9,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.0,
       syncTouch: false,
-      smoothWheel: true,
     });
 
     window.__lenis = lenis;
@@ -53,10 +66,14 @@ export default function PortfolioLanding() {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(1000, 16);
+
+    // CRITICAL: Set lagSmoothing to 0 to prevent GSAP ticker from clamping or dropping
+    // scroll frames during momentum scrolling (eliminates "atak atak kr" hitching)
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
       gsap.ticker.remove(tickerCallback);
+      gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
       window.__lenis = null;
     };

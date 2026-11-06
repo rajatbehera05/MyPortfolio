@@ -65,6 +65,7 @@ function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
   const rotateY = useSpring(useTransform(x, [-150, 150], [-2.5, 2.5]), { stiffness: 220, damping: 24 });
 
   const handleCardMouseMove = (e) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;

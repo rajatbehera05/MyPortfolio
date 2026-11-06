@@ -283,7 +283,7 @@ function Contact({ onOpenCV: _onOpenCV, isNight = false }) {
             floating={false}
             className="shrink-0"
           />
-          <h2 className="font-editorial-serif text-[30px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
+          <h2 className="font-editorial-serif text-[26px] xs:text-[32px] sm:text-[46px] md:text-[54px] lg:text-[62px] font-normal sm:font-medium tracking-tight text-[#0F172A] leading-tight">
             Let's build something meaningful.
           </h2>
         </div>

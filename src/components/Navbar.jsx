@@ -128,6 +128,8 @@ function Navbar({ onConnectClick, isNight = false }) {
 
   useEffect(() => {
     let rafId = null;
+    let cachedSections = [];
+
     const sectionConfigs = [
       { id: 'about', name: 'About' },
       { id: 'exploring', name: 'Milestones' },
@@ -136,6 +138,31 @@ function Navbar({ onConnectClick, isNight = false }) {
       { id: 'work', name: 'Projects' },
       { id: 'github-activity', name: 'Activity' },
     ];
+
+    // Measure section offsets once / on resize to prevent layout thrashing on scroll
+    const measureSections = () => {
+      const sy = window.scrollY;
+      cachedSections = sectionConfigs
+        .map((sec) => {
+          const el = document.getElementById(sec.id);
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          return {
+            name: sec.name,
+            top: rect.top + sy,
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.top - b.top);
+    };
+
+    measureSections();
+    const handleResize = () => {
+      measureSections();
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    const timer1 = setTimeout(measureSections, 600);
+    const timer2 = setTimeout(measureSections, 1800);
 
     const updateScroll = () => {
       const sy = window.scrollY;
@@ -150,26 +177,15 @@ function Navbar({ onConnectClick, isNight = false }) {
         return;
       }
 
+      if (cachedSections.length === 0) {
+        measureSections();
+      }
+
       const scrollPosition = sy + 240;
-
-      // Compute exact absolute page top coordinates for each section
-      const activeSections = sectionConfigs
-        .map((sec) => {
-          const el = document.getElementById(sec.id);
-          if (!el) return null;
-          const rect = el.getBoundingClientRect();
-          return {
-            name: sec.name,
-            top: rect.top + sy,
-          };
-        })
-        .filter(Boolean)
-        .sort((a, b) => a.top - b.top);
-
-      let matched = activeSections[0]?.name || 'About';
-      for (let i = activeSections.length - 1; i >= 0; i--) {
-        if (scrollPosition >= activeSections[i].top) {
-          matched = activeSections[i].name;
+      let matched = cachedSections[0]?.name || 'About';
+      for (let i = cachedSections.length - 1; i >= 0; i--) {
+        if (scrollPosition >= cachedSections[i].top) {
+          matched = cachedSections[i].name;
           break;
         }
       }
@@ -198,8 +214,11 @@ function Navbar({ onConnectClick, isNight = false }) {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('wheel', onUserInteract);
       window.removeEventListener('touchstart', onUserInteract);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
       if (rafId) cancelAnimationFrame(rafId);
       if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     };

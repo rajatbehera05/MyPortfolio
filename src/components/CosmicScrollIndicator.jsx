@@ -69,6 +69,16 @@ function CosmicScrollIndicator() {
 
   // Sync scroll progress and velocity without layout thrashing
   useEffect(() => {
+    // Completely disable shooting star scrollbar animation loop on mobile/touch screens
+    const isTouchDevice =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches ||
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.innerWidth < 768);
+
+    if (isTouchDevice) return;
+
     let rafId = null;
     let cachedMaxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
 
@@ -114,7 +124,7 @@ function CosmicScrollIndicator() {
       const state = animStateRef.current;
 
       // Smooth interpolation for silky physics (lerp)
-      const lerpFactor = prefersReducedMotion ? 1 : 0.22;
+      const lerpFactor = prefersReducedMotion ? 1 : 0.32;
       state.currentProgress += (state.targetProgress - state.currentProgress) * lerpFactor;
 
       // Gradually decay velocity when stopped
@@ -303,7 +313,7 @@ function CosmicScrollIndicator() {
   return (
     <aside
       aria-label="Cosmic Shooting Star Scrollbar"
-      className="fixed right-0 top-0 bottom-0 z-50 w-7 flex items-center justify-end select-none pointer-events-none"
+      className="hidden md:flex fixed right-0 top-0 bottom-0 z-50 w-7 items-center justify-end select-none pointer-events-none"
     >
       {/* Extreme Right Edge Custom Scroll Track (Full Viewport Height) */}
       <div
@@ -338,7 +348,7 @@ function CosmicScrollIndicator() {
         <div
           ref={starThumbRef}
           onPointerDown={handlePointerDown}
-          className="absolute right-[5px] -translate-x-[50%] -translate-y-1/2 flex items-center justify-center cursor-grab active:cursor-grabbing pointer-events-auto group/star z-30 touch-none"
+          className="absolute right-[5px] -translate-x-[50%] -translate-y-1/2 flex items-center justify-center cursor-grab active:cursor-grabbing pointer-events-auto group/star z-30 touch-none will-change-[top]"
           style={{
             top: '2%', // initial fallback position
           }}

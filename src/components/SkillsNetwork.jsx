@@ -96,7 +96,7 @@ function InteractiveSkillCard({ group, gIdx, selectedTech, setSelectedTech }) {
   const [arrowOffset, setArrowOffset] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
-    if (prefersReducedMotion || !cardRef.current) return;
+    if (prefersReducedMotion || !cardRef.current || (typeof window !== 'undefined' && window.innerWidth < 768)) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
