@@ -10,7 +10,7 @@ import CoreQualitiesOrbit from './CoreQualitiesOrbit';
  * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT) + Core Qualities Orbit
  * 2. My Journey (Automatic Train Journey Animation & Milestones)
  */
-function About() {
+function About({ isNight = false }) {
   return (
     <section
       id="about"
@@ -92,7 +92,7 @@ function About() {
         transition={{ duration: 0.6 }}
         className="pt-6 sm:pt-8 border-t border-[#D5DFEB]/80 mt-6 sm:mt-8 relative z-10 overflow-visible"
       >
-        <Journey isEmbedded={true} />
+        <Journey isEmbedded={true} isNight={isNight} />
       </motion.div>
       </div>
     </section>

@@ -209,7 +209,7 @@ function CompactDeveloperTrain({ isMoving = false, orientation = 'horizontal' })
  * - Lightweight alternating typography above/below track (NO large cards)
  * - Clear vertical spacing: train has its own lane and never overlaps text
  */
-function Journey({ isEmbedded = false }) {
+function Journey({ isEmbedded = false, isNight = false }) {
   const sectionRef = useRef(null);
   const trackWrapperRef = useRef(null);
   const trainRef = useRef(null);
@@ -820,6 +820,7 @@ function Journey({ isEmbedded = false }) {
           <LiquidButton
             variant="subtle"
             size="sm"
+            isNight={isNight}
             onClick={handleReplay}
             title="Replay Train Journey"
             aria-label="Replay Train Journey"

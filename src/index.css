@@ -133,16 +133,55 @@
 [data-theme="night"] h2,
 [data-theme="night"] h3,
 [data-theme="night"] h4,
+[data-theme="night"] h5,
+[data-theme="night"] h6,
 [data-theme="night"] .text-\[\#111827\],
-[data-theme="night"] .text-\[\#0F172A\] {
+[data-theme="night"] .text-\[\#0F172A\],
+[data-theme="night"] .text-\[\#1E293B\],
+[data-theme="night"] .text-\[\#1E1B2E\],
+[data-theme="night"] .text-\[\#0B132B\],
+[data-theme="night"] .text-\[\#2D1F30\],
+[data-theme="night"] .text-\[\#1E3A8A\],
+[data-theme="night"] .text-\[\#0A0D10\],
+[data-theme="night"] .text-\[\#283541\] {
   color: #F1F5FF !important;
 }
 
-/* Secondary body text in Night Mode */
+/* Secondary body and muted text in Night Mode */
 [data-theme="night"] .text-\[\#4B5563\],
 [data-theme="night"] .text-\[\#334155\],
-[data-theme="night"] .text-\[\#64748B\] {
-  color: #A9B8D0 !important;
+[data-theme="night"] .text-\[\#475569\],
+[data-theme="night"] .text-\[\#64748B\],
+[data-theme="night"] .text-\[\#667085\],
+[data-theme="night"] .text-\[\#647382\],
+[data-theme="night"] .text-\[\#6B5E65\],
+[data-theme="night"] .text-\[\#71808D\] {
+  color: #CBD5E1 !important;
+}
+
+/* Deep blue, purple, and indigo accents in Night Mode */
+[data-theme="night"] .text-\[\#4338CA\],
+[data-theme="night"] .text-\[\#4F46E5\],
+[data-theme="night"] .text-\[\#312E81\],
+[data-theme="night"] .text-\[\#1D4ED8\],
+[data-theme="night"] .text-\[\#6B21A8\],
+[data-theme="night"] .text-\[\#0F766E\] {
+  color: #93C5FD !important;
+}
+
+/* Action pills and subtle interactive buttons in Night Mode */
+[data-theme="night"] .btn-subtle-pearl,
+[data-theme="night"] .btn-nav-pearl {
+  color: #F1F5FF !important;
+  background-color: #122442 !important;
+  border-color: rgba(150, 180, 230, 0.3) !important;
+}
+
+[data-theme="night"] .btn-subtle-pearl:hover,
+[data-theme="night"] .btn-nav-pearl:hover {
+  color: #60A5FA !important;
+  background-color: #162C52 !important;
+  border-color: rgba(79, 140, 255, 0.5) !important;
 }
 
 /* Cards & Surface containers in Night Mode */
@@ -161,7 +200,12 @@
 
 [data-theme="night"] .bg-\[\#EDF2F7\],
 [data-theme="night"] .bg-\[\#F8FAFC\],
-[data-theme="night"] .bg-\[\#F1F5F9\] {
+[data-theme="night"] .bg-\[\#F1F5F9\],
+[data-theme="night"] .bg-\[\#F8F0FF\],
+[data-theme="night"] .bg-\[\#FFF1F2\],
+[data-theme="night"] .bg-\[\#F0FDFA\],
+[data-theme="night"] .bg-\[\#FEFCE8\],
+[data-theme="night"] .bg-\[\#F5F3FF\] {
   background-color: #0D1B32 !important;
 }
 
@@ -184,8 +228,11 @@
 [data-theme="night"] .border-\[\#CBD5E1\],
 [data-theme="night"] .border-\[\#E2E8F0\],
 [data-theme="night"] .border-\[\#DCE4EF\],
+[data-theme="night"] .border-\[\#1E293B\],
+[data-theme="night"] .border-\[\#0F172A\],
+[data-theme="night"] .border-\[\#334155\],
 [data-theme="night"] .border-\[\#F1F5F9\] {
-  border-color: rgba(150, 180, 230, 0.15) !important;
+  border-color: rgba(150, 180, 230, 0.22) !important;
 }
 
 /* Accents in Night Mode */
@@ -707,6 +754,24 @@
   overflow: hidden;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Golden Star Twinkle for Night Mode GitHub Matrix (Crisp & Sharp, Zero Blur) */
+@keyframes goldenTwinkle {
+  0%, 100% {
+    opacity: 0.78;
+    filter: brightness(0.92);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.25);
+    transform: scale(1.05);
+  }
+}
+
+.animate-golden-twinkle {
+  animation: goldenTwinkle 3.2s ease-in-out infinite;
 }
 
 /* Custom Sleek Scrollbar for Arctic theme */

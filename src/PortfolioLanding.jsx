@@ -135,7 +135,7 @@ export default function PortfolioLanding() {
           />
 
           {/* Section 2: About Me (including Train Journey) */}
-          <About />
+          <About isNight={timeEnv.isNight} />
 
           {/* Soft atmospheric gradient transition at bottom of About leading into Tech section */}
           {timeEnv.isNight && (
@@ -159,7 +159,7 @@ export default function PortfolioLanding() {
         <SkillsNetwork />
 
         {/* Section 6: GitHub & Development Activity */}
-        <GithubActivity />
+        <GithubActivity isNight={timeEnv.isNight} />
 
         {/* Section 7: Contact & Call to Action */}
         <Contact onOpenCV={handleOpenCV} isNight={timeEnv.isNight} />

@@ -93,11 +93,9 @@ This repository contains the source code for the personal identity and engineeri
    ```bash
    cp .env.example .env
    ```
-   Add your EmailJS credentials:
+   Add your Formspree endpoint (forwarded to your verified Gmail):
    ```env
-   VITE_EMAILJS_SERVICE_ID=your_service_id
-   VITE_EMAILJS_TEMPLATE_ID=your_template_id
-   VITE_EMAILJS_PUBLIC_KEY=your_public_key
+   VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/your_formspree_id_here
    ```
 
 4. **Start Development Server**:

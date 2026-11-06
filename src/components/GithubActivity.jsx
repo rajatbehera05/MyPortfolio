@@ -96,7 +96,7 @@ const LANGUAGE_COLORS = {
   Default: { dot: '#2563EB', text: '#1E40AF', bg: '#EFF6FF', border: '#DBEAFE' },
 };
 
-function GithubActivity() {
+function GithubActivity({ isNight = false }) {
   const [profile, setProfile] = useState({
     login: 'rajatbehera05',
     name: 'Rajat Behera',
@@ -332,8 +332,23 @@ function GithubActivity() {
     return ['ALL', ...Array.from(set)];
   }, [repos]);
 
-  // Heatmap level colors matching Arctic Aurora Palette (Icy Blue, Lavender, Orange accent)
+  // Heatmap level colors: Twinkling Golden starfield in Night Mode, Arctic Blue in Day Mode
   const getCellColor = (level) => {
+    if (isNight) {
+      switch (level) {
+        case 1:
+          return 'bg-[#78350F] border border-amber-600/80 hover:bg-[#92400E] animate-golden-twinkle';
+        case 2:
+          return 'bg-[#B45309] border border-amber-500 hover:bg-[#D97706] animate-golden-twinkle';
+        case 3:
+          return 'bg-[#D97706] border border-amber-300 hover:bg-[#F59E0B] animate-golden-twinkle';
+        case 4:
+          return 'bg-[#F59E0B] border border-yellow-200 hover:bg-[#FBBF24] animate-golden-twinkle';
+        default:
+          return 'bg-[#0c1626] hover:bg-[#15253e] border border-[#1e2d48]';
+      }
+    }
+
     switch (level) {
       case 1:
         return 'bg-[#BFDBFE] hover:bg-[#93C5FD]'; // Soft Arctic Blue
@@ -536,16 +551,29 @@ function GithubActivity() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55, delay: 0.15 }}
-          className="p-5 sm:p-7 rounded-3xl bg-white border border-[#D5DFEB] shadow-xs mb-8 overflow-hidden"
+          className={`p-5 sm:p-7 rounded-3xl border mb-8 overflow-hidden transition-all duration-300 ${
+            isNight
+              ? 'bg-[#0B1528]/95 border-amber-500/25 shadow-[0_0_35px_rgba(245,158,11,0.06),0_10px_35px_rgba(0,0,0,0.5)]'
+              : 'bg-white border-[#D5DFEB] shadow-xs'
+          }`}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#F1F5F9]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center border border-[#BFDBFE]">
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all ${
+                isNight
+                  ? 'bg-amber-500/15 text-[#FBBF24] border-amber-500/35 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+                  : 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE]'
+              }`}>
                 <Calendar className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-bold text-[15px] sm:text-[16px] text-[#0F172A]">
-                  Commit Cadence &amp; Engineering Rhythm
+                <h3 className="font-bold text-[15px] sm:text-[16px] text-[#0F172A] flex items-center gap-2">
+                  <span>Commit Cadence &amp; Engineering Rhythm</span>
+                  {isNight && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold tracking-wider text-amber-300 bg-amber-500/15 border border-amber-500/30">
+                      ✦ Twinkling Gold
+                    </span>
+                  )}
                 </h3>
                 <p className="text-[12px] text-[#64748B] flex items-center gap-1.5 flex-wrap">
                   <span>Verified GitHub activity over the past 52 weeks ({calendarData.totalContributions || 217} contributions)</span>
@@ -559,14 +587,26 @@ function GithubActivity() {
             </div>
 
             {/* Heatmap Legend */}
-            <div className="flex items-center gap-2 text-[11.5px] text-[#64748B] self-start sm:self-auto">
+            <div className="flex items-center gap-2 text-[11.5px] text-[#64748B] self-start sm:self-auto font-mono">
               <span>Less</span>
               <div className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded-2xs bg-[#E2E8F0]" />
-                <span className="w-2.5 h-2.5 rounded-2xs bg-[#BFDBFE]" />
-                <span className="w-2.5 h-2.5 rounded-2xs bg-[#60A5FA]" />
-                <span className="w-2.5 h-2.5 rounded-2xs bg-[#2563EB]" />
-                <span className="w-2.5 h-2.5 rounded-2xs bg-[#7C3AED]" />
+                {isNight ? (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#0c1626] border border-[#1e2d48]" title="0 commits" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#78350F] border border-amber-600/80 animate-golden-twinkle" title="1-3 commits" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#B45309] border border-amber-500 animate-golden-twinkle" title="4-6 commits" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#D97706] border border-amber-300 animate-golden-twinkle" title="7-9 commits" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#F59E0B] border border-yellow-200 animate-golden-twinkle" title="10+ commits" />
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#E2E8F0]" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#BFDBFE]" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#60A5FA]" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#2563EB]" />
+                    <span className="w-2.5 h-2.5 rounded-2xs bg-[#7C3AED]" />
+                  </>
+                )}
               </div>
               <span>More</span>
             </div>
@@ -577,18 +617,32 @@ function GithubActivity() {
             <div className="min-w-[700px]">
               {/* Grid with 53 Columns x 7 Rows */}
               <div className="flex gap-[3.5px]">
-                {calendarData.weeks.map((week) => (
+                {calendarData.weeks.map((week, weekIdx) => (
                   <div key={`week-${week.week}`} className="flex flex-col gap-[3.5px]">
-                    {week.days.map((d) => (
-                      <div
-                        key={`day-${d.date}`}
-                        onMouseEnter={() => setHoveredCell(d)}
-                        onMouseLeave={() => setHoveredCell(null)}
-                        className={`w-[10px] h-[10px] rounded-xs cursor-pointer transition-all duration-150 ${getCellColor(
-                          d.level
-                        )}`}
-                      />
-                    ))}
+                    {week.days.map((d, dayIdx) => {
+                      const isTwinkling = isNight && d.level > 0;
+                      const twinkleDelay = isTwinkling ? `${((weekIdx * 3 + dayIdx * 7) % 23) * 0.18}s` : undefined;
+                      const twinkleDuration = isTwinkling ? `${2.4 + ((weekIdx + dayIdx) % 5) * 0.4}s` : undefined;
+
+                      return (
+                        <div
+                          key={`day-${d.date}`}
+                          onMouseEnter={() => setHoveredCell(d)}
+                          onMouseLeave={() => setHoveredCell(null)}
+                          style={
+                            isTwinkling
+                              ? {
+                                  animationDelay: twinkleDelay,
+                                  animationDuration: twinkleDuration,
+                                }
+                              : undefined
+                          }
+                          className={`w-[10px] h-[10px] rounded-xs cursor-pointer transition-all duration-150 ${getCellColor(
+                            d.level
+                          )}`}
+                        />
+                      );
+                    })}
                   </div>
                 ))}
               </div>
@@ -596,14 +650,20 @@ function GithubActivity() {
               {/* Heatmap Tooltip info row */}
               <div className="h-6 mt-3 flex items-center text-[12px] text-[#475569] font-mono">
                 {hoveredCell ? (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#F1F5F9] border border-[#E2E8F0]">
-                    <span className="font-bold text-[#0F172A]">
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border ${
+                    isNight
+                      ? 'bg-[#112038] border-amber-400/40 text-amber-100 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                      : 'bg-[#F1F5F9] border-[#E2E8F0] text-[#0F172A]'
+                  }`}>
+                    <span className={`font-bold ${isNight ? 'text-amber-300' : 'text-[#0F172A]'}`}>
                       {hoveredCell.count === 0 ? 'No contributions' : `${hoveredCell.count} contribution${hoveredCell.count > 1 ? 's' : ''}`}
                     </span>
                     <span>on {hoveredCell.date}</span>
                   </span>
                 ) : (
-                  <span className="text-[#94A3B8]">Hover over any day cell to inspect commits</span>
+                  <span className={isNight ? 'text-amber-300/60' : 'text-[#94A3B8]'}>
+                    Hover over any day cell to inspect commits
+                  </span>
                 )}
               </div>
             </div>
