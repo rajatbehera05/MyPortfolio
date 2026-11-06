@@ -51,7 +51,9 @@ function NavItem({ link, isActive, isNightNavbar, onClick }) {
       transition={{ type: 'spring', stiffness: 350, damping: 22 }}
       className={`relative px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-[13px] font-medium transition-colors duration-200 select-none cursor-pointer group no-underline ${
         isActive
-          ? 'text-[#1E3A8A] font-semibold'
+          ? isNightNavbar
+            ? 'text-white font-semibold'
+            : 'text-[#1E3A8A] font-semibold'
           : isNightNavbar
             ? 'text-[#A5B4FC] hover:text-white'
             : 'text-[#475569] hover:text-[#0F172A]'
@@ -295,7 +297,7 @@ function Navbar({ onConnectClick, isNight = false }) {
     }
   };
 
-  const isNightNavbar = isNight && (!isScrolled || activeItem === 'About' || activeItem === 'Milestones' || activeItem === 'Achievements');
+  const isNightNavbar = Boolean(isNight);
 
   return (
     <motion.header
