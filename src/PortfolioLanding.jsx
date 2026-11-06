@@ -71,13 +71,13 @@ export default function PortfolioLanding() {
     }
   };
 
-  const handleOpenSpec = (systemSpec) => {
+  const _handleOpenSpec = (systemSpec) => {
     setSelectedSpec(systemSpec);
     setActiveModal('spec');
   };
 
   const handleOpenCV = () => {
-    setActiveModal('cv');
+    window.open('/Rajat_Behera_Resume.pdf', '_blank', 'noopener,noreferrer');
   };
 
   const handleCloseModal = () => {
@@ -147,7 +147,7 @@ export default function PortfolioLanding() {
         </div>
 
         {/* Section 3: Tech I Work With — Technology Constellation (Clean Light Mode) */}
-        <TechIWorkWith />
+        <TechIWorkWith isNight={timeEnv.isNight} />
 
         {/* Section 4: Achievements — Milestones That Shape My Journey */}
         <Achievements isNight={timeEnv.isNight} />
@@ -162,7 +162,7 @@ export default function PortfolioLanding() {
         <GithubActivity />
 
         {/* Section 7: Contact & Call to Action */}
-        <Contact onOpenCV={handleOpenCV} />
+        <Contact onOpenCV={handleOpenCV} isNight={timeEnv.isNight} />
       </main>
 
       {/* 6. System Modals (Curriculum Vitae & Engineering Spec Sheets) */}

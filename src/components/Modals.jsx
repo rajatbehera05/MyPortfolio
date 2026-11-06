@@ -9,11 +9,10 @@ import {
   Briefcase,
   Code2,
   Trophy,
+  Award,
   ExternalLink,
   Download,
-  Mail,
-  CheckCircle2,
-  Cpu
+  CheckCircle2
 } from 'lucide-react';
 import LiquidButton from './LiquidButton';
 

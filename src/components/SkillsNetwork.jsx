@@ -275,7 +275,7 @@ function InteractiveSkillCard({ group, gIdx, selectedTech, setSelectedTech }) {
 /**
  * Skills Section: ARCHITECTURAL TOOLKIT — Arctic Aurora Edition
  */
-export default function SkillsNetwork() {
+function SkillsNetwork() {
   const [selectedTech, setSelectedTech] = useState(null);
 
   const skillGroups = [
@@ -448,3 +448,5 @@ export default function SkillsNetwork() {
     </section>
   );
 }
+
+export default React.memo(SkillsNetwork);

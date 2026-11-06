@@ -21,7 +21,7 @@ export interface ShootingStarsProps {
   className?: string;
 }
 
-const POOL_SIZE = 6;
+const POOL_SIZE = 12;
 
 /**
  * Cinematic HTML5 Canvas 2D Shooting Star System
@@ -76,17 +76,19 @@ export default function ShootingStars({ className = '' }: ShootingStarsProps) {
       tailAngle: 0,
     }));
 
-    // 2. Natural Scheduler State
+    // 2. Natural Multi-Stream Scheduler State (3 active shooting star channels)
     const scheduler = {
-      nextSpawn: 2.2, // First meteor appears shortly after mount
+      stream0: 0.8, // First shooting star appears right away
+      stream1: 2.2, // Second shooting star glides across opposite quadrant
+      stream2: 3.8, // Third shooting star streaks across high altitude
       twinTimer: -1,
       twinOriginX: 0,
       twinOriginY: 0,
       twinAngle: 0,
     };
 
-    // Spawn a meteor from the pool
-    const spawnMeteor = (isTwin = false) => {
+    // Spawn a meteor from the pool for a specific celestial stream
+    const spawnMeteor = (streamId = 0, isTwin = false) => {
       const meteor = pool.find((m) => !m.active);
       if (!meteor) return;
 
@@ -101,15 +103,21 @@ export default function ShootingStars({ className = '' }: ShootingStarsProps) {
         startX = Math.max(Math.min(scheduler.twinOriginX + offsetX, width * 0.92), width * 0.1);
         startY = Math.max(scheduler.twinOriginY + offsetY, 10);
         angleDeg = scheduler.twinAngle + (Math.random() - 0.5) * 4;
+      } else if (streamId === 0) {
+        // Stream 0: Upper-right sky (diagonal across central opening)
+        startX = width * (0.65 + Math.random() * 0.28);
+        startY = height * (0.03 + Math.random() * 0.15);
+        angleDeg = 138 + (Math.random() - 0.5) * 12;
+      } else if (streamId === 1) {
+        // Stream 1: Left sky
+        startX = width * (0.10 + Math.random() * 0.32);
+        startY = height * (0.04 + Math.random() * 0.16);
+        angleDeg = 135 + (Math.random() - 0.5) * 14;
       } else {
-        // 50% left-center sky, 50% upper-right sky (leaving the central moon clear)
-        if (Math.random() > 0.45) {
-          startX = width * (0.68 + Math.random() * 0.24); // Right sky
-        } else {
-          startX = width * (0.12 + Math.random() * 0.34); // Left sky
-        }
-        startY = height * (0.04 + Math.random() * 0.18);
-        angleDeg = 138 + (Math.random() - 0.5) * 16; // 130° to 146° diagonal downwards and leftwards
+        // Stream 2: High-altitude central / mid-right sky
+        startX = width * (0.38 + Math.random() * 0.45);
+        startY = height * (0.01 + Math.random() * 0.12);
+        angleDeg = 142 + (Math.random() - 0.5) * 12;
       }
 
       const angleRad = (angleDeg * Math.PI) / 180;
@@ -130,9 +138,9 @@ export default function ShootingStars({ className = '' }: ShootingStarsProps) {
       meteor.life = 0;
       meteor.maxLife = 0.42 + Math.random() * 0.22; // 0.42s to 0.64s quick flash
 
-      if (!isTwin && Math.random() < 0.28) {
-        // 28% chance to spawn a twin shortly after
-        scheduler.twinTimer = 0.35 + Math.random() * 0.45;
+      if (!isTwin && Math.random() < 0.25) {
+        // 25% chance to spawn a twin shortly after
+        scheduler.twinTimer = 0.32 + Math.random() * 0.40;
         scheduler.twinOriginX = startX;
         scheduler.twinOriginY = startY;
         scheduler.twinAngle = angleDeg;
@@ -241,17 +249,29 @@ export default function ShootingStars({ className = '' }: ShootingStarsProps) {
       const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
       lastTime = currentTime;
 
-      // Update Scheduler
-      scheduler.nextSpawn -= dt;
-      if (scheduler.nextSpawn <= 0) {
-        spawnMeteor(false);
-        scheduler.nextSpawn = 8 + Math.random() * 7; // Natural 8–15s interval
+      // Update Multi-Stream Scheduler (3 distinct shooting star streams)
+      scheduler.stream0 -= dt;
+      if (scheduler.stream0 <= 0) {
+        spawnMeteor(0, false);
+        scheduler.stream0 = 5.5 + Math.random() * 4.5; // Every 5.5–10s
+      }
+
+      scheduler.stream1 -= dt;
+      if (scheduler.stream1 <= 0) {
+        spawnMeteor(1, false);
+        scheduler.stream1 = 6.5 + Math.random() * 5.0; // Every 6.5–11.5s
+      }
+
+      scheduler.stream2 -= dt;
+      if (scheduler.stream2 <= 0) {
+        spawnMeteor(2, false);
+        scheduler.stream2 = 7.5 + Math.random() * 6.0; // Every 7.5–13.5s
       }
 
       if (scheduler.twinTimer > 0) {
         scheduler.twinTimer -= dt;
         if (scheduler.twinTimer <= 0) {
-          spawnMeteor(true);
+          spawnMeteor(0, true);
         }
       }
 
@@ -259,12 +279,10 @@ export default function ShootingStars({ className = '' }: ShootingStarsProps) {
       ctx.clearRect(0, 0, width, height);
 
       // Update and Draw Meteors
-      let hasActiveMeteors = false;
       for (let i = 0; i < pool.length; i++) {
         const meteor = pool[i];
         if (!meteor.active) continue;
 
-        hasActiveMeteors = true;
         meteor.life += dt;
         const p = meteor.life / meteor.maxLife;
 

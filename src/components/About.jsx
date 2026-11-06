@@ -10,7 +10,7 @@ import CoreQualitiesOrbit from './CoreQualitiesOrbit';
  * 1. My Story & Approach (Personal Intro, Software Dev, Hardware/IoT) + Core Qualities Orbit
  * 2. My Journey (Automatic Train Journey Animation & Milestones)
  */
-export default function About() {
+function About() {
   return (
     <section
       id="about"
@@ -98,3 +98,5 @@ export default function About() {
     </section>
   );
 }
+
+export default React.memo(About);

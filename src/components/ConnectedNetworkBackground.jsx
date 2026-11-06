@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react';
  * - Tiny drifting technical points and delicate connection threads
  * - Strictly respects prefers-reduced-motion and keeps content front-and-center
  */
-export default function ConnectedNetworkBackground({ isNight = false }) {
+function ConnectedNetworkBackground({ isNight = false }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -36,6 +36,9 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
 
       ctx.scale(dpr, dpr);
       initPoints();
+      if (prefersReducedMotion) {
+        draw(performance.now());
+      }
     };
 
     const initPoints = () => {
@@ -66,7 +69,11 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Draw faint connection lines between proximate nodes
+      // Draw faint connection lines between proximate nodes (zero GC string allocations)
+      ctx.lineWidth = 0.75;
+      const strokeBase = isNight ? '#4F8CFF' : '#2563EB';
+      ctx.strokeStyle = strokeBase;
+
       for (let i = 0; i < points.length; i++) {
         for (let j = i + 1; j < points.length; j++) {
           const dx = points[i].x - points[j].x;
@@ -76,19 +83,16 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
 
           if (dist < maxDist) {
             const lineAlpha = (1 - dist / maxDist) * 0.07;
+            ctx.globalAlpha = isNight ? lineAlpha * 0.9 : lineAlpha;
             ctx.beginPath();
             ctx.moveTo(points[i].x, points[i].y);
             ctx.lineTo(points[j].x, points[j].y);
-            ctx.strokeStyle = isNight
-              ? `rgba(79, 140, 255, ${(lineAlpha * 0.9).toFixed(3)})`
-              : `rgba(37, 99, 235, ${lineAlpha.toFixed(3)})`;
-            ctx.lineWidth = 0.75;
             ctx.stroke();
           }
         }
       }
 
-      // Draw floating technical nodes
+      // Draw floating technical nodes (zero GC string allocations)
       for (let i = 0; i < points.length; i++) {
         const pt = points[i];
 
@@ -106,23 +110,24 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
         const breathe = Math.sin(pt.phase) * 0.04;
         const currentAlpha = Math.max(0.04, pt.baseAlpha + breathe);
 
+        ctx.globalAlpha = currentAlpha;
+        ctx.fillStyle = pt.isLavender ? '#8B5CF6' : strokeBase;
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-        ctx.fillStyle = pt.isLavender
-          ? `rgba(139, 92, 246, ${currentAlpha.toFixed(3)})`
-          : isNight
-            ? `rgba(79, 140, 255, ${currentAlpha.toFixed(3)})`
-            : `rgba(37, 99, 235, ${currentAlpha.toFixed(3)})`;
         ctx.fill();
       }
 
-      animationFrameId = requestAnimationFrame(draw);
+      ctx.globalAlpha = 1;
+
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(draw);
+      }
     };
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
         cancelAnimationFrame(animationFrameId);
-      } else {
+      } else if (!prefersReducedMotion) {
         lastTime = performance.now();
         animationFrameId = requestAnimationFrame(draw);
       }
@@ -131,7 +136,9 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
     resize();
-    animationFrameId = requestAnimationFrame(draw);
+    if (!prefersReducedMotion) {
+      animationFrameId = requestAnimationFrame(draw);
+    }
 
     return () => {
       window.removeEventListener('resize', resize);
@@ -187,3 +194,5 @@ export default function ConnectedNetworkBackground({ isNight = false }) {
     </div>
   );
 }
+
+export default React.memo(ConnectedNetworkBackground);

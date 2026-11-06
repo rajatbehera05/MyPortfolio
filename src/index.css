@@ -169,6 +169,11 @@
   background-color: #0D234A !important;
 }
 
+[data-theme="night"] .bg-\[\#E8F1FF\]\/70,
+[data-theme="night"] .bg-\[\#E8F1FF\]\/60.blur-3xl {
+  display: none !important;
+}
+
 [data-theme="night"] .hover\:bg-\[\#F8FAFC\]:hover,
 [data-theme="night"] .hover\:bg-\[\#E8F1FF\]:hover {
   background-color: #162C52 !important;

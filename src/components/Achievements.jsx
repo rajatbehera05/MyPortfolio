@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import {
   Trophy,
   Code2,
@@ -16,7 +16,6 @@ import {
   Sparkles,
   Calendar
 } from 'lucide-react';
-import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 // Verified achievement items data with premium editorial copy
 const ACHIEVEMENTS_DATA = [
@@ -302,16 +301,22 @@ function FlankerIcon({ iconType, isNight = false }) {
   return <Sparkles className={`w-5 h-5 ${isNight ? 'text-[#818CF8]' : 'text-[#4F46E5]'}`} />;
 }
 
-export default function Achievements({ isNight: isNightProp }) {
-  const fallbackEnv = useTimeEnvironment();
-  const isNight = isNightProp !== undefined ? isNightProp : fallbackEnv.isNight;
+function Achievements({ isNight: isNightProp = false }) {
+  const isNight = isNightProp;
 
   const [selectedId, setSelectedId] = useState('sternkraft');
   const [activeFilter, setActiveFilter] = useState('All');
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
+  // High-performance Framer Motion values for 3D tilt without triggering React re-renders
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothMouseX = useSpring(mouseX, { stiffness: 180, damping: 24 });
+  const smoothMouseY = useSpring(mouseY, { stiffness: 180, damping: 24 });
+  const centerRotateY = useTransform(smoothMouseX, [-0.5, 0.5], [-5, 5]);
+  const centerRotateX = useTransform(smoothMouseY, [-0.5, 0.5], [5, -5]);
+
   const containerRef = useRef(null);
   const platformRef = useRef(null);
-  const mouseRafRef = useRef(null);
   const isPlatformInView = useInView(platformRef, { once: true, amount: 0.3 });
   const orangePathRef = useRef(null);
   const orangeGlowPathRef = useRef(null);
@@ -436,26 +441,19 @@ export default function Achievements({ isNight: isNightProp }) {
     setSelectedId(ACHIEVEMENTS_DATA[prevIndex].id);
   };
 
-  // Subtle interactive 3D parallax on mouse movement over the visualization (RAF-throttled)
+  // Fluid 3D parallax on mouse movement without React re-renders
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    if (mouseRafRef.current === null) {
-      mouseRafRef.current = requestAnimationFrame(() => {
-        setMousePos({ x, y });
-        mouseRafRef.current = null;
-      });
-    }
+    mouseX.set(x);
+    mouseY.set(y);
   };
 
   const handleMouseLeave = () => {
-    if (mouseRafRef.current !== null) {
-      cancelAnimationFrame(mouseRafRef.current);
-      mouseRafRef.current = null;
-    }
-    setMousePos({ x: 0, y: 0 });
+    mouseX.set(0);
+    mouseY.set(0);
   };
 
   // Keyboard navigation support
@@ -803,7 +801,7 @@ export default function Achievements({ isNight: isNightProp }) {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute -left-2 sm:left-1 z-10 select-none"
+                className="absolute -left-2 sm:left-1 z-10 hover:z-30 transition-[z-index] select-none"
               >
                 <motion.div
                   onClick={() => setSelectedId(leftCardData.id)}
@@ -814,13 +812,11 @@ export default function Achievements({ isNight: isNightProp }) {
                     scale: 1,
                   }}
                   whileHover={{
-                    scale: 1.05,
-                    rotateY: 8,
-                    rotateZ: -2,
-                    rotateX: 1,
+                    scale: 1.04,
+                    y: -6,
                   }}
                   transition={{
-                    duration: 0.3,
+                    duration: 0.25,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className="w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer"
@@ -885,7 +881,7 @@ export default function Achievements({ isNight: isNightProp }) {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="absolute -right-2 sm:right-1 z-10 select-none"
+                className="absolute -right-2 sm:right-1 z-10 hover:z-30 transition-[z-index] select-none"
               >
                 <motion.div
                   onClick={() => setSelectedId(rightCardData.id)}
@@ -896,13 +892,11 @@ export default function Achievements({ isNight: isNightProp }) {
                     scale: 1,
                   }}
                   whileHover={{
-                    scale: 1.05,
-                    rotateY: -8,
-                    rotateZ: 2,
-                    rotateX: 1,
+                    scale: 1.04,
+                    y: -6,
                   }}
                   transition={{
-                    duration: 0.3,
+                    duration: 0.25,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className="w-[155px] sm:w-[170px] h-[225px] sm:h-[245px] rounded-[22px] p-4.5 cursor-pointer"
@@ -975,19 +969,17 @@ export default function Achievements({ isNight: isNightProp }) {
                   animate={{
                     scale: 1,
                     opacity: 1,
-                    rotateY: mousePos.x * 6,
-                    rotateX: -mousePos.y * 6,
                   }}
                   exit={{ scale: 0.94, opacity: 0 }}
                   transition={{
                     scale: { duration: 0.35, ease: 'easeOut' },
                     opacity: { duration: 0.35 },
-                    rotateY: { duration: 0.2 },
-                    rotateX: { duration: 0.2 },
                   }}
                   whileHover={{ scale: 1.025 }}
                   className="w-[225px] sm:w-[250px] h-[320px] sm:h-[345px] rounded-[28px] p-6 flex flex-col items-center justify-between text-center select-none"
                   style={{
+                    rotateY: centerRotateY,
+                    rotateX: centerRotateX,
                     transformStyle: 'preserve-3d',
                     background: isNight
                       ? 'linear-gradient(155deg, rgba(22, 44, 82, 0.96) 0%, rgba(14, 28, 54, 0.97) 50%, rgba(9, 18, 36, 0.98) 100%)'
@@ -1543,3 +1535,5 @@ export default function Achievements({ isNight: isNightProp }) {
     </section>
   );
 }
+
+export default React.memo(Achievements);

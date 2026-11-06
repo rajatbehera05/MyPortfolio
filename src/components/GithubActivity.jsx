@@ -96,7 +96,7 @@ const LANGUAGE_COLORS = {
   Default: { dot: '#2563EB', text: '#1E40AF', bg: '#EFF6FF', border: '#DBEAFE' },
 };
 
-export default function GithubActivity() {
+function GithubActivity() {
   const [profile, setProfile] = useState({
     login: 'rajatbehera05',
     name: 'Rajat Behera',
@@ -113,26 +113,35 @@ export default function GithubActivity() {
   const [hoveredCell, setHoveredCell] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState('ALL');
 
-  // Load real verified GitHub contribution calendar
-  const calendarData = useMemo(() => {
-    if (realContributionsData && realContributionsData.weeks) {
-      return realContributionsData;
-    }
-    return {
-      totalContributions: 210,
-      weeks: []
-    };
-  }, []);
+  // Load real verified GitHub contribution calendar with live daily synchronization
+  const [calendarData, setCalendarData] = useState(() => {
+    try {
+      const cached = localStorage.getItem('rajat_github_contributions_v3');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && Array.isArray(parsed.weeks) && parsed.weeks.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (_) {}
+    return realContributionsData && realContributionsData.weeks
+      ? realContributionsData
+      : { totalContributions: 217, weeks: [] };
+  });
 
-  // Fetch live GitHub User details and repositories with caching
+  // Fetch live GitHub User details, repositories, and daily contribution matrix with automatic caching
   useEffect(() => {
     let isMounted = true;
     const CACHE_KEY = 'rajat_github_activity_v2';
     const CACHE_TIME_KEY = 'rajat_github_activity_time_v2';
     const CACHE_EXPIRY = 60 * 60 * 1000; // 1 hour
 
+    const CAL_CACHE_KEY = 'rajat_github_contributions_v3';
+    const CAL_TIME_KEY = 'rajat_github_contributions_time_v3';
+    const CAL_EXPIRY = 30 * 60 * 1000; // 30 minutes cache for fresh daily cadence
+
     const loadData = async () => {
-      // 1. Check local cache first
+      // 1. Check local cache for profile & repos
       try {
         const cached = localStorage.getItem(CACHE_KEY);
         const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
@@ -140,14 +149,11 @@ export default function GithubActivity() {
           const parsed = JSON.parse(cached);
           if (parsed.profile) setProfile((prev) => ({ ...prev, ...parsed.profile }));
           if (parsed.repos && parsed.repos.length > 0) setRepos(parsed.repos);
-          return;
         }
-      } catch (e) {
-        // Ignore cache parse errors
-      }
+      } catch (_) {}
 
+      // 2. Fetch User Profile & Repositories from GitHub
       try {
-        // Fetch User profile
         const userRes = await fetch('https://api.github.com/users/rajatbehera05');
         let fetchedUser = null;
         if (userRes.ok) {
@@ -169,7 +175,6 @@ export default function GithubActivity() {
           }
         }
 
-        // Fetch Repositories
         const reposRes = await fetch('https://api.github.com/users/rajatbehera05/repos?sort=updated&per_page=8');
         if (reposRes.ok) {
           const reposData = await reposRes.json();
@@ -185,7 +190,6 @@ export default function GithubActivity() {
             }));
             setRepos(formatted.slice(0, 6));
 
-            // Cache successful response
             try {
               localStorage.setItem(
                 CACHE_KEY,
@@ -195,12 +199,118 @@ export default function GithubActivity() {
                 })
               );
               localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
-            } catch (err) {}
+            } catch (_) {}
           }
         }
       } catch (err) {
-        // Fallback remains safely mounted
-        console.warn('GitHub API request notice:', err);
+        console.warn('GitHub API profile notice:', err);
+      }
+
+      // 3. Check local cache for contribution calendar
+      let shouldFetchCalendar = true;
+      try {
+        const calCached = localStorage.getItem(CAL_CACHE_KEY);
+        const calCachedTime = localStorage.getItem(CAL_TIME_KEY);
+        if (calCached && calCachedTime && Date.now() - parseInt(calCachedTime, 10) < CAL_EXPIRY) {
+          const parsedCal = JSON.parse(calCached);
+          if (parsedCal && Array.isArray(parsedCal.weeks) && parsedCal.weeks.length > 0) {
+            if (isMounted) setCalendarData(parsedCal);
+            shouldFetchCalendar = false;
+          }
+        }
+      } catch (_) {}
+
+      // 4. Fetch live GitHub daily contributions (auto-updates every day)
+      if (shouldFetchCalendar) {
+        try {
+          const calRes = await fetch('https://github-contributions-api.jogruber.de/v4/rajatbehera05?y=last');
+          if (calRes.ok) {
+            const calJson = await calRes.json();
+            if (calJson && Array.isArray(calJson.contributions) && calJson.contributions.length > 0) {
+              const weeks = [];
+              let currentWeekDays = [];
+              let weekIndex = 0;
+
+              for (let i = 0; i < calJson.contributions.length; i++) {
+                const item = calJson.contributions[i];
+                const d = new Date(item.date);
+                const dayOfWeek = d.getUTCDay();
+
+                currentWeekDays.push({
+                  date: item.date,
+                  day: dayOfWeek,
+                  count: item.count,
+                  level: item.level
+                });
+
+                if (currentWeekDays.length === 7 || i === calJson.contributions.length - 1) {
+                  weeks.push({
+                    week: weekIndex++,
+                    days: currentWeekDays
+                  });
+                  currentWeekDays = [];
+                }
+              }
+
+              const calculatedTotal =
+                calJson.total?.lastYear ??
+                calJson.contributions.reduce((acc, c) => acc + (c.count || 0), 0);
+
+              const updatedCalendar = {
+                totalContributions: calculatedTotal,
+                totalDays: calJson.contributions.length,
+                weeks
+              };
+
+              if (isMounted) {
+                setCalendarData(updatedCalendar);
+              }
+
+              try {
+                localStorage.setItem(CAL_CACHE_KEY, JSON.stringify(updatedCalendar));
+                localStorage.setItem(CAL_TIME_KEY, Date.now().toString());
+              } catch (_) {}
+            }
+          }
+        } catch (calErr) {
+          // Secondary fallback: query official GitHub events API for commits pushed today
+          try {
+            const eventsRes = await fetch('https://api.github.com/users/rajatbehera05/events?per_page=30');
+            if (eventsRes.ok) {
+              const events = await eventsRes.json();
+              if (Array.isArray(events) && isMounted) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                const todayPushes = events.filter(
+                  (ev) => ev.type === 'PushEvent' && ev.created_at && ev.created_at.startsWith(todayStr)
+                );
+                const todayCommitsCount = todayPushes.reduce(
+                  (acc, ev) => acc + (ev.payload?.commits?.length || 1),
+                  0
+                );
+
+                if (todayCommitsCount > 0) {
+                  setCalendarData((prev) => {
+                    if (!prev || !prev.weeks || prev.weeks.length === 0) return prev;
+                    const newWeeks = JSON.parse(JSON.stringify(prev.weeks));
+                    const lastWeek = newWeeks[newWeeks.length - 1];
+                    const todayCell = lastWeek.days.find((d) => d.date === todayStr);
+                    if (todayCell && todayCell.count < todayCommitsCount) {
+                      const diff = todayCommitsCount - todayCell.count;
+                      todayCell.count = todayCommitsCount;
+                      todayCell.level = Math.min(4, Math.max(1, Math.ceil(todayCommitsCount / 3)));
+                      return {
+                        ...prev,
+                        totalContributions: (prev.totalContributions || 0) + diff,
+                        weeks: newWeeks
+                      };
+                    }
+                    return prev;
+                  });
+                }
+              }
+            }
+          } catch (_) {}
+        }
       }
     };
 
@@ -255,10 +365,10 @@ export default function GithubActivity() {
             className="space-y-2.5"
           >
             <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#2563EB] uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
               <span>Telemetry</span>
               <span className="text-[#CBD5E1]">•</span>
-              <span className="text-[#64748B]">Continuous Delivery</span>
+              <span className="text-[#64748B]">Continuous Delivery · Daily Live Sync</span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -370,7 +480,7 @@ export default function GithubActivity() {
               <Flame className="w-4 h-4 text-[#F97316]" />
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-[#0F172A] font-mono-tech tracking-tight">
-              {calendarData.totalContributions || 210}
+              {calendarData.totalContributions || 217}
             </div>
             <div className="text-[11.5px] text-[#64748B] mt-1 flex items-center gap-1">
               <span className="text-[#F97316] font-semibold">Verified</span>
@@ -437,8 +547,13 @@ export default function GithubActivity() {
                 <h3 className="font-bold text-[15px] sm:text-[16px] text-[#0F172A]">
                   Commit Cadence &amp; Engineering Rhythm
                 </h3>
-                <p className="text-[12px] text-[#64748B]">
-                  Verified GitHub activity over the past 52 weeks ({calendarData.totalContributions || 210} contributions)
+                <p className="text-[12px] text-[#64748B] flex items-center gap-1.5 flex-wrap">
+                  <span>Verified GitHub activity over the past 52 weeks ({calendarData.totalContributions || 217} contributions)</span>
+                  <span className="text-[#CBD5E1]">•</span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Auto-updating daily
+                  </span>
                 </p>
               </div>
             </div>
@@ -592,3 +707,5 @@ export default function GithubActivity() {
     </section>
   );
 }
+
+export default React.memo(GithubActivity);

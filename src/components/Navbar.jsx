@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion, LayoutGroup } from 'framer-motion';
 import {
   Menu,
   X,
@@ -118,11 +118,12 @@ function NavItem({ link, isActive, isNightNavbar, onClick }) {
  * Premium Art-Directed Portfolio Navigation Dock
  * Refined Icy-Blue & Lavender Visual Identity
  */
-export default function Navbar({ onConnectClick, isNight = false }) {
+function Navbar({ onConnectClick, isNight = false }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeItem, setActiveItem] = useState('About');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isNavClickRef = useRef(false);
+  const navClickTargetRef = useRef(null);
   const navClickTimerRef = useRef(null);
 
   useEffect(() => {
@@ -142,6 +143,9 @@ export default function Navbar({ onConnectClick, isNight = false }) {
       setIsScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
 
       if (isNavClickRef.current) {
+        if (navClickTargetRef.current) {
+          setActiveItem((prev) => (prev !== navClickTargetRef.current ? navClickTargetRef.current : prev));
+        }
         rafId = null;
         return;
       }
@@ -180,11 +184,22 @@ export default function Navbar({ onConnectClick, isNight = false }) {
       }
     };
 
+    const onUserInteract = () => {
+      // User took manual control — release programmatic navigation lock
+      isNavClickRef.current = false;
+      navClickTargetRef.current = null;
+      if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', onUserInteract, { passive: true });
+    window.addEventListener('touchstart', onUserInteract, { passive: true });
     updateScroll();
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('wheel', onUserInteract);
+      window.removeEventListener('touchstart', onUserInteract);
       if (rafId) cancelAnimationFrame(rafId);
       if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     };
@@ -203,10 +218,12 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     e.preventDefault();
     setActiveItem(name);
     isNavClickRef.current = true;
+    navClickTargetRef.current = name;
     if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     navClickTimerRef.current = setTimeout(() => {
       isNavClickRef.current = false;
-    }, 1000);
+      navClickTargetRef.current = null;
+    }, 2400);
 
     setMobileMenuOpen(false);
     const targetId = href.replace('#', '');
@@ -214,7 +231,10 @@ export default function Navbar({ onConnectClick, isNight = false }) {
       window.__lenis.scrollTo(`#${targetId}`, {
         offset: -70,
         onComplete: () => {
-          isNavClickRef.current = false;
+          setTimeout(() => {
+            isNavClickRef.current = false;
+            navClickTargetRef.current = null;
+          }, 120);
         },
       });
     } else {
@@ -228,17 +248,22 @@ export default function Navbar({ onConnectClick, isNight = false }) {
   const handleConnect = (e) => {
     e.preventDefault();
     isNavClickRef.current = true;
+    navClickTargetRef.current = 'Contact';
     if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
     navClickTimerRef.current = setTimeout(() => {
       isNavClickRef.current = false;
-    }, 1000);
+      navClickTargetRef.current = null;
+    }, 2400);
 
     setMobileMenuOpen(false);
     if (window.__lenis) {
       window.__lenis.scrollTo('#contact', {
         offset: -70,
         onComplete: () => {
-          isNavClickRef.current = false;
+          setTimeout(() => {
+            isNavClickRef.current = false;
+            navClickTargetRef.current = null;
+          }, 120);
         },
       });
     } else {
@@ -328,20 +353,22 @@ export default function Navbar({ onConnectClick, isNight = false }) {
           </div>
 
           {/* CENTER NAVIGATION LINKS */}
-          <nav
-            aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-1 lg:gap-1.5"
-          >
-            {navLinks.map((link) => (
-              <NavItem
-                key={link.name}
-                link={link}
-                isActive={activeItem === link.name}
-                isNightNavbar={isNightNavbar}
-                onClick={handleNavClick}
-              />
-            ))}
-          </nav>
+          <LayoutGroup id="navbarActivePillGroup">
+            <nav
+              aria-label="Main Navigation"
+              className="hidden md:flex items-center gap-1 lg:gap-1.5"
+            >
+              {navLinks.map((link) => (
+                <NavItem
+                  key={link.name}
+                  link={link}
+                  isActive={activeItem === link.name}
+                  isNightNavbar={isNightNavbar}
+                  onClick={handleNavClick}
+                />
+              ))}
+            </nav>
+          </LayoutGroup>
 
           {/* RIGHT ACTION: Premium Blue Gradient Button */}
           <div className="flex items-center gap-2 pr-1">
@@ -442,3 +469,5 @@ export default function Navbar({ onConnectClick, isNight = false }) {
     </motion.header>
   );
 }
+
+export default React.memo(Navbar);

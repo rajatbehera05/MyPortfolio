@@ -156,13 +156,18 @@ export function useTimeEnvironment() {
     return null;
   });
 
-  // Clock updates every second, and syncs on tab visibility change or focus
+  // Clock syncs on minute boundary, tab visibility change or focus (avoids 1-second full-page re-renders)
   useEffect(() => {
+    let lastMinute = new Date().getMinutes();
     const updateClock = () => {
-      setCurrentTime(new Date());
+      const now = new Date();
+      if (now.getMinutes() !== lastMinute) {
+        lastMinute = now.getMinutes();
+        setCurrentTime(now);
+      }
     };
 
-    const interval = setInterval(updateClock, 1000);
+    const interval = setInterval(updateClock, 5000);
     window.addEventListener('visibilitychange', updateClock);
     window.addEventListener('focus', updateClock);
 

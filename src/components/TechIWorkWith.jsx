@@ -185,7 +185,7 @@ const TECHNOLOGIES = [
 /**
  * Technology Constellation — Arctic Aurora Clean Edition
  */
-export default function TechIWorkWith() {
+function TechIWorkWith({ isNight = false }) {
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredTech = activeCategory === 'all'
@@ -206,11 +206,13 @@ export default function TechIWorkWith() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="max-w-[1380px] mx-auto px-4 sm:px-12 py-12 sm:py-16 border-t border-[#D5DFEB] relative"
     >
-      {/* Background Decorative Ambient Radial Glow */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#E8F1FF]/70 rounded-full blur-3xl pointer-events-none -z-10"
-      />
+      {/* Background Decorative Ambient Radial Glow (Day mode only — removed in Night mode to eliminate white blur) */}
+      {!isNight && (
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#E8F1FF]/70 rounded-full blur-3xl pointer-events-none -z-10"
+        />
+      )}
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -361,3 +363,5 @@ export default function TechIWorkWith() {
     </motion.section>
   );
 }
+
+export default React.memo(TechIWorkWith);

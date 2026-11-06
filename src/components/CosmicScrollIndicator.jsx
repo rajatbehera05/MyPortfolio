@@ -13,7 +13,7 @@ import { useReducedMotion } from 'framer-motion';
  * 5. Trailing fading particles (stardust) with natural opacity and jitter along the tail.
  * 6. Smooth requestAnimationFrame physics loop for inertia, tail expansion, and smooth star rotation.
  */
-export default function CosmicScrollIndicator() {
+function CosmicScrollIndicator() {
   const prefersReducedMotion = useReducedMotion();
   const trackRef = useRef(null);
   const starThumbRef = useRef(null);
@@ -107,6 +107,7 @@ export default function CosmicScrollIndicator() {
     };
 
     let lastParticleTime = 0;
+    let lastRenderedDir = null;
 
     // Smooth animation loop to update thumb position & particle trail directly on DOM
     const animate = (currentTime) => {
@@ -141,23 +142,29 @@ export default function CosmicScrollIndicator() {
         tailRef.current.style.width = speed > 1.2 ? '3.5px' : '2.5px';
         tailRef.current.style.opacity = `${tailOp}`;
 
-        if (dir === 'down') {
-          tailRef.current.className =
-            'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out bottom-[6px] origin-bottom';
-          tailRef.current.style.background =
-            'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
-        } else {
-          tailRef.current.className =
-            'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out top-[6px] origin-top';
-          tailRef.current.style.background =
-            'linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
+        if (dir !== lastRenderedDir) {
+          lastRenderedDir = dir;
+          if (dir === 'down') {
+            tailRef.current.className =
+              'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out bottom-[6px] origin-bottom';
+            tailRef.current.style.background =
+              'linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
+          } else {
+            tailRef.current.className =
+              'absolute left-1/2 -translate-x-1/2 pointer-events-none transition-all duration-75 ease-out top-[6px] origin-top';
+            tailRef.current.style.background =
+              'linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(96, 165, 250, 0.8) 25%, rgba(139, 92, 246, 0.45) 60%, rgba(139, 92, 246, 0) 100%)';
+          }
+
+          if (flareRef.current) {
+            flareRef.current.className = `absolute left-1/2 -translate-x-1/2 w-[1px] bg-white/90 ${
+              dir === 'down' ? 'bottom-0' : 'top-0'
+            }`;
+          }
         }
 
         if (flareRef.current) {
           flareRef.current.style.height = `${tailLen * 0.65}px`;
-          flareRef.current.className = `absolute left-1/2 -translate-x-1/2 w-[1px] bg-white/90 ${
-            dir === 'down' ? 'bottom-0' : 'top-0'
-          }`;
         }
       }
 
@@ -432,3 +439,5 @@ export default function CosmicScrollIndicator() {
     </aside>
   );
 }
+
+export default React.memo(CosmicScrollIndicator);

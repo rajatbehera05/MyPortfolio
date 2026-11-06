@@ -27,7 +27,7 @@ function LinkedinIcon({ className = "w-5 h-5" }) {
 /**
  * Contact Section — Arctic Aurora Edition
  */
-export default function Contact({ onOpenCV }) {
+function Contact({ onOpenCV: _onOpenCV, isNight = false }) {
   const sectionRef = useRef(null);
   const lastSentTimeRef = useRef(0);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -135,14 +135,16 @@ export default function Contact({ onOpenCV }) {
       {/* Easter Egg: Delicate one-time butterfly flight */}
       <SecretButterfly sectionRef={sectionRef} />
 
-      {/* Floating Animated Orb / Aurora Radial Gradient behind CTA */}
-      <div
-        aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[520px] rounded-full pointer-events-none -z-10 animate-aurora-drift"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(232, 241, 255, 0.9) 0%, rgba(241, 236, 255, 0.5) 55%, transparent 75%)',
-        }}
-      />
+      {/* Floating Animated Orb / Aurora Radial Gradient behind CTA (Day Mode only — removed in Night Mode to eliminate white blur) */}
+      {!isNight && (
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[520px] rounded-full pointer-events-none -z-10 animate-aurora-drift"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(232, 241, 255, 0.9) 0%, rgba(241, 236, 255, 0.5) 55%, transparent 75%)',
+          }}
+        />
+      )}
 
       {/* Converging Aurora Network Lines toward the CTA */}
       <svg
@@ -275,9 +277,12 @@ export default function Contact({ onOpenCV }) {
 
           {/* Quick Resume View */}
           <LiquidButton
+            as="a"
+            href="/Rajat_Behera_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             variant="secondary"
             size="md"
-            onClick={onOpenCV}
             className="w-full"
             aria-label="Open Engineering Resume"
           >
@@ -436,3 +441,5 @@ export default function Contact({ onOpenCV }) {
     </section>
   );
 }
+
+export default React.memo(Contact);

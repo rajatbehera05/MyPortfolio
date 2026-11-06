@@ -4,7 +4,15 @@ import { ArrowRight, FileText, Mail, Camera, Sunrise, Sun, Sunset, User } from '
 import WireframeCube from './WireframeCube';
 import DigitalTimeConsole from './DigitalTimeConsole';
 import LiquidButton from './LiquidButton';
-import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
+
+const DEFAULT_TIME_ENV = {
+  timeState: 'noon',
+  greeting: 'Good Afternoon',
+  isOverridden: false,
+  cycleTimeState: () => {},
+  isNight: false,
+  currentTime: new Date(),
+};
 
 /**
  * Developer Profile Photo
@@ -46,10 +54,9 @@ function LinkedinIcon({ className = "w-4 h-4" }) {
 /**
  * Hero Section — Arctic Aurora Interactive Edition
  */
-export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
+function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, timeEnv }) {
   const cardRef = useRef(null);
-  const fallbackTimeEnv = useTimeEnvironment();
-  const { timeState, greeting, isOverridden, cycleTimeState, isNight, currentTime } = timeEnv || fallbackTimeEnv;
+  const { timeState, greeting, isOverridden, cycleTimeState, isNight, currentTime } = timeEnv || DEFAULT_TIME_ENV;
   
   // 3D Tilt springs for profile card (Subtle: max 2-3 degrees)
   const x = useMotionValue(0);
@@ -136,7 +143,7 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                   isNight ? 'text-[#F1F5FF]' : 'text-[#0F172A]'
                 }`}
               >
-                <span className="inline-flex items-center align-middle mr-2.5 sm:mr-3.5 lg:mr-4.5 shrink-0 -translate-y-1 sm:-translate-y-1.5 lg:-translate-y-2">
+                <span className="inline-flex items-center align-middle mr-2.5 sm:mr-3.5 lg:mr-4.5 shrink-0 translate-y-0.5 sm:translate-y-1 lg:translate-y-1">
                   <WireframeCube
                     size={34}
                     color="#EF4444"
@@ -193,10 +200,13 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
                 className="w-full sm:w-auto"
               >
                 <LiquidButton
+                  as="a"
+                  href="/Rajat_Behera_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   variant="secondary"
                   size="md"
                   isNight={isNight}
-                  onClick={onAbout}
                   className="w-full sm:w-auto"
                   aria-label="View Resume"
                 >
@@ -468,3 +478,5 @@ export default function Hero({ onExplore, onAbout, mousePos = { x: 0, y: 0 }, ti
     </section>
   );
 }
+
+export default React.memo(Hero);

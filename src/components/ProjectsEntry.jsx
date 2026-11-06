@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import LiquidButton from './LiquidButton';
@@ -13,19 +13,29 @@ import LiquidButton from './LiquidButton';
  * - Interactive mouse parallax.
  */
 
-export default function ProjectsEntry() {
+function ProjectsEntry() {
   const navigate = useNavigate();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseRafRef = useRef(null);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY, currentTarget } = e;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
     const x = (clientX - (left + width / 2)) / (width / 2);
     const y = (clientY - (top + height / 2)) / (height / 2);
-    setMousePos({ x, y });
+    if (mouseRafRef.current === null) {
+      mouseRafRef.current = requestAnimationFrame(() => {
+        setMousePos({ x, y });
+        mouseRafRef.current = null;
+      });
+    }
   };
 
   const handleMouseLeave = () => {
+    if (mouseRafRef.current !== null) {
+      cancelAnimationFrame(mouseRafRef.current);
+      mouseRafRef.current = null;
+    }
     setMousePos({ x: 0, y: 0 });
   };
 
@@ -170,6 +180,8 @@ export default function ProjectsEntry() {
             <img
               src="/assets/left_dragon_clean.png"
               alt="Ancient Fire Dragon"
+              loading="lazy"
+              decoding="async"
               draggable={false}
               className="w-full h-full object-contain filter drop-shadow-[0_12px_28px_rgba(15,23,42,0.14)]"
             />
@@ -240,6 +252,8 @@ export default function ProjectsEntry() {
             <img
               src="/assets/right_dragon_clean.png"
               alt="Ancient Fire Dragon"
+              loading="lazy"
+              decoding="async"
               draggable={false}
               className="w-full h-full object-contain filter drop-shadow-[0_12px_28px_rgba(15,23,42,0.14)]"
             />
@@ -251,3 +265,5 @@ export default function ProjectsEntry() {
     </section>
   );
 }
+
+export default React.memo(ProjectsEntry);

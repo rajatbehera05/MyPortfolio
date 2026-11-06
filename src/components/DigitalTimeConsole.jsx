@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
@@ -48,25 +48,15 @@ function getActualLocalTimeData(date = new Date()) {
  * - Calm, long-term comfortable viewing with zero flicker or harsh segments
  * - Strictly tracks the visitor's actual local device time independently of any theme selection
  */
-export default function DigitalTimeConsole({
+function DigitalTimeConsole({
   currentTime,
   isNight = false,
   className = '',
 }) {
-  const [timeData, setTimeData] = useState(() => getActualLocalTimeData(currentTime || new Date()));
-
-  useEffect(() => {
-    if (currentTime instanceof Date && !isNaN(currentTime.getTime())) {
-      setTimeData(getActualLocalTimeData(currentTime));
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setTimeData(getActualLocalTimeData(new Date()));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [currentTime]);
+  const timeData = useMemo(
+    () => getActualLocalTimeData(currentTime || new Date()),
+    [currentTime]
+  );
 
   return (
     <motion.div
@@ -187,3 +177,5 @@ export default function DigitalTimeConsole({
     </motion.div>
   );
 }
+
+export default React.memo(DigitalTimeConsole);

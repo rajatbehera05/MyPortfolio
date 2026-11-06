@@ -209,7 +209,7 @@ function CompactDeveloperTrain({ isMoving = false, orientation = 'horizontal' })
  * - Lightweight alternating typography above/below track (NO large cards)
  * - Clear vertical spacing: train has its own lane and never overlaps text
  */
-export default function Journey({ isEmbedded = false }) {
+function Journey({ isEmbedded = false }) {
   const sectionRef = useRef(null);
   const trackWrapperRef = useRef(null);
   const trainRef = useRef(null);
@@ -228,6 +228,9 @@ export default function Journey({ isEmbedded = false }) {
 
   // GSAP timeline reference
   const timelineRef = useRef(null);
+  const lastIndexRef = useRef(0);
+  const lastStatusRef = useRef('Entering Web Dev');
+  const lastSignalRef = useRef('red');
 
   const startEduAnimation = () => {
     // Only animate ONCE when section enters viewport; afterwards remains completely static
@@ -274,6 +277,8 @@ export default function Journey({ isEmbedded = false }) {
     const trainFrontOffset = 145;
     const startX = trackWidth * 0.10 - trainFrontOffset;
     const endX = trackWidth * 0.90 - trainFrontOffset;
+    const exitX = trackWidth + 60;
+    const enterX = -180;
     const startWidth = trackWidth * 0.10;
     const endWidth = trackWidth * 0.90;
 
@@ -283,93 +288,189 @@ export default function Journey({ isEmbedded = false }) {
 
     setIsTrainMoving(true);
     setHasStarted(true);
-    setStatusText('Entering Web Dev');
-    setSignalState('red');
 
+    // Continuous, lifelike train loop: runs across stations, dwells at Now, departs into NEXT, and loops
     const tl = gsap.timeline({
+      repeat: -1,
       defaults: { ease: 'power1.inOut' },
-      onComplete: () => {
-        setIsTrainMoving(false);
-        setActiveStationIndex(4);
-        setStatusText('Arrived at Now');
-        setSignalState('inactive');
-        if (upperRailRef.current && lowerRailRef.current) {
-          gsap.set([upperRailRef.current, lowerRailRef.current], { width: endWidth });
-        }
-        if (mobileRailLeftRef.current && mobileRailRightRef.current) {
-          gsap.set([mobileRailLeftRef.current, mobileRailRightRef.current], { height: '100%' });
-        }
-      }
     });
 
     timelineRef.current = tl;
 
-    // Reset train and blue rails to initial position (Station 1)
-    tl.set(trainRef.current, { x: startX });
+    // --- PHASE 1: INITIAL STATE (Station 1) ---
+    tl.set(trainRef.current, { x: startX, opacity: 1 }, 0);
     if (upperRailRef.current && lowerRailRef.current) {
-      tl.set([upperRailRef.current, lowerRailRef.current], { width: startWidth });
+      tl.set([upperRailRef.current, lowerRailRef.current], { width: startWidth, opacity: 1 }, 0);
     }
     if (mobileRailLeftRef.current && mobileRailRightRef.current) {
-      tl.set([mobileRailLeftRef.current, mobileRailRightRef.current], { height: '10%' });
+      tl.set([mobileRailLeftRef.current, mobileRailRightRef.current], { height: '10%', opacity: 1 }, 0);
     }
-    setActiveStationIndex(0);
+    tl.call(() => {
+      lastIndexRef.current = 0;
+      lastStatusRef.current = 'Entering Web Dev';
+      lastSignalRef.current = 'red';
+      setActiveStationIndex(0);
+      setStatusText('Entering Web Dev');
+      setSignalState('red');
+      setIsTrainMoving(true);
+    }, null, 0);
 
-    // 1. Move train horizontally across the track
+    // --- PHASE 2: TRAVEL ACROSS STATIONS 1 TO 5 (Duration: 6.8s) ---
     tl.to(trainRef.current, {
       x: endX,
       duration: 6.8,
       ease: 'power1.inOut',
-      onUpdate: () => {
-        const prog = tl.progress();
+      onUpdate: function () {
+        const prog = this.progress();
 
         // Dynamic station activation and status pill text
+        let nextIndex = 0;
+        let nextStatus = 'Entering Web Dev';
         if (prog >= 0.88) {
-          setActiveStationIndex(4);
-          setStatusText('Arrived at Now');
+          nextIndex = 4;
+          nextStatus = 'Arrived at Now';
         } else if (prog >= 0.63) {
-          setActiveStationIndex(3);
-          setStatusText('Real-World Projects');
+          nextIndex = 3;
+          nextStatus = 'Real-World Projects';
         } else if (prog >= 0.38) {
-          setActiveStationIndex(2);
-          setStatusText('Entering IoT');
+          nextIndex = 2;
+          nextStatus = 'Entering IoT';
         } else if (prog >= 0.14) {
-          setActiveStationIndex(1);
-          setStatusText('Building Applications');
-        } else {
-          setActiveStationIndex(0);
-          setStatusText('Entering Web Dev');
+          nextIndex = 1;
+          nextStatus = 'Building Applications';
         }
 
-        // Subtle railway signal (near middle at ~40% progress)
+        if (nextIndex !== lastIndexRef.current) {
+          lastIndexRef.current = nextIndex;
+          setActiveStationIndex(nextIndex);
+        }
+        if (nextStatus !== lastStatusRef.current) {
+          lastStatusRef.current = nextStatus;
+          setStatusText(nextStatus);
+        }
+
+        // Subtle railway signal
+        let nextSignal = 'inactive';
         if (prog < 0.22) {
-          setSignalState('red');
+          nextSignal = 'red';
         } else if (prog < 0.38) {
-          setSignalState('amber');
+          nextSignal = 'amber';
         } else if (prog < 0.54) {
-          setSignalState('green');
-        } else {
-          setSignalState('inactive');
+          nextSignal = 'green';
+        }
+
+        if (nextSignal !== lastSignalRef.current) {
+          lastSignalRef.current = nextSignal;
+          setSignalState(nextSignal);
         }
       }
-    }, 0);
+    }, 0.3);
 
-    // 2. SIMULTANEOUSLY animate glowing blue rails at the exact same time & easing (starts at offset 0)
+    // Glowing blue rails expand simultaneously
     if (upperRailRef.current && lowerRailRef.current) {
       tl.to([upperRailRef.current, lowerRailRef.current], {
         width: endWidth,
         duration: 6.8,
         ease: 'power1.inOut',
-      }, 0);
+      }, 0.3);
     }
 
-    // 3. Mobile vertical rails expansion (simultaneous)
+    // Mobile vertical rails expand simultaneously
     if (mobileRailLeftRef.current && mobileRailRightRef.current) {
       tl.to([mobileRailLeftRef.current, mobileRailRightRef.current], {
         height: '100%',
         duration: 6.8,
         ease: 'power1.inOut',
-      }, 0);
+      }, 0.3);
     }
+
+    // --- PHASE 3: ARRIVAL DWELL AT NOW (Station 5) ---
+    // At t = 7.1s, train halts smoothly at Station 5 (Now)
+    tl.call(() => {
+      lastIndexRef.current = 4;
+      lastStatusRef.current = 'Arrived at Now';
+      lastSignalRef.current = 'inactive';
+      setActiveStationIndex(4);
+      setStatusText('Arrived at Now');
+      setSignalState('inactive');
+      setIsTrainMoving(false);
+    }, null, 7.1);
+
+    // Train dwells at Station 5 for ~2.3s (t = 7.1 to 9.4s)
+
+    // --- PHASE 4: SMOOTH DEPARTURE INTO NEXT (Future Track) ---
+    // At t = 9.4s, train accelerates forward past Station 5 towards NEXT →
+    tl.call(() => {
+      setIsTrainMoving(true);
+      setStatusText('Advancing to Next...');
+      setSignalState('green');
+    }, null, 9.4);
+
+    tl.to(trainRef.current, {
+      x: exitX,
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power1.in',
+    }, 9.4);
+
+    if (upperRailRef.current && lowerRailRef.current) {
+      tl.to([upperRailRef.current, lowerRailRef.current], {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power1.out',
+      }, 9.6);
+    }
+    if (mobileRailLeftRef.current && mobileRailRightRef.current) {
+      tl.to([mobileRailLeftRef.current, mobileRailRightRef.current], {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power1.out',
+      }, 9.6);
+    }
+
+    // --- PHASE 5: WRAP-AROUND & ARRIVAL BACK AT STATION 1 ---
+    // At t = 10.8s, position train offscreen left and reset track metrics
+    tl.set(trainRef.current, { x: enterX, opacity: 0 }, 10.8);
+    if (upperRailRef.current && lowerRailRef.current) {
+      tl.set([upperRailRef.current, lowerRailRef.current], { width: startWidth, opacity: 0 }, 10.8);
+    }
+    if (mobileRailLeftRef.current && mobileRailRightRef.current) {
+      tl.set([mobileRailLeftRef.current, mobileRailRightRef.current], { height: '10%', opacity: 0 }, 10.8);
+    }
+
+    tl.call(() => {
+      lastIndexRef.current = 0;
+      lastStatusRef.current = 'Entering Web Dev';
+      lastSignalRef.current = 'red';
+      setActiveStationIndex(0);
+      setStatusText('Entering Web Dev');
+      setSignalState('red');
+    }, null, 10.8);
+
+    // Rails fade in smoothly
+    if (upperRailRef.current && lowerRailRef.current) {
+      tl.to([upperRailRef.current, lowerRailRef.current], {
+        opacity: 1,
+        duration: 0.4,
+      }, 10.9);
+    }
+    if (mobileRailLeftRef.current && mobileRailRightRef.current) {
+      tl.to([mobileRailLeftRef.current, mobileRailRightRef.current], {
+        opacity: 1,
+        duration: 0.4,
+      }, 10.9);
+    }
+
+    // Train glides in from left into Station 1
+    tl.to(trainRef.current, {
+      x: startX,
+      opacity: 1,
+      duration: 1.1,
+      ease: 'power1.out',
+    }, 10.9);
+
+    // Brief 0.6s quiet pause at Station 1 before next lap starts
+    tl.to({}, { duration: 0.6 }, 12.0);
   };
 
   useEffect(() => {
@@ -407,32 +508,46 @@ export default function Journey({ isEmbedded = false }) {
       }
     });
 
-    // Trigger train journey automatically when section enters viewport (WITHOUT PINNING!)
+    // Trigger train journey automatically when section enters viewport and pause when out of view
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: 'top 75%',
-      once: true,
+      start: 'top 85%',
+      end: 'bottom 15%',
       onEnter: () => {
-        startTrainAnimation();
+        if (!timelineRef.current) {
+          startTrainAnimation();
+        } else {
+          timelineRef.current.play();
+        }
+      },
+      onLeave: () => {
+        if (timelineRef.current) timelineRef.current.pause();
+      },
+      onEnterBack: () => {
+        if (timelineRef.current) timelineRef.current.play();
+      },
+      onLeaveBack: () => {
+        if (timelineRef.current) timelineRef.current.pause();
       }
     });
 
+    // Pause when browser tab is hidden to conserve resources
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (timelineRef.current) timelineRef.current.pause();
+      } else {
+        if (timelineRef.current) timelineRef.current.play();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    let resizeTimer = null;
     const handleResize = () => {
       if (!trackWrapperRef.current) return;
-      const trackWidth = trackWrapperRef.current.clientWidth;
-      if (hasStarted && !isTrainMoving && trainRef.current) {
-        // Keep train & rails at final station on window resize
-        gsap.set(trainRef.current, { x: trackWidth * 0.90 - 145 });
-        if (upperRailRef.current && lowerRailRef.current) {
-          gsap.set([upperRailRef.current, lowerRailRef.current], { width: trackWidth * 0.90 });
-        }
-      } else if (!hasStarted && trainRef.current) {
-        // Keep train & rails at start position before animation
-        gsap.set(trainRef.current, { x: trackWidth * 0.10 - 145 });
-        if (upperRailRef.current && lowerRailRef.current) {
-          gsap.set([upperRailRef.current, lowerRailRef.current], { width: trackWidth * 0.10 });
-        }
-      }
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        startTrainAnimation();
+      }, 250);
     };
 
     window.addEventListener('resize', handleResize);
@@ -441,9 +556,11 @@ export default function Journey({ isEmbedded = false }) {
       if (eduTrigger) eduTrigger.kill();
       trigger.kill();
       if (timelineRef.current) timelineRef.current.kill();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('resize', handleResize);
+      if (resizeTimer) clearTimeout(resizeTimer);
     };
-  }, [hasStarted, isTrainMoving]);
+  }, []);
 
   const handleReplay = () => {
     startTrainAnimation();
@@ -1046,3 +1163,5 @@ export default function Journey({ isEmbedded = false }) {
     </section>
   );
 }
+
+export default React.memo(Journey);
