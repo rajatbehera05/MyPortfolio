@@ -173,7 +173,7 @@ export default function PortfolioLanding() {
         <ProjectsEntry />
 
         {/* Section 5: Architecture & Skills Network */}
-        <SkillsNetwork />
+        <SkillsNetwork isNight={timeEnv.isNight} />
 
         {/* Section 6: GitHub & Development Activity */}
         <GithubActivity isNight={timeEnv.isNight} />
