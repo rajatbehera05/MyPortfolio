@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
-  GitBranch,
-  Star,
-  GitFork,
   Flame,
   Calendar,
   ExternalLink,
@@ -24,78 +21,6 @@ function GithubIcon({ className = "w-4 h-4" }) {
   );
 }
 
-/**
- * Verified repositories data fallback
- * Ensures no broken state if GitHub API rate limit is exceeded
- */
-const FALLBACK_REPOS = [
-  {
-    name: 'STERNKRAFT-Sociathon',
-    description: 'ResQnet: IoT-enabled disaster response & emergency coordination platform. Real-time telemetry, mapping & alerts.',
-    language: 'TypeScript',
-    stars: 3,
-    forks: 1,
-    url: 'https://github.com/rajatbehera05/STERNKRAFT-Sociathon',
-    topics: ['iot', 'react', 'emergency-response']
-  },
-  {
-    name: 'Model',
-    description: 'Smart Parking Management System with ESP32 microcontrollers, IR sensor telemetry and real-time dashboard.',
-    language: 'C++',
-    stars: 2,
-    forks: 0,
-    url: 'https://github.com/rajatbehera05/Model',
-    topics: ['esp32', 'arduino', 'iot']
-  },
-  {
-    name: 'TransitOps',
-    description: 'Smart Transport Operations Platform: Full-stack logistics managing drivers, trips, and vehicle maintenance.',
-    language: 'JavaScript',
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/rajatbehera05/TransitOps',
-    topics: ['nextjs', 'express', 'postgresql']
-  },
-  {
-    name: 'DealOrbit',
-    description: 'Sales operations platform focused on quotation-to-cash workflows and deal validation. Odoo Hackathon project.',
-    language: 'Python',
-    stars: 2,
-    forks: 0,
-    url: 'https://github.com/rajatbehera05/DealOrbit',
-    topics: ['odoo', 'database', 'hackathon']
-  },
-  {
-    name: 'FleetFlow',
-    description: 'Fleet and logistics management system designed for vehicle availability tracking and dispatch workflows.',
-    language: 'JavaScript',
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/rajatbehera05/FleetFlow',
-    topics: ['logistics', 'rest-api']
-  },
-  {
-    name: 'Java-DSA-Practice',
-    description: 'Solutions to algorithmic problems, time-complexity analysis, data structures, and placement preparations.',
-    language: 'Java',
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/rajatbehera05',
-    topics: ['dsa', 'algorithms', 'java']
-  }
-];
-
-// Language badge color palette
-const LANGUAGE_COLORS = {
-  JavaScript: { dot: '#F7DF1E', text: '#854D0E', bg: '#FEF9C3', border: '#FEF08A' },
-  TypeScript: { dot: '#3178C6', text: '#1E40AF', bg: '#DBEAFE', border: '#BFDBFE' },
-  Python: { dot: '#38BDF8', text: '#0369A1', bg: '#E0F2FE', border: '#BAE6FD' },
-  Java: { dot: '#EA2D2E', text: '#991B1B', bg: '#FEE2E2', border: '#FECACA' },
-  'C++': { dot: '#8B5CF6', text: '#5B21B6', bg: '#EDE9FE', border: '#DDD6FE' },
-  HTML: { dot: '#F97316', text: '#9A3412', bg: '#FFEDD5', border: '#FED7AA' },
-  Default: { dot: '#2563EB', text: '#1E40AF', bg: '#EFF6FF', border: '#DBEAFE' },
-};
-
 function GithubActivity({ isNight = false }) {
   const [profile, setProfile] = useState({
     login: 'rajatbehera05',
@@ -109,9 +34,7 @@ function GithubActivity({ isNight = false }) {
     html_url: 'https://github.com/rajatbehera05'
   });
 
-  const [repos, setRepos] = useState(FALLBACK_REPOS);
   const [hoveredCell, setHoveredCell] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('ALL');
 
   // Load real verified GitHub contribution calendar with live daily synchronization
   const [calendarData, setCalendarData] = useState(() => {
@@ -141,25 +64,22 @@ function GithubActivity({ isNight = false }) {
     const CAL_EXPIRY = 30 * 60 * 1000; // 30 minutes cache for fresh daily cadence
 
     const loadData = async () => {
-      // 1. Check local cache for profile & repos
+      // 1. Check local cache for profile
       try {
         const cached = localStorage.getItem(CACHE_KEY);
         const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
         if (cached && cachedTime && Date.now() - parseInt(cachedTime, 10) < CACHE_EXPIRY) {
           const parsed = JSON.parse(cached);
           if (parsed.profile) setProfile((prev) => ({ ...prev, ...parsed.profile }));
-          if (parsed.repos && parsed.repos.length > 0) setRepos(parsed.repos);
         }
       } catch (_) {}
 
-      // 2. Fetch User Profile & Repositories from GitHub
+      // 2. Fetch User Profile from GitHub
       try {
         const userRes = await fetch('https://api.github.com/users/rajatbehera05');
-        let fetchedUser = null;
         if (userRes.ok) {
           const userData = await userRes.json();
           if (isMounted && userData && userData.login) {
-            fetchedUser = userData;
             setProfile((prev) => ({
               ...prev,
               login: userData.login,
@@ -172,31 +92,11 @@ function GithubActivity({ isNight = false }) {
               avatar_url: userData.avatar_url || prev.avatar_url,
               html_url: userData.html_url || prev.html_url,
             }));
-          }
-        }
-
-        const reposRes = await fetch('https://api.github.com/users/rajatbehera05/repos?sort=updated&per_page=8');
-        if (reposRes.ok) {
-          const reposData = await reposRes.json();
-          if (isMounted && Array.isArray(reposData) && reposData.length > 0) {
-            const formatted = reposData.map((r) => ({
-              name: r.name,
-              description: r.description || 'Public development repository.',
-              language: r.language || 'Code',
-              stars: r.stargazers_count || 0,
-              forks: r.forks_count || 0,
-              url: r.html_url,
-              topics: r.topics || []
-            }));
-            setRepos(formatted.slice(0, 6));
 
             try {
               localStorage.setItem(
                 CACHE_KEY,
-                JSON.stringify({
-                  profile: fetchedUser,
-                  repos: formatted.slice(0, 6)
-                })
+                JSON.stringify({ profile: userData })
               );
               localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
             } catch (_) {}
@@ -319,18 +219,6 @@ function GithubActivity({ isNight = false }) {
       isMounted = false;
     };
   }, []);
-
-  // Filtered repositories by language pill
-  const filteredRepos = useMemo(() => {
-    if (selectedLanguage === 'ALL') return repos;
-    return repos.filter((r) => r.language === selectedLanguage);
-  }, [repos, selectedLanguage]);
-
-  // Distinct languages for filters
-  const languagesList = useMemo(() => {
-    const set = new Set(repos.map((r) => r.language).filter(Boolean));
-    return ['ALL', ...Array.from(set)];
-  }, [repos]);
 
   // Heatmap level colors: Twinkling Golden starfield in Night Mode, Arctic Blue in Day Mode
   const getCellColor = (level) => {
@@ -669,99 +557,6 @@ function GithubActivity({ isNight = false }) {
             </div>
           </div>
         </motion.div>
-
-        {/* 3. REPOSITORIES SHOWCASE SECTION */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <GitBranch className="w-4 h-4 text-[#2563EB]" />
-              <h3 className="font-bold text-[17px] text-[#0F172A] font-sans-editorial">
-                Featured Public Repositories
-              </h3>
-            </div>
-
-            {/* Language Filter Pills */}
-            <div className="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-white border border-[#D5DFEB] text-[11.5px] self-start sm:self-auto shadow-2xs">
-              {languagesList.map((lang) => (
-                <button
-                  key={lang}
-                  type="button"
-                  onClick={() => setSelectedLanguage(lang)}
-                  className={`px-2.5 py-1 rounded-lg font-medium transition-all cursor-pointer ${
-                    selectedLanguage === lang
-                      ? 'bg-[#2563EB] text-white font-semibold shadow-2xs'
-                      : 'text-[#64748B] hover:text-[#0F172A]'
-                  }`}
-                >
-                  {lang === 'ALL' ? 'All Stacks' : lang}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Repositories 2x3 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <AnimatePresence mode="popLayout">
-              {filteredRepos.map((repo, idx) => {
-                const langColor = LANGUAGE_COLORS[repo.language] || LANGUAGE_COLORS.Default;
-
-                return (
-                  <motion.a
-                    layout
-                    key={repo.name}
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.35, delay: idx * 0.04 }}
-                    href={repo.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-5 rounded-2xl bg-white border border-[#D5DFEB] hover:border-[#2563EB]/50 hover:shadow-[0_12px_32px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between group cursor-pointer text-inherit no-underline shadow-xs hover:-translate-y-0.5"
-                  >
-                    <div className="space-y-2.5">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <FolderGit2 className="w-4 h-4 text-[#2563EB] shrink-0" />
-                          <h4 className="font-bold text-[14.5px] text-[#0F172A] group-hover:text-[#2563EB] transition-colors truncate">
-                            {repo.name}
-                          </h4>
-                        </div>
-                        <ExternalLink className="w-3.5 h-3.5 text-[#94A3B8] group-hover:text-[#2563EB] transition-colors shrink-0" />
-                      </div>
-
-                      <p className="text-[12.5px] text-[#4B5563] line-clamp-2 leading-relaxed">
-                        {repo.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-4 mt-3 border-t border-[#F1F5F9] flex items-center justify-between text-[11.5px]">
-                      {/* Language pill */}
-                      <div className="flex items-center gap-1.5 font-medium">
-                        <span
-                          className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: langColor.dot }}
-                        />
-                        <span className="text-[#334155]">{repo.language}</span>
-                      </div>
-
-                      {/* Stars & Forks */}
-                      <div className="flex items-center gap-3 text-[#64748B] font-mono-tech">
-                        <span className="flex items-center gap-1 hover:text-[#0F172A]">
-                          <Star className="w-3.5 h-3.5" />
-                          <span>{repo.stars}</span>
-                        </span>
-                        <span className="flex items-center gap-1 hover:text-[#0F172A]">
-                          <GitFork className="w-3.5 h-3.5" />
-                          <span>{repo.forks}</span>
-                        </span>
-                      </div>
-                    </div>
-                  </motion.a>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-        </div>
 
       </div>
     </section>
