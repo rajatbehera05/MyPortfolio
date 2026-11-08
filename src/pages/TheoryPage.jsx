@@ -9,7 +9,8 @@ import {
   Flame,
   ShieldCheck,
   Target,
-  Hammer
+  Hammer,
+  Layers
 } from 'lucide-react';
 import ConnectedNetworkBackground from '../components/ConnectedNetworkBackground';
 import CosmicThemeSwitcher from '../components/CosmicThemeSwitcher';
@@ -19,7 +20,7 @@ import { useTimeEnvironment } from '../hooks/useTimeEnvironment';
 
 /**
  * TheoryPage — THE POWER OF OUR MIND
- * Five Principles That Shape the Way I Think
+ * The Art of Taking Control of Your Own Mind
  * by Rajat Behera
  */
 export default function TheoryPage() {
@@ -40,7 +41,7 @@ export default function TheoryPage() {
       try {
         await navigator.share({
           title: 'THE POWER OF OUR MIND — Rajat Behera',
-          text: 'Five Principles That Shape the Way I Think by Rajat Behera.',
+          text: 'The Art of Taking Control of Your Own Mind by Rajat Behera.',
           url: window.location.href,
         });
       } catch {
@@ -135,7 +136,7 @@ export default function TheoryPage() {
                 THE POWER OF OUR MIND
               </h1>
               <h2 className="mt-2.5 sm:mt-3 text-[18px] sm:text-[22px] md:text-[24px] font-medium tracking-tight text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
-                Five Principles That Shape the Way I Think
+                The Art of Taking Control of Your Own Mind
               </h2>
             </div>
           </div>
@@ -147,7 +148,7 @@ export default function TheoryPage() {
               </div>
               <div>
                 <p className="text-[14px] font-semibold tracking-tight">Rajat Behera</p>
-                <p className="text-[12px] text-[#64748B] font-mono">Engineering &amp; Systems Thinking</p>
+                <p className="text-[12px] text-[#64748B] font-mono">Personal Theory &amp; Discipline</p>
               </div>
             </div>
 
@@ -165,50 +166,134 @@ export default function TheoryPage() {
         {/* Article Body */}
         <article className="mt-10 sm:mt-12 space-y-12 sm:space-y-16 text-[16.5px] sm:text-[18px] leading-[1.8] font-normal">
           
-          {/* Introduction */}
-          <div className="space-y-5 text-[17px] sm:text-[19px] leading-[1.85] text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
-            <p>
-              I believe the human mind holds a strength that we often fail to recognize. It has the power to change how we see ourselves, how we respond to challenges, and how far we are willing to go in life.
-            </p>
-            <p>
-              But I also believe that strength does not come from simply thinking positively. It comes from confronting reality, accepting discomfort, learning from setbacks, and choosing to move forward even when everything inside you wants to stop.
-            </p>
-            <p>
-              For me, mental strength is not about never feeling weak, frustrated, or defeated. It is about what you choose to do when those feelings appear.
-            </p>
-            <p className="font-medium text-[#0F172A] [data-theme='night']_&:text-white">
-              Over time, I have developed five principles that represent how I think about personal growth, discipline, and becoming a stronger version of myself.
-            </p>
+          {/* SECTION 1: THE IDEA BEHIND MY THEORY (Opening Chapter) */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-2 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span className="font-mono text-[11px] sm:text-[12px] font-bold tracking-widest uppercase">Opening Chapter</span>
+            </div>
+
+            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+              THE IDEA BEHIND MY THEORY
+            </h2>
+
+            <div className="space-y-5 text-[17px] sm:text-[18.5px] leading-[1.85] text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              <p>
+                I have observed something in the way many people approach life. We naturally tend to choose what feels good, what feels comfortable, and what requires the least effort.
+              </p>
+              <p>
+                We want to have fun, enjoy our time, and do the things we like. We take care of our responsibilities when they become unavoidable, but often fail to prioritise the things that genuinely matter for our growth, our goals, and our future.
+              </p>
+              <p>
+                We know what needs to be done, yet we keep postponing it. We choose the easier option over the challenging one, even when we know that the difficult path might teach us something valuable.
+              </p>
+              <p className="font-medium text-[#0F172A] [data-theme='night']_&:text-white">
+                And I believe this is where the real problem begins.
+              </p>
+
+              {/* Focal Callout 1 */}
+              <div className={`p-5 sm:p-6 rounded-2xl border-l-4 my-6 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#60A5FA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#F1F5FF]'
+                  : 'bg-white border-l-[#2563EB] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[19px] leading-snug">
+                  It is not always a lack of ability or opportunity. Sometimes, it is a lack of control over our own minds.
+                </p>
+              </div>
+
+              <p>
+                I believe this is one of the reasons many young people struggle to shape themselves into the people they want to become. They have ambitions, potential, and opportunities, but often fail to turn them into meaningful progress because they repeatedly allow temporary comfort and immediate desires to take priority over their long-term growth.
+              </p>
+              <p>
+                Think about it. How often do we decide to complete a small but important task, only to find ourselves distracted by something more entertaining? How often do we know what is right for us but still choose what feels easier in that moment?
+              </p>
+              <p>
+                I believe this happens when we allow our minds to control our decisions instead of learning to control our minds.
+              </p>
+              <p>
+                Our minds naturally seek comfort, pleasure, and instant satisfaction. But we should not let every thought, feeling, or desire decide what we do.
+              </p>
+
+              {/* Focal Callout 2 */}
+              <div className={`p-5 sm:p-6 rounded-2xl border-l-4 my-6 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#A78BFA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#F1F5FF]'
+                  : 'bg-white border-l-[#8B5CF6] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[19px] leading-snug">
+                  We must learn to command our minds, rather than constantly being commanded by them.
+                </p>
+              </div>
+
+              <p>
+                And here is what I find fascinating: I believe the human mind is like a box full of surprises. When we begin to take control of it, challenge its limitations, and direct it towards something meaningful, we can discover strengths, abilities, and possibilities that we never expected ourselves to have.
+              </p>
+              <p className="text-[#334155] [data-theme='night']_&:text-[#CBD5E1]">
+                The mind that once convinced us to postpone a task can become the same mind that pushes us to complete it. The mind that once searched for comfort can learn to embrace discomfort. The mind that once made excuses can learn to find solutions.
+              </p>
+            </div>
+          </section>
+
+          {/* SECTION 2: HOW I CHOOSE TO PRACTISE THIS (Distinct Visual Bridge) */}
+          <section className={`p-6 sm:p-8 md:p-9 rounded-3xl border transition-colors ${
+            timeEnv.isNight
+              ? 'bg-gradient-to-br from-[#0F2244]/80 via-[#0B172E]/90 to-[#081426] border-[rgba(150,180,230,0.22)] shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
+              : 'bg-gradient-to-br from-[#F8FAFC] via-[#EEF4FF]/70 to-[#F1F5F9] border-[#D5DFEB] shadow-[0_8px_32px_rgba(37,99,235,0.06)]'
+          }`}>
+            <div className="flex items-center gap-2 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA] mb-3">
+              <Compass className="w-4 h-4 shrink-0" />
+              <span className="font-mono text-[11px] sm:text-[12px] font-bold tracking-widest uppercase">The Bridge • Philosophy to Action</span>
+            </div>
+
+            <h2 className="font-editorial-serif text-[24px] sm:text-[28px] md:text-[32px] font-normal tracking-tight uppercase mb-5 text-[#0F172A] [data-theme='night']_&:text-white">
+              HOW I CHOOSE TO PRACTISE THIS
+            </h2>
+
+            <div className="space-y-4 text-[16.5px] sm:text-[18px] leading-[1.85] text-[#334155] [data-theme='night']_&:text-[#CBD5E1]">
+              <p>
+                This is what I believe in, and this is how I try to approach my own life. For me, taking control of my mind is not just about avoiding distractions or forcing myself to do difficult things. It is about continuously improving myself, developing mental strength, staying disciplined, and finding the determination to keep moving forward, regardless of the circumstances.
+              </p>
+              <p>
+                I believe growth begins with the way we think, but it becomes real through the way we act.
+              </p>
+              <p className="font-medium text-[#0F172A] [data-theme='night']_&:text-white pt-1">
+                To put this belief into practice, I follow five fundamental rules that guide the way I think, make decisions, face challenges, and work towards becoming a better version of myself.
+              </p>
+            </div>
+          </section>
+
+          {/* SECTION 3: FIVE RULES I BELIEVE IN */}
+          <div className="pt-2 pb-1 border-t border-[#D5DFEB]/60">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/10 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA] border border-[#2563EB]/25 text-[11px] font-mono font-bold tracking-widest uppercase mt-6 mb-3">
+              <Layers className="w-3 h-3" />
+              <span>Personal Framework</span>
+            </div>
+            <h2 className="font-editorial-serif text-[30px] sm:text-[38px] md:text-[44px] font-normal tracking-tight uppercase">
+              FIVE RULES I BELIEVE IN
+            </h2>
           </div>
 
-          <hr className="border-t border-[#D5DFEB]/60" />
-
-          {/* Principle 01 */}
+          {/* RULE 01 */}
           <section className="space-y-4">
             <div className="flex items-center gap-2.5 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
               <Target className="w-5 h-5 shrink-0" />
-              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Principle 01</span>
+              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 01</span>
             </div>
             
-            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+            <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               01. CONFRONT YOURSELF
-            </h2>
+            </h3>
             
             <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
               The first step towards change is accepting who you are today.
             </p>
 
-            <p>
-              Before trying to change the world around you, learn to face yourself.
-            </p>
-            <p>
-              Be honest about your weaknesses, your mistakes, your excuses, and the time you have wasted. It is easy to blame circumstances, other people, or a lack of opportunities. But real improvement begins when you take responsibility for your own actions.
-            </p>
-            <p>
-              Do not hide from the things you need to improve. Do not create excuses to protect your comfort.
+            <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              Be honest about your weaknesses, mistakes, excuses, and wasted time. Stop blaming circumstances or other people for everything. Take responsibility for your decisions and recognise the areas where you need to improve.
             </p>
 
-            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-6 transition-colors ${
+            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
               timeEnv.isNight
                 ? 'bg-[#0E1E3A]/60 border-l-[#60A5FA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
                 : 'bg-white border-l-[#2563EB] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
@@ -217,83 +302,58 @@ export default function TheoryPage() {
                 You cannot change what you refuse to acknowledge.
               </p>
             </div>
-
-            <p>
-              The moment you start taking responsibility for yourself is the moment you take control of your direction.
-            </p>
           </section>
 
-          {/* Principle 02 */}
+          {/* RULE 02 */}
           <section className="space-y-4">
             <div className="flex items-center gap-2.5 text-[#8B5CF6] [data-theme='night']_&:text-[#A78BFA]">
               <Compass className="w-5 h-5 shrink-0" />
-              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Principle 02</span>
+              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 02</span>
             </div>
 
-            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+            <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               02. DIG DEEPER INSIDE YOURSELF
-            </h2>
+            </h3>
 
             <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
               Your greatest source of strength may already exist within you.
             </p>
 
-            <p>
-              There will be moments when you feel exhausted, defeated, or uncertain about how to continue. Moments when your efforts seem meaningless and your goals feel further away than ever.
-            </p>
-            <p>
-              That is when you need to dig deeper.
-            </p>
-            <p>
-              Look back at everything you have overcome. Remember your failures, your difficult experiences, the lessons you have learned, and the reasons you started in the first place.
-            </p>
-            <p>
-              Use those experiences as reminders of what you are capable of. Your setbacks do not have to define you; they can become the reason you grow stronger.
-            </p>
-            <p>
-              When motivation disappears, let your determination take over.
+            <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              When you feel exhausted, defeated, or uncertain, remember what you have already overcome. Look back at your setbacks, failures, experiences, and goals. Use them as reminders of why you started and what you are capable of achieving.
             </p>
 
-            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-6 transition-colors ${
+            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
               timeEnv.isNight
                 ? 'bg-[#0E1E3A]/60 border-l-[#A78BFA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
                 : 'bg-white border-l-[#8B5CF6] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
             }`}>
               <p className="font-semibold text-[17px] sm:text-[18.5px]">
-                When everything around you gives you a reason to stop, find the strength within you to remember why you started.
+                When motivation disappears, let your determination take over.
               </p>
             </div>
           </section>
 
-          {/* Principle 03 */}
+          {/* RULE 03 */}
           <section className="space-y-4">
             <div className="flex items-center gap-2.5 text-[#F59E0B] [data-theme='night']_&:text-[#FBBF24]">
               <Flame className="w-5 h-5 shrink-0" />
-              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Principle 03</span>
+              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 03</span>
             </div>
 
-            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+            <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               03. TURN YOUR ANGER INTO YOUR STRENGTH
-            </h2>
+            </h3>
 
             <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
               Do not waste your frustration. Give it a purpose.
             </p>
 
-            <p>
-              There are moments when you feel frustrated with yourself. Maybe because you are not where you wanted to be, because someone underestimated you, because you feel weaker than others, or because you know you are capable of more but have not done enough.
-            </p>
-            <p>
-              I believe that frustration can become a powerful wake-up call.
-            </p>
-            <p>
-              Instead of allowing anger to control your reactions, use it to question your actions. Let it remind you that you need to improve, work harder, and become better than you were yesterday.
-            </p>
-            <p>
-              Do not waste your energy proving people wrong through arguments or reactions. Put that energy into your progress.
+            <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              There will be moments when you feel frustrated with yourself, your progress, or the feeling that you are capable of more than you are currently doing. Instead of allowing that frustration to control your reactions, turn it into a reason to improve.
             </p>
 
-            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-6 transition-colors ${
+            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
               timeEnv.isNight
                 ? 'bg-[#0E1E3A]/60 border-l-[#FBBF24] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
                 : 'bg-white border-l-[#F59E0B] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
@@ -304,38 +364,26 @@ export default function TheoryPage() {
             </div>
           </section>
 
-          {/* Principle 04 */}
+          {/* RULE 04 */}
           <section className="space-y-4">
             <div className="flex items-center gap-2.5 text-[#10B981] [data-theme='night']_&:text-[#34D399]">
               <ShieldCheck className="w-5 h-5 shrink-0" />
-              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Principle 04</span>
+              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 04</span>
             </div>
 
-            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+            <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               04. EMBRACE THE THINGS YOU HATE DOING
-            </h2>
+            </h3>
 
             <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
               Growth often begins where comfort ends.
             </p>
 
-            <p>
-              Not everything that helps you grow will feel exciting.
-            </p>
-            <p>
-              Some of the most important things in life are repetitive, boring, uncomfortable, and difficult. There will be days when you do not feel like studying, practising, working, or following the routine you created for yourself.
-            </p>
-            <p>
-              But those are the moments that matter.
-            </p>
-            <p>
-              Anyone can show up when they feel motivated. The real challenge is showing up when the excitement disappears and all that remains is the responsibility to keep going.
-            </p>
-            <p>
-              Embrace repetition. Accept discomfort. Learn to do what needs to be done, even when you do not feel like doing it.
+            <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              Not everything that helps you grow will be enjoyable. Some tasks will be repetitive, boring, uncomfortable, or difficult. Do them anyway. Whether it is a small responsibility or a challenging goal, learn to show up even when you do not feel like it.
             </p>
 
-            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-6 transition-colors ${
+            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
               timeEnv.isNight
                 ? 'bg-[#0E1E3A]/60 border-l-[#34D399] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
                 : 'bg-white border-l-[#10B981] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
@@ -346,38 +394,26 @@ export default function TheoryPage() {
             </div>
           </section>
 
-          {/* Principle 05 */}
+          {/* RULE 05 */}
           <section className="space-y-4">
             <div className="flex items-center gap-2.5 text-[#EC4899] [data-theme='night']_&:text-[#F472B6]">
               <Hammer className="w-5 h-5 shrink-0" />
-              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Principle 05</span>
+              <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 05</span>
             </div>
 
-            <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+            <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               05. STAY COMMITTED. NEVER STOP BUILDING.
-            </h2>
+            </h3>
 
             <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
               Be more committed to your growth than to your temporary feelings.
             </p>
 
-            <p>
-              Personal growth is not a one-day achievement. It is a continuous process.
-            </p>
-            <p>
-              There will always be something to learn, something to improve, and another level to reach. You may achieve a goal today, but that does not mean your journey is complete.
-            </p>
-            <p>
-              Stay connected to the reason you started. Keep improving your skills, correcting your mistakes, and building better habits.
-            </p>
-            <p>
-              Do not depend entirely on motivation. Build discipline strong enough to carry you through the days when motivation is absent.
-            </p>
-            <p>
-              You do not need to become a completely different person overnight. You need to keep making decisions that move you closer to the person you want to become.
+            <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+              Growth is not a one-day achievement. Keep learning, correcting your mistakes, improving your habits, and working towards your goals. Do not depend entirely on motivation. Build the discipline to continue even when motivation disappears.
             </p>
 
-            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-6 transition-colors ${
+            <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
               timeEnv.isNight
                 ? 'bg-[#0E1E3A]/60 border-l-[#F472B6] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
                 : 'bg-white border-l-[#EC4899] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
@@ -390,7 +426,7 @@ export default function TheoryPage() {
 
           <hr className="border-t border-[#D5DFEB]/60" />
 
-          {/* WHAT I BELIEVE */}
+          {/* SECTION 4: WHAT I BELIEVE (Conclusion) */}
           <section className="space-y-6 pt-2">
             <h2 className="font-editorial-serif text-[28px] sm:text-[36px] md:text-[42px] font-normal tracking-tight uppercase">
               WHAT I BELIEVE
@@ -398,37 +434,32 @@ export default function TheoryPage() {
 
             <div className="space-y-5 text-[17px] sm:text-[19px] leading-[1.85]">
               <p>
-                I believe the power of our mind is not simply the ability to think. It is the ability to decide how we respond to what life puts in front of us.
+                I do not believe that controlling your mind means suppressing every desire, avoiding enjoyment, or making life unnecessarily difficult.
               </p>
               <p>
-                Our weaknesses can teach us. Our failures can shape us. Our frustrations can awaken us. And the things we find difficult can become the very things that make us stronger.
+                It means knowing when to enjoy yourself and when to take responsibility. It means understanding that temporary comfort should not repeatedly come at the cost of your long-term growth.
               </p>
               <p className="font-semibold text-[#0F172A] [data-theme='night']_&:text-white">
-                But none of this matters without action.
+                Your mind is powerful, but that power needs direction.
               </p>
+
+              {/* Core Thesis Callout */}
+              <div className={`p-6 sm:p-8 rounded-3xl border my-8 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-gradient-to-br from-[#0F2244] to-[#0A162B] border-[rgba(150,180,230,0.22)] shadow-[0_12px_40px_rgba(0,0,0,0.4)]'
+                  : 'bg-gradient-to-br from-[#EEF4FF] via-white to-[#F5F3FF] border-[#D5DFEB] shadow-[0_12px_40px_rgba(37,99,235,0.08)]'
+              }`}>
+                <p className="font-editorial-serif text-[21px] sm:text-[26px] md:text-[30px] font-normal leading-snug tracking-tight text-[#1E3A8A] [data-theme='night']_&:text-[#C7D2FE]">
+                  Do not let your mind decide your limits. Train it to help you discover them.
+                </p>
+              </div>
+
               <p>
-                You can have ambitions, plans, dreams, and the potential to achieve great things. Yet, without the willingness to confront yourself, face discomfort, and remain committed, that potential will remain unused.
-              </p>
-              <p>
-                For me, becoming stronger is not about competing with everyone around me. It is about refusing to remain the same when I know I can become better.
+                The moment you begin taking command of your own mind, you begin taking command of your actions, your habits, and ultimately, the direction of your life.
               </p>
             </div>
 
-            {/* Core Tenets Callout */}
-            <div className={`p-6 sm:p-8 rounded-3xl border my-8 transition-colors ${
-              timeEnv.isNight
-                ? 'bg-gradient-to-br from-[#0F2244] to-[#0A162B] border-[rgba(150,180,230,0.22)] shadow-[0_12px_40px_rgba(0,0,0,0.4)]'
-                : 'bg-gradient-to-br from-[#EEF4FF] via-white to-[#F5F3FF] border-[#D5DFEB] shadow-[0_12px_40px_rgba(37,99,235,0.08)]'
-            }`}>
-              <p className="font-editorial-serif text-[20px] sm:text-[25px] md:text-[28px] font-normal leading-snug tracking-tight text-[#1E3A8A] [data-theme='night']_&:text-[#C7D2FE]">
-                Confront yourself. Dig deeper. Channel your emotions. Embrace discomfort. Stay committed.
-              </p>
-              <p className="mt-4 text-[14.5px] sm:text-[15.5px] text-[#475569] [data-theme='night']_&:text-[#94A3B8] leading-relaxed">
-                These are not just five principles to follow. They represent the way I want to approach my life, my goals, and the person I am working towards becoming.
-              </p>
-            </div>
-
-            <p className="font-editorial-serif italic text-[19px] sm:text-[22px] text-[#2563EB] [data-theme='night']_&:text-[#60A5FA] pt-2">
+            <p className="font-editorial-serif italic text-[19px] sm:text-[22px] text-[#2563EB] [data-theme='night']_&:text-[#60A5FA] pt-3">
               This is how I understand the power of our mind.
             </p>
           </section>
