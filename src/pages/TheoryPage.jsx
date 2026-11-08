@@ -4,7 +4,6 @@ import {
   Sparkles, 
   ArrowLeft, 
   Clock, 
-  Share2,
   Compass,
   Flame,
   ShieldCheck,
@@ -34,23 +33,6 @@ export default function TheoryPage() {
 
   const handleBackToHome = () => {
     navigate('/');
-  };
-
-  const handleShare = async () => {
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      try {
-        await navigator.share({
-          title: 'THE POWER OF OUR MIND — Rajat Behera',
-          text: 'The Art of Taking Control of Your Own Mind by Rajat Behera.',
-          url: window.location.href,
-        });
-      } catch {
-        // Fallback silently if share was dismissed
-      }
-    } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
-    }
   };
 
   return (
@@ -104,7 +86,7 @@ export default function TheoryPage() {
       <main className="relative z-10 pt-24 sm:pt-28 md:pt-32 pb-24 max-w-[840px] mx-auto px-4 sm:px-8">
         
         {/* Article Header & Metadata */}
-        <header className="space-y-6 pb-10 border-b border-[#D5DFEB]/60">
+        <header className="space-y-6 pb-8 border-b border-[#D5DFEB]/60">
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-[12px] font-semibold tracking-wider uppercase">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/25">
               <Sparkles className="w-3 h-3" />
@@ -140,39 +122,13 @@ export default function TheoryPage() {
               </h2>
             </div>
           </div>
-
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#2563EB] to-[#8B5CF6] flex items-center justify-center text-white font-bold text-sm shadow-md">
-                RB
-              </div>
-              <div>
-                <p className="text-[14px] font-semibold tracking-tight">Rajat Behera</p>
-                <p className="text-[12px] text-[#64748B] font-mono">Personal Theory &amp; Discipline</p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-medium border border-[#D5DFEB] hover:border-[#2563EB]/40 transition-colors cursor-pointer text-[#475569] hover:text-[#0F172A] [data-theme='night']_&:text-[#A9B8D0] [data-theme='night']_&:hover:text-white"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              <span>Share</span>
-            </button>
-          </div>
         </header>
 
         {/* Article Body */}
         <article className="mt-10 sm:mt-12 space-y-12 sm:space-y-16 text-[16.5px] sm:text-[18px] leading-[1.8] font-normal">
           
-          {/* SECTION 1: THE IDEA BEHIND MY THEORY (Opening Chapter) */}
+          {/* SECTION 1: THE IDEA BEHIND MY THEORY */}
           <section className="space-y-6">
-            <div className="flex items-center gap-2 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
-              <Sparkles className="w-4 h-4 shrink-0" />
-              <span className="font-mono text-[11px] sm:text-[12px] font-bold tracking-widest uppercase">Opening Chapter</span>
-            </div>
-
             <h2 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
               THE IDEA BEHIND MY THEORY
             </h2>
