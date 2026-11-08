@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Sparkles, 
   ArrowLeft, 
-  Clock, 
   Compass,
   Flame,
   ShieldCheck,
@@ -85,22 +83,8 @@ export default function TheoryPage() {
       {/* 4. Main Editorial Essay Container */}
       <main className="relative z-10 pt-24 sm:pt-28 md:pt-32 pb-24 max-w-[1080px] mx-auto px-4 sm:px-6 md:px-8">
         
-        {/* Article Header & Metadata */}
-        <header className="max-w-[840px] mx-auto space-y-6 pb-8 border-b border-[#D5DFEB]/60">
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-[12px] font-semibold tracking-wider uppercase">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/25">
-              <Sparkles className="w-3 h-3" />
-              <span>My Theory</span>
-            </span>
-            <span className="text-[#94A3B8]">•</span>
-            <span className="flex items-center gap-1 text-[#64748B] font-mono">
-              <Clock className="w-3.5 h-3.5" />
-              <span>5 min read</span>
-            </span>
-            <span className="text-[#94A3B8]">•</span>
-            <span className="text-[#64748B] font-mono">Personal Philosophy</span>
-          </div>
-
+        {/* Article Header */}
+        <header className="max-w-[840px] mx-auto pb-8 border-b border-[#D5DFEB]/60">
           <div className="flex items-start gap-4">
             <WireframeCube
               size={40}
@@ -230,156 +214,180 @@ export default function TheoryPage() {
             </h2>
           </div>
 
-          {/* RULES 01 & 02: Image on Left, Rules on Right */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
-            {/* Left Column: Image 1 */}
+          {/* RULE 01: Image on Left, Content on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
+            {/* Image 1: Confront Mirror */}
             <div className="lg:col-span-5">
-              <div className="lg:sticky lg:top-24 rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
                 <img
                   src="/assets/theory_confront_mirror.jpg"
-                  alt="Confront Yourself & Dig Deeper"
-                  className="w-full h-[280px] sm:h-[380px] lg:h-[500px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  alt="Confront Yourself"
+                  className="w-full h-[260px] sm:h-[320px] lg:h-[360px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   loading="lazy"
                 />
               </div>
             </div>
 
-            {/* Right Column: Rule 01 & Rule 02 */}
-            <div className="lg:col-span-7 space-y-12 sm:space-y-14">
-              {/* RULE 01 */}
-              <section className="space-y-4">
-                <div className="flex items-center gap-2.5 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
-                  <Target className="w-5 h-5 shrink-0" />
-                  <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 01</span>
-                </div>
-                
-                <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
-                  01. CONFRONT YOURSELF
-                </h3>
-                
-                <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
-                  The first step towards change is accepting who you are today.
+            {/* Content: Rule 01 */}
+            <section className="lg:col-span-7 space-y-4">
+              <div className="flex items-center gap-2.5 text-[#2563EB] [data-theme='night']_&:text-[#60A5FA]">
+                <Target className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 01</span>
+              </div>
+              
+              <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+                01. CONFRONT YOURSELF
+              </h3>
+              
+              <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
+                The first step towards change is accepting who you are today.
+              </p>
+
+              <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+                Be honest about your weaknesses, mistakes, excuses, and wasted time. Stop blaming circumstances or other people for everything. Take responsibility for your decisions and recognise the areas where you need to improve.
+              </p>
+
+              <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#60A5FA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
+                  : 'bg-white border-l-[#2563EB] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[18.5px]">
+                  You cannot change what you refuse to acknowledge.
                 </p>
+              </div>
+            </section>
+          </div>
 
-                <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
-                  Be honest about your weaknesses, mistakes, excuses, and wasted time. Stop blaming circumstances or other people for everything. Take responsibility for your decisions and recognise the areas where you need to improve.
+          {/* RULE 02: Content on Left, Image on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center pt-4">
+            {/* Content: Rule 02 */}
+            <section className="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <div className="flex items-center gap-2.5 text-[#8B5CF6] [data-theme='night']_&:text-[#A78BFA]">
+                <Compass className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 02</span>
+              </div>
+
+              <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+                02. DIG DEEPER INSIDE YOURSELF
+              </h3>
+
+              <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
+                Your greatest source of strength may already exist within you.
+              </p>
+
+              <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+                When you feel exhausted, defeated, or uncertain, remember what you have already overcome. Look back at your setbacks, failures, experiences, and goals. Use them as reminders of why you started and what you are capable of achieving.
+              </p>
+
+              <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#A78BFA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
+                  : 'bg-white border-l-[#8B5CF6] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[18.5px]">
+                  When motivation disappears, let your determination take over.
                 </p>
+              </div>
+            </section>
 
-                <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
-                  timeEnv.isNight
-                    ? 'bg-[#0E1E3A]/60 border-l-[#60A5FA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
-                    : 'bg-white border-l-[#2563EB] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
-                }`}>
-                  <p className="font-semibold text-[17px] sm:text-[18.5px]">
-                    You cannot change what you refuse to acknowledge.
-                  </p>
-                </div>
-              </section>
-
-              {/* RULE 02 */}
-              <section className="space-y-4">
-                <div className="flex items-center gap-2.5 text-[#8B5CF6] [data-theme='night']_&:text-[#A78BFA]">
-                  <Compass className="w-5 h-5 shrink-0" />
-                  <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 02</span>
-                </div>
-
-                <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
-                  02. DIG DEEPER INSIDE YOURSELF
-                </h3>
-
-                <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
-                  Your greatest source of strength may already exist within you.
-                </p>
-
-                <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
-                  When you feel exhausted, defeated, or uncertain, remember what you have already overcome. Look back at your setbacks, failures, experiences, and goals. Use them as reminders of why you started and what you are capable of achieving.
-                </p>
-
-                <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
-                  timeEnv.isNight
-                    ? 'bg-[#0E1E3A]/60 border-l-[#A78BFA] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
-                    : 'bg-white border-l-[#8B5CF6] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
-                }`}>
-                  <p className="font-semibold text-[17px] sm:text-[18.5px]">
-                    When motivation disappears, let your determination take over.
-                  </p>
-                </div>
-              </section>
+            {/* Image 2: Inner Strength Silhouette */}
+            <div className="lg:col-span-5 order-1 lg:order-2">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
+                <img
+                  src="/assets/theory_inner_strength.jpg"
+                  alt="Dig Deeper Inside Yourself"
+                  className="w-full h-[260px] sm:h-[320px] lg:h-[360px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
 
-          {/* RULES 03 & 04: Rules on Left, Image on Right */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start pt-6">
-            {/* Left Column: Rule 03 & Rule 04 */}
-            <div className="lg:col-span-7 space-y-12 sm:space-y-14 order-2 lg:order-1">
-              {/* RULE 03 */}
-              <section className="space-y-4">
-                <div className="flex items-center gap-2.5 text-[#F59E0B] [data-theme='night']_&:text-[#FBBF24]">
-                  <Flame className="w-5 h-5 shrink-0" />
-                  <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 03</span>
-                </div>
-
-                <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
-                  03. TURN YOUR ANGER INTO YOUR STRENGTH
-                </h3>
-
-                <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
-                  Do not waste your frustration. Give it a purpose.
-                </p>
-
-                <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
-                  There will be moments when you feel frustrated with yourself, your progress, or the feeling that you are capable of more than you are currently doing. Instead of allowing that frustration to control your reactions, turn it into a reason to improve.
-                </p>
-
-                <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
-                  timeEnv.isNight
-                    ? 'bg-[#0E1E3A]/60 border-l-[#FBBF24] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
-                    : 'bg-white border-l-[#F59E0B] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
-                }`}>
-                  <p className="font-semibold text-[17px] sm:text-[18.5px]">
-                    Let your frustration become focus, your anger become discipline, and your desire to improve become action.
-                  </p>
-                </div>
-              </section>
-
-              {/* RULE 04 */}
-              <section className="space-y-4">
-                <div className="flex items-center gap-2.5 text-[#10B981] [data-theme='night']_&:text-[#34D399]">
-                  <ShieldCheck className="w-5 h-5 shrink-0" />
-                  <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 04</span>
-                </div>
-
-                <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
-                  04. EMBRACE THE THINGS YOU HATE DOING
-                </h3>
-
-                <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
-                  Growth often begins where comfort ends.
-                </p>
-
-                <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
-                  Not everything that helps you grow will be enjoyable. Some tasks will be repetitive, boring, uncomfortable, or difficult. Do them anyway. Whether it is a small responsibility or a challenging goal, learn to show up even when you do not feel like it.
-                </p>
-
-                <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
-                  timeEnv.isNight
-                    ? 'bg-[#0E1E3A]/60 border-l-[#34D399] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
-                    : 'bg-white border-l-[#10B981] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
-                }`}>
-                  <p className="font-semibold text-[17px] sm:text-[18.5px]">
-                    Mental toughness is built when you continue doing what matters, even when you do not enjoy doing it.
-                  </p>
-                </div>
-              </section>
+          {/* RULE 03: Image on Left, Content on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center pt-4">
+            {/* Image 3: Street Walk with Briefcase */}
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
+                <img
+                  src="/assets/theory_street_walk.jpg"
+                  alt="Turn Your Anger Into Your Strength"
+                  className="w-full h-[260px] sm:h-[320px] lg:h-[360px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+              </div>
             </div>
 
-            {/* Right Column: Image 2 */}
+            {/* Content: Rule 03 */}
+            <section className="lg:col-span-7 space-y-4">
+              <div className="flex items-center gap-2.5 text-[#F59E0B] [data-theme='night']_&:text-[#FBBF24]">
+                <Flame className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 03</span>
+              </div>
+
+              <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+                03. TURN YOUR ANGER INTO YOUR STRENGTH
+              </h3>
+
+              <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
+                Do not waste your frustration. Give it a purpose.
+              </p>
+
+              <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+                There will be moments when you feel frustrated with yourself, your progress, or the feeling that you are capable of more than you are currently doing. Instead of allowing that frustration to control your reactions, turn it into a reason to improve.
+              </p>
+
+              <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#FBBF24] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
+                  : 'bg-white border-l-[#F59E0B] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[18.5px]">
+                  Let your frustration become focus, your anger become discipline, and your desire to improve become action.
+                </p>
+              </div>
+            </section>
+          </div>
+
+          {/* RULE 04: Content on Left, Image on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center pt-4">
+            {/* Content: Rule 04 */}
+            <section className="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <div className="flex items-center gap-2.5 text-[#10B981] [data-theme='night']_&:text-[#34D399]">
+                <ShieldCheck className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-[13px] font-bold tracking-widest uppercase">Rule 04</span>
+              </div>
+
+              <h3 className="font-editorial-serif text-[26px] sm:text-[32px] md:text-[36px] font-normal tracking-tight uppercase">
+                04. EMBRACE THE THINGS YOU HATE DOING
+              </h3>
+
+              <p className="font-editorial-serif italic text-[18px] sm:text-[20px] text-[#475569] [data-theme='night']_&:text-[#94A3B8]">
+                Growth often begins where comfort ends.
+              </p>
+
+              <p className="text-[#1E293B] [data-theme='night']_&:text-[#E2E8F0]">
+                Not everything that helps you grow will be enjoyable. Some tasks will be repetitive, boring, uncomfortable, or difficult. Do them anyway. Whether it is a small responsibility or a challenging goal, learn to show up even when you do not feel like it.
+              </p>
+
+              <div className={`p-4 sm:p-5 rounded-2xl border-l-4 my-5 transition-colors ${
+                timeEnv.isNight
+                  ? 'bg-[#0E1E3A]/60 border-l-[#34D399] border-y border-r border-[rgba(150,180,230,0.15)] text-[#E2E8F0]'
+                  : 'bg-white border-l-[#10B981] border-y border-r border-[#D5DFEB] text-[#0F172A] shadow-xs'
+              }`}>
+                <p className="font-semibold text-[17px] sm:text-[18.5px]">
+                  Mental toughness is built when you continue doing what matters, even when you do not enjoy doing it.
+                </p>
+              </div>
+            </section>
+
+            {/* Image 4: Desk Study Late Night */}
             <div className="lg:col-span-5 order-1 lg:order-2">
-              <div className="lg:sticky lg:top-24 rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D5DFEB] [data-theme='night']_&:border-[rgba(150,180,230,0.2)] shadow-[0_12px_36px_rgba(15,23,42,0.08)] [data-theme='night']_&:shadow-[0_16px_40px_rgba(0,0,0,0.5)] bg-[#0B1528] group">
                 <img
-                  src="/assets/theory_inner_strength.jpg"
-                  alt="Inner Strength & Emotional Discipline"
-                  className="w-full h-[280px] sm:h-[380px] lg:h-[500px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  src="/assets/theory_desk_study.jpg"
+                  alt="Embrace The Things You Hate Doing"
+                  className="w-full h-[260px] sm:h-[320px] lg:h-[360px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   loading="lazy"
                 />
               </div>
@@ -461,7 +469,7 @@ export default function TheoryPage() {
         </article>
 
         {/* Footer Navigation CTA */}
-        <footer className="max-w-[840px] mx-auto mt-14 sm:mt-16 pt-8 border-t border-[#D5DFEB]/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <footer className="max-w-[840px] mx-auto mt-14 sm:mt-16 pt-8 border-t border-[#D5DFEB]/60 flex items-center justify-center">
           <LiquidButton
             variant="secondary"
             size="md"
@@ -471,16 +479,6 @@ export default function TheoryPage() {
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Portfolio Homepage</span>
             </span>
-          </LiquidButton>
-
-          <LiquidButton
-            variant="primary"
-            size="md"
-            onClick={() => {
-              navigate('/projects');
-            }}
-          >
-            <span>Explore Featured Projects</span>
           </LiquidButton>
         </footer>
 
