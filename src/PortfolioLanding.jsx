@@ -11,6 +11,7 @@ import Achievements from './components/Achievements';
 import ProjectsEntry from './components/ProjectsEntry';
 import SkillsNetwork from './components/SkillsNetwork';
 import GithubActivity from './components/GithubActivity';
+import MyTheoryMarquee from './components/MyTheoryMarquee';
 import Contact from './components/Contact';
 import Modals from './components/Modals';
 import HeroTimeEnvironment from './components/HeroTimeEnvironment';
@@ -174,6 +175,9 @@ export default function PortfolioLanding() {
 
         {/* Section 5: Architecture & Skills Network */}
         <SkillsNetwork isNight={timeEnv.isNight} />
+
+        {/* Section 5.5: MY THEORY Editorial Headline Marquee Strip */}
+        <MyTheoryMarquee isNight={timeEnv.isNight} />
 
         {/* Section 6: GitHub & Development Activity */}
         <GithubActivity isNight={timeEnv.isNight} />

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 
 const PortfolioLanding = lazy(() => import('./PortfolioLanding'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const TheoryPage = lazy(() => import('./pages/TheoryPage'));
 
 /**
  * ScrollToTop ensures each route change starts at the top of the window
@@ -36,6 +37,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<PortfolioLanding />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/theory" element={<TheoryPage />} />
+          <Route path="/the-power-of-our-mind" element={<Navigate to="/theory" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

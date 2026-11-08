@@ -810,6 +810,28 @@
   animation: celestialMoonFloat 9s ease-in-out infinite alternate;
 }
 
+/* ========================================================================= */
+/* Editorial Marquee Strip Animation                                         */
+/* ========================================================================= */
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScroll 36s linear infinite;
+}
+
+.group:hover .animate-marquee-infinite {
+  animation-play-state: paused;
+}
 
 /* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
@@ -823,5 +845,9 @@
   }
   .animate-celestial-float {
     animation: none !important;
+  }
+  .animate-marquee-infinite {
+    animation: none !important;
+    transform: none !important;
   }
 }
