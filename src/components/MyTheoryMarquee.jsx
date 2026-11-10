@@ -4,17 +4,17 @@ import { ArrowUpRight } from 'lucide-react';
 
 /**
  * Editorial Headline Item Configuration
- * Repeated across the infinite marquee track with flowing Mid-Lavender fabric/silk waves.
+ * Alternates between "Theory written by me" and the "Click to review" button across the infinite marquee strip.
  */
-const HEADLINE_ITEMS = [
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
-  { label: 'MY THEORY', subtitle: 'Click to review' },
+const STRIP_ITEMS = [
+  { type: 'text', label: 'Theory written by me' },
+  { type: 'button', label: 'Click to review' },
+  { type: 'text', label: 'Theory written by me' },
+  { type: 'button', label: 'Click to review' },
+  { type: 'text', label: 'Theory written by me' },
+  { type: 'button', label: 'Click to review' },
+  { type: 'text', label: 'Theory written by me' },
+  { type: 'button', label: 'Click to review' },
 ];
 
 /**
@@ -114,29 +114,31 @@ function SilkRibbonWaveBackground() {
  */
 function MarqueeToken({ item }) {
   return (
-    <div className="relative inline-flex items-center justify-center shrink-0 w-[540px] xs:w-[600px] sm:w-[680px] h-[78px] sm:h-[90px] px-8 sm:px-14 select-none overflow-hidden">
-      {/* 1. Sculptural Silk Ribbon Wave: Moves continuously with the text */}
+    <div className="relative inline-flex items-center justify-center shrink-0 w-[440px] xs:w-[500px] sm:w-[560px] h-[78px] sm:h-[90px] px-6 sm:px-10 select-none overflow-hidden">
+      {/* 1. Sculptural Silk Ribbon Wave: Moves continuously with the strip */}
       <SilkRibbonWaveBackground />
 
       {/* 2. Interactive Content Layer */}
-      <div className="relative z-10 flex items-center gap-3.5 sm:gap-5">
-        {/* Main Bold Uppercase Headline in Deep Charcoal-Violet for high contrast */}
-        <span className="font-sans-editorial font-extrabold text-[16px] xs:text-[18px] sm:text-[21px] md:text-[23px] tracking-[0.22em] sm:tracking-[0.26em] uppercase text-[#231735] group-hover:text-black transition-colors duration-300 drop-shadow-2xs">
-          {item.label}
-        </span>
-
-        {/* Editorial Subtitle Pill: "Click to review" */}
-        <span className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-[13px] font-mono font-bold tracking-wider bg-[#D5C9E9]/95 text-[#231735] border border-[#8065AC]/60 shadow-xs group-hover:bg-[#705694] group-hover:text-white group-hover:border-[#705694] transition-all duration-300">
-          {item.subtitle}
-        </span>
-
-        {/* Directional Interactive Arrow */}
-        <span
-          className="inline-flex items-center justify-center text-[#231735] group-hover:text-black transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-0.5"
-          aria-hidden="true"
-        >
-          <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.6]" />
-        </span>
+      <div className="relative z-10 flex items-center justify-center">
+        {item.type === 'text' ? (
+          /* Main Bold Uppercase Headline in Deep Charcoal-Violet for high contrast */
+          <span className="font-sans-editorial font-extrabold text-[15px] xs:text-[17px] sm:text-[20px] md:text-[22px] tracking-[0.20em] sm:tracking-[0.24em] uppercase text-[#231735] group-hover:text-black transition-colors duration-300 drop-shadow-2xs whitespace-nowrap">
+            {item.label}
+          </span>
+        ) : (
+          /* Alternating "Click to review" Button Pill with Directional Arrow */
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-[11.5px] sm:text-[13px] font-mono font-bold tracking-wider bg-[#705694] text-white border border-[#8065AC]/70 shadow-xs group-hover:bg-[#584177] group-hover:border-[#9D84C7] transition-all duration-300">
+              {item.label}
+            </span>
+            <span
+              className="inline-flex items-center justify-center text-[#231735] group-hover:text-black transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-0.5"
+              aria-hidden="true"
+            >
+              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.6]" />
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -169,14 +171,14 @@ function MyTheoryMarquee({ isNight: _isNight = false }) {
         <div className="flex w-full overflow-hidden select-none relative z-10 py-1">
           <div className="animate-marquee-infinite flex shrink-0 items-center">
             {/* Set 1 */}
-            {HEADLINE_ITEMS.map((item, idx) => (
+            {STRIP_ITEMS.map((item, idx) => (
               <MarqueeToken
                 key={`theory-set1-${idx}`}
                 item={item}
               />
             ))}
             {/* Set 2 (Identical Duplicate for Zero-Gap Seamless Loop) */}
-            {HEADLINE_ITEMS.map((item, idx) => (
+            {STRIP_ITEMS.map((item, idx) => (
               <MarqueeToken
                 key={`theory-set2-${idx}`}
                 item={item}
