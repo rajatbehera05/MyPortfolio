@@ -184,8 +184,9 @@ export default function Modals({ activeModal, onClose, systemSpec }) {
                         </span>
                         <span className="text-[12px] font-mono text-[#64748B]">2024–2028</span>
                       </div>
-                      <div className="text-[12.5px] text-[#2563EB] font-medium mt-0.5">
-                        B.Tech in Computer Science and Engineering (IoT)
+                      <div className="text-[12.5px] text-[#2563EB] font-medium mt-0.5 flex items-center gap-2">
+                        <span>B.Tech in Computer Science and Engineering (IoT)</span>
+                        <span className="text-[11px] font-semibold text-[#1E40AF] bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">CGPA: 8.92</span>
                       </div>
                       <div className="text-[12px] text-[#475569] mt-1.5 flex flex-wrap gap-x-3 gap-y-1">
                         <span className="font-semibold text-[#0F172A]">Sem 1: 9.31</span>
